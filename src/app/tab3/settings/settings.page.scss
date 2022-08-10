@@ -1,0 +1,63 @@
+@import "../../../theme/shared";
+ion-card {
+  ion-item {
+    --inner-border-width: 0 !important;
+    --border-width: 0 !important;
+  }
+
+  ion-header {
+    @include header-title;
+    margin-left: 0;
+
+    &:before {
+      @include bottom-header;
+    }
+
+    &:after {
+      background-image: none;
+    }
+
+    &.credits {
+      margin-bottom: 15px;
+    }
+  }
+
+  .sub {
+    @include subtitle-header;
+    margin-bottom: 15px;
+    margin-left: 0;
+  }
+
+  #map_canvas {
+    margin-top: 15px;
+    height: 125px;
+    width: 100%;
+  }
+
+  ion-button.legal {
+    margin-top: 10px;
+    text-transform: capitalize;
+    font-size: .7em;
+    font-family: var(--ion-font-light);
+  }
+
+  ion-img {
+    border: 2px solid var(--ion-color-primary);
+    width: auto;
+  }
+
+  &.credits {
+    color: white;
+
+    &:before {
+      width: 100%;
+      height: 100%;
+      content: " ";
+      background-image: url('/assets/img/artwork-auroras.jpg');
+      background-size: cover;
+      position: absolute;
+      left: -2px;
+      top: -2px;
+    }
+  }
+}

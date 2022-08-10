@@ -1,0 +1,202 @@
+<!-- Thanks to https://codepen.io/jh3y/pen/JKddVx -->
+
+<div class="nowcast ace-data">
+  <p [innerHTML]="'tab2.kp.probability' | translate: nowcastVal"></p>
+</div>
+
+<div class="kp ace-data">
+  <div class="colored">
+    <span
+      *ngFor="let i of [1, 2, 3, 4]; index as i"
+      [ngClass]="{
+        green: kpCurrent.color === AuroraEnumColours.green,
+        yellow: kpCurrent.color === AuroraEnumColours.yellow,
+        orange: kpCurrent.color === AuroraEnumColours.orange,
+        red: kpCurrent.color === AuroraEnumColours.red
+      }"
+    >
+    </span>
+  </div>
+  <div class="value">Kp{{ kpCurrent.value | number: '1.0-0' }}</div>
+  <div class="label">{{ 'tab2.kp.kpindex' | translate }}</div>
+</div>
+
+<div class="density ace-data">
+  <div class="colored">
+    <span
+      *ngFor="let i of [1, 2, 3, 4]; index as i"
+      [ngClass]="{
+        green: density.color === AuroraEnumColours.green,
+        yellow: density.color === AuroraEnumColours.yellow,
+        orange: density.color === AuroraEnumColours.orange,
+        red: density.color === AuroraEnumColours.red
+      }"
+    >
+    </span>
+  </div>
+  <div class="value">{{ density.value }}</div>
+  <div class="label">{{ 'tab2.kp.density' | translate }}</div>
+</div>
+
+<div class="speed ace-data">
+  <div class="colored">
+    <span
+      *ngFor="let i of [1, 2, 3, 4]; index as i"
+      [ngClass]="{
+        green: speed.color === AuroraEnumColours.green,
+        yellow: speed.color === AuroraEnumColours.yellow,
+        orange: speed.color === AuroraEnumColours.orange,
+        red: speed.color === AuroraEnumColours.red
+      }"
+    >
+    </span>
+  </div>
+  <div class="value">{{ speed.value }}</div>
+  <div class="label">{{ 'tab2.kp.speed' | translate }}</div>
+</div>
+
+<div class="bz ace-data">
+  <div class="colored">
+    <span
+            *ngFor="let i of [1, 2, 3, 4]; index as i"
+            [ngClass]="{
+        green: speed.color === AuroraEnumColours.green,
+        yellow: speed.color === AuroraEnumColours.yellow,
+        orange: speed.color === AuroraEnumColours.orange,
+        red: speed.color === AuroraEnumColours.red
+      }"
+    >
+    </span>
+  </div>
+  <div class="value">{{ bz.value }}</div>
+  <div class="label">{{ 'tab2.kp.bz' | translate }}</div>
+</div>
+
+<div class="bt ace-data">
+  <div class="colored">
+    <span
+            *ngFor="let i of [1, 2, 3, 4]; index as i"
+            [ngClass]="{
+        green: speed.color === AuroraEnumColours.green,
+        yellow: speed.color === AuroraEnumColours.yellow,
+        orange: speed.color === AuroraEnumColours.orange,
+        red: speed.color === AuroraEnumColours.red
+      }"
+    >
+    </span>
+  </div>
+  <div class="value">{{ bt.value }}</div>
+  <div class="label">{{ 'tab2.kp.bt' | translate }}</div>
+</div>
+
+<div class="night-sky">
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="star star--animated"></div>
+  <div class="night-sky__aurora night-sky__aurora--one"></div>
+  <div class="night-sky__aurora night-sky__aurora--two"></div>
+</div>
+<div class="landscape">
+  <div class="tent"></div>
+  <div class="campfire">
+    <div class="campfire__flame"></div>
+    <div class="campfire__logs"></div>
+  </div>
+</div>

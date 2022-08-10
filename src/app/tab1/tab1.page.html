@@ -1,17 +1,33 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 1
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-header titre="{{ 'tab1.title' | translate }}"></app-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content fullscreen>
+  <ng-container *ngIf="loading">
+    <ion-progress-bar type="indeterminate"></ion-progress-bar>
+    <p class="text-spinner">{{ 'global.loading' | translate }}</p>
+    <div class="content-spinner">
+      <div class="whirly-loader"></div>
+    </div>
+  </ng-container>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+  <ng-container *ngIf="!loading && !dataError.value">
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" pullMin="160">
+      <div class="refresh whirly-loader"></div>
+    </ion-refresher>
+
+    <h2 class="ion-text-center">
+      <span class="city">
+        <span>
+          <ion-icon name="pin"></ion-icon>
+          {{ city ? city + ' -' : '' }}
+        </span>
+      </span>
+      <span class="country">{{ country }}</span>
+      <span *ngIf="!city && !country" class="country">{{ 'global.unknown' | translate }}</span>
+    </h2>
+
+    <app-meteo [coords]="coords" [currentWeatherInput]="dataCurrentWeather" [hourlyWeatherInput]="dataHourly" [sevenDayWeatherInput]="dataSevenDay" [utc]="utcOffset" [unit]="unit">
+    </app-meteo>
+  </ng-container>
+
+  <app-broken *ngIf="!loading && dataError.value" [dataError]="dataError"> </app-broken>
 </ion-content>

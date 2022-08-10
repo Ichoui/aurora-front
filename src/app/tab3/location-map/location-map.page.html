@@ -1,0 +1,16 @@
+<app-header titre="{{ 'tab3.map.title' | translate }}"></app-header>
+<div [routerLink]="['','tabs','tab3']" class="back">
+  <span>{{ 'global.back' | translate }}</span>
+  <span class="icon icon-back1"></span>
+</div>
+<ion-item>
+  <ion-label>{{ 'tab3.map.select' | translate }}</ion-label>
+  <ion-select value="{{ localisation }}" interface="action-sheet" (ionChange)="selectedLoc($event)" cancelText="{{ 'global.cancel' | translate }}">
+    <ion-select-option *ngFor="let city of cities" value="{{ city.code }}">{{ city.ville }} - {{ city.codePays }} </ion-select-option>
+  </ion-select>
+</ion-item>
+
+<div class="map-container">
+  <button type="button" (click)="buttonMyPosition()"><span class="icon icon-map-target"></span></button>
+  <div id="map_canvas_select"></div>
+</div>

@@ -1,17 +1,29 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 2
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-header titre="{{ 'tab2.title' | translate }}"></app-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content fullscreen>
+  <ng-container *ngIf="loading">
+    <ion-progress-bar type="indeterminate"></ion-progress-bar>
+    <p class="text-spinner">{{ 'global.loading' | translate }}</p>
+    <div class="content-spinner">
+      <div class="whirly-loader"></div>
+    </div>
+  </ng-container>
 
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+  <ng-container *ngIf="!loading && !dataError.value">
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" pullMin="140">
+      <div class="refresh whirly-loader"></div>
+    </ion-refresher>
+
+    <ion-slides [options]="slideOpts">
+      <ion-slide>
+        <app-kpindex [moduleACEInput]="moduleACE"></app-kpindex>
+      </ion-slide>
+      <ion-slide>
+        <app-maps [kpForecast27Input]="kpForecast27days" [kpForecastInput]="kpForecast"></app-maps>
+      </ion-slide>
+    </ion-slides>
+  </ng-container>
+
+  <app-broken *ngIf="!loading && dataError.value" [dataError]="dataError"> </app-broken>
+
 </ion-content>

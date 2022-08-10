@@ -1,0 +1,122 @@
+<div class="container">
+  <div class="date">{{ actualDate }}</div>
+  <div class="today" *ngIf="currentWeather$ | async as currentWeather">
+    <div class="row">
+      <ng-lottie *ngIf="lottieConfig" [options]="lottieConfig" [width]="widthCurrent + 'px'" [height]="heightCurrent + 'px'"> </ng-lottie>
+      <div class="temperature">{{ currentWeather.temp | number: '1.0-0' }}<sup *ngIf="unit === Unit.METRIC ">°C</sup><sup *ngIf="unit === Unit.IMPERIAL ">°F</sup><sup *ngIf="unit === Unit.KELVIN">K</sup></div>
+      <span *ngIf="currentWeather.temp >= 33" class="icon minicons icon-hot"></span>
+      <span *ngIf="currentWeather.temp <= 0" class="icon minicons icon-cold"></span>
+    </div>
+    <div class="row feels">
+      <div>
+        {{ todayTemp?.max | number: '1.0-0' }}° / {{ todayTemp?.min | number: '1.0-0' }}°&nbsp;<span class="tiret">—</span>&nbsp;{{ 'tab1.weather.feelslike' | translate }}&nbsp;{{ currentWeather.feels_like | number: '1.0-0' }}°&nbsp;<span class="tiret">—</span>&nbsp;<span class="description">{{ currentWeather.weather[0].description }}</span>
+      </div>
+    </div>
+  </div>
+
+  <ion-card>
+    <ion-header>{{ 'tab1.weather.next.hours' | translate }}</ion-header>
+    <div class="next-hours">
+      <canvas id="next-hours"></canvas>
+      <div class="next-more-info">
+        <ng-container *ngFor="let hourly of hourlyWeather$ | async; index as i">
+          <div *ngIf="i < dataNumberInCharts" class="next-content">
+            <img src="assets/img/meteoOWM/{{ hourly.weather[0].icon }}@2x.png" alt="{{ hourly.weather[0].description }}" />
+            <div class="rain">
+              <span class="icon icon-drop"></span>
+              <div class="percent">{{ hourly.pop ? (hourly.pop | percent: '1.0-0') : '0%' }}</div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </ion-card>
+
+  <!--  <ion-card>-->
+  <!--    tests-->
+  <!--  <ng-lottie *ngIf="lottieConfig1" [options]="lottieConfig1" [width]="heightCurrent+'px'" [height]="heightCurrent+'px'"> </ng-lottie>-->
+  <!--  <ng-lottie *ngIf="lottieConfig2" [options]="lottieConfig2" [width]="heightCurrent+'px'" [height]="heightCurrent+'px'"> </ng-lottie>-->
+  <!--  </ion-card>-->
+
+  <ion-card>
+    <ion-header>{{ 'tab1.weather.seven.days' | translate }}</ion-header>
+    <div class="previsions">
+      <div *ngFor="let day of days; let i = index" class="next-days">
+        <span class="day">{{ day.date }}</span>
+        <div class="rain">
+          <span class="icon icon-drop"></span>
+          <div class="percent">{{ day.pop ? (day.pop | percent: '1.0-0') : '0%' }}</div>
+        </div>
+        <span class="icon"><img src="assets/img/meteoOWM/{{ day.weather[0].icon }}@2x.png" alt="{{ day.weather[0].description }}" /></span>
+        <div class="temps">
+          <span class="temp-max">{{ day.temp.max | number: '1.0-0' }}°</span>
+          <span class="temp-min">{{ day.temp.min | number: '1.0-0' }}°</span>
+        </div>
+      </div>
+    </div>
+  </ion-card>
+
+  <ion-card>
+    <ion-header>{{ 'tab1.weather.cover.clouds' | translate }}</ion-header>
+    <div class="cloudy-rate">
+      <div *ngFor="let c of cloudy" class="cloudy">
+        <div class="time">{{ c.time }}</div>
+        <div class="bar" [style.width]="(c.percent * 67) / 100 + 'vw'"></div>
+        <div class="percent">{{ c.percent }}%</div>
+      </div>
+    </div>
+  </ion-card>
+
+  <ion-card *ngIf="currentWeather$ | async as currentWeather">
+    <ion-header>{{ 'tab1.weather.details' | translate }}</ion-header>
+    <div class="data-details">
+      <div class="sun">
+        <div class="icon">
+          <span class="icon icon-sunrise"></span>
+        </div>
+        <div class="label">{{ 'tab1.weather.details.data.sunrise' | translate }}</div>
+        <div class="value">{{ sunrise }}</div>
+      </div>
+      <div class="sun">
+        <div class="icon">
+          <span class="icon icon-sunset"></span>
+        </div>
+        <div class="label">{{ 'tab1.weather.details.data.sunset' | translate }}</div>
+        <div class="value">{{ sunset }}</div>
+      </div>
+    </div>
+    <div class="data-details">
+      <div class="windy">
+        <div class="icon">
+          <span class="icon icon-wind-cloud"></span>
+        </div>
+        <div class="label">{{ 'tab1.weather.details.data.windspeed' | translate }}</div>
+        <div class="value" *ngIf="unit === Unit.METRIC">{{ currentWeather.wind_speed * 3.2 | number: '1.0-0' }} km/h</div>
+        <div class="value" *ngIf="unit === Unit.IMPERIAL">{{ currentWeather.wind_speed | number: '1.0-0' }} mph</div>
+      </div>
+      <div class="feels-like">
+        <div class="icon">
+          <span class="icon icon-compass"></span>
+        </div>
+        <div class="label">{{ 'tab1.weather.details.data.winddeg' | translate }}</div>
+        <div class="value">{{ calculateWindDeg(currentWeather.wind_deg) }} ({{ currentWeather.wind_deg }}°)</div>
+      </div>
+    </div>
+    <div class="data-details">
+      <div class="windy">
+        <div class="icon">
+          <span class="icon icon-uv-index"></span>
+        </div>
+        <div class="label">{{ 'tab1.weather.details.data.uvindex' | translate }}</div>
+        <div class="value">{{ calculateUV(currentWeather.uvi) }} ({{ currentWeather.uvi | number: '1.0-0' }})</div>
+      </div>
+      <div class="feels-like">
+        <div class="icon">
+          <span class="icon icon-humidity"></span>
+        </div>
+        <div class="label">{{ 'tab1.weather.details.data.humidity' | translate }}</div>
+        <div class="value">{{ currentWeather.humidity }} %</div>
+      </div>
+    </div>
+  </ion-card>
+</div>

@@ -1,0 +1,52 @@
+<ion-content>
+    <div (click)="close()" class="close"><span class="icon icon-close"></span></div>
+
+    <div *ngIf="map" class="container-map">
+        <div class="title">{{ titleMap }}</div>
+<!--        <pinch-zoom [zoomControlScale]="3" [backgroundColor]="'#2a2a2a'">-->
+            <ion-img src="{{ map }}"></ion-img>
+<!--        </pinch-zoom>-->
+    </div>
+    <div *ngIf="ovation1" class="container-map">
+        <div class="title">{{ ovationTitle1 }}</div>
+        <ion-img src="{{ tabNorth[valueNorth] }}"></ion-img>
+        <div class="datetime">{{ hourNorth }}{{ dateNorth }}</div>
+        <ion-range [min]="minNorth" [max]="maxNorth" color="primary" (ionChange)="valueOvationsChange($event, pole.NORTH)"></ion-range>
+    </div>
+    <div *ngIf="ovation2" class="container-map">
+        <div class="title">{{ ovationTitle2 }}</div>
+        <ion-img src="{{ tabSouth[valueSouth] }}"></ion-img>
+        <div class="datetime">{{ hourSouth }}{{ dateSouth }}</div>
+        <ion-range [min]="minSouth" [max]="maxSouth" color="primary" (ionChange)="valueOvationsChange($event, pole.SOUTH)"></ion-range>
+
+    </div>
+
+    <div *ngIf="cgu" id="cgu">
+        <div [innerHTML]="'cgu.title' | translate" class="title"></div>
+        <div class="cgu-block">
+            <div [innerHTML]="'cgu.art1.title' | translate" class="art-title"></div>
+            <div [innerHTML]="'cgu.art1.text' | translate" class="art-msg"></div>
+        </div>
+        <div class="cgu-block">
+            <div [innerHTML]="'cgu.art2.title' | translate" class="art-title"></div>
+            <div [innerHTML]="'cgu.art2.text' | translate" class="art-msg"></div>
+        </div>
+        <div class="cgu-block">
+            <div [innerHTML]="'cgu.art3.title' | translate" class="art-title"></div>
+            <div [innerHTML]="'cgu.art3.text' | translate" class="art-msg"></div>
+        </div>
+        <div class="cgu-block">
+            <div [innerHTML]="'cgu.art4.title' | translate" class="art-title"></div>
+            <div [innerHTML]="'cgu.art4.text' | translate" class="art-msg"></div>
+        </div>
+        <div class="cgu-block">
+            <div [innerHTML]="'cgu.art5.title' | translate" class="art-title"></div>
+            <div [innerHTML]="'cgu.art5.text' | translate" class="art-msg"></div>
+        </div>
+        <div class="cgu-block">
+            <div [innerHTML]="'cgu.art6.title' | translate" class="art-title"></div>
+            <div [innerHTML]="'cgu.art6.text' | translate" class="art-msg"></div>
+        </div>
+    </div>
+</ion-content>
+

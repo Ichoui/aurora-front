@@ -1,0 +1,52 @@
+@import "../../../theme/shared";
+
+
+:host {
+  width: 100%;
+}
+.container {
+  height: 100%;
+  overflow: scroll;
+}
+
+
+.container-world {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+
+  .world {
+    display: flex;
+    flex-direction: column;
+
+    span:first-child {
+      font-family: var(--ion-font-semibold);
+    }
+
+    span.icon-map {
+      color: var(--ion-color-primary);
+      font-size: 5em;
+    }
+
+    span.icon-earth {
+      color: var(--ion-color-primary);
+      font-size: 3em;
+      padding-top: 16px;
+    }
+  }
+}
+
+.container-chart {
+  margin-top: 15px;
+  font-size: .8em;
+
+  .header {
+    @include header-title;
+    &:before {
+      @include bottom-header;
+    }
+  }
+  .sub {
+    @include subtitle-header;
+  }
+}

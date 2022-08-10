@@ -1,0 +1,109 @@
+<app-header titre="{{ 'tab3.settings.title' | translate }}"></app-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-content>
+      <div class="google-maps" [routerLink]="['../../../map']">
+        <ion-header>{{ 'tab3.settings.location' | translate }}</ion-header>
+        <div class="sub">{{ 'tab3.settings.sublocation' | translate }}</div>
+        <div id="map_canvas"></div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!--    <ion-card>z
+          <ion-card-content>
+              <ion-item>
+                  <ion-label>{{ 'tab3.settings.notifications' | translate }}</ion-label>
+                  <ion-toggle color="primary" (ionChange)="activeNotif($event)" [checked]="notifications"></ion-toggle>
+              </ion-item>
+              <ion-item *ngIf="notifications">
+                  <ion-label>{{ 'tab3.settings.kp' | translate }}</ion-label>
+                  <ion-select value="{{ notifKp }}" interface="action-sheet" (ionChange)="selectedKp($event)">
+                      <ion-select-option *ngFor="let kp of kpindex" value="{{ kp }}">{{ kp }}</ion-select-option>
+                  </ion-select>
+              </ion-item>
+          </ion-card-content>
+      </ion-card>-->
+  <!--    <ion-img src="/assets/img/aurora-tab3.jpg"></ion-img>-->
+  <ion-card>
+    <ion-card-content>
+      <ion-header>{{ 'tab3.settings.infos' | translate }}</ion-header>
+      <div class="sub">{{ 'tab3.settings.subinfos' | translate }}</div>
+      <ion-item [routerLink]="['../../../infos']">
+        <span style="font-size: 0.9em;">
+          {{ 'tab3.settings.infos.text' | translate }}
+        </span>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-content>
+      <ion-header>{{ 'tab3.settings.languages' | translate }}</ion-header>
+      <div class="sub">{{ 'tab3.settings.sublanguages' | translate }}</div>
+      <ion-item>
+        <ion-select value="{{ language }}" interface="action-sheet" (ionChange)="setLanguage($event)" cancelText="{{ 'global.cancel' | translate }}">
+          <ion-select-option *ngFor="let lg of languages" value="{{ lg.slug }}">
+            {{ lg.label | translate }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-content>
+      <ion-header>{{ 'tab3.settings.units' | translate }}</ion-header>
+      <div class="sub">{{ 'tab3.settings.subunits' | translate }}</div>
+      <ion-item>
+        <ion-select value="{{ unit }}" interface="action-sheet" (ionChange)="setUnit($event)" cancelText="{{ 'global.cancel' | translate }}">
+          <ion-select-option *ngFor="let u of units" value="{{ u.slug }}">
+            <span>
+              {{ u.label | translate }}
+            </span>
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card class="credits">
+    <ion-card-content>
+      <ion-header class="credits">{{ 'tab3.settings.credits.title' | translate }}</ion-header>
+      <p>{{ 'tab3.settings.credits.first' | translate }} <a href="#" (click)="openUrl('http://auroraslive.io/#/')">{{ 'tab3.settings.credits.first.link' | translate }}</a></p>
+      <p>
+        {{ 'tab3.settings.credits.second' | translate }}
+        <a href="#" (click)="openUrl('https://codepen.io/jh3y/pen/JKddVx')">{{ 'tab3.settings.credits.second.link' | translate }}</a>
+      </p>
+      <p>
+        {{ 'tab3.settings.credits.third' | translate }}
+        <a href="#" (click)="openUrl('https://play.google.com/store/apps/details?id=io.aurora.start')">{{ 'tab3.settings.credits.third.link' | translate }}</a> ☺
+      </p>
+      <ion-button class="legal" color="primary" size="small" (click)="CGU()">{{ 'tab3.settings.cgu' | translate }}</ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab-button color="primary">
+    <ion-icon name="arrow-dropup" color="dark"></ion-icon>
+  </ion-fab-button>
+  <ion-fab-list side="top">
+    <ion-fab-button color="secondary" (click)="openUrl('https://www.linkedin.com/in/morgan-nicol-1b019b104/')">
+      <ion-icon name="logo-linkedin" color="dark"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button color="secondary" (click)="openUrl('https://twitter.com/Ichoui')">
+      <ion-icon name="logo-twitter" color="dark"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button color="secondary" (click)="openUrl('https://github.com/Ichoui')">
+      <ion-icon name="logo-github" color="dark"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button color="secondary" (click)="openUrl('https://www.paypal.me/ichoui/1')">
+      <span class="icon icon-paypal"></span>
+    </ion-fab-button>
+    <ion-fab-button color="secondary" href="mailto:morganichoui@gmail.com">
+      <ion-icon name="at" color="dark"></ion-icon>
+    </ion-fab-button>
+  </ion-fab-list>
+</ion-fab>

@@ -1,1 +1,83 @@
+ion-tab-bar {
+  contain: none;
+}
 
+.icon {
+  font-family: 'aurora-icons', serif !important;
+}
+
+.main-btn {
+  .icon-aurora {
+    font-size: 5em;
+    letter-spacing: 0;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    //border-radius: 50%;
+    //overflow: hidden;
+  }
+
+  ion-label {
+    padding-top: 25px;
+    font-family: var(--ion-font-bold);
+    text-transform: uppercase;
+    font-size: 1.3em;
+  }
+}
+
+.icon-infos,
+.icon-settings {
+  font-size: 2.7em;
+}
+
+.icon-aurora {
+  content: url('/assets/icon/aurora.svg');
+  width: 4rem;
+  height: 4rem;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  left: 50%;
+}
+
+.tabs {
+  position: absolute;
+  z-index: 500;
+  width: 124px;
+  ng-lottie {
+    > div {width: 100%}
+    &:hover,
+    &:focus {
+      outline: none;
+    }
+  }
+  .currentview {
+    position: absolute;
+    width: 50px;
+    bottom: 0;
+    /* height: 0; */
+    right: 0;
+    border: 2px solid var(--ion-color-primary);
+  }
+  &.tab1 {
+    //left: 43px;
+    bottom: -11px; // seul sans label
+    left:0;
+
+    .currentview {
+      bottom: 11px;
+      left: 36px;
+    }
+
+  }
+  &.tab3 {
+    //right: 50px;
+    bottom: 0; // seul sans label
+    right: 0;
+
+    .currentview {
+      bottom: 0;
+      left: 36px;
+
+    }
+  }
+}
