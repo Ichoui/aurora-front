@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Storage } from '@ionic/storage';
 import { cities, CodeLocalisation, Coords } from '../models/cities';
 import { AuroraService } from '../aurora.service';
 import { NavController } from '@ionic/angular';
@@ -8,11 +7,6 @@ import { Kp27day, KpForecast } from '../models/aurorav2';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { ErrorTemplate } from '../shared/broken/broken.model';
 import { StorageService } from '../storage.service';
-
-// export interface ErrorTemplate {
-//   value: boolean;
-//   message: string;
-// }
 
 const API_CALL_NUMBER = 1; // nombre de fois où une API est appelé sur cette page
 
@@ -30,10 +24,10 @@ export class Tab2Page {
   coords: Coords;
   city: string;
   country: string;
-  slideOpts = {
-    initialSlide: 0,
-    speed: 400,
-  };
+  // slideOpts = {
+  //   initialSlide: 0,
+  //   speed: 400,
+  // };
 
   eventRefresh: any;
 

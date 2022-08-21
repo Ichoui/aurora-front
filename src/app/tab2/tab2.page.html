@@ -14,14 +14,14 @@
       <div class="refresh whirly-loader"></div>
     </ion-refresher>
 
-    <ion-slides [options]="slideOpts">
-      <ion-slide>
+    <swiper [scrollbar]="false" [slidesPerView]="1" [loop]="true">
+      <ng-template swiperSlide>
         <app-kpindex [moduleACEInput]="moduleACE"></app-kpindex>
-      </ion-slide>
-      <ion-slide>
+      </ng-template>
+      <ng-template swiperSlide>
         <app-maps [kpForecast27Input]="kpForecast27days" [kpForecastInput]="kpForecast"></app-maps>
-      </ion-slide>
-    </ion-slides>
+      </ng-template>
+    </swiper>
   </ng-container>
 
   <app-broken *ngIf="!loading && dataError.value" [dataError]="dataError"> </app-broken>

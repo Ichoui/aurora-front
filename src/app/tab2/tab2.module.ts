@@ -11,19 +11,21 @@ import { MapsModule } from "./maps/maps.module";
 import { Geolocation } from "@ionic-native/geolocation/ngx";
 import { NativeGeocoder } from "@ionic-native/native-geocoder/ngx";
 import { BrokenPageModule } from '../shared/broken/broken.module';
+import { SwiperModule } from 'swiper/angular';
 
 @NgModule({
-  imports: [
-    IonicModule,
-    CommonModule,
-    FormsModule,
-    TranslateModule,
-    RouterModule.forChild([{ path: '', component: Tab2Page }]),
-    HeaderPageModule,
-    KpindexModule,
-    MapsModule,
-    BrokenPageModule
-  ],
+    imports: [
+        IonicModule,
+        CommonModule,
+        FormsModule,
+        TranslateModule,
+        RouterModule.forChild([{path: '', component: Tab2Page}]),
+        HeaderPageModule,
+        KpindexModule,
+        MapsModule,
+        BrokenPageModule,
+        SwiperModule
+    ],
   declarations: [Tab2Page],
   providers: [Geolocation, NativeGeocoder]
 })

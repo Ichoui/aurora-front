@@ -6,18 +6,17 @@
     "build": "ionic build",
     "build:prod": "ionic build --prod",
     "start": "ng serve -o",
-      "start:lab": "ionic serve --lab -o ",
-      "info:ionic": "ionic info",
-      "start:browser-npx": "npx cap serve",
-      "ide:open": "npx cap open android",
-
-      "start:capacitor-android:": "ionic capacitor run android -l --host 0.0.0.0 --external",
-      "start:browser-cordova": "ionic cordova run browser -lc -o",
-      "start:android-cordova": "ionic cordova run android --livereload --ssl --port=9991",
-      "build:dev:capacitor": "ng build -c dev && npx cap copy",
-      "build:capacitor": "ng build --prod && npx cap copy",
-      "prepare:native": "gulp prepare:native",
-      "update:native": "cordova-res android --skip-config --copy && node script/resources-android.js"
+    "start:lab": "ionic serve --lab -o ",
+    "info:ionic": "ionic info",
+    "start:browser-npx": "npx cap serve",
+    "ide:open": "npx cap open android",
+    "start:capacitor-android:": "ionic capacitor run android -l --host 0.0.0.0 --external",
+    "start:browser-cordova": "ionic cordova run browser -lc -o",
+    "start:android-cordova": "ionic cordova run android --livereload --ssl --port=9991",
+    "build:dev:capacitor": "ng build -c dev && npx cap copy",
+    "build:capacitor": "ng build --prod && npx cap copy",
+    "prepare:native": "gulp prepare:native",
+    "update:native": "cordova-res android --skip-config --copy && node script/resources-android.js"
   },
   "private": true,
   "dependencies": {
@@ -51,6 +50,7 @@
     "ngx-lottie": "^8.2.1",
     "ngx-pinch-zoom": "^2.6.2",
     "rxjs": "~6.6.0",
+    "swiper": "^8.3.2",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4"
   },
