@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { cities } from '../../models/cities';
+import { cities, CodeLocalisation } from '../../models/cities';
 import { NavController } from '@ionic/angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { icon, LatLng, Map, marker, Marker, tileLayer, ZoomPanOptions } from 'leaflet';
@@ -43,15 +43,15 @@ export class LocationMapPage implements OnInit, OnDestroy {
    * Sinon, set valeur du select à la position indiquée dans storage
    * */
   checkStorageLoc(): void {
-    // this.storage.get('localisation').then(
-    //   (codeLocation: CodeLocalisation) => {
-    //     if (codeLocation) {
-    //       this.localisation = codeLocation.code;
-    //       this.loadMap(codeLocation.lat, codeLocation.long);
-    //     }
-    //   },
-    //   error => console.warn('Il y a un soucis de storage de position', error)
-    // );
+    this._storageService.getData('localisation').then(
+      (codeLocation: CodeLocalisation) => {
+        if (codeLocation) {
+          this.localisation = codeLocation.code;
+          this.loadMap(codeLocation.lat, codeLocation.long);
+        }
+      },
+      error => console.warn('Il y a un soucis de storage de position', error)
+    );
   }
 
   /**
@@ -60,27 +60,27 @@ export class LocationMapPage implements OnInit, OnDestroy {
    * Permet de pré-remplir le select avec la valeur disponible en storage si elle existe.
    * Met également la valeur en storage pour traitement tab3
    * */
-  selectedLoc(choice?: any, position?: LatLng): void {
+  async selectedLoc(choice?: any, position?: LatLng): Promise<void> {
     if (choice) {
       this.localisation = choice.detail.value;
       // console.log(choice);
       // console.log('localis', this.localisation);
       const city = cities.find(res => res.code === choice.detail.value);
       if (city) {
-        // this.storage.set('localisation', {
-        //   code: this.localisation,
-        //   lat: city.latitude,
-        //   long: city.longitude,
-        // });
+        await this._storageService.setData('localisation', {
+          code: this.localisation,
+          lat: city.latitude,
+          long: city.longitude,
+        });
         this.addMarker(city.latitude, city.longitude);
       }
     } else {
       this.localisation = 'marker';
-      // this.storage.set('localisation', {
-      //   code: 'marker',
-      //   lat: position.lat,
-      //   long: position.lng,
-      // });
+      await this._storageService.setData('localisation', {
+        code: 'marker',
+        lat: position.lat,
+        long: position.lng,
+      });
       this.addMarker(position.lat, position.lng);
     }
   }
@@ -102,9 +102,9 @@ export class LocationMapPage implements OnInit, OnDestroy {
 
     this.addMarker(lat, long);
 
-    this.map.on('click', params => {
+    this.map.on('click',  async params => {
       let latLng: LatLng = params['latlng'];
-      this.selectedLoc(null, latLng);
+      await this.selectedLoc(null, latLng);
     });
   }
 
@@ -139,7 +139,7 @@ export class LocationMapPage implements OnInit, OnDestroy {
    * Géoloc l'utilisateur et place marker sur la map
    * Set en localStorage les coords
    * */
-  buttonMyPosition() {
+  buttonMyPosition(): void {
     this.removeMarker();
     this._geoloc
       .getCurrentPosition()
@@ -161,7 +161,7 @@ export class LocationMapPage implements OnInit, OnDestroy {
    * @param long {number}
    * Récupérer l'adresse de l'emplacement est affiche un tooltip
    * */
-  reverseGeocode(lat: number, long: number) {
+  reverseGeocode(lat: number, long: number): void {
     let options: NativeGeocoderOptions = {
       useLocale: false,
       maxResults: 2,
@@ -194,7 +194,7 @@ export class LocationMapPage implements OnInit, OnDestroy {
    * @param long {number}
    * Affiche le tooltip
    * */
-  createTooltip(infoWindow: string, lat?, long?) {
+  createTooltip(infoWindow: string, lat?, long?): void {
     if (lat && long) {
       this.marker
         .bindPopup(`<b>${infoWindow}</b> <br /> Lat: ${lat} <br/> Long: ${long}`)
