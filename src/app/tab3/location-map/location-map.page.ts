@@ -1,12 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { cities, CodeLocalisation } from '../../models/cities';
-import { Storage } from '@ionic/storage';
+import { cities } from '../../models/cities';
 import { NavController } from '@ionic/angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { Control, control, icon, LatLng, Map, marker, Marker, tileLayer, ZoomPanOptions } from 'leaflet';
+import { icon, LatLng, Map, marker, Marker, tileLayer, ZoomPanOptions } from 'leaflet';
 import { NativeGeocoder, NativeGeocoderOptions, NativeGeocoderResult } from '@ionic-native/native-geocoder/ngx';
 import { TranslateService } from '@ngx-translate/core';
+import { StorageService } from '../../storage.service';
+import { Geoposition } from '@ionic-native/geolocation';
 
 @Component({
   selector: 'app-location-map',
@@ -20,13 +21,13 @@ export class LocationMapPage implements OnInit, OnDestroy {
   localisation: string;
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private geoloc: Geolocation,
-    private geocode: NativeGeocoder,
-    private navController: NavController,
-    private translate: TranslateService,
-    // private storage: Storage
+    private _route: ActivatedRoute,
+    private _router: Router,
+    private _geoloc: Geolocation,
+    private _geocode: NativeGeocoder,
+    private _navController: NavController,
+    private _translate: TranslateService,
+    private _storageService: StorageService
   ) {}
 
   ngOnInit(): void {
@@ -140,15 +141,15 @@ export class LocationMapPage implements OnInit, OnDestroy {
    * */
   buttonMyPosition() {
     this.removeMarker();
-    this.geoloc
+    this._geoloc
       .getCurrentPosition()
-      .then(resp => {
+      .then(async (resp: Geoposition) => {
         this.addMarker(resp.coords.latitude, resp.coords.longitude);
-        // this.storage.set('localisation', {
-        //   code: 'currentLocation',
-        //   lat: resp.coords.latitude,
-        //   long: resp.coords.longitude,
-        // });
+        await this._storageService.setData('localisation', {
+          code: 'currentLocation',
+          lat: resp.coords.latitude,
+          long: resp.coords.longitude,
+        });
       })
       .catch(error => {
         console.warn('Error getting current location', error);
@@ -165,7 +166,7 @@ export class LocationMapPage implements OnInit, OnDestroy {
       useLocale: false,
       maxResults: 2,
     };
-    this.geocode
+    this._geocode
       .reverseGeocode(lat, long, options)
       .then((locale: NativeGeocoderResult[]) => {
         let infoWindow;
@@ -176,13 +177,13 @@ export class LocationMapPage implements OnInit, OnDestroy {
           // Des régions un peu lointaine
           infoWindow = locale[0].administrativeArea + ' - ' + locale[0].countryName;
         } else {
-          locale[0].countryName ? (infoWindow = locale[0].countryName) : (infoWindow = this.translate.instant('global.unknown'));
+          locale[0].countryName ? (infoWindow = locale[0].countryName) : (infoWindow = this._translate.instant('global.unknown'));
         }
         this.createTooltip(infoWindow, lat, long);
       })
       .catch(err => {
         console.error('Error localisation', err);
-        const infoWindow = this.translate.instant('global.unknown');
+        const infoWindow = this._translate.instant('global.unknown');
         this.createTooltip(infoWindow);
       });
   }
@@ -198,12 +199,12 @@ export class LocationMapPage implements OnInit, OnDestroy {
       this.marker
         .bindPopup(`<b>${infoWindow}</b> <br /> Lat: ${lat} <br/> Long: ${long}`)
         .openPopup()
-        .on('click', () => {
+        .on('click', async () => {
           // console.log('clic on tooltip');
-          this.router.navigate(['', 'tabs', 'tab1']);
+          await this._router.navigate(['', 'tabs', 'tab1']);
         });
     } else {
-      this.marker.bindPopup(`<b>${infoWindow}</b><br /> ${this.translate.instant('tab3.map.another')} `).openPopup();
+      this.marker.bindPopup(`<b>${infoWindow}</b><br /> ${this._translate.instant('tab3.map.another')} `).openPopup();
     }
   }
 }

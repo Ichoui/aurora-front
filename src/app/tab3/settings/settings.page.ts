@@ -84,14 +84,14 @@ export class SettingsPage implements OnInit {
   userLocalisation() {
     this._geoloc
       .getCurrentPosition()
-      .then(resp => {
+      .then(async resp => {
         this.coords = resp.coords;
         this.mapInit(this.coords.latitude, this.coords.longitude);
-        this._storageService.setData('localisation', {
+        await this._storageService.setData('localisation', {
           code: 'currentLocation',
           lat: this.coords.latitude,
           long: this.coords.longitude,
-        });
+        })
       })
       .catch(error => {
         console.warn('Error getting location', error);

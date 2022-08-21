@@ -26,16 +26,16 @@ export class AppComponent {
 
     private _initializeApp() {
         if (this._platform.is('hybrid')) {
-            StatusBar.setBackgroundColor({color: '#69BFAF'}).then();
+            StatusBar.setBackgroundColor({color: '#69BFAF'});
         }
-        this._platform.ready().then(() => {
+        this._platform.ready().then(async () => {
             this._storageService.init().then(() => {
-            this._getLanguage();
-            this._getUnit();
+                this._getLanguage();
+                this._getUnit();
 
             });
             this._translateService.addLangs(['fr', 'en']);
-            this._router.navigate(['/tabs/tab2']).then();
+            await this._router.navigate(['/tabs/tab2']);
 
             // this.getKp();
             // this.isNotifsActive();
@@ -63,22 +63,22 @@ export class AppComponent {
 
     private _getLanguage(): void {
         this._storageService.getData('language').then(
-            lg => {
+            async lg => {
                 if (lg) {
                     this._translateService.setDefaultLang(lg);
-                    this._storageService.setData('language', lg).then();
+                    await this._storageService.setData('language', lg);
                 } else {
                     if (this._translateService.getBrowserLang() === 'fr') {
                         this._translateService.setDefaultLang('fr');
-                        this._storageService.setData('language', 'fr').then();
+                        await this._storageService.setData('language', 'fr');
                     } else {
                         this._translateService.setDefaultLang(this._translateService.getBrowserLang());
-                        this._storageService.setData('language', this._translateService.getBrowserLang()).then();
+                        await this._storageService.setData('language', this._translateService.getBrowserLang());
                     }
                 }
             },
-            noValue => {
-                this._storageService.setData('language', this._translateService.getBrowserLang()).then();
+            async noValue => {
+                await this._storageService.setData('language', this._translateService.getBrowserLang());
                 console.warn('novalue of language', noValue);
             }
         );
@@ -86,19 +86,19 @@ export class AppComponent {
 
     private _getUnit(): void {
         this._storageService.getData('unit').then(
-            unit => {
+            async unit => {
                 if (unit) {
-                    this._storageService.setData('unit', unit).then();
+                    await this._storageService.setData('unit', unit);
                 } else {
                     if (this._translateService.getBrowserLang() === 'fr') {
-                        this._storageService.setData('unit', 'metric').then();
+                        await this._storageService.setData('unit', 'metric');
                     } else {
-                        this._storageService.setData('unit', 'imperial').then();
+                        await this._storageService.setData('unit', 'imperial');
                     }
                 }
             },
-            noValue => {
-                this._storageService.setData('unit', 'metric').then();
+            async noValue => {
+                await this._storageService.setData('unit', 'metric');
                 console.warn('novalue of units', noValue);
             }
         );
