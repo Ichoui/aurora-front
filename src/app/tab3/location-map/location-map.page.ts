@@ -132,7 +132,9 @@ export class LocationMapPage implements OnInit, OnDestroy {
    * Permet de retirer le marqueur actuel
    * */
   removeMarker(): void {
-    if (this.marker) this.marker.remove();
+    if (this.marker) {
+      this.marker.remove();
+    }
   }
 
   /**
