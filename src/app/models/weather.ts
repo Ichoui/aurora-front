@@ -1,5 +1,5 @@
 import { Moment } from 'moment';
-import { SelectContents } from './languages';
+import { SelectContents } from './locales';
 
 // https://openweathermap.org/api/one-call-api
 

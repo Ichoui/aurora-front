@@ -3,7 +3,7 @@ export interface SelectContents {
   label: string;
 }
 
-export const Languages: SelectContents[] = [
+export const Locales: SelectContents[] = [
   {
     slug: 'fr',
     label: 'tab3.settings.fr',
@@ -14,7 +14,7 @@ export const Languages: SelectContents[] = [
   },
 ];
 
-export enum listLanguages {
+export enum ELocales {
   FR = 'fr',
   EN = 'en',
 }

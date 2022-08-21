@@ -6,6 +6,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { Plugins } from '@capacitor/core';
 import { Router } from '@angular/router';
 import { StorageService } from './storage.service';
+import { Unit } from './models/weather';
+import { ELocales } from './models/locales';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 const {StatusBar} = Plugins;
@@ -30,7 +32,7 @@ export class AppComponent {
         }
         this._platform.ready().then(async () => {
             this._storageService.init().then(() => {
-                this._getLanguage();
+                this._getLocale();
                 this._getUnit();
 
             });
@@ -61,39 +63,39 @@ export class AppComponent {
         // this.storage.get('current_kp').then(kp => (this.currentKp = kp));
     }
 
-    private _getLanguage(): void {
-        this._storageService.getData('language').then(
-            async lg => {
-                if (lg) {
-                    this._translateService.setDefaultLang(lg);
-                    await this._storageService.setData('language', lg);
+    private _getLocale(): void {
+        this._storageService.getData('locale').then(
+            (locale: ELocales) => {
+                if (locale) {
+                    this._translateService.setDefaultLang(locale);
+                    void this._storageService.setData('locale', locale);
                 } else {
-                    if (this._translateService.getBrowserLang() === 'fr') {
+                    if (this._translateService.getBrowserLang() === ELocales.FR) {
                         this._translateService.setDefaultLang('fr');
-                        await this._storageService.setData('language', 'fr');
+                        void this._storageService.setData('locale', ELocales.FR);
                     } else {
                         this._translateService.setDefaultLang(this._translateService.getBrowserLang());
-                        await this._storageService.setData('language', this._translateService.getBrowserLang());
+                        void this._storageService.setData('locale', this._translateService.getBrowserLang());
                     }
                 }
             },
             async noValue => {
-                await this._storageService.setData('language', this._translateService.getBrowserLang());
-                console.warn('novalue of language', noValue);
+                await this._storageService.setData('locale', this._translateService.getBrowserLang());
+                console.warn('novalue of locale', noValue);
             }
         );
     }
 
     private _getUnit(): void {
         this._storageService.getData('unit').then(
-            async unit => {
+            (unit: Unit) => {
                 if (unit) {
-                    await this._storageService.setData('unit', unit);
+                    void this._storageService.setData('unit', unit);
                 } else {
                     if (this._translateService.getBrowserLang() === 'fr') {
-                        await this._storageService.setData('unit', 'metric');
+                        void this._storageService.setData('unit', 'metric');
                     } else {
-                        await this._storageService.setData('unit', 'imperial');
+                        void this._storageService.setData('unit', 'imperial');
                     }
                 }
             },

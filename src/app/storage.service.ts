@@ -1,38 +1,28 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
-
-const STORAGE_KEY = '__dbAurora';
+import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
 })
+// https://www.youtube.com/watch?v=vCfAe2esboU tuto storage
 export class StorageService {
-
-    constructor(private storage: Storage) {
-        // this.init();
+    private _storageReady = new BehaviorSubject(false)
+    constructor(private _storage: Storage) {
     }
 
-    // If using, define drivers here: await this.storage.defineDriver(/*...*/);
-   async init() {
-        // defineDrive(CordovaSqlLiteDriver) // Futur! pour cordova
-        // https://www.youtube.com/watch?v=vCfAe2esboU tuto storage
-        await this.storage.create();
+    async init(): Promise<void> {
+        await this._storage.defineDriver(CordovaSQLiteDriver)
+        await this._storage.create();
+        this._storageReady.next(true)
     }
 
-    async setData(storageKey: string, key: string | Record<string,string | number>) {
-        const storedData = await this.storage.get(STORAGE_KEY) || [];
-        storedData.push(key);
-        return this.storage.set(storageKey, storedData);
+    setData(storageKey: string, key: string | Record<string, string | number>): Promise<unknown> {
+        return this._storage.set(storageKey, key);
     }
 
-    async removeData(storageKey: string, index: number) {
-        const storedData = await this.storage.get(STORAGE_KEY) || [];
-        storedData.splice(index, 1);
-        return this.storage.set(storageKey, storedData);
-    }
-
-    async getData(storageKey: string) {
-        const storedData = await this.storage.get(STORAGE_KEY) || [];
-        return storedData.find(data => storageKey === data);
+    getData(storageKey: string): Promise<unknown> {
+        return  this._storage.get(storageKey)
     }
 }

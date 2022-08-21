@@ -16,7 +16,7 @@ import { IonicStorageModule } from '@ionic/storage-angular';
 
 import { HttpsInterceptorService } from './https-interceptor.service';
 import { Drivers } from '@ionic/storage';
-
+import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver'
 
 @NgModule({
     declarations: [AppComponent],
@@ -26,7 +26,7 @@ import { Drivers } from '@ionic/storage';
         HttpClientModule,
         IonicStorageModule.forRoot({
             name: '__dbAurora',
-            // driverOrder: [Drivers.IndexedDB, Drivers.LocalStorage],
+            driverOrder: [Drivers.IndexedDB, Drivers.LocalStorage, CordovaSQLiteDriver._driver],
             // driverOrder: ['indexeddb', 'sqlite', 'websql'] // TODO check
         }),
         TranslateModule.forRoot({

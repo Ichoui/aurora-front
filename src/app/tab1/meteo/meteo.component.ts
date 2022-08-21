@@ -8,7 +8,7 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { Storage } from '@ionic/storage';
 import { AnimationOptions } from 'ngx-lottie';
-import { listLanguages } from '../../models/languages';
+import { ELocales } from '../../models/locales';
 import { StorageService } from '../../storage.service';
 
 @Component({
@@ -76,15 +76,15 @@ export class MeteoComponent implements OnInit {
   heightCurrent = 110;
   unsubscribeAll$ = new Subject<void>();
 
-  language: string;
+  locale: string;
   englishFormat = false; // h, hh : 12 && H,HH : 24
 
   constructor(private _storageService: StorageService) {}
 
   ngOnInit() {
-    this._storageService.getData('language').then(lg => {
-      this.language = lg;
-      if (lg === listLanguages.EN) { this.englishFormat = true; }
+    this._storageService.getData('locale').then((locale: ELocales) => {
+      this.locale = locale;
+      if (locale === ELocales.EN) { this.englishFormat = true; }
       this.todayForecast();
       this.nextHoursForecast();
       this.sevenDayForecast();
@@ -230,7 +230,7 @@ export class MeteoComponent implements OnInit {
    * */
   manageDates(date: number, format?: string): string | moment.Moment {
     let unixToLocal;
-    unixToLocal = moment.unix(date).utc().add(this.utc, 'h').locale(this.language);
+    unixToLocal = moment.unix(date).utc().add(this.utc, 'h').locale(this.locale);
     // if (this.language === 'fr') {
     // } else {
     //   unixToLocal = moment.unix(date).add(this.utc, 'h').locale('en');
@@ -327,25 +327,25 @@ export class MeteoComponent implements OnInit {
     } else if (windSpeed >= 157.5 && windSpeed < 202.5) {
       return 'S';
     } else if (windSpeed >= 202.5 && windSpeed < 247.5) {
-      return this.language === listLanguages.FR ? 'SO' : 'SW';
+      return this.locale === ELocales.FR ? 'SO' : 'SW';
     } else if (windSpeed >= 247.5 && windSpeed < 292.5) {
-      return this.language === listLanguages.FR ? 'O' : 'W';
+      return this.locale === ELocales.FR ? 'O' : 'W';
     } else if (windSpeed >= 292.5 && windSpeed < 337.5) {
-      return this.language === listLanguages.FR ? 'NO' : 'NW';
+      return this.locale === ELocales.FR ? 'NO' : 'NW';
     }
   }
 
   calculateUV(indexUv): string {
     if (indexUv >= 0 && indexUv < 3) {
-      return this.language === listLanguages.FR ? 'Faible' : 'Low';
+      return this.locale === ELocales.FR ? 'Faible' : 'Low';
     } else if (indexUv >= 3 && indexUv < 6) {
-      return this.language === listLanguages.FR ? 'Modéré' : 'Moderate';
+      return this.locale === ELocales.FR ? 'Modéré' : 'Moderate';
     } else if (indexUv >= 6 && indexUv < 8) {
-      return this.language === listLanguages.FR ? 'Élevé' : 'High';
+      return this.locale === ELocales.FR ? 'Élevé' : 'High';
     } else if (indexUv >= 8 && indexUv < 11) {
-      return this.language === listLanguages.FR ? 'Très élevé' : 'Very high';
+      return this.locale === ELocales.FR ? 'Très élevé' : 'Very high';
     } else if (indexUv >= 11) {
-      return this.language === listLanguages.FR ? 'Extrême' : 'Extreme';
+      return this.locale === ELocales.FR ? 'Extrême' : 'Extreme';
     }
   }
 
