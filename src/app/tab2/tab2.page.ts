@@ -7,6 +7,7 @@ import 'moment/locale/fr';
 import { Kp27day, KpForecast } from '../models/aurorav2';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { ErrorTemplate } from '../shared/broken/broken.model';
+import { StorageService } from '../storage.service';
 
 // export interface ErrorTemplate {
 //   value: boolean;
@@ -43,13 +44,15 @@ export class Tab2Page {
 
   dataError = new ErrorTemplate(null);
 
-  constructor(private geoloc: Geolocation, private storage: Storage, private navCtrl: NavController, private auroraService: AuroraService) {}
+  constructor(private _geoloc: Geolocation,
+              private _storageService: StorageService,
+              private _navCtrl: NavController, private _auroraService: AuroraService) {}
 
   ionViewWillEnter() {
     this.tabLoading = [];
 
     // Cheminement en fonction si la localisation est pré-set ou si géoloc
-    this.storage.get('localisation').then(
+    this._storageService.getData('localisation').then(
       (codeLocation: CodeLocalisation) => {
         if (!codeLocation) {
           this.userLocalisation();
@@ -79,7 +82,7 @@ export class Tab2Page {
    * Déterminer la localisation actuelle de l'utilisateur
    */
   userLocalisation() {
-    this.geoloc
+    this._geoloc
       .getCurrentPosition()
       .then(resp => {
         this.getExistingLocalisation(resp.coords.latitude, resp.coords.longitude);
@@ -129,7 +132,7 @@ export class Tab2Page {
    * Récupère les données ACE de vent solaire & nowcast
    * */
   getSolarWind(): void {
-    this.auroraService.auroraLiveV2(this.coords.latitude, this.coords.longitude).subscribe(
+    this._auroraService.auroraLiveV2(this.coords.latitude, this.coords.longitude).subscribe(
       ACE => {
         this.loading = false;
         this.moduleACE = ACE;

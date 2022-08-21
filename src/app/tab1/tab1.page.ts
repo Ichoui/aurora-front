@@ -8,6 +8,7 @@ import { cities, CodeLocalisation, Coords } from '../models/cities';
 import { Currently, Daily, Hourly, Unit, Weather } from '../models/weather';
 import { ErrorTemplate } from '../shared/broken/broken.model';
 import { HttpErrorResponse } from '@angular/common/http';
+import { StorageService } from '../storage.service';
 // import { ErrorTemplate } from '../tab2/tab2.page';
 
 // export interface ErrorTemplate {
@@ -45,7 +46,7 @@ export class Tab1Page {
 
   constructor(
     private _geoloc: Geolocation,
-    private _storage: Storage,
+    private _storageService: StorageService,
     private _navCtrl: NavController,
     private _platform: Platform,
     private _auroraService: AuroraService,
@@ -57,10 +58,10 @@ export class Tab1Page {
     this.tabLoading = [];
 
     // Cheminement en fonction si la localisation est pré-set ou si géoloc
-    this._storage.get('unit').then((unit: Unit) => {
+    this._storageService.getData('unit').then((unit: Unit) => {
       this.unit = unit;
     });
-    this._storage.get('localisation').then(
+    this._storageService.getData('localisation').then(
       (codeLocation: CodeLocalisation) => {
         if (!codeLocation) {
           this.userLocalisation();

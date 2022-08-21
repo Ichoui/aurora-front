@@ -1,30 +1,38 @@
 import { Injectable } from '@angular/core';
+import { Storage } from '@ionic/storage-angular';
+
+const STORAGE_KEY = '__dbAurora';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class StorageService {
-  private _storage: Storage | null = null;
 
-  constructor(private storage: Storage) {
-    this.init();
-  }
+    constructor(private storage: Storage) {
+        // this.init();
+    }
 
-  async init() {
     // If using, define drivers here: await this.storage.defineDriver(/*...*/);
-    const storage = await this.storage.create();
-    this._storage = storage;
-  }
+   async init() {
+        // defineDrive(CordovaSqlLiteDriver) // Futur! pour cordova
+        // https://www.youtube.com/watch?v=vCfAe2esboU tuto storage
+        await this.storage.create();
+    }
 
-  // Create and expose methods that users of this service can
-  // call, for example:
-  public set(key: string, value: any) {
-    this._storage?.set(key, value);
-  }
+    async setData(storageKey: string, key: string | Record<string,string | number>) {
+        const storedData = await this.storage.get(STORAGE_KEY) || [];
+        storedData.push(key);
+        return this.storage.set(storageKey, storedData);
+    }
 
-  // Create and expose methods that users of this service can
-  // call, for example:
-  public get(key: string) {
-    this._storage?.get(key);
-  }
-  }
+    async removeData(storageKey: string, index: number) {
+        const storedData = await this.storage.get(STORAGE_KEY) || [];
+        storedData.splice(index, 1);
+        return this.storage.set(storageKey, storedData);
+    }
+
+    async getData(storageKey: string) {
+        const storedData = await this.storage.get(STORAGE_KEY) || [];
+        return storedData.find(data => storageKey === data);
+    }
+}

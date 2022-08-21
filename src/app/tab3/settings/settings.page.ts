@@ -10,6 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ModalComponent } from '../../shared/modal/modal.component';
 // import { Browser } from '@capacitor/core'; // TODO
 import { Unit, units } from '../../models/weather';
+import { StorageService } from '../../storage.service';
 
 @Component({
   selector: 'app-settings',
@@ -36,7 +37,7 @@ export class SettingsPage implements OnInit {
   @ViewChild('map_canvas', { static: false }) mapElement: ElementRef;
 
   constructor(
-    private _storage: Storage,
+      private _storageService: StorageService,
     private _router: Router,
     private _geoloc: Geolocation,
     private _navController: NavController,
@@ -68,7 +69,7 @@ export class SettingsPage implements OnInit {
    * */
   minimapLocation() {
     // localisation format json ? {code: 'currentlocation', lat: 41.1, long: 10.41} --> pas besoin de call à chaque fois lat et long comme ça...
-    this._storage.get('localisation').then((codeLocation: CodeLocalisation) => {
+    this._storageService.getData('localisation').then((codeLocation: CodeLocalisation) => {
       if (!codeLocation) {
         this.userLocalisation();
       } else {
@@ -86,7 +87,7 @@ export class SettingsPage implements OnInit {
       .then(resp => {
         this.coords = resp.coords;
         this.mapInit(this.coords.latitude, this.coords.longitude);
-        this._storage.set('localisation', {
+        this._storageService.setData('localisation', {
           code: 'currentLocation',
           lat: this.coords.latitude,
           long: this.coords.longitude,
@@ -153,7 +154,7 @@ export class SettingsPage implements OnInit {
   setLanguage(event) {
     this.language = event.detail.value;
     this._translateService.use(this.language);
-    this._storage.set('language', this.language);
+    this._storageService.setData('language', this.language);
   }
 
   /**
@@ -161,18 +162,18 @@ export class SettingsPage implements OnInit {
    * */
   setUnit(event): void {
     this.unit = event.detail.value;
-    this._storage.set('unit', this.unit);
+    this._storageService.setData('unit', this.unit);
   }
 
   getLanguage(): void {
-    this._storage.get('language').then(lg => {
+    this._storageService.getData('language').then(lg => {
       this._translateService.use(lg);
       this.language = lg;
     });
   }
 
   getUnit(): void {
-    this._storage.get('unit').then(unit => {
+    this._storageService.getData('unit').then(unit => {
       this.unit = unit;
     });
   }

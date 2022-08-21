@@ -9,6 +9,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { Storage } from '@ionic/storage';
 import { AnimationOptions } from 'ngx-lottie';
 import { listLanguages } from '../../models/languages';
+import { StorageService } from '../../storage.service';
 
 @Component({
   selector: 'app-meteo',
@@ -78,10 +79,10 @@ export class MeteoComponent implements OnInit {
   language: string;
   englishFormat = false; // h, hh : 12 && H,HH : 24
 
-  constructor(private _storage: Storage) {}
+  constructor(private _storageService: StorageService) {}
 
   ngOnInit() {
-    this._storage.get('language').then(lg => {
+    this._storageService.getData('language').then(lg => {
       this.language = lg;
       if (lg === listLanguages.EN) { this.englishFormat = true; }
       this.todayForecast();
@@ -98,7 +99,7 @@ export class MeteoComponent implements OnInit {
       this.currentWeather = res;
       this.sunset = this.manageDates(res.sunset, this.englishFormat ? 'h:mm A' : 'H:mm');
       this.sunrise = this.manageDates(res.sunrise, this.englishFormat ? 'h:mm A' : 'H:mm');
-      this.lotties(this.calculateWeaterIcons(res));
+      this._lotties(this.calculateWeaterIcons(res));
       this.actualDate = this.manageDates(moment().unix(), this.englishFormat ? 'dddd Do of MMMM, hh:mm:ss' : 'dddd DD MMMM, HH:mm:ss');
     });
   }
@@ -348,7 +349,7 @@ export class MeteoComponent implements OnInit {
     }
   }
 
-  lotties(icon: LottiesValues): void {
+  private _lotties(icon: LottiesValues): void {
     // if (icon === 'fog' || icon === 'snow' || icon === 'wind') {
     // not used atm, keep for sevenDays lotties evol
     //   this.widthCurrent = this.heightCurrent = 65;

@@ -26,7 +26,7 @@ import { Drivers } from '@ionic/storage';
         HttpClientModule,
         IonicStorageModule.forRoot({
             name: '__dbAurora',
-            driverOrder: [Drivers.IndexedDB, Drivers.LocalStorage],
+            // driverOrder: [Drivers.IndexedDB, Drivers.LocalStorage],
             // driverOrder: ['indexeddb', 'sqlite', 'websql'] // TODO check
         }),
         TranslateModule.forRoot({

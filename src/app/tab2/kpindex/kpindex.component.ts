@@ -30,7 +30,7 @@ export class KpindexComponent implements OnInit {
     return this.dataModuleACE.getValue();
   }
 
-  constructor(private storage: Storage) {}
+  // constructor(private storage: Storage) {}
 
   ngOnInit() {
     this.auroraBackground();
@@ -65,8 +65,8 @@ export class KpindexComponent implements OnInit {
       this.bt = ace.bz;
       this.nowcast = ace['nowcast:local'];
       this.nowcastVal = { value: this.nowcast.value };
-      this.storage.set('nowcast', this.nowcast.value);
-      this.storage.set('current_kp', this.kpCurrent.value);
+      // this.storage.set('nowcast', this.nowcast.value);
+      // this.storage.set('current_kp', this.kpCurrent.value);
     });
   }
 }

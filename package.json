@@ -1,15 +1,23 @@
 {
   "name": "aurora-v2",
   "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "https://ionicframework.com/",
+  "author": "Morgan N",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
+    "build": "ionic build",
+    "build:prod": "ionic build --prod",
+    "start": "ng serve -o",
+      "start:lab": "ionic serve --lab -o ",
+      "info:ionic": "ionic info",
+      "start:browser-npx": "npx cap serve",
+      "ide:open": "npx cap open android",
+
+      "start:capacitor-android:": "ionic capacitor run android -l --host 0.0.0.0 --external",
+      "start:browser-cordova": "ionic cordova run browser -lc -o",
+      "start:android-cordova": "ionic cordova run android --livereload --ssl --port=9991",
+      "build:dev:capacitor": "ng build -c dev && npx cap copy",
+      "build:capacitor": "ng build --prod && npx cap copy",
+      "prepare:native": "gulp prepare:native",
+      "update:native": "cordova-res android --skip-config --copy && node script/resources-android.js"
   },
   "private": true,
   "dependencies": {
@@ -78,6 +86,5 @@
     "protractor": "~7.0.0",
     "ts-node": "~8.3.0",
     "typescript": "~4.7.3"
-  },
-  "description": "An Ionic project"
+  }
 }

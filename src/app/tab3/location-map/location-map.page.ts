@@ -26,7 +26,7 @@ export class LocationMapPage implements OnInit, OnDestroy {
     private geocode: NativeGeocoder,
     private navController: NavController,
     private translate: TranslateService,
-    private storage: Storage
+    // private storage: Storage
   ) {}
 
   ngOnInit(): void {
@@ -42,15 +42,15 @@ export class LocationMapPage implements OnInit, OnDestroy {
    * Sinon, set valeur du select à la position indiquée dans storage
    * */
   checkStorageLoc(): void {
-    this.storage.get('localisation').then(
-      (codeLocation: CodeLocalisation) => {
-        if (codeLocation) {
-          this.localisation = codeLocation.code;
-          this.loadMap(codeLocation.lat, codeLocation.long);
-        }
-      },
-      error => console.warn('Il y a un soucis de storage de position', error)
-    );
+    // this.storage.get('localisation').then(
+    //   (codeLocation: CodeLocalisation) => {
+    //     if (codeLocation) {
+    //       this.localisation = codeLocation.code;
+    //       this.loadMap(codeLocation.lat, codeLocation.long);
+    //     }
+    //   },
+    //   error => console.warn('Il y a un soucis de storage de position', error)
+    // );
   }
 
   /**
@@ -66,20 +66,20 @@ export class LocationMapPage implements OnInit, OnDestroy {
       // console.log('localis', this.localisation);
       const city = cities.find(res => res.code === choice.detail.value);
       if (city) {
-        this.storage.set('localisation', {
-          code: this.localisation,
-          lat: city.latitude,
-          long: city.longitude,
-        });
+        // this.storage.set('localisation', {
+        //   code: this.localisation,
+        //   lat: city.latitude,
+        //   long: city.longitude,
+        // });
         this.addMarker(city.latitude, city.longitude);
       }
     } else {
       this.localisation = 'marker';
-      this.storage.set('localisation', {
-        code: 'marker',
-        lat: position.lat,
-        long: position.lng,
-      });
+      // this.storage.set('localisation', {
+      //   code: 'marker',
+      //   lat: position.lat,
+      //   long: position.lng,
+      // });
       this.addMarker(position.lat, position.lng);
     }
   }
@@ -144,11 +144,11 @@ export class LocationMapPage implements OnInit, OnDestroy {
       .getCurrentPosition()
       .then(resp => {
         this.addMarker(resp.coords.latitude, resp.coords.longitude);
-        this.storage.set('localisation', {
-          code: 'currentLocation',
-          lat: resp.coords.latitude,
-          long: resp.coords.longitude,
-        });
+        // this.storage.set('localisation', {
+        //   code: 'currentLocation',
+        //   lat: resp.coords.latitude,
+        //   long: resp.coords.longitude,
+        // });
       })
       .catch(error => {
         console.warn('Error getting current location', error);
