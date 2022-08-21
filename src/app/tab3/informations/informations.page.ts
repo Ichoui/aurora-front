@@ -12,9 +12,6 @@ export class InformationsPage {
   text;
   tabOpen = [];
 
-  constructor(private translateService: TranslateService) {
-  }
-
   visibility(event, index): void {
     if (this.tabOpen.includes(index)) {
       const remove = this.tabOpen.indexOf(index);

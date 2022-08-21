@@ -146,9 +146,10 @@ export class LocationMapPage implements OnInit, OnDestroy {
         this.removeMarker();
         this._geoloc
             .getCurrentPosition()
-            .then(async (resp: Geoposition) => {
+            .then((resp: Geoposition) => {
+                console.log(resp);
                 this.addMarker(resp.coords.latitude, resp.coords.longitude);
-                await this._storageService.setData('localisation', {
+                void this._storageService.setData('localisation', {
                     code: 'currentLocation',
                     lat: resp.coords.latitude,
                     long: resp.coords.longitude,

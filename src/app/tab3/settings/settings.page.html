@@ -3,7 +3,7 @@
 <ion-content>
   <ion-card>
     <ion-card-content>
-      <div class="google-maps" [routerLink]="['../../../map']">
+      <div [routerLink]="['..', 'map']">
         <ion-header>{{ 'tab3.settings.location' | translate }}</ion-header>
         <div class="sub">{{ 'tab3.settings.sublocation' | translate }}</div>
         <div id="map_canvas"></div>
@@ -30,7 +30,7 @@
     <ion-card-content>
       <ion-header>{{ 'tab3.settings.infos' | translate }}</ion-header>
       <div class="sub">{{ 'tab3.settings.subinfos' | translate }}</div>
-      <ion-item [routerLink]="['../../../infos']">
+      <ion-item [routerLink]="['..', 'infos']">
         <span style="font-size: 0.9em;">
           {{ 'tab3.settings.infos.text' | translate }}
         </span>
@@ -87,7 +87,7 @@
 
 <ion-fab vertical="bottom" horizontal="end" slot="fixed">
   <ion-fab-button color="primary">
-    <ion-icon name="arrow-dropup" color="dark"></ion-icon>
+    <ion-icon name="arrow-up" color="dark"></ion-icon>
   </ion-fab-button>
   <ion-fab-list side="top">
     <ion-fab-button color="secondary" (click)="openUrl('https://www.linkedin.com/in/morgan-nicol-1b019b104/')">
