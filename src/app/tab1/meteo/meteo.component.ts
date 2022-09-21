@@ -58,14 +58,14 @@ export class MeteoComponent implements OnInit {
   // Var reflettant observables
   currentWeather: Currently;
 
-  sunset;
-  sunrise;
-  actualDate: any;
+  sunset: string | moment.Moment;
+  sunrise: string | moment.Moment;
+  actualDate: string | moment.Moment;
   Unit = Unit;
 
   dataNumberInCharts = 8;
-  temps: number[] = [];
-  nextHours = [];
+  private _temps: number[] = [];
+  private _nextHours = [];
 
   cloudy: Cloudy[] = [];
   days: Daily[] = [];
@@ -73,19 +73,18 @@ export class MeteoComponent implements OnInit {
   todayTemp: DailyTemp;
   // lotties
   lottieConfig: AnimationOptions;
-  widthCurrent = 110;
-  heightCurrent = 110;
-  unsubscribeAll$ = new Subject<void>();
+  readonly widthCurrent = 110;
+  readonly heightCurrent = 110;
 
-  locale: string;
-  englishFormat = false; // h, hh : 12 && H,HH : 24
+  private _locale: string;
+  private _englishFormat = false; // h, hh : 12 && H,HH : 24
 
   constructor(private _storageService: StorageService) {}
 
   ngOnInit() {
     this._storageService.getData('locale').then((locale: ELocales) => {
-      this.locale = locale;
-      if (locale === ELocales.EN) { this.englishFormat = true; }
+      this._locale = locale;
+      if (locale === ELocales.EN) { this._englishFormat = true; }
       this.todayForecast();
       this.nextHoursForecast();
       this.sevenDayForecast();
@@ -98,10 +97,10 @@ export class MeteoComponent implements OnInit {
   todayForecast() {
     this.currentWeather$.pipe().subscribe((res: Currently) => {
       this.currentWeather = res;
-      this.sunset = this.manageDates(res.sunset, this.englishFormat ? 'h:mm A' : 'H:mm');
-      this.sunrise = this.manageDates(res.sunrise, this.englishFormat ? 'h:mm A' : 'H:mm');
+      this.sunset = this.manageDates(res.sunset, this._englishFormat ? 'h:mm A' : 'H:mm');
+      this.sunrise = this.manageDates(res.sunrise, this._englishFormat ? 'h:mm A' : 'H:mm');
       this._lotties(this.calculateWeaterIcons(res));
-      this.actualDate = this.manageDates(moment().unix(), this.englishFormat ? 'dddd Do of MMMM, hh:mm:ss' : 'dddd DD MMMM, HH:mm:ss');
+      this.actualDate = this.manageDates(moment().unix(), this._englishFormat ? 'dddd Do of MMMM, hh:mm:ss' : 'dddd DD MMMM, HH:mm:ss');
     });
   }
 
@@ -109,13 +108,13 @@ export class MeteoComponent implements OnInit {
     this.hourlyWeather$.pipe().subscribe((res: Hourly[]) => {
       this.cloudy = [];
       res.forEach((hours: Hourly, i) => {
-        if (this.temps.length < this.dataNumberInCharts && i % 2 === 0) {
-          this.temps.push(Math.round(hours.temp));
-          this.nextHours.push(this.manageDates(hours.dt, this.englishFormat ? 'hh A' : 'HH:mm'));
+        if (this._temps.length < this.dataNumberInCharts && i % 2 === 0) {
+          this._temps.push(Math.round(hours.temp));
+          this._nextHours.push(this.manageDates(hours.dt, this._englishFormat ? 'hh A' : 'HH:mm'));
         }
         const cloudy: Cloudy = {
           percent: hours.clouds,
-          time: this.manageDates(hours.dt, this.englishFormat ? 'hhA' : 'HH:mm'),
+          time: this.manageDates(hours.dt, this._englishFormat ? 'hhA' : 'HH:mm'),
         };
         if (this.cloudy.length < this.dataNumberInCharts) {
           this.cloudy.push(cloudy);
@@ -126,10 +125,10 @@ export class MeteoComponent implements OnInit {
       type: 'line',
       plugins: [ChartDataLabels],
       data: {
-        labels: this.nextHours,
+        labels: this._nextHours,
         datasets: [
           {
-            data: this.temps,
+            data: this._temps,
             backgroundColor: [
               'rgba(105, 191, 175, 0.4)',
               'rgba(105, 191, 175, 0.4)',
@@ -224,7 +223,7 @@ export class MeteoComponent implements OnInit {
    * */
   manageDates(date: number, format?: string): string | moment.Moment {
     let unixToLocal;
-    unixToLocal = moment.unix(date).utc().add(this.utc, 'h').locale(this.locale);
+    unixToLocal = moment.unix(date).utc().add(this.utc, 'h').locale(this._locale);
     // if (this.language === 'fr') {
     // } else {
     //   unixToLocal = moment.unix(date).add(this.utc, 'h').locale('en');
@@ -321,25 +320,25 @@ export class MeteoComponent implements OnInit {
     } else if (windSpeed >= 157.5 && windSpeed < 202.5) {
       return 'S';
     } else if (windSpeed >= 202.5 && windSpeed < 247.5) {
-      return this.locale === ELocales.FR ? 'SO' : 'SW';
+      return this._locale === ELocales.FR ? 'SO' : 'SW';
     } else if (windSpeed >= 247.5 && windSpeed < 292.5) {
-      return this.locale === ELocales.FR ? 'O' : 'W';
+      return this._locale === ELocales.FR ? 'O' : 'W';
     } else if (windSpeed >= 292.5 && windSpeed < 337.5) {
-      return this.locale === ELocales.FR ? 'NO' : 'NW';
+      return this._locale === ELocales.FR ? 'NO' : 'NW';
     }
   }
 
   calculateUV(indexUv): string {
     if (indexUv >= 0 && indexUv < 3) {
-      return this.locale === ELocales.FR ? 'Faible' : 'Low';
+      return this._locale === ELocales.FR ? 'Faible' : 'Low';
     } else if (indexUv >= 3 && indexUv < 6) {
-      return this.locale === ELocales.FR ? 'Modéré' : 'Moderate';
+      return this._locale === ELocales.FR ? 'Modéré' : 'Moderate';
     } else if (indexUv >= 6 && indexUv < 8) {
-      return this.locale === ELocales.FR ? 'Élevé' : 'High';
+      return this._locale === ELocales.FR ? 'Élevé' : 'High';
     } else if (indexUv >= 8 && indexUv < 11) {
-      return this.locale === ELocales.FR ? 'Très élevé' : 'Very high';
+      return this._locale === ELocales.FR ? 'Très élevé' : 'Very high';
     } else if (indexUv >= 11) {
-      return this.locale === ELocales.FR ? 'Extrême' : 'Extreme';
+      return this._locale === ELocales.FR ? 'Extrême' : 'Extreme';
     }
   }
 

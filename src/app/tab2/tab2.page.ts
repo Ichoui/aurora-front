@@ -24,10 +24,6 @@ export class Tab2Page {
     coords: Coords;
     city: string;
     country: string;
-    // slideOpts = {
-    //   initialSlide: 0,
-    //   speed: 400,
-    // };
 
     eventRefresh: any;
 
@@ -41,8 +37,6 @@ export class Tab2Page {
     constructor(private _geoloc: Geolocation,
                 private _storageService: StorageService,
                 private _navCtrl: NavController, private _auroraService: AuroraService) {
-    }
-    ngAfterViewInit() {
     }
     ionViewWillEnter() {
         this.tabLoading = [];

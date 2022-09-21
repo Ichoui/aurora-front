@@ -43,8 +43,8 @@ export class MapsComponent implements OnInit {
   constructor(private modalController: ModalController, private translateService: TranslateService) {}
 
   ngOnInit() {
-    this.chartNextHoursForecast();
-    this.chartForecast27day();
+    this._chartNextHoursForecast();
+    this._chartForecast27day();
   }
 
     async showMap() {
@@ -71,8 +71,7 @@ export class MapsComponent implements OnInit {
         return await modal.present();
     }
 
-    chartNextHoursForecast(): void {
-        console.log('ab');
+    private _chartNextHoursForecast(): void {
         const nextHoursForecast = [];
         const nextHoursDate = [];
         const nextHoursColors = [];
@@ -82,7 +81,7 @@ export class MapsComponent implements OnInit {
                 if (nextHoursForecast.length < numberMaxNextHours) {
                     nextHoursDate.push(moment(unit.date).format('HH:mm'));
                     nextHoursForecast.push(unit.value);
-                    nextHoursColors.push(this.colorSwitcher(unit.color));
+                    nextHoursColors.push(this._colorSwitcher(unit.color));
                 }
                 i++;
             });
@@ -146,7 +145,7 @@ export class MapsComponent implements OnInit {
         });
     }
 
-    chartForecast27day(): void {
+    private _chartForecast27day(): void {
         const forecastValue = [];
         const forecastDate = [];
         const forecastColors = [];
@@ -156,7 +155,7 @@ export class MapsComponent implements OnInit {
                 if (forecastValue.length < numberMax27Forecast && i % 2 === 0) {
                     forecastDate.push(moment(unit.date).format('DD/MM'));
                     forecastValue.push(unit.value);
-                    forecastColors.push(this.colorSwitcher(unit.color));
+                    forecastColors.push(this._colorSwitcher(unit.color));
                 }
                 i++;
             });
@@ -220,7 +219,7 @@ export class MapsComponent implements OnInit {
         });
     }
 
-    colorSwitcher(color): string {
+    private _colorSwitcher(color): string {
         switch (color) {
             case 'green':
                 color = '#2cc990';
