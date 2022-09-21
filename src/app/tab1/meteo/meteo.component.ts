@@ -3,13 +3,14 @@ import { Coords } from '../../models/cities';
 import * as moment from 'moment';
 import 'moment/locale/fr';
 import { Cloudy, Currently, Daily, DailyTemp, Hourly, IconsOWM, LottiesValues, Unit } from '../../models/weather';
-import * as Chart from 'chart.js';
+import { Chart, registerables } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { Storage } from '@ionic/storage';
 import { AnimationOptions } from 'ngx-lottie';
 import { ELocales } from '../../models/locales';
 import { StorageService } from '../../storage.service';
+Chart.register(...registerables);
 
 @Component({
   selector: 'app-meteo',
@@ -121,91 +122,84 @@ export class MeteoComponent implements OnInit {
         }
       });
     });
-    // new Chart('next-hours', {
-    //   type: 'line',
-    //   plugins: [ChartDataLabels],
-    //   data: {
-    //     labels: this.nextHours,
-    //     datasets: [
-    //       {
-    //         data: this.temps,
-    //         backgroundColor: [
-    //           'rgba(105, 191, 175, 0.4)',
-    //           'rgba(105, 191, 175, 0.4)',
-    //           'rgba(105, 191, 175, 0.4)',
-    //           'rgba(105, 191, 175, 0.4)',
-    //           'rgba(105, 191, 175, 0.4)',
-    //           'rgba(105, 191, 175, 0.4)',
-    //           'rgba(105, 191, 175, 0.4)',
-    //           'rgba(105, 191, 175, 0.4)',
-    //         ],
-    //         borderColor: [
-    //           'rgba(140, 255, 234, 0.4)',
-    //           'rgba(105, 191, 175, 0.4)',
-    //           'rgba(105, 191, 175, 0.4)',
-    //           'rgba(105, 191, 175, 0.4)',
-    //           'rgba(105, 191, 175, 0.4)',
-    //           'rgba(105, 191, 175, 0.4)',
-    //           'rgba(105, 191, 175, 0.4)',
-    //           'rgba(105, 191, 175, 0.4)',
-    //         ],
-    //         borderWidth: 2,
-    //         pointBorderWidth: 3,
-    //         pointHitRadius: 10,
-    //         pointHoverBackgroundColor: '#8cffea',
-    //       },
-    //     ],
-    //   },
-    //   options: {
-    //     responsive: true,
-    //     plugins: {
-    //       datalabels: {
-    //         align: 'end',
-    //         color: '#8cffea',
-    //         font: {
-    //           family: 'Oswald-SemiBold',
-    //           size: 15,
-    //         },
-    //         formatter(value) {
-    //           return value + '°';
-    //         }
-    //       },
-    //     },
-    //     legend: {
-    //       display: false,
-    //     },
-    //     scales: {
-    //       xAxes: [
-    //         {
-    //           gridLines: {
-    //             display: false,
-    //           },
-    //           ticks: {
-    //             fontColor: '#949494',
-    //             fontFamily: 'Oswald-SemiBold',
-    //           },
-    //         },
-    //       ],
-    //       yAxes: [
-    //         {
-    //           display: false,
-    //           gridLines: {
-    //             display: false,
-    //           },
-    //         },
-    //       ],
-    //     },
-    //     layout: {
-    //       padding: {
-    //         top: 30,
-    //       },
-    //     },
-    //     tooltips: {
-    //       enabled: false,
-    //     },
-    //   },
-    // });
-    // TODO
+    new Chart('next-hours', {
+      type: 'line',
+      plugins: [ChartDataLabels],
+      data: {
+        labels: this.nextHours,
+        datasets: [
+          {
+            data: this.temps,
+            backgroundColor: [
+              'rgba(105, 191, 175, 0.4)',
+              'rgba(105, 191, 175, 0.4)',
+              'rgba(105, 191, 175, 0.4)',
+              'rgba(105, 191, 175, 0.4)',
+              'rgba(105, 191, 175, 0.4)',
+              'rgba(105, 191, 175, 0.4)',
+              'rgba(105, 191, 175, 0.4)',
+              'rgba(105, 191, 175, 0.4)',
+            ],
+            borderColor: [
+              'rgba(140, 255, 234, 0.4)',
+              'rgba(105, 191, 175, 0.4)',
+              'rgba(105, 191, 175, 0.4)',
+              'rgba(105, 191, 175, 0.4)',
+              'rgba(105, 191, 175, 0.4)',
+              'rgba(105, 191, 175, 0.4)',
+              'rgba(105, 191, 175, 0.4)',
+              'rgba(105, 191, 175, 0.4)',
+            ],
+            borderWidth: 2,
+            pointBorderWidth: 3,
+            pointHitRadius: 10,
+            pointHoverBackgroundColor: '#8cffea',
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          tooltip : { enabled: false},
+          legend: {display: false},
+          datalabels: {
+            align: 'end',
+            color: '#8cffea',
+            font: {
+              family: 'Oswald-SemiBold',
+              size: 15,
+            },
+            formatter(value) {
+              return value + '°';
+            }
+          },
+        },
+        scales: {
+          x:
+            {
+              grid: {
+                display: false,
+              },
+              ticks: {
+                color: '#949494',
+                font: (ctx, options) => ({family: 'Oswald-SemiBold'})
+              },
+            },
+          y:
+            {
+              display: false,
+              grid: {
+                display: false,
+              },
+            }
+        },
+        layout: {
+          padding: {
+            top: 30,
+          },
+        },
+      },
+    });
   }
 
   sevenDayForecast() {

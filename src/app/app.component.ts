@@ -79,8 +79,8 @@ export class AppComponent {
                     }
                 }
             },
-            async noValue => {
-                await this._storageService.setData('locale', this._translateService.getBrowserLang());
+             noValue => {
+                void this._storageService.setData('locale', this._translateService.getBrowserLang());
                 console.warn('novalue of locale', noValue);
             }
         );
@@ -99,8 +99,8 @@ export class AppComponent {
                     }
                 }
             },
-            async noValue => {
-                await this._storageService.setData('unit', 'metric');
+            noValue => {
+                void this._storageService.setData('unit', 'metric');
                 console.warn('novalue of units', noValue);
             }
         );

@@ -65,6 +65,7 @@ export class KpindexComponent implements OnInit {
       this.bt = ace.bz;
       this.nowcast = ace['nowcast:local'];
       this.nowcastVal = { value: this.nowcast.value };
+      console.log(ace);
       // this.storage.set('nowcast', this.nowcast.value);
       // this.storage.set('current_kp', this.kpCurrent.value);
     });

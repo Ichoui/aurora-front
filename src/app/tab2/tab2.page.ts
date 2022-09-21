@@ -42,7 +42,8 @@ export class Tab2Page {
                 private _storageService: StorageService,
                 private _navCtrl: NavController, private _auroraService: AuroraService) {
     }
-
+    ngAfterViewInit() {
+    }
     ionViewWillEnter() {
         this.tabLoading = [];
 
@@ -50,14 +51,14 @@ export class Tab2Page {
         this._storageService.getData('localisation').then(
             (codeLocation: CodeLocalisation) => {
                 if (!codeLocation) {
-                    this.userLocalisation();
+                    this._userLocalisation();
                     // console.log('aa');
                 } else if (codeLocation.code === 'currentLocation' || codeLocation.code === 'marker') {
                     // console.log('bb');
-                    this.getExistingLocalisation(codeLocation.lat, codeLocation.long);
+                    this._getExistingLocalisation(codeLocation.lat, codeLocation.long);
                 } else {
                     // console.log('cc');
-                    this.chooseExistingCity(codeLocation.code);
+                    this._chooseExistingCity(codeLocation.code);
                 }
             },
             error => {
@@ -76,11 +77,11 @@ export class Tab2Page {
      * Seulement premier accès sur cette page
      * Déterminer la localisation actuelle de l'utilisateur
      */
-    userLocalisation() {
+    private _userLocalisation() {
         this._geoloc
             .getCurrentPosition()
             .then(resp => {
-                this.getExistingLocalisation(resp.coords.latitude, resp.coords.longitude);
+                this._getExistingLocalisation(resp.coords.latitude, resp.coords.longitude);
             })
             .catch(error => {
                 console.warn('Geolocalisation error', error);
@@ -99,19 +100,19 @@ export class Tab2Page {
      * @param long {number}
      * Set les coords avec celles existante en localStorage (déjà eu accès tab3 et marker placé ou géolocalisé)
      * */
-    getExistingLocalisation(lat: number, long: number) {
+    private _getExistingLocalisation(lat: number, long: number) {
         this.coords = {
             latitude: lat,
             longitude: long,
         };
-        this.getSolarWind();
+        this._getSolarWind();
     }
 
     /**
      * @param code slug de la ville pour pouvoir récupérer les données liées au code
      * Choisir une des villes pré-enregistrées
      */
-    chooseExistingCity(code: string): void {
+    private _chooseExistingCity(code: string): void {
         const city = cities.find(res => res.code === code);
         this.city = city.ville;
         this.country = city.pays;
@@ -120,20 +121,20 @@ export class Tab2Page {
             latitude: city.latitude,
             longitude: city.longitude,
         };
-        this.getSolarWind();
+        this._getSolarWind();
     }
 
     /**
      * Récupère les données ACE de vent solaire & nowcast
      * */
-    getSolarWind(): void {
+    private _getSolarWind(): void {
         this._auroraService.auroraLiveV2(this.coords.latitude, this.coords.longitude).subscribe(
             ACE => {
                 this.loading = false;
                 this.moduleACE = ACE;
                 this.kpForecast27days = ACE['kp:27day'];
                 this.kpForecast = ACE['kp:forecast'];
-                this.trickLoading('1st');
+                this._trickLoading('1st');
             },
             error => {
                 console.warn('Wind Solar data error', error);
@@ -153,7 +154,7 @@ export class Tab2Page {
      * Gère le loader
      * Lorsque tout les appels API sont passés et le tableau égal à la valeur API_CALL_NUMBER, débloque le loader
      * */
-    trickLoading(count: string): void {
+    private _trickLoading(count: string): void {
         this.tabLoading.push(count);
         if (this.tabLoading.length === API_CALL_NUMBER) {
             this.loading = false;
@@ -168,6 +169,6 @@ export class Tab2Page {
     doRefresh(event) {
         this.tabLoading = [];
         this.eventRefresh = event;
-        this.getSolarWind();
+        this._getSolarWind();
     }
 }

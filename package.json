@@ -5,18 +5,18 @@
   "scripts": {
     "build": "ionic build",
     "build:prod": "ionic build --prod",
+    "info:ionic": "ionic info",
     "start": "ng serve -o",
     "start:lab": "ionic serve --lab -o ",
-    "info:ionic": "ionic info",
-    "start:browser-npx": "npx cap serve",
-    "ide:open": "npx cap open android",
     "start:capacitor-android:": "ionic capacitor run android -l --host 0.0.0.0 --external",
     "start:browser-cordova": "ionic cordova run browser -lc -o",
     "start:android-cordova": "ionic cordova run android --livereload --ssl --port=9991",
     "build:dev:capacitor": "ng build -c dev && npx cap copy",
     "build:capacitor": "ng build --prod && npx cap copy",
     "prepare:native": "gulp prepare:native",
-    "update:native": "cordova-res android --skip-config --copy && node script/resources-android.js"
+    "update:native": "cordova-res android --skip-config --copy && node script/resources-android.js",
+    "deploy:step1": "npx cap add android",
+    "deploy:step2": "npx cap open android"
   },
   "private": true,
   "dependencies": {
@@ -43,7 +43,9 @@
     "@ionic/storage-angular": "^3.0.6",
     "@ngx-translate/core": "^14.0.0",
     "@ngx-translate/http-loader": "^7.0.0",
+    "@types/chart.js": "^2.9.37",
     "chart.js": "^3.9.1",
+    "chartjs": "^0.3.24",
     "chartjs-plugin-datalabels": "^2.1.0",
     "cordova-plugin-nativegeocoder": "^3.4.1",
     "cordova-sqlite-storage": "^6.0.0",
