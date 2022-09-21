@@ -19,22 +19,19 @@ import { Geoposition } from '@ionic-native/geolocation';
 })
 export class SettingsPage implements OnInit {
     kpindex = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-    localisation: string;
     notifications = false;
     notifKp;
 
-    marker: Marker;
-    coords: Coords = {} as any;
-    map: Map;
+    private _marker: Marker;
+    private _coords: Coords = {} as any;
+    private _map: Map;
 
     locale = ELocales.FR;
-    locales: SelectContents[] = Locales;
+    readonly locales: SelectContents[] = Locales;
 
     unit = Unit.METRIC;
-    units: SelectContents[] = units;
-    // private _dataStored = [];
+    readonly units: SelectContents[] = units;
 
-    // eslint-disable-next-line @typescript-eslint/member-ordering
     @ViewChild('map_canvas', {static: false}) mapElement: ElementRef;
 
     constructor(
@@ -87,12 +84,12 @@ export class SettingsPage implements OnInit {
         this._geoloc
             .getCurrentPosition()
             .then((resp: Geoposition) => {
-                this.coords = resp.coords;
-                this._mapInit(this.coords.latitude, this.coords.longitude);
+                this._coords = resp.coords;
+                this._mapInit(this._coords.latitude, this._coords.longitude);
                 void this._storageService.setData('localisation', {
                     code: 'currentLocation',
-                    lat: this.coords.latitude,
-                    long: this.coords.longitude,
+                    lat: this._coords.latitude,
+                    long: this._coords.longitude,
                 });
             })
             .catch(error => {
@@ -106,24 +103,24 @@ export class SettingsPage implements OnInit {
      * Création de la map
      * */
     private _mapInit(lat: any, long: any): void {
-        if (this.map) {
-            this.map.remove();
+        if (this._map) {
+            this._map.remove();
         }
         const mapOpt: ZoomPanOptions = {
             noMoveStart: false,
             animate: false,
         };
 
-        this.map = new Map('map_canvas').setView([lat, long], 10, mapOpt);
+        this._map = new Map('map_canvas').setView([lat, long], 4, mapOpt);
 
         this._addMarker(lat, long);
 
-        this.map.dragging.disable();
-        this.map.zoomControl.remove();
+        this._map.dragging.disable();
+        this._map.zoomControl.remove();
 
         tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: ' <div style="font-size: 1em">&copy;<a href="https://www.openstreetmap.org/copyright">OSM</a></div>',
-        }).addTo(this.map);
+        }).addTo(this._map);
     }
 
     /**
@@ -132,14 +129,14 @@ export class SettingsPage implements OnInit {
      * Création d'un marker sur la map
      * */
     private _addMarker(lat: any, long: any) {
-        if (this.marker) this.marker.remove();
-        this.marker = marker([lat, long], {
+        if (this._marker) this._marker.remove();
+        this._marker = marker([lat, long], {
             icon: icon({
                 iconSize: [25, 25],
                 iconUrl: 'assets/img/marker-icon.png',
-                shadowUrl: 'assets/img/marker-shadow.png',
+                // shadowUrl: 'assets/img/marker-shadow.png',
             }),
-        }).addTo(this.map);
+        }).addTo(this._map);
     }
 
     async CGU() {

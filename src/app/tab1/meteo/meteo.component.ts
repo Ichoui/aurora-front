@@ -1,15 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Coords } from '../../models/cities';
 import * as moment from 'moment';
-import 'moment/locale/fr';
 import { Cloudy, Currently, Daily, DailyTemp, Hourly, IconsOWM, LottiesValues, Unit } from '../../models/weather';
 import { Chart, registerables } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import { BehaviorSubject, Subject } from 'rxjs';
-import { Storage } from '@ionic/storage';
+import { BehaviorSubject } from 'rxjs';
 import { AnimationOptions } from 'ngx-lottie';
 import { ELocales } from '../../models/locales';
 import { StorageService } from '../../storage.service';
+
+// import 'moment/locale/fr';
 Chart.register(...registerables);
 
 @Component({

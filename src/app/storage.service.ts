@@ -18,7 +18,7 @@ export class StorageService {
         this._storageReady.next(true)
     }
 
-    setData(storageKey: string, key: string | Record<string, string | number>): Promise<unknown> {
+    setData(storageKey: string, key: string | number | Record<string, string | number>): Promise<unknown> {
         return this._storage.set(storageKey, key);
     }
 

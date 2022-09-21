@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Storage } from '@ionic/storage';
 import { BehaviorSubject } from 'rxjs';
 import { AuroraEnumColours, Density, KpCurrent, Nowcast, Speed } from '../../models/aurorav2';
+import { StorageService } from '../../storage.service';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-kpindex',
@@ -30,7 +31,7 @@ export class KpindexComponent implements OnInit {
     return this.dataModuleACE.getValue();
   }
 
-  // constructor(private storage: Storage) {}
+  constructor(private _storageService: StorageService) {}
 
   ngOnInit() {
     this.auroraBackground();
@@ -57,7 +58,7 @@ export class KpindexComponent implements OnInit {
    * Observable permettant de récupérer les données des vents solaires
    * */
   solarWindData(): void {
-    this.dataModuleACE.subscribe(ace => {
+    this.dataModuleACE.pipe(tap((ace) => {
       this.density = ace.density;
       this.kpCurrent = ace['kp:current'];
       this.speed = ace.speed;
@@ -65,9 +66,8 @@ export class KpindexComponent implements OnInit {
       this.bt = ace.bz;
       this.nowcast = ace['nowcast:local'];
       this.nowcastVal = { value: this.nowcast.value };
-      console.log(ace);
-      // this.storage.set('nowcast', this.nowcast.value);
-      // this.storage.set('current_kp', this.kpCurrent.value);
-    });
+      void this._storageService.setData('nowcast', this.nowcast.value)
+      void this._storageService.setData('current_kp', this.kpCurrent.value)
+    })).subscribe();
   }
 }

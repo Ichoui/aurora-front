@@ -4,10 +4,13 @@ import { cities, CodeLocalisation } from '../../models/cities';
 import { NavController } from '@ionic/angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { icon, LatLng, Map, marker, Marker, tileLayer, ZoomPanOptions } from 'leaflet';
-import { NativeGeocoder, NativeGeocoderOptions, NativeGeocoderResult } from '@ionic-native/native-geocoder/ngx';
 import { TranslateService } from '@ngx-translate/core';
 import { StorageService } from '../../storage.service';
 import { Geoposition } from '@ionic-native/geolocation';
+import { map, tap } from 'rxjs/operators';
+import { Geocoding } from '../../models/geocoding';
+import { AuroraService } from '../../aurora.service';
+import { countryNameFromCode } from '../../models/utils';
 
 @Component({
     selector: 'app-location-map',
@@ -15,40 +18,40 @@ import { Geoposition } from '@ionic-native/geolocation';
     styleUrls: ['./location-map.page.scss'],
 })
 export class LocationMapPage implements OnInit, OnDestroy {
-    map: Map;
-    marker: Marker;
-    cities = cities;
+    private _map: Map;
+    private _marker: Marker;
+    readonly cities = cities;
     localisation: string;
 
     constructor(
         private _route: ActivatedRoute,
         private _router: Router,
         private _geoloc: Geolocation,
-        private _geocode: NativeGeocoder,
         private _navController: NavController,
         private _translate: TranslateService,
-        private _storageService: StorageService
+        private _storageService: StorageService,
+        private _auroraService: AuroraService
     ) {
     }
 
     ngOnInit(): void {
-        this.checkStorageLoc();
+        this._checkStorageLoc();
     }
 
     ngOnDestroy(): void {
-        this.removeMarker();
+        this._removeMarker();
     }
 
     /**
      * Si storage vide, set valeur à location actuelle ET valeur du select à position actuelle
      * Sinon, set valeur du select à la position indiquée dans storage
      * */
-    checkStorageLoc(): void {
+    private _checkStorageLoc(): void {
         this._storageService.getData('localisation').then(
             (codeLocation: CodeLocalisation) => {
                 if (codeLocation) {
                     this.localisation = codeLocation.code;
-                    this.loadMap(codeLocation.lat, codeLocation.long);
+                    this._loadMap(codeLocation.lat, codeLocation.long);
                 }
             },
             error => console.warn('Il y a un soucis de storage de position', error)
@@ -73,7 +76,7 @@ export class LocationMapPage implements OnInit, OnDestroy {
                     lat: city.latitude,
                     long: city.longitude,
                 });
-                this.addMarker(city.latitude, city.longitude);
+                this._addMarker(city.latitude, city.longitude);
             }
         } else {
             this.localisation = 'marker';
@@ -82,7 +85,7 @@ export class LocationMapPage implements OnInit, OnDestroy {
                 lat: position.lat,
                 long: position.lng,
             });
-            this.addMarker(position.lat, position.lng);
+            this._addMarker(position.lat, position.lng);
         }
     }
 
@@ -91,19 +94,19 @@ export class LocationMapPage implements OnInit, OnDestroy {
      * @param long {number}
      * Chargement de la carte
      * */
-    loadMap(lat: number, long: number): void {
+    private _loadMap(lat: number, long: number): void {
         let mapOpt: ZoomPanOptions = {
             animate: true,
             duration: 1.2,
         };
-        this.map = new Map('map_canvas_select').setView([lat, long], 3, mapOpt);
+        this._map = new Map('map_canvas_select').setView([lat, long], 3, mapOpt);
         tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: ' <div style="font-size: 1em">&copy;<a href="https://www.openstreetmap.org/copyright">OSM</a></div>',
-        }).addTo(this.map);
+        }).addTo(this._map);
 
-        this.addMarker(lat, long);
+        this._addMarker(lat, long);
 
-        this.map.on('click', params => {
+        this._map.on('click', params => {
             let latLng: LatLng = params['latlng'];
             void this.selectedLoc(null, latLng);
         });
@@ -114,27 +117,27 @@ export class LocationMapPage implements OnInit, OnDestroy {
      * @param long {number}
      * Permet de créer un marqueur
      * */
-    addMarker(lat, long): void {
-        this.removeMarker();
+    private _addMarker(lat, long): void {
+        this._removeMarker();
 
-        this.reverseGeocode(lat, long);
+        this._reverseGeocode(lat, long);
 
-        this.marker = marker([lat, long], {
+        this._marker = marker([lat, long], {
             draggable: false,
 
             icon: icon({
                 iconSize: [45, 45],
                 iconUrl: 'assets/img/marker-icon.png',
             }),
-        }).addTo(this.map);
+        }).addTo(this._map);
     }
 
     /**
      * Permet de retirer le marqueur actuel
      * */
-    removeMarker(): void {
-        if (this.marker) {
-            this.marker.remove();
+    private _removeMarker(): void {
+        if (this._marker) {
+            this._marker.remove();
         }
     }
 
@@ -143,12 +146,12 @@ export class LocationMapPage implements OnInit, OnDestroy {
      * Set en localStorage les coords
      * */
     buttonMyPosition(): void {
-        this.removeMarker();
+        this._removeMarker();
         this._geoloc
             .getCurrentPosition()
             .then((resp: Geoposition) => {
                 console.log(resp);
-                this.addMarker(resp.coords.latitude, resp.coords.longitude);
+                this._addMarker(resp.coords.latitude, resp.coords.longitude);
                 void this._storageService.setData('localisation', {
                     code: 'currentLocation',
                     lat: resp.coords.latitude,
@@ -163,33 +166,34 @@ export class LocationMapPage implements OnInit, OnDestroy {
     /**
      * @param lat {number}
      * @param long {number}
-     * Récupérer l'adresse de l'emplacement est affiche un tooltip
+     * Afficher dans le tooltip l'emplacement du clic
      * */
-    reverseGeocode(lat: number, long: number): void {
-        let options: NativeGeocoderOptions = {
-            useLocale: false,
-            maxResults: 2,
-        };
-        this._geocode
-            .reverseGeocode(lat, long, options)
-            .then((locale: NativeGeocoderResult[]) => {
-                let infoWindow;
-                if (locale[0].locality && locale[0].countryName) {
-                    // Ville - CODE
-                    infoWindow = locale[0].locality + ' - ' + locale[0].countryName;
-                } else if (locale[0].countryName && !locale[0].locality && locale[0].administrativeArea) {
-                    // Des régions un peu lointaine
-                    infoWindow = locale[0].administrativeArea + ' - ' + locale[0].countryName;
-                } else {
-                    locale[0].countryName ? (infoWindow = locale[0].countryName) : (infoWindow = this._translate.instant('global.unknown'));
+    private _reverseGeocode(lat: number, long: number): void {
+        this._auroraService.getGeocoding$(lat, long).pipe(
+            map((res: Geocoding[]) => res[0]),
+            tap({
+                next: (res: Geocoding) => {
+                    console.log(res);
+                    let infoWindow;
+                    if (res?.name && res?.country) {
+                        infoWindow = `${res?.name}${res?.state ? ', ' + res.state : ''} - ${countryNameFromCode(res.country)}`;
+                    } else {
+                        infoWindow = this._translate.instant('global.unknown');
+                        res.country ? (infoWindow = countryNameFromCode(res.country)) : (infoWindow = this._translate.instant('global.unknown'));
+
+                    }
+                    this._createTooltip(infoWindow, lat, long);
+                },
+                error: error => {
+                    // (error: HttpErrorResponse)
+                    console.log(error);
+                    console.warn('Reverse geocode error ==> ', error);
+                    console.error('Error localisation', error);
+                    const infoWindow = this._translate.instant('global.unknown');
+                    this._createTooltip(infoWindow);
                 }
-                this.createTooltip(infoWindow, lat, long);
-            })
-            .catch(err => {
-                console.error('Error localisation', err);
-                const infoWindow = this._translate.instant('global.unknown');
-                this.createTooltip(infoWindow);
-            });
+            }))
+            .subscribe();
     }
 
     /**
@@ -198,9 +202,9 @@ export class LocationMapPage implements OnInit, OnDestroy {
      * @param long {number}
      * Affiche le tooltip
      * */
-    createTooltip(infoWindow: string, lat?, long?): void {
+    private _createTooltip(infoWindow: string, lat?, long?): void {
         if (lat && long) {
-            this.marker
+            this._marker
                 .bindPopup(`<b>${infoWindow}</b> <br /> Lat: ${lat} <br/> Long: ${long}`)
                 .openPopup()
                 .on('click', async () => {
@@ -208,7 +212,7 @@ export class LocationMapPage implements OnInit, OnDestroy {
                     await this._router.navigate(['', 'tabs', 'tab1']);
                 });
         } else {
-            this.marker.bindPopup(`<b>${infoWindow}</b><br /> ${this._translate.instant('tab3.map.another')} `).openPopup();
+            this._marker.bindPopup(`<b>${infoWindow}</b><br /> ${this._translate.instant('tab3.map.another')} `).openPopup();
         }
     }
 }

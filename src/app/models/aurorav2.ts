@@ -87,3 +87,14 @@ export interface Nowcast {
     date: Date
     request_date: Date
 }
+
+export interface ACEModule {
+    bt: Bt;
+    bz: Bz;
+    density: Density;
+    ['kp:27day']: Kp27day[];
+    ['kp:current']: KpCurrent;
+    ['kp:forecast']: KpForecast[];
+    ['nowcast:local']: Nowcast;
+    speed: Speed;
+}

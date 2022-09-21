@@ -93,7 +93,7 @@ export class ModalComponent implements OnInit {
    */
   loadOvations(pole: Pole): void {
     this._auroraService
-      .getOvations(pole)
+      .getOvations$(pole)
       .pipe(first())
       .subscribe((resp: Ovations[]) => {
         if (pole === Pole.NORTH) {

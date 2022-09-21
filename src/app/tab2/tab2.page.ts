@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { cities, CodeLocalisation, Coords } from '../models/cities';
 import { AuroraService } from '../aurora.service';
 import { NavController } from '@ionic/angular';
-import 'moment/locale/fr';
-import { Kp27day, KpForecast } from '../models/aurorav2';
+import { ACEModule, Kp27day, KpForecast } from '../models/aurorav2';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { ErrorTemplate } from '../shared/broken/broken.model';
 import { StorageService } from '../storage.service';
 
+// import 'moment/locale/fr';
 const API_CALL_NUMBER = 1; // nombre de fois où une API est appelé sur cette page
 
 @Component({
@@ -38,20 +38,17 @@ export class Tab2Page {
                 private _storageService: StorageService,
                 private _navCtrl: NavController, private _auroraService: AuroraService) {
     }
+
     ionViewWillEnter() {
         this.tabLoading = [];
-
         // Cheminement en fonction si la localisation est pré-set ou si géoloc
         this._storageService.getData('localisation').then(
             (codeLocation: CodeLocalisation) => {
                 if (!codeLocation) {
                     this._userLocalisation();
-                    // console.log('aa');
                 } else if (codeLocation.code === 'currentLocation' || codeLocation.code === 'marker') {
-                    // console.log('bb');
                     this._getExistingLocalisation(codeLocation.lat, codeLocation.long);
                 } else {
-                    // console.log('cc');
                     this._chooseExistingCity(codeLocation.code);
                 }
             },
@@ -122,12 +119,12 @@ export class Tab2Page {
      * Récupère les données ACE de vent solaire & nowcast
      * */
     private _getSolarWind(): void {
-        this._auroraService.auroraLiveV2(this.coords.latitude, this.coords.longitude).subscribe(
-            ACE => {
+        this._auroraService.auroraLiveV2$(this.coords.latitude, this.coords.longitude).subscribe(
+            (ace: ACEModule) => {
                 this.loading = false;
-                this.moduleACE = ACE;
-                this.kpForecast27days = ACE['kp:27day'];
-                this.kpForecast = ACE['kp:forecast'];
+                this.moduleACE = ace;
+                this.kpForecast27days = ace['kp:27day'];
+                this.kpForecast = ace['kp:forecast'];
                 this._trickLoading('1st');
             },
             error => {

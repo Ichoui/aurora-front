@@ -5,6 +5,7 @@ import { environment } from '../environments/environment';
 import { AuroraModules } from './models/aurorav2';
 import { ExcludeType, Unit, Weather } from './models/weather';
 import { Pole } from './shared/modal/modal.component';
+import { Geocoding } from './models/geocoding';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,7 @@ export class AuroraService {
    * get la v2 providé par aurora.live grâce au Space Weather Prediction Center
    * https://v2.api.auroras.live/images/embed/nowcast.png
    */
-  auroraLiveV2(lat?: number, long?: number): Observable<any> {
+  auroraLiveV2$(lat?: number, long?: number): Observable<any> {
     return this.http.post(`${environment.cors}/${environment.aurora_v2_api}`, {
       modules: [
         AuroraModules.kpcurrent,
@@ -59,7 +60,21 @@ export class AuroraService {
    * @pole {string} NORTH / SOUTH
    * Permet de récupérer les images de la planète qui tournante avec les aurores qui s'y déplacent
    */
-  getOvations(pole: Pole): Observable<any> {
+  getOvations$(pole: Pole): Observable<unknown> {
     return this.http.get(`${environment.cors}/https://services.swpc.noaa.gov/products/animations/ovation_${pole}_24h.json`);
+  }
+
+  /**
+   * @lat {number} latitude
+   * @lon {number} longitude
+   */
+
+  getGeocoding$(lat: number, lon: number): Observable<Geocoding[]> {
+    const params = {
+      appid: environment.apikey,
+      lat: lat.toString(),
+      lon: lon.toString()
+    };
+    return this.http.get<Geocoding[]>(`${environment.cors}/${environment.api_reverse_geocode}`, { params });
   }
 }

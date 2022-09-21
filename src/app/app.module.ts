@@ -27,7 +27,6 @@ import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver'
         IonicStorageModule.forRoot({
             name: '__dbAurora',
             driverOrder: [Drivers.IndexedDB, Drivers.LocalStorage, CordovaSQLiteDriver._driver],
-            // driverOrder: ['indexeddb', 'sqlite', 'websql'] // TODO check
         }),
         TranslateModule.forRoot({
             loader: {

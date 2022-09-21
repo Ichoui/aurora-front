@@ -7,7 +7,7 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Kp27day, KpForecast } from '../../models/aurorav2';
 import { BehaviorSubject } from 'rxjs';
 import * as moment from 'moment';
-import 'moment/locale/fr';
+// import 'moment/locale/fr';
 
 const numberMax27Forecast = 14;
 const numberMaxNextHours = 10;

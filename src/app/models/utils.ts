@@ -17,3 +17,7 @@ export class UtilsService {
     }
 }
 
+export function countryNameFromCode(code: string): string {
+    return code;
+}
+

@@ -36,7 +36,6 @@ const routes: Routes = [
     IonicStorageModule.forRoot({
       name: '__dbAurora',
       driverOrder: [Drivers.IndexedDB, Drivers.LocalStorage],
-      // driverOrder: ['indexeddb', 'sqlite', 'websql'], // TODO check
     }),
   ],
   declarations: [SettingsPage],
