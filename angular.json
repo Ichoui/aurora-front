@@ -34,7 +34,8 @@
             "allowedCommonJsDependencies": [
               "leaflet",
               "moment",
-              "lottie-web"
+              "lottie-web",
+              "localforage-cordovasqlitedriver"
             ],
             "scripts": [],
             "aot": false,

@@ -1,23 +1,17 @@
 {
   "name": "aurora-v2",
   "version": "0.0.1",
-  "author": "Morgan N",
+  "author": "Morgan N aka Ichoui",
+  "description": "Ex Aurora - Northern Light app, available on the Play Store only, for Aurora chasers",
   "scripts": {
     "build": "ionic build",
     "build:prod": "ionic build --prod",
     "info:ionic": "ionic info",
     "start": "ng serve -o",
-    "start:lab": "ionic serve --lab -o ",
-    "start:capacitor-android:": "ionic capacitor run android -l --host 0.0.0.0 --external",
-    "start:browser-cordova": "ionic cordova run browser -lc -o",
-    "start:android-cordova": "ionic cordova run android --livereload --ssl --port=9991",
-    "build:dev:capacitor": "ng build -c dev && npx cap copy",
-    "build:capacitor": "ng build --prod && npx cap copy",
-    "prepare:native": "gulp prepare:native",
-    "update:native": "cordova-res android --skip-config --copy && node script/resources-android.js",
-    "deploy:step1": "ionic cap sync",
+    "deploy:step1": "ionic build --prod",
     "deploy:step2": "npx cap add android",
-    "deploy:step3": "npx cap open android"
+    "deploy:step3": "ionic cap sync --watch --prod",
+    "deploy:step4": "npx cap open android"
   },
   "private": true,
   "dependencies": {
@@ -27,6 +21,7 @@
     "@angular/platform-browser": "^14.0.0",
     "@angular/platform-browser-dynamic": "^14.0.0",
     "@angular/router": "^14.0.0",
+    "@capacitor/android": "^4.2.0",
     "@capacitor/app": "4.0.1",
     "@capacitor/core": "4.0.1",
     "@capacitor/geolocation": "^4.0.1",
