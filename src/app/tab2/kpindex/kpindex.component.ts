@@ -19,7 +19,7 @@ export class KpindexComponent implements OnInit {
   bz: Nowcast;
   bt: Nowcast;
 
-  nowcastVal: {}; // paramètre pour translate module
+  nowcastVal: number
   AuroraEnumColours = AuroraEnumColours;
 
   @Input()
@@ -65,7 +65,7 @@ export class KpindexComponent implements OnInit {
       this.bz = ace.bt;
       this.bt = ace.bz;
       this.nowcast = ace['nowcast:local'];
-      this.nowcastVal = { value: this.nowcast.value };
+      this.nowcastVal = this.nowcast.value;
       void this._storageService.setData('nowcast', this.nowcast.value)
       void this._storageService.setData('current_kp', this.kpCurrent.value)
     })).subscribe();

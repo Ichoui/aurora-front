@@ -7,10 +7,11 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { ModalController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { ModalComponent } from '../../shared/modal/modal.component';
-// import { Browser } from '@capacitor/core'; // TODO
 import { Unit, units } from '../../models/weather';
 import { StorageService } from '../../storage.service';
 import { Geoposition } from '@ionic-native/geolocation';
+import { Browser } from '@capacitor/browser';
+
 
 @Component({
     selector: 'app-settings',
@@ -184,7 +185,7 @@ export class SettingsPage implements OnInit {
      * Demande à l'utilisateur d'ouvrir dans l'application au choix le lien
      **/
     openUrl(url: string): void {
-        // Browser.open({ url }); // TODO
+        void Browser.open({url})
     }
 
     // need backend

@@ -29,15 +29,16 @@
       "kpindex": "Kp Index",
       "density": " Densitée des particules (p/cc)",
       "speed": " Vent solaire (km/h)",
-      "probability": "Tu as {{value}}% de chances de voir<br/>une Aurore Boréale au dessus de toi",
-      "bz": "IMF - Bz",
-      "bt": "IMF - Bt"
+      "probability": "Probabilités depuis ta localisation <br>d'observer une Aurore Boréale",
+      "bz": "Bz",
+      "bt": "Bt"
     },
     "maps": {
       "worldmap": "Carte du monde",
-      "ovations": "Ovation Prime",
-      "ovation.north": "Ovation North",
-      "ovation.south": "Ovation South",
+      "poles": " Prévisions par pôles",
+      "pole.north": "Pôle Nord",
+      "pole.south": "Pôle Sud",
+      "poles.explanations": "Offre 30 à 90 minutes de prévisions pour une Aurore, ainsi que les dernières 24 heures. Modèle OVATION.",
       "nexthours.title": "Les prochaines heures",
       "nexthours.sub": "Kp maximum",
       "longterm.title": "Prévisions à long termes",
@@ -66,7 +67,7 @@
       "cgu": "Conditions Générales d'Utilisation",
       "languages": "Langues",
       "sublanguages": "Choisis ta langue préférée",
-      "infos": "Informations",
+      "infos": "Aurores boréales",
       "subinfos": "Explications techniques, mécanismes et annecdotes",
       "infos.text": "En savoir plus",
       "units": "Unité",
@@ -153,10 +154,14 @@
         }
       },
       "secondblock": {
-        "header": "Des prévisions ?",
+        "header": "Prévoir une Aurore ?",
         "forecast": {
           "title": "Comment peut-on prévoir ce phénomène ?",
-          "message": "Grâce à un satellite nommé ACE, qui a pour mission d'étudier les particules solaires.<br>Les données sont ensuite traitée par le &laquo; Space Weather Prediction Center &raquo; qui est un service météorologique situé aux Etats-Unis.<br>Grâce à de savants calculs autour des particules solaires, il est alors possible de prévoir les Aurores, notamment grâce à l'indice Kp."
+          "message": "Grâce à un satellite nommé ACE (Advanced Composition Explorer) appartenant à la NASA, qui a pour mission d'étudier les particules solaires.<br>Les données sont ensuite traitée par le &laquo; Space Weather Prediction Center &raquo; qui est un service météorologique situé aux Etats-Unis.<br>Grâce au croisement de plusieurs données (comme le Bz, le KP, la Densité des particules ou encore la vitesse du vent solaire), on peut alors prévoir leur visibilité."
+        },
+        "capricious": {
+          "title": "Les prévisions sont-elles précises ?",
+          "message": "Non.<br>Les données scientifiques ne peuvent garantir leur visibilité (sans même parler des nuages / pollution lumineuse). Le mieux reste toujours de sortir dehors vérifier qu'elles sont bien là. On parle beaucoup en probabilité quand on veut assister à ce phénomène."
         },
         "kp": {
           "title": "L'indice Kp",

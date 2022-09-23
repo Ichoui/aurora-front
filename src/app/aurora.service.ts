@@ -57,10 +57,12 @@ export class AuroraService {
   }
 
   /**
-   * @pole {string} NORTH / SOUTH
-   * Permet de récupérer les images de la planète qui tournante avec les aurores qui s'y déplacent
+   * @pole {string} NORTH / SOUTH*
+   * OVATION Model
+   * Images des poles nord/sud sur les dernières 24h et entre 30 et 90mn de prévisions
+   * Donnée : https://www.swpc.noaa.gov/products/aurora-30-minute-forecast
    */
-  getOvations$(pole: Pole): Observable<unknown> {
+  getPoles$(pole: Pole): Observable<unknown> {
     return this.http.get(`${environment.cors}/https://services.swpc.noaa.gov/products/animations/ovation_${pole}_24h.json`);
   }
 

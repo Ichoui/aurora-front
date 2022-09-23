@@ -3,21 +3,23 @@
 
     <div *ngIf="map" class="container-map">
         <div class="title">{{ titleMap }}</div>
-<!--        <pinch-zoom [zoomControlScale]="3" [backgroundColor]="'#2a2a2a'">-->
-            <ion-img src="{{ map }}"></ion-img>
-<!--        </pinch-zoom>-->
+        <!--        // TODO map pinch-->
+        <!--        <pinch-zoom [zoomControlScale]="3" [backgroundColor]="'#2a2a2a'">-->
+        <ion-img src="{{ map }}"></ion-img>
+        <!--        </pinch-zoom>-->
     </div>
-    <div *ngIf="ovation1" class="container-map">
-        <div class="title">{{ ovationTitle1 }}</div>
+    <div *ngIf="northPole" class="container-map">
+        <div class="title explanations">{{  'tab2.maps.poles.explanations' | translate }}</div>
+        <div class="title">{{ northPoleTitle }}</div>
         <ion-img src="{{ tabNorth[valueNorth] }}"></ion-img>
         <div class="datetime">{{ hourNorth }}{{ dateNorth }}</div>
-        <ion-range [min]="minNorth" [max]="maxNorth" color="primary" (ionChange)="valueOvationsChange($event, pole.NORTH)"></ion-range>
+        <ion-range [min]="minNorth" [max]="maxNorth - 1" color="primary" (ionChange)="valuePolesChange($event, pole.NORTH)"></ion-range>
     </div>
-    <div *ngIf="ovation2" class="container-map">
-        <div class="title">{{ ovationTitle2 }}</div>
+    <div *ngIf="southPole" class="container-map">
+        <div class="title">{{ southPoleTitle }}</div>
         <ion-img src="{{ tabSouth[valueSouth] }}"></ion-img>
         <div class="datetime">{{ hourSouth }}{{ dateSouth }}</div>
-        <ion-range [min]="minSouth" [max]="maxSouth" color="primary" (ionChange)="valueOvationsChange($event, pole.SOUTH)"></ion-range>
+        <ion-range [min]="minSouth" [max]="maxSouth - 1" color="primary" (ionChange)="valuePolesChange($event, pole.SOUTH)"></ion-range>
 
     </div>
 

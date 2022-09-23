@@ -8,6 +8,7 @@ import { BehaviorSubject } from 'rxjs';
 import { AnimationOptions } from 'ngx-lottie';
 import { ELocales } from '../../models/locales';
 import { StorageService } from '../../storage.service';
+import { WEATHER_NEXT_HOUR_CHART_COLOR } from '../../models/colors';
 
 // import 'moment/locale/fr';
 Chart.register(...registerables);
@@ -152,7 +153,7 @@ export class MeteoComponent implements OnInit {
             borderWidth: 2,
             pointBorderWidth: 3,
             pointHitRadius: 10,
-            pointHoverBackgroundColor: '#8cffea',
+            pointHoverBackgroundColor: WEATHER_NEXT_HOUR_CHART_COLOR,
           },
         ],
       },
@@ -163,7 +164,7 @@ export class MeteoComponent implements OnInit {
           legend: {display: false},
           datalabels: {
             align: 'end',
-            color: '#8cffea',
+            color: WEATHER_NEXT_HOUR_CHART_COLOR,
             font: {
               family: 'Oswald-SemiBold',
               size: 15,

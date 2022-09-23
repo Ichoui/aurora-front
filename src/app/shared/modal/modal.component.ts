@@ -3,7 +3,7 @@ import { ModalController } from '@ionic/angular';
 import { AuroraService } from '../../aurora.service';
 import { first } from 'rxjs/operators';
 
-export interface Ovations {
+export interface IPolesUrl {
   url: string;
 }
 export enum Pole {
@@ -22,11 +22,11 @@ export class ModalComponent implements OnInit {
   @Input() map: string;
   @Input() titleMap: string;
 
-  @Input() ovation1: string;
-  @Input() ovationTitle1: string;
+  @Input() northPole: string;
+  @Input() northPoleTitle: string;
 
-  @Input() ovation2: string;
-  @Input() ovationTitle2: string;
+  @Input() southPole: string;
+  @Input() southPoleTitle: string;
 
   @Input() cgu = false;
   @Input() canvasInput = false;
@@ -54,11 +54,11 @@ export class ModalComponent implements OnInit {
   constructor(private _modalController: ModalController, private _auroraService: AuroraService) {}
 
   ngOnInit() {
-    if (this.ovation1 && this.ovation2) {
-      this.loadOvations(Pole.NORTH);
-      this.loadOvations(Pole.SOUTH);
-      this.tabNorth.push(this.ovation1);
-      this.tabSouth.push(this.ovation2);
+    if (this.northPole && this.southPole) {
+      this.loadPoles(Pole.NORTH);
+      this.loadPoles(Pole.SOUTH);
+      this.tabNorth.push(this.northPole);
+      this.tabSouth.push(this.southPole);
     }
   }
 
@@ -72,8 +72,9 @@ export class ModalComponent implements OnInit {
    * Calcule lorsqu'on bouge l'item ion-range l'image à afficher en fonction de la valeur
    * Même chose pour le timing en dessous de l'image
    */
-  valueOvationsChange(e, pole: Pole): void {
+  valuePolesChange(e, pole: Pole): void {
     pole === Pole.NORTH ? (this.valueNorth = e.detail.value) : (this.valueSouth = e.detail.value);
+    console.log(this.datetimeNorth.length);
     if (this.datetimeNorth.length > 0 && pole === Pole.NORTH) {
       this.hourNorth = this.datetimeNorth[e.detail.value][0];
       this.dateNorth = this.datetimeNorth[e.detail.value][1];
@@ -88,14 +89,14 @@ export class ModalComponent implements OnInit {
 
   /**
    * @pole {Pole} north / south
-   * Récupére le service pour afficher ovation north / south
+   * Récupére le service pour afficher pole north / south
    * Découpe en segment l'url pour récupérer la date et l'heure avant formattage
    */
-  loadOvations(pole: Pole): void {
+  loadPoles(pole: Pole): void {
     this._auroraService
-      .getOvations$(pole)
+      .getPoles$(pole)
       .pipe(first())
-      .subscribe((resp: Ovations[]) => {
+      .subscribe((resp: IPolesUrl[]) => {
         if (pole === Pole.NORTH) {
           this.maxNorth = resp.length;
           this.tabNorth = [];
@@ -103,7 +104,7 @@ export class ModalComponent implements OnInit {
           this.tabNorth.forEach(e => {
             this.splitDatetime(e, pole);
           });
-          return;
+          this.tabNorth.reverse();
         }
         if (pole === Pole.SOUTH) {
           this.maxSouth = resp.length;
@@ -112,6 +113,7 @@ export class ModalComponent implements OnInit {
           this.tabSouth.forEach(e => {
             this.splitDatetime(e, pole);
           });
+          this.tabSouth.reverse();
           return;
         }
       });
@@ -120,7 +122,7 @@ export class ModalComponent implements OnInit {
   /**
    * @dateToSplit {string} url de type SWPC_URL_PREFIX + images/animations/ovation-south/ovation/images/swpc_aurora_map_s_20191205_2205.jpg
    * @pole {string} North / South
-   * Découpe l'url de chaque image contenu dans le callback de chaque ovations
+   * Découpe l'url de chaque image contenu dans le callback de chaque pole
    */
   splitDatetime(dateToSplit: string, pole?: Pole): void {
     const fullUrl = dateToSplit.split('/');

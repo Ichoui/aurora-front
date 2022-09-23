@@ -118,8 +118,8 @@ export class Tab1Page {
             map((res: Geocoding[]) => res[0]),
             tap({
                 next: (res: Geocoding) => {
-                    console.log(res);
                     this.city = `${res?.name}${res?.state ? ', ' + res.state : ''} -`;
+                    this.country = countryNameFromCode(res.country);
                     this.country = countryNameFromCode(res.country);
                     // TODO rajouter le state dans l'interface visible (pour rajouter notion genre québec/alberta/occitanie/michigan)
                     // TODO Rajouter également un country code en FR et EN, préférable en JSON pour charger plus vite et pas d'API
@@ -131,7 +131,7 @@ export class Tab1Page {
                     console.warn('Reverse geocode error ==> ', error);
                     this.loading = false;
                     this.dataError = new ErrorTemplate({
-                        value: true,
+                        value: false,
                         status: error.status,
                         message: error.statusText,
                         error,

@@ -29,15 +29,16 @@
       "kpindex": "Kp Index",
       "density": " Particles density (p/cc)",
       "speed": " Solar wind (km/h)",
-      "probability": "You currently have {{value}}% chance to observe Aurora Borealis",
-      "bz": "IMF - Bz",
-      "bt": "IMF - Bt"
+      "probability": "Probabilities from your location to observe the Auroras",
+      "bz": "Bz",
+      "bt": "Bt"
     },
     "maps": {
       "worldmap": "World map",
-      "ovations": "Ovation Prime",
-      "ovation.north": "Ovation North",
-      "ovation.south": "Ovation South",
+      "poles": "Poles forecast",
+      "pole.north": "North pole",
+      "pole.south": "South pole",
+      "poles.explanations": "Provide a 30 to 90 minutes forecast of the location and intensity of the Aurora, along with the last 24h forecast. OVATION model.",
       "nexthours.title": "Next hours forecast",
       "nexthours.sub": "Kp maximum",
       "longterm.title": "Long term forecast",
@@ -65,7 +66,7 @@
       "cgu": "Terms of Use",
       "languages": "Languages",
       "sublanguages": "Pick your favorite language",
-      "infos": "Informations",
+      "infos": "Auroras",
       "subinfos": "Technical explanations and anecdotes (French)",
       "infos.text": "Want to know more...",
       "units": "Unit",
@@ -83,7 +84,7 @@
         "message": "Auroras - Northern Lights has been designed for any user interested in the Northern Lights phenomenon.<br>Wheter you are living in a land far away, or you are a Aurora Hunter, this application will inform you about your chances to observe Northern Lights, thanks to data from the Space Weather Prediction Center.<br>Moreover, a weather part is integrated to the app, to optimize your research.<br>."
       },
       "firstblock": {
-        "header": "Aurora Borealis",
+        "header": "Aurora Borealis ?",
         "how": {
           "title": "How it works ?",
           "message": "Une Aurore Boréale est un phénomène naturel qui a pour origine le <b>Soleil</b>.<br>Elles apparaissent lorsque des <b>particules solaires</b>, propulsées par des vents solaires, entrent dans le champ magnétique terrestre. Elles se produisent à proximité des pôles magnétiques, dans la <b>zone aurorale<b> (située entre 65 et 75° de latitude), où elles interagissent avec les couches supérieures de l'atmosphère : ozone, oxygène, hydrogène et autres gaz. De l'énergie se créé alors et devient visible sous forme de lumières dansantes.<br>Ce phénomène se produit à une altitude de 100 km, au niveau de la ligne de Karman (ligne qui sépare l'atmosphère de l'espace), c'est à dire dans la Thermosphère (85 - 690 km).<br><br>Pour plus d'informations techniques et scientifiques, je vous propose les sites suivants :<ul><li><a href='https://tinyurl.com/y3ptbsab'>visitnorway.fr</a></li><li><a href='https://tinyurl.com/yxslqesx'>bastienfoucher.com</a></li></ul>"

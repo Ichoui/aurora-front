@@ -1,7 +1,8 @@
 <!-- Thanks to https://codepen.io/jh3y/pen/JKddVx -->
 
-<div class="nowcast ace-data">
-  <p [innerHTML]="'tab2.kp.probability' | translate: nowcastVal"></p>
+<div *ngIf="nowcastVal" class="nowcast ace-data">
+  <div>{{ nowcastVal }}%</div>
+  <p [innerHTML]="'tab2.kp.probability' | translate"></p>
 </div>
 
 <div class="kp ace-data">

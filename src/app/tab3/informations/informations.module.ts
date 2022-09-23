@@ -8,6 +8,7 @@ import { IonicModule } from '@ionic/angular';
 import { InformationsPage } from './informations.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { HeaderPageModule } from '../../shared/header/header.module';
+import { CardComponent } from './card/card.component';
 
 const routes: Routes = [
   {
@@ -18,6 +19,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [CommonModule, FormsModule, IonicModule, TranslateModule, RouterModule.forChild(routes), HeaderPageModule],
-  declarations: [InformationsPage],
+  declarations: [InformationsPage, CardComponent],
 })
 export class InformationsPageModule {}

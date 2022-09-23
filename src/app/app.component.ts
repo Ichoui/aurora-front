@@ -3,14 +3,12 @@ import { Component } from '@angular/core';
 import { Platform } from '@ionic/angular';
 // import { SplashScreen } from '@ionic-native/splash-screen';
 import { TranslateService } from '@ngx-translate/core';
-import { Plugins } from '@capacitor/core';
 import { Router } from '@angular/router';
 import { StorageService } from './storage.service';
 import { Unit } from './models/weather';
 import { ELocales } from './models/locales';
-
-// eslint-disable-next-line @typescript-eslint/naming-convention
-const {StatusBar} = Plugins;
+import { StatusBar } from '@capacitor/status-bar';
+import { STATUS_BAR_COLOR } from './models/colors';
 
 @Component({
     selector: 'app-root',
@@ -28,7 +26,7 @@ export class AppComponent {
 
     private _initializeApp() {
         if (this._platform.is('hybrid')) {
-            StatusBar.setBackgroundColor({color: '#69BFAF'});
+                void StatusBar.setBackgroundColor({color: STATUS_BAR_COLOR})
         }
         this._platform.ready().then(async () => {
             this._storageService.init().then(() => {
@@ -37,7 +35,7 @@ export class AppComponent {
 
             });
             this._translateService.addLangs(['fr', 'en']);
-            await this._router.navigate(['/tabs/tab2']);
+            await this._router.navigate(['/tabs/tab3']); // TODO pour charger la tab 3
 
             // this.getKp();
             // this.isNotifsActive();

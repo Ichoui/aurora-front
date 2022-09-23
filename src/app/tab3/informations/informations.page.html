@@ -1,123 +1,33 @@
 <app-header titre="{{ 'tab3.settings.infos' | translate }}"></app-header>
 
 <ion-content>
-  <div [routerLink]="['','tabs','tab3']" class="back">
-    <span>{{ 'global.back' | translate }}</span>
-    <span class="icon icon-back1"></span>
-  </div>
-  <ion-card class="welcome-card" (click)="visibility($event, 0)">
-    <ion-card-header>{{'tab3.infos.welcome.title' | translate }}</ion-card-header>
-    <ion-card-content class="dont-touch" [innerHtml]="'tab3.infos.welcome.message' | translate"></ion-card-content>
-  </ion-card>
-  <ion-card class="card-container">
-    <ion-card-header class="header">{{ 'tab3.infos.firstblock.header' | translate }}</ion-card-header>
-    <ion-card>
-      <ion-card-header (click)="visibility($event, 1)">
-        <ion-icon name="arrow-dropright"></ion-icon>
-        {{ 'tab3.infos.firstblock.how.title' | translate }}
-      </ion-card-header>
-      <ion-card-content>
-        <div [innerHTML]="'tab3.infos.firstblock.how.message' | translate"></div>
-      </ion-card-content>
+    <div [routerLink]="['','tabs','tab3']" class="back">
+        <span>{{ 'global.back' | translate }}</span>
+        <span class="icon icon-back1"></span>
+    </div>
+    <ion-card class="welcome-card" (click)="visibility($event, 0)">
+        <ion-card-header>{{'tab3.infos.welcome.title' | translate }}</ion-card-header>
+        <ion-card-content class="dont-touch" [innerHtml]="'tab3.infos.welcome.message' | translate"></ion-card-content>
     </ion-card>
-    <ion-card>
-      <ion-card-header (click)="visibility($event, 2)">
-        <ion-icon name="arrow-dropright"></ion-icon>
-        {{ 'tab3.infos.firstblock.solarwind.title' | translate }}
-      </ion-card-header>
-      <ion-card-content>
-        <div [innerHTML]="'tab3.infos.firstblock.solarwind.message' | translate"></div>
-      </ion-card-content>
+    <ion-card class="card-container">
+        <ion-card-header class="header">{{ 'tab3.infos.firstblock.header' | translate }}</ion-card-header>
+        <app-card (click)="visibility($event, 1)" [block]="'firstblock'" [value]="'how'"></app-card>
+        <app-card (click)="visibility($event, 2)" [block]="'firstblock'" [value]="'solarwind'"></app-card>
+        <app-card (click)="visibility($event, 3)" [block]="'firstblock'" [value]="'colors'"></app-card>
+        <app-card (click)="visibility($event, 4)" [block]="'firstblock'" [value]="'where'"></app-card>
+        <app-card (click)="visibility($event, 5)" [block]="'firstblock'" [value]="'corona'"></app-card>
+        <app-card (click)="visibility($event, 6)" [block]="'firstblock'" [value]="'steve'"></app-card>
+        <app-card (click)="visibility($event, 7)" [block]="'firstblock'" [value]="'legends'" [classList]="'countries'" [list]="['alaska','canada','sami','finlande','france']"
+                  [extra]="'conclusion'"></app-card>
+        <app-card (click)="visibility($event, 8)" [block]="'firstblock'" [value]="'annecdotes'" [classList]="'annecdotes'"
+                  [list]="['une','deux','trois','quatre','cinq', 'six', 'sept']"></app-card>
     </ion-card>
-    <ion-card>
-      <ion-card-header (click)="visibility($event, 3)">
-        <ion-icon name="arrow-dropright"></ion-icon>
-        {{ 'tab3.infos.firstblock.colors.title' | translate }}
-      </ion-card-header>
-      <ion-card-content>
-        <div [innerHTML]="'tab3.infos.firstblock.colors.message' | translate"></div>
-      </ion-card-content>
-    </ion-card>
-    <ion-card>
-      <ion-card-header (click)="visibility($event, 4)">
-        <ion-icon name="arrow-dropright"></ion-icon>
-        {{ 'tab3.infos.firstblock.where.title' | translate }}
-      </ion-card-header>
-      <ion-card-content>
-        <div [innerHTML]="'tab3.infos.firstblock.where.message' | translate"></div>
-      </ion-card-content>
-    </ion-card>
-    <ion-card>
-      <ion-card-header (click)="visibility($event, 5)">
-        <ion-icon name="arrow-dropright"></ion-icon>
-        {{ 'tab3.infos.firstblock.corona.title' | translate }}
-      </ion-card-header>
-      <ion-card-content>
-        <div [innerHTML]="'tab3.infos.firstblock.corona.message' | translate"></div>
-      </ion-card-content>
-    </ion-card>
-    <ion-card>
-      <ion-card-header (click)="visibility($event, 6)">
-        <ion-icon name="arrow-dropright"></ion-icon>
-        {{ 'tab3.infos.firstblock.steve.title' | translate }}
-      </ion-card-header>
-      <ion-card-content>
-        <div [innerHTML]="'tab3.infos.firstblock.steve.message' | translate"></div>
-      </ion-card-content>
-    </ion-card>
-    <ion-card>
-      <ion-card-header (click)="visibility($event, 7)">
-        <ion-icon name="arrow-dropright"></ion-icon>
-        {{ 'tab3.infos.firstblock.legends.title' | translate }}
-      </ion-card-header>
-      <ion-card-content>
-        {{ 'tab3.infos.firstblock.legends.message' | translate }}
-        <br />
-        <div class="countries"><span>{{ 'tab3.infos.firstblock.legends.alaska.list' | translate }}</span>{{ 'tab3.infos.firstblock.legends.alaska.message' | translate}}</div>
-        <div class="countries"><span>{{ 'tab3.infos.firstblock.legends.canada.list' | translate }}</span>{{ 'tab3.infos.firstblock.legends.canada.message' | translate}}</div>
-        <div class="countries"><span>{{ 'tab3.infos.firstblock.legends.sami.list' | translate }}</span>{{ 'tab3.infos.firstblock.legends.sami.message' | translate}}</div>
-        <div class="countries"><span>{{ 'tab3.infos.firstblock.legends.finlande.list' | translate }}</span>{{ 'tab3.infos.firstblock.legends.finlande.message' | translate}}</div>
-        <div class="countries"><span>{{ 'tab3.infos.firstblock.legends.france.list' | translate }}</span>{{ 'tab3.infos.firstblock.legends.france.message' | translate}}</div>
-        <br />
-        <div>{{ 'tab3.infos.firstblock.legends.conclusion' | translate }}</div>
-      </ion-card-content>
-    </ion-card>
-    <ion-card>
-      <ion-card-header (click)="visibility($event, 8)">
-        <ion-icon name="arrow-dropright"></ion-icon>
-        {{ 'tab3.infos.firstblock.annecdotes.title' | translate }}
-      </ion-card-header>
-      <ion-card-content>
-        <div class="annecdotes">{{ 'tab3.infos.firstblock.annecdotes.une' | translate }}</div>
-        <div class="annecdotes">{{ 'tab3.infos.firstblock.annecdotes.deux' | translate }}</div>
-        <div class="annecdotes">{{ 'tab3.infos.firstblock.annecdotes.trois' | translate }}</div>
-        <div class="annecdotes">{{ 'tab3.infos.firstblock.annecdotes.quatre' | translate }}</div>
-        <div class="annecdotes">{{ 'tab3.infos.firstblock.annecdotes.cinq' | translate }}</div>
-        <div class="annecdotes">{{ 'tab3.infos.firstblock.annecdotes.six' | translate }}</div>
-        <div class="annecdotes">{{ 'tab3.infos.firstblock.annecdotes.sept' | translate }}</div>
-      </ion-card-content>
-    </ion-card>
-  </ion-card>
 
-  <ion-card class="card-container">
-    <ion-card-header class="header">{{ 'tab3.infos.secondblock.header' | translate }}</ion-card-header>
-    <ion-card>
-      <ion-card-header (click)="visibility($event, 9)">
-        <ion-icon name="arrow-dropright"></ion-icon>
-        {{ 'tab3.infos.secondblock.forecast.title' | translate }}
-      </ion-card-header>
-      <ion-card-content>
-        <div [innerHTML]="'tab3.infos.secondblock.forecast.message' | translate"></div>
-      </ion-card-content>
+    <ion-card class="card-container">
+        <ion-card-header class="header">{{ 'tab3.infos.secondblock.header' | translate }}</ion-card-header>
+        <app-card (click)="visibility($event, 9)" [block]="'secondblock'" [value]="'forecast'"></app-card>
+        <app-card (click)="visibility($event, 10)" [block]="'secondblock'" [value]="'capricious'"></app-card>
+        <app-card (click)="visibility($event, 11)" [block]="'secondblock'" [value]="'kp'"></app-card>
+
     </ion-card>
-    <ion-card>
-      <ion-card-header (click)="visibility($event, 10)">
-        <ion-icon name="arrow-dropright"></ion-icon>
-        {{ 'tab3.infos.secondblock.kp.title' | translate }}
-      </ion-card-header>
-      <ion-card-content>
-        <div [innerHTML]="'tab3.infos.secondblock.kp.message' | translate"></div>
-      </ion-card-content>
-    </ion-card>
-  </ion-card>
 </ion-content>

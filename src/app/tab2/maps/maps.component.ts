@@ -58,14 +58,14 @@ export class MapsComponent implements OnInit {
         return await modal.present();
     }
 
-    async showOvations() {
+    async showPoles() {
         const modal = await this.modalController.create({
             component: ModalComponent,
             componentProps: {
-                ovation1: 'https://v2.api.auroras.live/images/ovation-north.jpg',
-                ovationTitle1: this.translateService.instant('tab2.maps.ovation.north'),
-                ovation2: 'https://v2.api.auroras.live/images/ovation-south.jpg',
-                ovationTitle2: this.translateService.instant('tab2.maps.ovation.south'),
+                northPole: 'https://v2.api.auroras.live/images/ovation-north.jpg',
+                northPoleTitle: this.translateService.instant('tab2.maps.pole.north'),
+                southPole: 'https://v2.api.auroras.live/images/ovation-south.jpg',
+                southPoleTitle: this.translateService.instant('tab2.maps.pole.south'),
             },
         });
         return await modal.present();

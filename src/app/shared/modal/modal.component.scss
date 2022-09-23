@@ -19,6 +19,12 @@ pinch-zoom {
   }
 
   .title {
+    &.explanations {
+      font-size: .85em;
+      margin: 0 30px;
+    font-family: var(--ion-font-semibold);
+    }
+
     margin-top: 20px;
     margin-bottom: 10px;
     font-family: var(--ion-font-semibold);
