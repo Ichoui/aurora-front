@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { cities, CodeLocalisation } from '../../models/cities';
-import { NavController } from '@ionic/angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { icon, LatLng, Map, marker, Marker, tileLayer, ZoomPanOptions } from 'leaflet';
 import { TranslateService } from '@ngx-translate/core';
@@ -27,7 +26,6 @@ export class LocationMapPage implements OnInit, OnDestroy {
         private _route: ActivatedRoute,
         private _router: Router,
         private _geoloc: Geolocation,
-        private _navController: NavController,
         private _translate: TranslateService,
         private _storageService: StorageService,
         private _auroraService: AuroraService
@@ -67,8 +65,6 @@ export class LocationMapPage implements OnInit, OnDestroy {
     selectedLoc(choice?: any, position?: LatLng): void {
         if (choice) {
             this.localisation = choice.detail.value;
-            // console.log(choice);
-            // console.log('localis', this.localisation);
             const city = cities.find(res => res.code === choice.detail.value);
             if (city) {
                 void this._storageService.setData('localisation', {
@@ -205,12 +201,8 @@ export class LocationMapPage implements OnInit, OnDestroy {
     private _createTooltip(infoWindow: string, lat?, long?): void {
         if (lat && long) {
             this._marker
-                .bindPopup(`<b>${infoWindow}</b> <br /> Lat: ${lat} <br/> Long: ${long}`)
+                .bindPopup(`<b>${infoWindow}</b> <br /> Lat: ${lat} <br/> Long: ${long}`, {closeOnClick: true})
                 .openPopup()
-                .on('click', async () => {
-                    // console.log('clic on tooltip');
-                    await this._router.navigate(['', 'tabs', 'tab1']);
-                });
         } else {
             this._marker.bindPopup(`<b>${infoWindow}</b><br /> ${this._translate.instant('tab3.map.another')} `).openPopup();
         }

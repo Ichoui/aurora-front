@@ -3,6 +3,18 @@
 <ion-content>
   <ion-card>
     <ion-card-content>
+      <ion-header>{{ 'tab3.settings.infos' | translate }}</ion-header>
+      <div class="sub">{{ 'tab3.settings.subinfos' | translate }}</div>
+      <ion-item [routerLink]="['..', 'infos']">
+        <span style="font-size: 0.9em;">
+          {{ 'tab3.settings.infos.text' | translate }}
+        </span>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-content>
       <div [routerLink]="['..', 'map']">
         <ion-header>{{ 'tab3.settings.location' | translate }}</ion-header>
         <div class="sub">{{ 'tab3.settings.sublocation' | translate }}</div>
@@ -26,17 +38,6 @@
           </ion-card-content>
       </ion-card>-->
   <!--    <ion-img src="/assets/img/aurora-tab3.jpg"></ion-img>-->
-  <ion-card>
-    <ion-card-content>
-      <ion-header>{{ 'tab3.settings.infos' | translate }}</ion-header>
-      <div class="sub">{{ 'tab3.settings.subinfos' | translate }}</div>
-      <ion-item [routerLink]="['..', 'infos']">
-        <span style="font-size: 0.9em;">
-          {{ 'tab3.settings.infos.text' | translate }}
-        </span>
-      </ion-item>
-    </ion-card-content>
-  </ion-card>
 
   <ion-card>
     <ion-card-content>
@@ -98,6 +99,9 @@
     </ion-fab-button>
     <ion-fab-button color="secondary" (click)="openUrl('https://github.com/Ichoui')">
       <ion-icon name="logo-github" color="dark"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button color="secondary" (click)="openUrl('https://gitlab.com/Ichoui')">
+      <ion-icon name="logo-gitlab" color="dark"></ion-icon>
     </ion-fab-button>
     <ion-fab-button color="secondary" (click)="openUrl('https://www.paypal.me/ichoui/1')">
       <span class="icon icon-paypal"></span>

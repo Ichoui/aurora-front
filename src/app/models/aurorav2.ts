@@ -1,3 +1,5 @@
+import { Unit } from './weather';
+
 export interface Aurora {
     modules: AuroraModules[];
     common: {
@@ -57,6 +59,7 @@ export interface Speed {
     date: Date;
     request_date: Date;
     minutes_to_eart: number;
+    unit?: Unit; // Ajouté à la main par nécessité pour mph ou km/h
 }
 
 export interface Density {

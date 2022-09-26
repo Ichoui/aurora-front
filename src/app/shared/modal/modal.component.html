@@ -1,5 +1,9 @@
 <ion-content>
-    <div (click)="close()" class="close"><span class="icon icon-close"></span></div>
+<!--    <div (click)="close()" class="close"><span class="icon icon-close"></span></div>-->
+    <div (cancel)="close()" class="back close">
+        <span>{{ 'global.back' | translate }}</span>
+        <span class="icon icon-back1"></span>
+    </div>
 
     <div *ngIf="map" class="container-map">
         <div class="title">{{ titleMap }}</div>

@@ -28,14 +28,14 @@
     "kp": {
       "kpindex": "Kp Index",
       "density": " Densitée des particules (p/cc)",
-      "speed": " Vent solaire (km/h)",
+      "speed": " Vent solaire {{val}}",
       "probability": "Probabilités depuis ta localisation <br>d'observer une Aurore Boréale",
       "bz": "Bz",
       "bt": "Bt"
     },
     "maps": {
       "worldmap": "Carte du monde",
-      "poles": " Prévisions par pôles",
+      "poles": " Prévisions par pôle",
       "pole.north": "Pôle Nord",
       "pole.south": "Pôle Sud",
       "poles.explanations": "Offre 30 à 90 minutes de prévisions pour une Aurore, ainsi que les dernières 24 heures. Modèle OVATION.",

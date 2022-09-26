@@ -51,9 +51,7 @@ export class Tab1Page {
         this._tabLoading = [];
 
         // Cheminement en fonction si la localisation est pré-set ou si géoloc
-        this._storageService.getData('unit').then((unit: Unit) => {
-            this.unit = unit;
-        });
+        this._storageService.getData('unit').then((unit: Unit) => this.unit = unit);
         this._storageService.getData('localisation').then(
             (codeLocation: CodeLocalisation) => {
                 if (!codeLocation) {

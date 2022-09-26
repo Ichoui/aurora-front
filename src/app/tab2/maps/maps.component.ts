@@ -4,7 +4,7 @@ import { ModalComponent } from '../../shared/modal/modal.component';
 import { TranslateService } from '@ngx-translate/core';
 import { Chart, registerables } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import { Kp27day, KpForecast } from '../../models/aurorav2';
+import { AuroraEnumColours, Kp27day, KpForecast } from '../../models/aurorav2';
 import { BehaviorSubject } from 'rxjs';
 import * as moment from 'moment';
 // import 'moment/locale/fr';
@@ -155,6 +155,11 @@ export class MapsComponent implements OnInit {
                 if (forecastValue.length < numberMax27Forecast && i % 2 === 0) {
                     forecastDate.push(moment(unit.date).format('DD/MM'));
                     forecastValue.push(unit.value);
+                    console.log(unit.value);
+
+                    if (unit.value >= 6) {
+                        unit.color = AuroraEnumColours.red
+                    }
                     forecastColors.push(this._colorSwitcher(unit.color));
                 }
                 i++;
