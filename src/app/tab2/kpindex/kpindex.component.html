@@ -4,8 +4,8 @@
         <div class="whirly-loader"></div>
     </div>
 </ng-template>
-<ng-container *ngIf="nowcastVal; else load">
-    <div *ngIf="nowcastVal" class="nowcast ace-data">
+<ng-container *ngIf="dataSolarWind; else load">
+    <div class="nowcast ace-data">
         <div>{{ nowcastVal }}%</div>
         <p [innerHTML]="'tab2.kp.probability' | translate"></p>
     </div>

@@ -6,6 +6,9 @@ import { ACEModule, Kp27day, KpForecast } from '../models/aurorav2';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { ErrorTemplate } from '../shared/broken/broken.model';
 import { StorageService } from '../storage.service';
+import { first, tap } from 'rxjs/operators';
+import { combineLatest } from 'rxjs';
+import { Unit } from '../models/weather';
 
 // import 'moment/locale/fr';
 const API_CALL_NUMBER = 1; // nombre de fois où une API est appelé sur cette page
@@ -28,11 +31,12 @@ export class Tab2Page {
     eventRefresh: any;
 
     // Data inputs
-    moduleACE: any = {} as any;
-    kpForecast: KpForecast[] = [] as any;
-    kpForecast27days: Kp27day[] = [] as any;
+    moduleACE: ACEModule;
+    kpForecast: KpForecast[] = [];
+    kpForecast27days: Kp27day[] = [];
 
     dataError = new ErrorTemplate(null);
+    unit: Unit;
 
     constructor(private _geoloc: Geolocation,
                 private _storageService: StorageService,
@@ -119,25 +123,25 @@ export class Tab2Page {
      * Récupère les données ACE de vent solaire & nowcast
      * */
     private _getSolarWind(): void {
-        this._auroraService.auroraLiveV2$(this.coords.latitude, this.coords.longitude).subscribe(
-            (ace: ACEModule) => {
-                this.loading = false;
-                this.moduleACE = ace;
-                this.kpForecast27days = ace['kp:27day'];
-                this.kpForecast = ace['kp:forecast'];
-                this._trickLoading('1st');
-            },
-            error => {
-                console.warn('Wind Solar data error', error);
-                this.loading = false;
-                this.dataError = new ErrorTemplate({
-                    value: true,
-                    status: error.status,
-                    message: error.statusText,
-                    error,
-                });
-            }
-        );
+        combineLatest([this._auroraService.auroraLiveV2$(this.coords.latitude, this.coords.longitude),this._storageService.getData('unit')]).pipe(
+            tap({ next: ([ace, unit]: [ACEModule, Unit]) => {
+                    this.loading = false;
+                    this.moduleACE = ace;
+                    this.kpForecast27days = ace['kp:27day'];
+                    this.kpForecast = ace['kp:forecast'];
+                    this._trickLoading('1st');
+                    this.unit = unit;
+                }, error: (error) => {
+                    console.warn('Wind Solar data error', error);
+                    this.loading = false;
+                    this.dataError = new ErrorTemplate({
+                        value: true,
+                        status: error.status,
+                        message: error.statusText,
+                        error,
+                    });
+                }})
+        ).subscribe()
     }
 
     /**

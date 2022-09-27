@@ -1,5 +1,6 @@
 import { HttpParams } from '@angular/common/http';
 import { Unit } from './weather';
+import { FORECAST_COLOR_GREEN, FORECAST_COLOR_ORANGE, FORECAST_COLOR_RED, FORECAST_COLOR_YELLOW } from './colors';
 
 /**
  * @param source objet typé qui doit être converti en HttpParams pour une requete API
@@ -31,3 +32,21 @@ export function convertUnit(nb: number, unit: Unit): number {
     }
 }
 
+export function colorSwitcher(c: 'green' | 'yellow' | 'orange' | 'red'): string {
+    let color;
+    switch (c) {
+        case 'green':
+            color = FORECAST_COLOR_GREEN;
+            break;
+        case 'yellow':
+            color = FORECAST_COLOR_YELLOW;
+            break;
+        case 'orange':
+            color = FORECAST_COLOR_ORANGE;
+            break;
+        case 'red':
+            color = FORECAST_COLOR_RED;
+            break;
+    }
+    return color;
+}

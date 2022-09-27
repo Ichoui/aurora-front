@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { BehaviorSubject, combineLatest, from, of } from 'rxjs';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { BehaviorSubject, combineLatest, from, Observable, of } from 'rxjs';
 import { ACEModule, AuroraEnumColours, Bt, Bz, Density, KpCurrent, Nowcast, Speed } from '../../models/aurorav2';
 import { StorageService } from '../../storage.service';
 import { first, pairwise, switchMap, tap } from 'rxjs/operators';
@@ -11,9 +11,7 @@ import { Unit } from '../../models/weather';
     templateUrl: './kpindex.component.html',
     styleUrls: ['./kpindex.component.scss'],
 })
-export class KpindexComponent implements OnInit {
-    dataModuleACE = new BehaviorSubject<any>(null);
-
+export class KpindexComponent implements OnInit, OnChanges {
     density: Density;
     kpCurrent: KpCurrent;
     speed: Speed;
@@ -24,33 +22,40 @@ export class KpindexComponent implements OnInit {
     nowcastVal: number;
     AuroraEnumColours = AuroraEnumColours;
 
-    @Input()
-    set moduleACEInput(value: any) {
-        this.dataModuleACE.next(value);
-    }
-
-    get moduleACEInput() {
-        return this.dataModuleACE.getValue();
-    }
+    @Input() unit: Unit;
+    @Input() dataSolarWind: ACEModule;
 
     constructor(private _storageService: StorageService) {
     }
 
     ngOnInit() {
-        this.auroraBackground();
+        this._auroraBackground();
         this.solarWindData();
-        from(this._storageService.getData('unit')).pipe(pairwise(), tap(([prev, curr]) => {
-            console.log(prev);
-            console.log(curr);
-        })).subscribe(console.log);
+    }
 
+    ngOnChanges(changes: SimpleChanges) {
+        if (!changes?.unit?.firstChange && changes?.unit?.currentValue !== changes?.unit?.previousValue) {
+            this.speed = {...this.speed, value: convertUnit(this.speed.value, this.unit), unit: this.unit};
+        }
+        if (changes?.dataSolarWind) {
+            const dataSolarWind = changes.dataSolarWind.currentValue;
+            this.density = dataSolarWind.density;
+            this.kpCurrent = dataSolarWind['kp:current'];
+            this.speed = {...dataSolarWind.speed, value: convertUnit(dataSolarWind.speed.value, this.unit), unit: this.unit};
+            this.bz = dataSolarWind.bz;
+            this.bt = dataSolarWind.bt;
+            this.nowcast = dataSolarWind['nowcast:local'];
+            this.nowcastVal = this.nowcast.value;
+            void this._storageService.setData('nowcast', this.nowcast.value);
+            void this._storageService.setData('current_kp', this.kpCurrent.value);
+        }
     }
 
 
     /**
      * Fait scintiller les étoiles en background
      * */
-    auroraBackground(): void {
+    private _auroraBackground(): void {
         const reset = function (e) {
             e.target.className = 'star';
             setTimeout(function () {
@@ -67,18 +72,6 @@ export class KpindexComponent implements OnInit {
      * Observable permettant de récupérer les données des vents solaires
      * */
     solarWindData(): void {
-        combineLatest([this.dataModuleACE, this._storageService.getData('unit')]).pipe(first(), tap(([ace, unit]: [ACEModule, Unit]) => {
-            console.log(ace);
-            console.log(unit);
-            this.density = ace.density;
-            this.kpCurrent = ace['kp:current'];
-            this.speed = {...ace.speed, value: convertUnit(ace.speed.value, unit), unit};
-            this.bz = ace.bz;
-            this.bt = ace.bt;
-            this.nowcast = ace['nowcast:local'];
-            this.nowcastVal = this.nowcast.value;
-            void this._storageService.setData('nowcast', this.nowcast.value);
-            void this._storageService.setData('current_kp', this.kpCurrent.value);
-        })).subscribe();
+
     }
 }
