@@ -39,21 +39,21 @@ ion-header {
     .minicons {
       position: absolute;
       bottom: 10px;
-      left: 34vh;
-      font-size: 2em;
+      left: 70%;
+      font-size: 25px;
     }
 
     .temperature {
-      font-size: 3.5em;
+      font-size: 55px;
       sup {
-        top: -0.8em !important;
-        font-size: 50% !important;
+        top: -20px !important;
+        font-size: 25px !important;
       }
     }
     &.feels {
       display: flex;
       flex-direction: column;
-      font-size: 0.8em;
+      font-size: 15px;
       .tiret {
         color: var(--ion-color-primary);
       }
@@ -66,7 +66,7 @@ ion-header {
 
 .date {
   font-family: var(--ion-font-semibold);
-  font-size: 0.8em;
+  font-size: 12px;
   text-transform: capitalize;
   text-align: center;
 }

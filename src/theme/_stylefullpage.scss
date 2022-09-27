@@ -2,6 +2,10 @@
   padding-bottom: 30px;
 }
 
+ion-header {
+  font-size: 13px;
+}
+
 ion-text {
   font-family: var(--ion-font-semibold);
 }
@@ -14,13 +18,13 @@ ion-content {
 }
 
 app-kpindex {
-  min-height: 80vh !important;
+  //min-height: 80vh !important;
 }
 
 app-kpindex,
 app-maps {
   width: 100%;
-  margin-top: 20px;
+  margin-top: 5px;
   overflow: hidden;
 }
 

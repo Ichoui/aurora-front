@@ -23,7 +23,6 @@ export class Tab2Page {
     tabLoading: string[] = [];
 
     localisation: string;
-    // getCode: string;
     coords: Coords;
     city: string;
     country: string;
