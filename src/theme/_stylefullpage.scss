@@ -18,12 +18,12 @@ ion-content {
 }
 
 app-kpindex {
-  //min-height: 80vh !important;
+  min-height: 80vh !important;
 }
 
 app-kpindex,
 app-maps {
-  width: 100%;
+  //width: 100%;
   margin-top: 5px;
   overflow: hidden;
 }
