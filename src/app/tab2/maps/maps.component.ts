@@ -42,25 +42,22 @@ export class MapsComponent implements OnChanges {
         }
     }
 
-    async showMap() {
+    async showMap(): Promise<void> {
         const modal = await this.modalController.create({
             component: ModalComponent,
             componentProps: {
                 map: 'https://v2.api.auroras.live/images/embed/nowcast.png',
-                titleMap: this.translateService.instant('tab2.maps.worldmap'),
             },
         });
         return await modal.present();
     }
 
-    async showPoles() {
+    async showPoles(): Promise<void> {
         const modal = await this.modalController.create({
             component: ModalComponent,
             componentProps: {
                 northPole: 'https://v2.api.auroras.live/images/ovation-north.jpg',
-                northPoleTitle: this.translateService.instant('tab2.maps.pole.north'),
                 southPole: 'https://v2.api.auroras.live/images/ovation-south.jpg',
-                southPoleTitle: this.translateService.instant('tab2.maps.pole.south'),
             },
         });
         return await modal.present();

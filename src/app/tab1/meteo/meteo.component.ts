@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Coords } from '../../models/cities';
 import * as moment from 'moment';
 import { Cloudy, Currently, Daily, DailyTemp, Hourly, IconsOWM, LottiesValues, Unit } from '../../models/weather';
@@ -18,7 +18,7 @@ Chart.register(...registerables);
   templateUrl: './meteo.component.html',
   styleUrls: ['./meteo.component.scss'],
 })
-export class MeteoComponent implements OnInit {
+export class MeteoComponent implements OnInit, OnChanges {
   @Input() coords: Coords;
 
   @Input()
@@ -80,42 +80,47 @@ export class MeteoComponent implements OnInit {
   private _locale: string;
   private _englishFormat = false; // h, hh : 12 && H,HH : 24
 
-  constructor(private _storageService: StorageService) {}
+  constructor(private _storageService: StorageService) {
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes);
+  }
 
   ngOnInit() {
     this._storageService.getData('locale').then((locale: ELocales) => {
       this._locale = locale;
       if (locale === ELocales.EN) { this._englishFormat = true; }
-      this.todayForecast();
-      this.nextHoursForecast();
-      this.sevenDayForecast();
+      this._todayForecast();
+      this._nextHoursForecast();
+      this._sevenDayForecast();
     });
 
     // Convert seconds to hours
     this.utc = this.utc / 60 / 60;
   }
 
-  todayForecast() {
+  private _todayForecast() {
     this.currentWeather$.pipe().subscribe((res: Currently) => {
       this.currentWeather = res;
-      this.sunset = this.manageDates(res.sunset, this._englishFormat ? 'h:mm A' : 'H:mm');
-      this.sunrise = this.manageDates(res.sunrise, this._englishFormat ? 'h:mm A' : 'H:mm');
-      this._lotties(this.calculateWeaterIcons(res));
-      this.actualDate = this.manageDates(moment().unix(), this._englishFormat ? 'dddd Do of MMMM, hh:mm:ss' : 'dddd DD MMMM, HH:mm:ss');
+      this.sunset = this._manageDates(res.sunset, this._englishFormat ? 'h:mm A' : 'H:mm');
+      this.sunrise = this._manageDates(res.sunrise, this._englishFormat ? 'h:mm A' : 'H:mm');
+      this._lotties(this._calculateWeaterIcons(res));
+      this.actualDate = this._manageDates(moment().unix(), this._englishFormat ? 'dddd Do of MMMM, hh:mm:ss' : 'dddd DD MMMM, HH:mm:ss');
     });
   }
 
-  nextHoursForecast() {
+  private _nextHoursForecast() {
     this.hourlyWeather$.pipe().subscribe((res: Hourly[]) => {
       this.cloudy = [];
       res.forEach((hours: Hourly, i) => {
         if (this._temps.length < this.dataNumberInCharts && i % 2 === 0) {
           this._temps.push(Math.round(hours.temp));
-          this._nextHours.push(this.manageDates(hours.dt, this._englishFormat ? 'hh A' : 'HH:mm'));
+          this._nextHours.push(this._manageDates(hours.dt, this._englishFormat ? 'hh A' : 'HH:mm'));
         }
         const cloudy: Cloudy = {
           percent: hours.clouds,
-          time: this.manageDates(hours.dt, this._englishFormat ? 'hhA' : 'HH:mm'),
+          time: this._manageDates(hours.dt, this._englishFormat ? 'hhA' : 'HH:mm'),
         };
         if (this.cloudy.length < this.dataNumberInCharts) {
           this.cloudy.push(cloudy);
@@ -202,14 +207,14 @@ export class MeteoComponent implements OnInit {
     });
   }
 
-  sevenDayForecast() {
+  private _sevenDayForecast() {
     this.sevenDayWeather$.pipe().subscribe((res: Daily[]) => {
       this.days = [];
       res.forEach((day: Daily, index) => {
         if (index === 0) {
           this.todayTemp = day.temp;
         } else {
-          day.date = this.manageDates(day.dt, 'ddd');
+          day.date = this._manageDates(day.dt, 'ddd');
           this.days.push(day);
         }
       });
@@ -222,7 +227,7 @@ export class MeteoComponent implements OnInit {
    * @param format {string} Permet de choisir le formatage de la date. (ex: YYYY MM DD)
    * .utc() pour gérer l'heure au format UTC et Input() Offset pour ajouter/soustraires les heures
    * */
-  manageDates(date: number, format?: string): string | moment.Moment {
+  private _manageDates(date: number, format?: string): string | moment.Moment {
     let unixToLocal;
     unixToLocal = moment.unix(date).utc().add(this.utc, 'h').locale(this._locale);
     // if (this.language === 'fr') {
@@ -237,16 +242,16 @@ export class MeteoComponent implements OnInit {
    * Permet de calculer le lottie à afficher. Comporte des cas regroupés ou cas particulier
    * https://openweathermap.org/weather-conditions#Weather-Condition-Codes-2
    * */
-  calculateWeaterIcons(currentWeather: Currently): LottiesValues {
+  private _calculateWeaterIcons(currentWeather: Currently): LottiesValues {
     const mainIcon = currentWeather.weather[0].main;
     const idIcon = currentWeather.weather[0].id;
     const icon = currentWeather.weather[0].icon;
 
-    let daytime,
+    let journey,
       night = false;
 
     if (icon.slice(-1) === 'd') {
-      daytime = true;
+      journey = true;
     } else if (icon.slice(-1) === 'n') {
       night = true;
     }
@@ -254,13 +259,16 @@ export class MeteoComponent implements OnInit {
     switch (mainIcon) {
       case IconsOWM.DRIZZLE:
       case IconsOWM.RAIN:
+        if (night) {
+          return LottiesValues.RAIN_NIGHT
+        }
         return LottiesValues.RAIN;
 
       case IconsOWM.CLEAR:
         if (currentWeather.wind_speed >= 50) {
           return LottiesValues.WIND;
         } else {
-          if (daytime) {
+          if (journey) {
             return LottiesValues.CLEAR_DAY;
           }
 
@@ -274,7 +282,7 @@ export class MeteoComponent implements OnInit {
         if (idIcon === 804) {
           return LottiesValues.VERY_CLOUDY;
         }
-        if (daytime) {
+        if (journey) {
           if (idIcon === 803) {
             return LottiesValues.PARTLY_CLOUDY_DAY;
           } else {
@@ -297,7 +305,7 @@ export class MeteoComponent implements OnInit {
         return LottiesValues.SNOW;
 
       default:
-        if (daytime) {
+        if (journey) {
           return LottiesValues.CLEAR_DAY;
         }
         if (night) {

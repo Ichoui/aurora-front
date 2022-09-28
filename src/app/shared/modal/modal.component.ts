@@ -20,13 +20,10 @@ export const SWPC_URL_PREFIX = 'https://services.swpc.noaa.gov/';
 })
 export class ModalComponent implements OnInit {
   @Input() map: string;
-  @Input() titleMap: string;
 
   @Input() northPole: string;
-  @Input() northPoleTitle: string;
 
   @Input() southPole: string;
-  @Input() southPoleTitle: string;
 
   @Input() cgu = false;
   @Input() canvasInput = false;
@@ -62,8 +59,8 @@ export class ModalComponent implements OnInit {
     }
   }
 
-  async close(): Promise<void> {
-    await this._modalController.dismiss();
+  close(): void {
+    void this._modalController.dismiss(null, 'cancel');
   }
 
   /**

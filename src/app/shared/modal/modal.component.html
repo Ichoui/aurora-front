@@ -1,26 +1,33 @@
 <ion-content>
-<!--    <div (click)="close()" class="close"><span class="icon icon-close"></span></div>-->
-    <div (cancel)="close()" class="back close">
-        <span>{{ 'global.back' | translate }}</span>
-        <span class="icon icon-back1"></span>
-    </div>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button (click)="close()" class="back close">
+                <span class="icon icon-back1"></span>
+            </ion-button>
+        </ion-buttons>
+        <ion-title>
+            <span *ngIf="cgu">{{ 'cgu.title' | translate}}</span>
+            <span *ngIf="map">{{ 'tab2.maps.worldmap' | translate}}</span>
+            <span *ngIf="northPole && southPole">{{ 'tab2.maps.poles' | translate}}</span>
+        </ion-title>
+    </ion-toolbar>
+
 
     <div *ngIf="map" class="container-map">
-        <div class="title">{{ titleMap }}</div>
         <!--        // TODO map pinch-->
         <!--        <pinch-zoom [zoomControlScale]="3" [backgroundColor]="'#2a2a2a'">-->
         <ion-img src="{{ map }}"></ion-img>
         <!--        </pinch-zoom>-->
     </div>
     <div *ngIf="northPole" class="container-map">
-        <div class="title explanations">{{  'tab2.maps.poles.explanations' | translate }}</div>
-        <div class="title">{{ northPoleTitle }}</div>
+        <div class="subtitle explanations">{{  'tab2.maps.poles.explanations' | translate }}</div>
+        <div class="subtitle">{{  'tab2.maps.pole.north' | translate }}</div>
         <ion-img src="{{ tabNorth[valueNorth] }}"></ion-img>
         <div class="datetime">{{ hourNorth }}{{ dateNorth }}</div>
         <ion-range [min]="minNorth" [max]="maxNorth - 1" color="primary" (ionChange)="valuePolesChange($event, pole.NORTH)"></ion-range>
     </div>
     <div *ngIf="southPole" class="container-map">
-        <div class="title">{{ southPoleTitle }}</div>
+        <div class="subtitle">{{  'tab2.maps.pole.south' | translate }}</div>
         <ion-img src="{{ tabSouth[valueSouth] }}"></ion-img>
         <div class="datetime">{{ hourSouth }}{{ dateSouth }}</div>
         <ion-range [min]="minSouth" [max]="maxSouth - 1" color="primary" (ionChange)="valuePolesChange($event, pole.SOUTH)"></ion-range>
@@ -28,7 +35,6 @@
     </div>
 
     <div *ngIf="cgu" id="cgu">
-        <div [innerHTML]="'cgu.title' | translate" class="title"></div>
         <div class="cgu-block">
             <div [innerHTML]="'cgu.art1.title' | translate" class="art-title"></div>
             <div [innerHTML]="'cgu.art1.text' | translate" class="art-msg"></div>

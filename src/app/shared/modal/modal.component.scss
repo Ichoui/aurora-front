@@ -1,16 +1,11 @@
-.close {
-  margin: 10px;
-
-  .icon-close {
-    border: 1px solid var(--ion-color-tertiary);
-    padding: 5px;
-    color: var(--ion-color-tertiary);
-    border-radius: 5px;
-  }
-}
-
 pinch-zoom {
   margin-top: 40px;
+}
+ion-title {
+  font-size: 1em;
+  text-align: center;
+    font-family: var(--ion-font-semibold);
+  text-transform: uppercase;
 }
 
 .container-map {
@@ -18,10 +13,10 @@ pinch-zoom {
     margin-top: 30px;
   }
 
-  .title {
+  .subtitle {
     &.explanations {
-      font-size: .85em;
-      margin: 0 30px;
+    font-size: .85em;
+    margin: 0 30px;
     font-family: var(--ion-font-semibold);
     }
 

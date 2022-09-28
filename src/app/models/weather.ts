@@ -134,6 +134,7 @@ export enum LottiesValues {
   CLOUDY_DAY = 'cloudy-day',
   PARTLY_CLOUDY_NIGHT = 'partly-cloudy-night',
   CLOUDY_NIGHT = 'cloudy-night',
+  RAIN_NIGHT = 'rainly-night'
 }
 
 export enum ExcludeType {
