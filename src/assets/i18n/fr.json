@@ -14,8 +14,8 @@
       "details": "Plus de détails",
       "feelslike": "Ressenti",
       "details.data": {
-        "sunrise": "Lever du soleil",
-        "sunset": "Coucher du soleil",
+        "sunrise": "Lever de soleil",
+        "sunset": "Coucher de soleil",
         "windspeed": "Vitesse du vent",
         "humidity": "Humidité",
         "winddeg": "Rose des vents",

@@ -20,49 +20,18 @@ Chart.register(...registerables);
 })
 export class MeteoComponent implements OnInit, OnChanges {
   @Input() coords: Coords;
-
-  @Input()
-  set currentWeatherInput(value: Currently) {
-    this.currentWeather$.next(value);
-  }
-
-  get currentWeatherInput(): Currently {
-    return this.currentWeather$.getValue();
-  }
-
-  @Input()
-  set hourlyWeatherInput(value: Hourly[]) {
-    this.hourlyWeather$.next(value);
-  }
-
-  get hourlyWeatherInput(): Hourly[] {
-    return this.hourlyWeather$.getValue();
-  }
-
-  @Input()
-  set sevenDayWeatherInput(value: Daily[]) {
-    this.sevenDayWeather$.next(value);
-  }
-
-  get sevenDayWeatherInput() {
-    return this.sevenDayWeather$.getValue();
-  }
+  @Input() currentWeather:Currently
+  @Input() hourlyWeather: Hourly[]
+  @Input() sevenDayWeather: Daily[]
 
   @Input() utc: number;
   @Input() unit: Unit;
-
-  // Observable
-  currentWeather$ = new BehaviorSubject<Currently>(null);
-  hourlyWeather$ = new BehaviorSubject<Hourly[]>(null);
-  sevenDayWeather$ = new BehaviorSubject<Daily[]>(null);
-
-  // Var reflettant observables
-  currentWeather: Currently;
-
+  //
   sunset: string | moment.Moment;
   sunrise: string | moment.Moment;
-  actualDate: string | moment.Moment;
+  currentDatetime: string | moment.Moment;
   Unit = Unit;
+  private _nextHoursChart: Chart;
 
   dataNumberInCharts = 8;
   private _temps: number[] = [];
@@ -84,7 +53,13 @@ export class MeteoComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
+    // Convert seconds to hours
+    if (!changes?.currentWeather.firstChange && !changes?.hourlyWeather.firstChange && !changes?.sevenDayWeather.firstChange) {
+      this._nextHoursChart.destroy();
+      this._todayForecast();
+      this._nextHoursForecast();
+      this._sevenDayForecast();
+    }
   }
 
   ngOnInit() {
@@ -101,19 +76,15 @@ export class MeteoComponent implements OnInit, OnChanges {
   }
 
   private _todayForecast() {
-    this.currentWeather$.pipe().subscribe((res: Currently) => {
-      this.currentWeather = res;
-      this.sunset = this._manageDates(res.sunset, this._englishFormat ? 'h:mm A' : 'H:mm');
-      this.sunrise = this._manageDates(res.sunrise, this._englishFormat ? 'h:mm A' : 'H:mm');
-      this._lotties(this._calculateWeaterIcons(res));
-      this.actualDate = this._manageDates(moment().unix(), this._englishFormat ? 'dddd Do of MMMM, hh:mm:ss' : 'dddd DD MMMM, HH:mm:ss');
-    });
+    this.sunset = this._manageDates(this.currentWeather.sunset, this._englishFormat ? 'h:mm A' : 'H:mm');
+      this.sunrise = this._manageDates(this.currentWeather.sunrise, this._englishFormat ? 'h:mm A' : 'H:mm');
+      this._lotties(this._calculateWeaterIcons(this.currentWeather));
+      this.currentDatetime = this._manageDates(moment().unix(), this._englishFormat ? 'dddd Do of MMMM, hh:mm:ss' : 'dddd DD MMMM, HH:mm:ss');
   }
 
   private _nextHoursForecast() {
-    this.hourlyWeather$.pipe().subscribe((res: Hourly[]) => {
       this.cloudy = [];
-      res.forEach((hours: Hourly, i) => {
+      this.hourlyWeather.forEach((hours: Hourly, i) => {
         if (this._temps.length < this.dataNumberInCharts && i % 2 === 0) {
           this._temps.push(Math.round(hours.temp));
           this._nextHours.push(this._manageDates(hours.dt, this._englishFormat ? 'hh A' : 'HH:mm'));
@@ -126,8 +97,7 @@ export class MeteoComponent implements OnInit, OnChanges {
           this.cloudy.push(cloudy);
         }
       });
-    });
-    new Chart('next-hours', {
+    this._nextHoursChart = new Chart('next-hours', {
       type: 'line',
       plugins: [ChartDataLabels],
       data: {
@@ -208,9 +178,8 @@ export class MeteoComponent implements OnInit, OnChanges {
   }
 
   private _sevenDayForecast() {
-    this.sevenDayWeather$.pipe().subscribe((res: Daily[]) => {
       this.days = [];
-      res.forEach((day: Daily, index) => {
+      this.sevenDayWeather.forEach((day: Daily, index) => {
         if (index === 0) {
           this.todayTemp = day.temp;
         } else {
@@ -218,7 +187,6 @@ export class MeteoComponent implements OnInit, OnChanges {
           this.days.push(day);
         }
       });
-    });
   }
 
   /**

@@ -1,6 +1,6 @@
 <div class="container">
-  <div class="date">{{ actualDate }}</div>
-  <div class="today" *ngIf="currentWeather$ | async as currentWeather">
+  <div class="date">{{ currentDatetime }}</div>
+  <div class="today" *ngIf="currentWeather">
     <div class="row">
       <ng-lottie *ngIf="lottieConfig" [options]="lottieConfig" [width]="widthCurrent + 'px'" [height]="heightCurrent + 'px'"> </ng-lottie>
       <div class="temperature">{{ currentWeather.temp | number: '1.0-0' }}<sup *ngIf="unit === Unit.METRIC ">°C</sup><sup *ngIf="unit === Unit.IMPERIAL ">°F</sup><sup *ngIf="unit === Unit.KELVIN">K</sup></div>
@@ -19,7 +19,7 @@
     <div class="next-hours">
       <canvas id="next-hours"></canvas>
       <div class="next-more-info">
-        <ng-container *ngFor="let hourly of hourlyWeather$ | async; index as i">
+        <ng-container *ngFor="let hourly of hourlyWeather; index as i">
           <div *ngIf="i < dataNumberInCharts" class="next-content">
             <img src="assets/img/meteoOWM/{{ hourly.weather[0].icon }}@2x.png" alt="{{ hourly.weather[0].description }}" />
             <div class="rain">
@@ -67,7 +67,7 @@
     </div>
   </ion-card>
 
-  <ion-card *ngIf="currentWeather$ | async as currentWeather">
+  <ion-card *ngIf="currentWeather">
     <ion-header>{{ 'tab1.weather.details' | translate }}</ion-header>
     <div class="data-details">
       <div class="sun">

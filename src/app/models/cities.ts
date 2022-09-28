@@ -16,7 +16,7 @@ export interface Coords {
     speed?: number | null;
 }
 
-export interface CodeLocalisation {
+export interface CodeLocation {
     code?: string;
     lat?: number;
     long?: number;

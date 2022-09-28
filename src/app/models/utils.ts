@@ -32,6 +32,9 @@ export function convertUnit(nb: number, unit: Unit): number {
     }
 }
 
+export function roundTwoNumbers(nb: number): number {
+    return Math.round((nb)*100)/100;
+}
 export function colorSwitcher(c: 'green' | 'yellow' | 'orange' | 'red'): string {
     let color;
     switch (c) {

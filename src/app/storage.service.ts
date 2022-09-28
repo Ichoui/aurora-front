@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, combineLatest } from 'rxjs';
+import { Currently, Daily, Hourly } from './models/weather';
+import { CodeLocation } from './models/cities';
+import { roundTwoNumbers } from './models/utils';
 
 @Injectable({
     providedIn: 'root'
@@ -18,7 +21,7 @@ export class StorageService {
         this._storageReady.next(true)
     }
 
-    setData(storageKey: string, key: string | number | Record<string, string | number>): Promise<unknown> {
+    setData(storageKey: string, key: unknown): Promise<unknown> {
         return this._storage.set(storageKey, key);
     }
 

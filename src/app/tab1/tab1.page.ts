@@ -2,14 +2,15 @@ import { Component } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NavController, Platform } from '@ionic/angular';
 import { AuroraService } from '../aurora.service';
-import { cities, CodeLocalisation, Coords } from '../models/cities';
+import { cities, CodeLocation, Coords } from '../models/cities';
 import { Currently, Daily, Hourly, Unit, Weather } from '../models/weather';
 import { ErrorTemplate } from '../shared/broken/broken.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { StorageService } from '../storage.service';
 import { map, tap } from 'rxjs/operators';
 import { Geocoding } from '../models/geocoding';
-import { countryNameFromCode } from '../models/utils';
+import { countryNameFromCode, roundTwoNumbers } from '../models/utils';
+import { combineLatest } from 'rxjs';
 
 const API_CALL_NUMBER = 1; // nombre de fois où une API est appelé sur cette page
 
@@ -51,30 +52,57 @@ export class Tab1Page {
         this._tabLoading = [];
 
         // Cheminement en fonction si la localisation est pré-set ou si géoloc
-        this._storageService.getData('unit').then((unit: Unit) => this.unit = unit);
-        this._storageService.getData('localisation').then(
-            (codeLocation: CodeLocalisation) => {
-                if (!codeLocation) {
-                    this._userLocalisation();
-                    // console.log('aa');
-                } else if (codeLocation.code === 'currentLocation' || codeLocation.code === 'marker') {
-                    // console.log('bb');
-                    this._reverseGeoloc(codeLocation.lat, codeLocation.long);
-                } else {
-                    // console.log('cc');
-                    this.chooseExistingCity(codeLocation.code);
+
+        combineLatest([this._storageService.getData('location'),
+            this._storageService.getData('previousLocation'),
+            this._storageService.getData('unit'),
+            this._storageService.getData('weather')])
+            .pipe(
+            tap({
+                next: ([location, previousLocation, unit, weather]: [CodeLocation, {lat: number, long: number}, Unit, unknown]) => {
+                    this.unit = unit;
+                    // Ceci pour éviter de call l'API trop souvent
+                    if (roundTwoNumbers(location?.lat) !== roundTwoNumbers(previousLocation?.lat) ||
+                        roundTwoNumbers(location?.long) !== roundTwoNumbers(previousLocation?.long) ||
+                        !weather) {
+                        // Si previousLoc et Loc sont différentes, on va refaire un appel à l'API
+                        this._manageWeatherDisplay(location);
+                    } else {
+                        this.dataCurrentWeather=  weather['dataCurrentWeather'];
+                        this.dataHourly = weather['dataHourly'];
+                        this.dataSevenDay = weather['dataSevenDay'];
+                        this.utcOffset = weather['utcOffset'];
+                        this.city = weather['city'];
+                        this.country = weather['country'];
+                        this.coords = {
+                            latitude: location?.lat,
+                            longitude: location?.long,
+                        };
+                        this.loading = false;
+                    }
+                },
+                error: error => {
+                    console.warn('Local storage error', error);
+                    this.dataError = new ErrorTemplate({
+                        value: true,
+                        status: error.status,
+                        message: error.statusText,
+                        error,
+                    });
                 }
-            },
-            (error: HttpErrorResponse) => {
-                console.warn('Local storage error', error);
-                this.dataError = new ErrorTemplate({
-                    value: true,
-                    status: error.status,
-                    message: error.statusText,
-                    error,
-                });
-            }
-        );
+            })
+        ).subscribe();
+    }
+
+    // How to get Forecast if location has recently changed
+    private _manageWeatherDisplay(codeLocation?: CodeLocation): void {
+        if (!codeLocation) {
+            this._userLocalisation();
+        } else if (codeLocation.code === 'currentLocation' || codeLocation.code === 'marker') {
+            this._reverseGeoloc(codeLocation.lat, codeLocation.long);
+        } else {
+            this._chooseExistingCity(codeLocation.code);
+        }
     }
 
     /**
@@ -84,9 +112,7 @@ export class Tab1Page {
     private _userLocalisation(): void {
         this._geoloc
             .getCurrentPosition()
-            .then(resp => {
-                this._reverseGeoloc(resp.coords.latitude, resp.coords.longitude);
-            })
+            .then(resp => this._reverseGeoloc(resp.coords.latitude, resp.coords.longitude))
             .catch((error: HttpErrorResponse) => {
                 console.warn('Geolocalisation error', error);
                 this.loading = false;
@@ -110,7 +136,6 @@ export class Tab1Page {
             latitude: lat,
             longitude: long,
         };
-        // this.getForecast(); // @deprecated pour tricker en web car reverseGeoloc plante avec cordopute / commenter en dessous
 
         this._auroraService.getGeocoding$(lat, long).pipe(
             map((res: Geocoding[]) => res[0]),
@@ -118,14 +143,12 @@ export class Tab1Page {
                 next: (res: Geocoding) => {
                     this.city = `${res?.name}${res?.state ? ', ' + res.state : ''} -`;
                     this.country = countryNameFromCode(res.country);
-                    this.country = countryNameFromCode(res.country);
                     // TODO rajouter le state dans l'interface visible (pour rajouter notion genre québec/alberta/occitanie/michigan)
                     // TODO Rajouter également un country code en FR et EN, préférable en JSON pour charger plus vite et pas d'API
-                    this._getForecast();
+                    this._getForecast(this.city, this.country);
                 },
                 error: error => {
                     // (error: HttpErrorResponse)
-                    console.log(error);
                     console.warn('Reverse geocode error ==> ', error);
                     this.loading = false;
                     this.dataError = new ErrorTemplate({
@@ -143,7 +166,7 @@ export class Tab1Page {
      * @code slug de la ville pour pouvoir récupérer les données liées au code
      * Choisir une des villes pré-enregistrées
      */
-    chooseExistingCity(code: string): void {
+    private _chooseExistingCity(code: string): void {
         const city = cities.find(res => res.code === code);
         this.city = city.ville;
         this.country = city.pays;
@@ -152,20 +175,29 @@ export class Tab1Page {
             latitude: city.latitude,
             longitude: city.longitude,
         };
-        this._getForecast();
+        this._getForecast(city.ville, city.pays);
     }
 
     /**
      * API OpenWeatherMap
      * 4 variables pour aujourd'hui, les variables vont aux enfants via Input()
      */
-    private _getForecast(): void {
+    private _getForecast(city: string, country: string): void {
         this._auroraService.openWeatherMapForecast$(this.coords.latitude, this.coords.longitude, this.unit).subscribe(
             (res: Weather) => {
                 this.dataCurrentWeather = res.current;
                 this.dataHourly = res.hourly;
                 this.dataSevenDay = res.daily;
                 this.utcOffset = res.timezone_offset; // in seconds
+                void this._storageService.setData('weather', {
+                    dataCurrentWeather: res.current,
+                    dataHourly: res.hourly,
+                    dataSevenDay: res.daily,
+                    utcOffset: res.timezone_offset,
+                    city: city,
+                    country: country
+                });
+                void this._storageService.setData('previousLocation', {lat: this.coords.latitude, long: this.coords.longitude})
                 this._trickLoading('1st');
             },
             (error: HttpErrorResponse) => {
@@ -201,6 +233,6 @@ export class Tab1Page {
     doRefresh(event: any): void {
         this._tabLoading = [];
         this._eventRefresh = event;
-        this._getForecast();
+        this._getForecast(this.city, this.country);
     }
 }

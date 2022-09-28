@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { cities, CodeLocalisation } from '../../models/cities';
+import { cities, CodeLocation } from '../../models/cities';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { icon, LatLng, Map, marker, Marker, tileLayer, ZoomPanOptions } from 'leaflet';
 import { TranslateService } from '@ngx-translate/core';
@@ -45,8 +45,8 @@ export class LocationMapPage implements OnInit, OnDestroy {
      * Sinon, set valeur du select à la position indiquée dans storage
      * */
     private _checkStorageLoc(): void {
-        this._storageService.getData('localisation').then(
-            (codeLocation: CodeLocalisation) => {
+        this._storageService.getData('location').then(
+            (codeLocation: CodeLocation) => {
                 if (codeLocation) {
                     this.localisation = codeLocation.code;
                     this._loadMap(codeLocation.lat, codeLocation.long);
@@ -67,7 +67,7 @@ export class LocationMapPage implements OnInit, OnDestroy {
             this.localisation = choice.detail.value;
             const city = cities.find(res => res.code === choice.detail.value);
             if (city) {
-                void this._storageService.setData('localisation', {
+                void this._storageService.setData('location',{
                     code: this.localisation,
                     lat: city.latitude,
                     long: city.longitude,
@@ -76,7 +76,7 @@ export class LocationMapPage implements OnInit, OnDestroy {
             }
         } else {
             this.localisation = 'marker';
-            void this._storageService.setData('localisation', {
+            void this._storageService.setData('location',{
                 code: 'marker',
                 lat: position.lat,
                 long: position.lng,
@@ -148,7 +148,7 @@ export class LocationMapPage implements OnInit, OnDestroy {
             .then((resp: Geoposition) => {
                 console.log(resp);
                 this._addMarker(resp.coords.latitude, resp.coords.longitude);
-                void this._storageService.setData('localisation', {
+                void this._storageService.setData('location', {
                     code: 'currentLocation',
                     lat: resp.coords.latitude,
                     long: resp.coords.longitude,

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { cities, CodeLocalisation, Coords } from '../models/cities';
+import { cities, CodeLocation, Coords } from '../models/cities';
 import { AuroraService } from '../aurora.service';
 import { NavController } from '@ionic/angular';
 import { ACEModule, Kp27day, KpForecast } from '../models/aurorav2';
@@ -45,8 +45,8 @@ export class Tab2Page {
     ionViewWillEnter() {
         this.tabLoading = [];
         // Cheminement en fonction si la localisation est pré-set ou si géoloc
-        this._storageService.getData('localisation').then(
-            (codeLocation: CodeLocalisation) => {
+        this._storageService.getData('location').then(
+            (codeLocation: CodeLocation) => {
                 if (!codeLocation) {
                     this._userLocalisation();
                 } else if (codeLocation.code === 'currentLocation' || codeLocation.code === 'marker') {

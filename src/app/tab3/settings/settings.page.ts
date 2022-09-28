@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { icon, Map, Marker, marker, tileLayer, ZoomPanOptions } from 'leaflet';
-import { CodeLocalisation, Coords } from '../../models/cities';
+import { CodeLocation, Coords } from '../../models/cities';
 import { ELocales, Locales, SelectContents } from '../../models/locales';
 import { Router } from '@angular/router';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
@@ -69,7 +69,7 @@ export class SettingsPage implements OnInit {
      * */
     minimapLocation() {
         // localisation format json ? {code: 'currentlocation', lat: 41.1, long: 10.41} --> pas besoin de call à chaque fois lat et long comme ça...
-        this._storageService.getData('localisation').then((codeLocation: CodeLocalisation) => {
+        this._storageService.getData('location').then((codeLocation: CodeLocation) => {
             if (!codeLocation) {
                 this._userLocalisation();
             } else {
@@ -87,7 +87,7 @@ export class SettingsPage implements OnInit {
             .then((resp: Geoposition) => {
                 this._coords = resp.coords;
                 this._mapInit(this._coords.latitude, this._coords.longitude);
-                void this._storageService.setData('localisation', {
+                void this._storageService.setData('location',{
                     code: 'currentLocation',
                     lat: this._coords.latitude,
                     long: this._coords.longitude,
