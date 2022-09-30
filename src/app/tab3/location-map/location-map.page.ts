@@ -146,7 +146,6 @@ export class LocationMapPage implements OnInit, OnDestroy {
     this._geoloc
         .getCurrentPosition()
         .then((resp: Geoposition) => {
-          console.log(resp);
           this._addMarker(resp.coords.latitude, resp.coords.longitude);
           void this._storageService.setData('location', {
             code: 'currentLocation',
@@ -171,7 +170,6 @@ export class LocationMapPage implements OnInit, OnDestroy {
             map((res: Geocoding[]) => res[0]),
             tap({
               next: (res: Geocoding) => {
-                console.log(res);
                 let infoWindow;
                 if (res?.name && res?.country) {
                   infoWindow = `${res?.name}${res?.state ? ', ' + res.state : ''} - ${countryNameFromCode(res.country)}`;
@@ -184,8 +182,6 @@ export class LocationMapPage implements OnInit, OnDestroy {
                 this._createTooltip(infoWindow, lat, long);
               },
               error: error => {
-                // (error: HttpErrorResponse)
-                console.log(error);
                 console.warn('Reverse geocode error ==> ', error);
                 console.error('Error localisation', error);
                 const infoWindow = this._translate.instant('global.unknown');

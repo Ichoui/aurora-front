@@ -44,7 +44,7 @@ function copyImages(sourcePath, targetPath, images) {
     let target = targetPath + icon.target;
     fs.copyFile(source, target, err => {
       if (err) throw err;
-      console.log(`${source} >> ${target}`);
+      console.warn(`${source} >> ${target}`);
     });
   }
 }

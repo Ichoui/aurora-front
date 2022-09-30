@@ -71,7 +71,6 @@ export class ModalComponent implements OnInit {
    */
   valuePolesChange(e, pole: Pole): void {
     pole === Pole.NORTH ? (this.valueNorth = e.detail.value) : (this.valueSouth = e.detail.value);
-    console.log(this.datetimeNorth.length);
     if (this.datetimeNorth.length > 0 && pole === Pole.NORTH) {
       this.hourNorth = this.datetimeNorth[e.detail.value][0];
       this.dateNorth = this.datetimeNorth[e.detail.value][1];

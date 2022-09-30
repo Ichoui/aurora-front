@@ -10,8 +10,6 @@ export class InformationsPage {
   tabOpen = [];
 
   visibility(event, index): void {
-    console.log(event);
-    console.log(event.target);
     if (this.tabOpen.includes(index)) {
       const remove = this.tabOpen.indexOf(index);
       this.tabOpen.splice(remove);
