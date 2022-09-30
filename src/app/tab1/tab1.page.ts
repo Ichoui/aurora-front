@@ -53,45 +53,55 @@ export class Tab1Page {
 
         // Cheminement en fonction si la localisation est pré-set ou si géoloc
 
-        combineLatest([this._storageService.getData('location'),
+        combineLatest([
+            this._storageService.getData('location'),
             this._storageService.getData('previousLocation'),
             this._storageService.getData('unit'),
-            this._storageService.getData('weather')])
+            this._storageService.getData('weather'),
+        ])
             .pipe(
-            tap({
-                next: ([location, previousLocation, unit, weather]: [CodeLocation, {lat: number, long: number}, Unit, unknown]) => {
-                    this.unit = unit;
-                    // Ceci pour éviter de call l'API trop souvent
-                    if (roundTwoNumbers(location?.lat) !== roundTwoNumbers(previousLocation?.lat) ||
-                        roundTwoNumbers(location?.long) !== roundTwoNumbers(previousLocation?.long) ||
-                        !weather) {
-                        // Si previousLoc et Loc sont différentes, on va refaire un appel à l'API
-                        this._manageWeatherDisplay(location);
-                    } else {
-                        this.dataCurrentWeather=  weather['dataCurrentWeather'];
-                        this.dataHourly = weather['dataHourly'];
-                        this.dataSevenDay = weather['dataSevenDay'];
-                        this.utcOffset = weather['utcOffset'];
-                        this.city = weather['city'];
-                        this.country = weather['country'];
-                        this.coords = {
-                            latitude: location?.lat,
-                            longitude: location?.long,
-                        };
-                        this.loading = false;
-                    }
-                },
-                error: error => {
-                    console.warn('Local storage error', error);
-                    this.dataError = new ErrorTemplate({
-                        value: true,
-                        status: error.status,
-                        message: error.statusText,
-                        error,
-                    });
-                }
-            })
-        ).subscribe();
+                tap({
+                    next: ([location, previousLocation, unit, weather]: [
+                        CodeLocation,
+                        { lat: number; long: number },
+                        Unit,
+                        unknown,
+                    ]) => {
+                        this.unit = unit;
+                        // Ceci pour éviter de call l'API trop souvent
+                        if (
+                            roundTwoNumbers(location?.lat) !== roundTwoNumbers(previousLocation?.lat) ||
+                            roundTwoNumbers(location?.long) !== roundTwoNumbers(previousLocation?.long) ||
+                            !weather
+                        ) {
+                            // Si previousLoc et Loc sont différentes, on va refaire un appel à l'API
+                            this._manageWeatherDisplay(location);
+                        } else {
+                            this.dataCurrentWeather = weather['dataCurrentWeather'];
+                            this.dataHourly = weather['dataHourly'];
+                            this.dataSevenDay = weather['dataSevenDay'];
+                            this.utcOffset = weather['utcOffset'];
+                            this.city = weather['city'];
+                            this.country = weather['country'];
+                            this.coords = {
+                                latitude: location?.lat,
+                                longitude: location?.long,
+                            };
+                            this.loading = false;
+                        }
+                    },
+                    error: error => {
+                        console.warn('Local storage error', error);
+                        this.dataError = new ErrorTemplate({
+                            value: true,
+                            status: error.status,
+                            message: error.statusText,
+                            error,
+                        });
+                    },
+                }),
+            )
+            .subscribe();
     }
 
     // How to get Forecast if location has recently changed
@@ -137,28 +147,31 @@ export class Tab1Page {
             longitude: long,
         };
 
-        this._auroraService.getGeocoding$(lat, long).pipe(
-            map((res: Geocoding[]) => res[0]),
-            tap({
-                next: (res: Geocoding) => {
-                    this.city = `${res?.name}${res?.state ? ', ' + res.state : ''} -`;
-                    this.country = countryNameFromCode(res.country);
-                    // TODO rajouter le state dans l'interface visible (pour rajouter notion genre québec/alberta/occitanie/michigan)
-                    // TODO Rajouter également un country code en FR et EN, préférable en JSON pour charger plus vite et pas d'API
-                    this._getForecast(this.city, this.country);
-                },
-                error: error => {
-                    // (error: HttpErrorResponse)
-                    console.warn('Reverse geocode error ==> ', error);
-                    this.loading = false;
-                    this.dataError = new ErrorTemplate({
-                        value: false,
-                        status: error.status,
-                        message: error.statusText,
-                        error,
-                    });
-                }
-            }))
+        this._auroraService
+            .getGeocoding$(lat, long)
+            .pipe(
+                map((res: Geocoding[]) => res[0]),
+                tap({
+                    next: (res: Geocoding) => {
+                        this.city = `${res?.name}${res?.state ? ', ' + res.state : ''} -`;
+                        this.country = countryNameFromCode(res.country);
+                        // TODO rajouter le state dans l'interface visible (pour rajouter notion genre québec/alberta/occitanie/michigan)
+                        // TODO Rajouter également un country code en FR et EN, préférable en JSON pour charger plus vite et pas d'API
+                        this._getForecast(this.city, this.country);
+                    },
+                    error: error => {
+                        // (error: HttpErrorResponse)
+                        console.warn('Reverse geocode error ==> ', error);
+                        this.loading = false;
+                        this.dataError = new ErrorTemplate({
+                            value: false,
+                            status: error.status,
+                            message: error.statusText,
+                            error,
+                        });
+                    },
+                }),
+            )
             .subscribe();
     }
 
@@ -195,9 +208,12 @@ export class Tab1Page {
                     dataSevenDay: res.daily,
                     utcOffset: res.timezone_offset,
                     city: city,
-                    country: country
+                    country: country,
                 });
-                void this._storageService.setData('previousLocation', {lat: this.coords.latitude, long: this.coords.longitude})
+                void this._storageService.setData('previousLocation', {
+                    lat: this.coords.latitude,
+                    long: this.coords.longitude,
+                });
                 this._trickLoading('1st');
             },
             (error: HttpErrorResponse) => {
@@ -209,7 +225,7 @@ export class Tab1Page {
                     message: error.statusText,
                     error,
                 });
-            }
+            },
         );
     }
 

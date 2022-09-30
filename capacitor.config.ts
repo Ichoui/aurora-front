@@ -1,16 +1,15 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-    appId: "io.aurora.v2",
-    appName: "aurora-v2",
-    webDir: "www",
-    bundledWebRuntime: false
-}
+    appId: 'io.aurora.v2',
+    appName: 'aurora-v2',
+    webDir: 'www',
+    bundledWebRuntime: false,
+};
 
 export default config;
 
 //https://capacitorjs.com/docs/config  s'appelait capacitor.config.json au début, changé selon cette doc pour le typage
-
 
 // {
 //     "appId": "io.aurora.start",

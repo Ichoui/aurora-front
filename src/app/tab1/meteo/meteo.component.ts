@@ -4,7 +4,6 @@ import * as moment from 'moment';
 import { Cloudy, Currently, Daily, DailyTemp, Hourly, IconsOWM, LottiesValues, Unit } from '../../models/weather';
 import { Chart, registerables } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import { BehaviorSubject } from 'rxjs';
 import { AnimationOptions } from 'ngx-lottie';
 import { ELocales } from '../../models/locales';
 import { StorageService } from '../../storage.service';
@@ -20,9 +19,9 @@ Chart.register(...registerables);
 })
 export class MeteoComponent implements OnInit, OnChanges {
   @Input() coords: Coords;
-  @Input() currentWeather:Currently
-  @Input() hourlyWeather: Hourly[]
-  @Input() sevenDayWeather: Daily[]
+  @Input() currentWeather: Currently;
+  @Input() hourlyWeather: Hourly[];
+  @Input() sevenDayWeather: Daily[];
 
   @Input() utc: number;
   @Input() unit: Unit;
@@ -54,7 +53,11 @@ export class MeteoComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     // Convert seconds to hours
-    if (!changes?.currentWeather.firstChange && !changes?.hourlyWeather.firstChange && !changes?.sevenDayWeather.firstChange) {
+    if (
+        !changes?.currentWeather.firstChange &&
+        !changes?.hourlyWeather.firstChange &&
+        !changes?.sevenDayWeather.firstChange
+    ) {
       this._nextHoursChart.destroy();
       this._todayForecast();
       this._nextHoursForecast();
@@ -65,7 +68,9 @@ export class MeteoComponent implements OnInit, OnChanges {
   ngOnInit() {
     this._storageService.getData('locale').then((locale: ELocales) => {
       this._locale = locale;
-      if (locale === ELocales.EN) { this._englishFormat = true; }
+      if (locale === ELocales.EN) {
+        this._englishFormat = true;
+      }
       this._todayForecast();
       this._nextHoursForecast();
       this._sevenDayForecast();
@@ -77,26 +82,29 @@ export class MeteoComponent implements OnInit, OnChanges {
 
   private _todayForecast() {
     this.sunset = this._manageDates(this.currentWeather.sunset, this._englishFormat ? 'h:mm A' : 'H:mm');
-      this.sunrise = this._manageDates(this.currentWeather.sunrise, this._englishFormat ? 'h:mm A' : 'H:mm');
-      this._lotties(this._calculateWeaterIcons(this.currentWeather));
-      this.currentDatetime = this._manageDates(moment().unix(), this._englishFormat ? 'dddd Do of MMMM, hh:mm:ss' : 'dddd DD MMMM, HH:mm:ss');
+    this.sunrise = this._manageDates(this.currentWeather.sunrise, this._englishFormat ? 'h:mm A' : 'H:mm');
+    this._lotties(this._calculateWeaterIcons(this.currentWeather));
+    this.currentDatetime = this._manageDates(
+        moment().unix(),
+        this._englishFormat ? 'dddd Do of MMMM, hh:mm:ss' : 'dddd DD MMMM, HH:mm:ss',
+    );
   }
 
   private _nextHoursForecast() {
-      this.cloudy = [];
-      this.hourlyWeather.forEach((hours: Hourly, i) => {
-        if (this._temps.length < this.dataNumberInCharts && i % 2 === 0) {
-          this._temps.push(Math.round(hours.temp));
-          this._nextHours.push(this._manageDates(hours.dt, this._englishFormat ? 'hh A' : 'HH:mm'));
-        }
-        const cloudy: Cloudy = {
-          percent: hours.clouds,
-          time: this._manageDates(hours.dt, this._englishFormat ? 'hhA' : 'HH:mm'),
-        };
-        if (this.cloudy.length < this.dataNumberInCharts) {
-          this.cloudy.push(cloudy);
-        }
-      });
+    this.cloudy = [];
+    this.hourlyWeather.forEach((hours: Hourly, i) => {
+      if (this._temps.length < this.dataNumberInCharts && i % 2 === 0) {
+        this._temps.push(Math.round(hours.temp));
+        this._nextHours.push(this._manageDates(hours.dt, this._englishFormat ? 'hh A' : 'HH:mm'));
+      }
+      const cloudy: Cloudy = {
+        percent: hours.clouds,
+        time: this._manageDates(hours.dt, this._englishFormat ? 'hhA' : 'HH:mm'),
+      };
+      if (this.cloudy.length < this.dataNumberInCharts) {
+        this.cloudy.push(cloudy);
+      }
+    });
     this._nextHoursChart = new Chart('next-hours', {
       type: 'line',
       plugins: [ChartDataLabels],
@@ -135,7 +143,7 @@ export class MeteoComponent implements OnInit, OnChanges {
       options: {
         responsive: true,
         plugins: {
-          tooltip : { enabled: false},
+          tooltip: {enabled: false},
           legend: {display: false},
           datalabels: {
             align: 'end',
@@ -146,27 +154,25 @@ export class MeteoComponent implements OnInit, OnChanges {
             },
             formatter(value) {
               return value + '°';
-            }
+            },
           },
         },
         scales: {
-          x:
-            {
-              grid: {
-                display: false,
-              },
-              ticks: {
-                color: '#949494',
-                font: (ctx, options) => ({family: 'Oswald-SemiBold'})
-              },
-            },
-          y:
-            {
+          x: {
+            grid: {
               display: false,
-              grid: {
-                display: false,
-              },
-            }
+            },
+            ticks: {
+              color: '#949494',
+              font: (ctx, options) => ({family: 'Oswald-SemiBold'}),
+            },
+          },
+          y: {
+            display: false,
+            grid: {
+              display: false,
+            },
+          },
         },
         layout: {
           padding: {
@@ -178,15 +184,15 @@ export class MeteoComponent implements OnInit, OnChanges {
   }
 
   private _sevenDayForecast() {
-      this.days = [];
-      this.sevenDayWeather.forEach((day: Daily, index) => {
-        if (index === 0) {
-          this.todayTemp = day.temp;
-        } else {
-          day.date = this._manageDates(day.dt, 'ddd');
-          this.days.push(day);
-        }
-      });
+    this.days = [];
+    this.sevenDayWeather.forEach((day: Daily, index) => {
+      if (index === 0) {
+        this.todayTemp = day.temp;
+      } else {
+        day.date = this._manageDates(day.dt, 'ddd');
+        this.days.push(day);
+      }
+    });
   }
 
   /**
@@ -228,7 +234,7 @@ export class MeteoComponent implements OnInit, OnChanges {
       case IconsOWM.DRIZZLE:
       case IconsOWM.RAIN:
         if (night) {
-          return LottiesValues.RAIN_NIGHT
+          return LottiesValues.RAIN_NIGHT;
         }
         return LottiesValues.RAIN;
 

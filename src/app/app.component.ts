@@ -20,19 +20,23 @@ export class AppComponent {
     currentKp: number;
 
     //private splashScreen: SplashScreen // TODO
-    constructor(private _platform: Platform, private _router: Router, private _translateService: TranslateService, private _storageService: StorageService) {
+    constructor(
+        private _platform: Platform,
+        private _router: Router,
+        private _translateService: TranslateService,
+        private _storageService: StorageService,
+    ) {
         this._initializeApp();
     }
 
     private _initializeApp() {
         if (this._platform.is('hybrid')) {
-                void StatusBar.setBackgroundColor({color: STATUS_BAR_COLOR})
+            void StatusBar.setBackgroundColor({color: STATUS_BAR_COLOR});
         }
         this._platform.ready().then(async () => {
             this._storageService.init().then(() => {
                 this._getLocale();
                 this._getUnit();
-
             });
             this._translateService.addLangs(['fr', 'en']);
             await this._router.navigate(['/tabs/tab3']); // TODO pour charger la tab 3
@@ -77,10 +81,10 @@ export class AppComponent {
                     }
                 }
             },
-             noValue => {
+            noValue => {
                 void this._storageService.setData('locale', this._translateService.getBrowserLang());
                 console.warn('novalue of locale', noValue);
-            }
+            },
         );
     }
 
@@ -100,7 +104,7 @@ export class AppComponent {
             noValue => {
                 void this._storageService.setData('unit', 'metric');
                 console.warn('novalue of units', noValue);
-            }
+            },
         );
     }
 }

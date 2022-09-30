@@ -25,8 +25,14 @@
       <span *ngIf="!city && !country" class="country">{{ 'global.unknown' | translate }}</span>
     </h2>
 
-    <app-meteo [coords]="coords" [currentWeather]="dataCurrentWeather" [hourlyWeather]="dataHourly" [sevenDayWeather]="dataSevenDay" [utc]="utcOffset" [unit]="unit">
-    </app-meteo>
+    <app-meteo
+            [coords]="coords"
+            [currentWeather]="dataCurrentWeather"
+            [hourlyWeather]="dataHourly"
+            [sevenDayWeather]="dataSevenDay"
+            [utc]="utcOffset"
+            [unit]="unit"
+    ></app-meteo>
   </ng-container>
 
   <app-broken *ngIf="!loading && dataError.value" [dataError]="dataError"></app-broken>

@@ -12,7 +12,6 @@ import { StorageService } from '../../storage.service';
 import { Geoposition } from '@ionic-native/geolocation';
 import { Browser } from '@capacitor/browser';
 
-
 @Component({
     selector: 'app-settings',
     templateUrl: './settings.page.html',
@@ -41,7 +40,7 @@ export class SettingsPage implements OnInit {
         private _geoloc: Geolocation,
         private _navController: NavController,
         private _modalController: ModalController,
-        private _translateService: TranslateService
+        private _translateService: TranslateService,
     ) {
     }
 
@@ -87,7 +86,7 @@ export class SettingsPage implements OnInit {
             .then((resp: Geoposition) => {
                 this._coords = resp.coords;
                 this._mapInit(this._coords.latitude, this._coords.longitude);
-                void this._storageService.setData('location',{
+                void this._storageService.setData('location', {
                     code: 'currentLocation',
                     lat: this._coords.latitude,
                     long: this._coords.longitude,
@@ -185,7 +184,7 @@ export class SettingsPage implements OnInit {
      * Demande à l'utilisateur d'ouvrir dans l'application au choix le lien
      **/
     openUrl(url: string): void {
-        void Browser.open({url})
+        void Browser.open({url});
     }
 
     // need backend

@@ -1,18 +1,18 @@
 // Ionic Variables and Theming. For more info, please see:
 // http://ionicframework.com/docs/theming/
 
-@import "fonts";
+@import 'fonts';
 
 /** Ionic CSS Variables **/
 :root {
-  --ion-color-primary: #69BFAF;
+  --ion-color-primary: #69bfaf;
   --ion-color-primary-rgb: 105, 191, 175;
   --ion-color-primary-contrast: #000000;
   --ion-color-primary-contrast-rgb: 0, 0, 0;
   --ion-color-primary-shade: #5ca89a;
   --ion-color-primary-tint: #78c5b7;
 
-  --ion-color-secondary: #8CFFEA;
+  --ion-color-secondary: #8cffea;
   --ion-color-secondary-rgb: 140, 255, 234;
   --ion-color-secondary-contrast: #000000;
   --ion-color-secondary-contrast-rgb: 0, 0, 0;
@@ -94,12 +94,12 @@
 }
 
 $colors: (
-        primary: #69BFAF,
-        secondary: #8CFFEA,
+        primary: #69bfaf,
+        secondary: #8cffea,
         tertiary: #468075,
         dark: #2a2a2a,
-        light: #f4f5f8
+        light: #f4f5f8,
 );
 
-@import "icomoon";
-@import "stylefullpage";
+@import 'icomoon';
+@import 'stylefullpage';

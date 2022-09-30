@@ -2,36 +2,35 @@
   <!-- trick complètement éclaté car lotties ne fonctionnent pas dans ion-tab-bar -->
   <div class="trick-tab-bar">
     <div #left class="tabs tab1" (click)="selectTab(1)">
-      <ng-lottie *ngIf="lottieConfigWeather" [options]="lottieConfigWeather" [width]="100+'%'" [height]="70+'px'" [routerLink]="['', 'tabs','tab1']" class=""> </ng-lottie>
+      <ng-lottie
+              *ngIf="lottieConfigWeather"
+              [options]="lottieConfigWeather"
+              [width]="100+'%'"
+              [height]="70+'px'"
+              [routerLink]="['', 'tabs','tab1']"
+      ></ng-lottie>
       <div class="currentview" *ngIf="activeRoute === 1"></div>
     </div>
     <div #right class="tabs tab3" (click)="selectTab(3)">
       <ng-lottie
-        *ngIf="lottieConfigSettings"
-        [options]="lottieConfigSettings"
-        [width]="100+'%'"
-        [height]="50+'px'"
-        (animationCreated)="animationCreated($event)"
-        [routerLink]="['', 'tabs','tab3']"
-        class=""
-      >
-      </ng-lottie>
+              *ngIf="lottieConfigSettings"
+              [options]="lottieConfigSettings"
+              [width]="100+'%'"
+              [height]="50+'px'"
+              (animationCreated)="animationCreated($event)"
+              [routerLink]="['', 'tabs','tab3']"
+      ></ng-lottie>
       <div class="currentview" *ngIf="activeRoute === 3"></div>
     </div>
   </div>
   <ion-tab-bar slot="bottom">
-    <!-- here is the pbm -->
-    <ion-tab-button tab="tab1">
-      <!--            <span class="icon icon-infos"></span>-->
-    </ion-tab-button>
+    <ion-tab-button tab="tab1"></ion-tab-button>
 
     <ion-tab-button class="main-btn" tab="tab2" (click)="selectTab(2)" #auroraLogo>
       <span class="icon-aurora"></span>
       <ion-label (click)="selectTab(2)">{{ 'tab2.title' | translate }}</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="tab3">
-      <!--            <span class="icon icon-settings"></span>-->
-    </ion-tab-button>
+    <ion-tab-button tab="tab3"></ion-tab-button>
   </ion-tab-bar>
 </ion-tabs>

@@ -6,7 +6,6 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -16,12 +15,14 @@ import { IonicStorageModule } from '@ionic/storage-angular';
 
 import { HttpsInterceptorService } from './https-interceptor.service';
 import { Drivers } from '@ionic/storage';
-import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver'
+import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
 
 @NgModule({
     declarations: [AppComponent],
     entryComponents: [],
-    imports: [BrowserModule, IonicModule.forRoot(),
+    imports: [
+        BrowserModule,
+        IonicModule.forRoot(),
         AppRoutingModule,
         HttpClientModule,
         IonicStorageModule.forRoot({
@@ -32,8 +33,8 @@ import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver'
             loader: {
                 provide: TranslateLoader,
                 useFactory: HttpLoaderFactory,
-                deps: [HttpClient]
-            }
+                deps: [HttpClient],
+            },
         }),
     ],
     providers: [
@@ -43,10 +44,10 @@ import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver'
         {
             provide: HTTP_INTERCEPTORS,
             useClass: HttpsInterceptorService,
-            multi: true
+            multi: true,
         },
     ],
-    bootstrap: [AppComponent]
+    bootstrap: [AppComponent],
 })
 export class AppModule {
 }

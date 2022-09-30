@@ -17,10 +17,6 @@ export class TabsPage implements OnInit {
 
   activeRoute: number = null;
 
-  style: Partial<CSSStyleDeclaration> = {
-    width: '100%',
-  };
-
   constructor(private router: Router) {}
 
   ngOnInit(): void {
@@ -39,7 +35,9 @@ export class TabsPage implements OnInit {
     };
 
     this.router.events.subscribe((event: NavigationEnd) => {
-      if (event && event.url) { this.selectTab(null, event.url); }
+      if (event && event.url) {
+        this.selectTab(null, event.url);
+      }
     });
   }
   animationCreated(animationItem: AnimationItem): void {

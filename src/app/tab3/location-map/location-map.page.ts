@@ -28,7 +28,7 @@ export class LocationMapPage implements OnInit, OnDestroy {
         private _geoloc: Geolocation,
         private _translate: TranslateService,
         private _storageService: StorageService,
-        private _auroraService: AuroraService
+        private _auroraService: AuroraService,
     ) {
     }
 
@@ -52,7 +52,7 @@ export class LocationMapPage implements OnInit, OnDestroy {
                     this._loadMap(codeLocation.lat, codeLocation.long);
                 }
             },
-            error => console.warn('Il y a un soucis de storage de position', error)
+            error => console.warn('Il y a un soucis de storage de position', error),
         );
     }
 
@@ -67,7 +67,7 @@ export class LocationMapPage implements OnInit, OnDestroy {
             this.localisation = choice.detail.value;
             const city = cities.find(res => res.code === choice.detail.value);
             if (city) {
-                void this._storageService.setData('location',{
+                void this._storageService.setData('location', {
                     code: this.localisation,
                     lat: city.latitude,
                     long: city.longitude,
@@ -76,7 +76,7 @@ export class LocationMapPage implements OnInit, OnDestroy {
             }
         } else {
             this.localisation = 'marker';
-            void this._storageService.setData('location',{
+            void this._storageService.setData('location', {
                 code: 'marker',
                 lat: position.lat,
                 long: position.lng,
@@ -165,30 +165,34 @@ export class LocationMapPage implements OnInit, OnDestroy {
      * Afficher dans le tooltip l'emplacement du clic
      * */
     private _reverseGeocode(lat: number, long: number): void {
-        this._auroraService.getGeocoding$(lat, long).pipe(
-            map((res: Geocoding[]) => res[0]),
-            tap({
-                next: (res: Geocoding) => {
-                    console.log(res);
-                    let infoWindow;
-                    if (res?.name && res?.country) {
-                        infoWindow = `${res?.name}${res?.state ? ', ' + res.state : ''} - ${countryNameFromCode(res.country)}`;
-                    } else {
-                        infoWindow = this._translate.instant('global.unknown');
-                        res.country ? (infoWindow = countryNameFromCode(res.country)) : (infoWindow = this._translate.instant('global.unknown'));
-
-                    }
-                    this._createTooltip(infoWindow, lat, long);
-                },
-                error: error => {
-                    // (error: HttpErrorResponse)
-                    console.log(error);
-                    console.warn('Reverse geocode error ==> ', error);
-                    console.error('Error localisation', error);
-                    const infoWindow = this._translate.instant('global.unknown');
-                    this._createTooltip(infoWindow);
-                }
-            }))
+        this._auroraService
+            .getGeocoding$(lat, long)
+            .pipe(
+                map((res: Geocoding[]) => res[0]),
+                tap({
+                    next: (res: Geocoding) => {
+                        console.log(res);
+                        let infoWindow;
+                        if (res?.name && res?.country) {
+                            infoWindow = `${res?.name}${res?.state ? ', ' + res.state : ''} - ${countryNameFromCode(res.country)}`;
+                        } else {
+                            infoWindow = this._translate.instant('global.unknown');
+                            res.country
+                                ? (infoWindow = countryNameFromCode(res.country))
+                                : (infoWindow = this._translate.instant('global.unknown'));
+                        }
+                        this._createTooltip(infoWindow, lat, long);
+                    },
+                    error: error => {
+                        // (error: HttpErrorResponse)
+                        console.log(error);
+                        console.warn('Reverse geocode error ==> ', error);
+                        console.error('Error localisation', error);
+                        const infoWindow = this._translate.instant('global.unknown');
+                        this._createTooltip(infoWindow);
+                    },
+                }),
+            )
             .subscribe();
     }
 
@@ -202,7 +206,7 @@ export class LocationMapPage implements OnInit, OnDestroy {
         if (lat && long) {
             this._marker
                 .bindPopup(`<b>${infoWindow}</b> <br /> Lat: ${lat} <br/> Long: ${long}`, {closeOnClick: true})
-                .openPopup()
+                .openPopup();
         } else {
             this._marker.bindPopup(`<b>${infoWindow}</b><br /> ${this._translate.instant('tab3.map.another')} `).openPopup();
         }
