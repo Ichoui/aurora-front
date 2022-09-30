@@ -6,11 +6,14 @@
   "scripts": {
     "start": "ionic serve",
     "build:prod": "ionic build --prod",
-    "info:ionic": "ionic info",
     "android:open": "npx cap open android",
     "android:create": "npx cap add android",
     "android": "npm run start:build:prod && npx cap copy",
-    "android:watch": "ionic cap sync --watch --prod"
+    "android:watch": "ionic cap sync --watch --prod",
+    "info:ionic": "ionic info",
+    "prettier": "prettier --write \"**/*.{js,ts,css,scss,html}\"",
+    "prettier:check": "prettier --check \"**/*.{js,ts,css,scss,html}\"",
+    "prettier-html": "prettier --write \"./apps/**/src/**/*.html\""
   },
   "private": true,
   "dependencies": {

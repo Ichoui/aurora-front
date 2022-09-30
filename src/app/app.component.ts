@@ -11,100 +11,100 @@ import { StatusBar } from '@capacitor/status-bar';
 import { STATUS_BAR_COLOR } from './models/colors';
 
 @Component({
-    selector: 'app-root',
-    templateUrl: 'app.component.html',
-    styleUrls: ['app.component.scss'],
+  selector: 'app-root',
+  templateUrl: 'app.component.html',
+  styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-    selectedKp: number;
-    currentKp: number;
+  selectedKp: number;
+  currentKp: number;
 
-    //private splashScreen: SplashScreen // TODO
-    constructor(
-        private _platform: Platform,
-        private _router: Router,
-        private _translateService: TranslateService,
-        private _storageService: StorageService,
-    ) {
-        this._initializeApp();
+  //private splashScreen: SplashScreen // TODO
+  constructor(
+      private _platform: Platform,
+      private _router: Router,
+      private _translateService: TranslateService,
+      private _storageService: StorageService,
+  ) {
+    this._initializeApp();
+  }
+
+  private _initializeApp() {
+    if (this._platform.is('hybrid')) {
+      void StatusBar.setBackgroundColor({color: STATUS_BAR_COLOR});
     }
+    this._platform.ready().then(async () => {
+      this._storageService.init().then(() => {
+        this._getLocale();
+        this._getUnit();
+      });
+      this._translateService.addLangs(['fr', 'en']);
+      await this._router.navigate(['/tabs/tab3']); // TODO pour charger la tab 3
 
-    private _initializeApp() {
-        if (this._platform.is('hybrid')) {
-            void StatusBar.setBackgroundColor({color: STATUS_BAR_COLOR});
-        }
-        this._platform.ready().then(async () => {
-            this._storageService.init().then(() => {
-                this._getLocale();
-                this._getUnit();
-            });
-            this._translateService.addLangs(['fr', 'en']);
-            await this._router.navigate(['/tabs/tab3']); // TODO pour charger la tab 3
+      // this.getKp();
+      // this.isNotifsActive();
+    });
+  }
 
-            // this.getKp();
-            // this.isNotifsActive();
-        });
-    }
+  private _isNotifsActive(): void {
+    // this.storageService.get('notifications_active').then(notifs => {
+    //     if (notifs) {
+    //         // console.log(this.selectedKp);
+    //         // console.log(this.currentKp);
+    //         if (this.selectedKp === this.currentKp && this.selectedKp !== undefined) {
+    //             // console.log('Cool');
+    //         } else {
+    //             // console.log('PAS Cool');
+    //         }
+    //     }
+    // });
+  }
 
-    private _isNotifsActive(): void {
-        // this.storageService.get('notifications_active').then(notifs => {
-        //     if (notifs) {
-        //         // console.log(this.selectedKp);
-        //         // console.log(this.currentKp);
-        //         if (this.selectedKp === this.currentKp && this.selectedKp !== undefined) {
-        //             // console.log('Cool');
-        //         } else {
-        //             // console.log('PAS Cool');
-        //         }
-        //     }
-        // });
-    }
+  private _getKp(): void {
+    // this.storage.get('kp_notif').then(kp => (this.selectedKp = kp));
+    // this.storage.get('current_kp').then(kp => (this.currentKp = kp));
+  }
 
-    private _getKp(): void {
-        // this.storage.get('kp_notif').then(kp => (this.selectedKp = kp));
-        // this.storage.get('current_kp').then(kp => (this.currentKp = kp));
-    }
+  private _getLocale(): void {
+    this._storageService.getData('locale').then(
+        (locale: ELocales) => {
+          if (locale) {
+            this._translateService.setDefaultLang(locale);
+            void this._storageService.setData('locale', locale);
+          } else {
+            if (this._translateService.getBrowserLang() === ELocales.FR) {
+              this._translateService.setDefaultLang('fr');
+              void this._storageService.setData('locale', ELocales.FR);
+            } else {
+              this._translateService.setDefaultLang(this._translateService.getBrowserLang());
+              void this._storageService.setData('locale', this._translateService.getBrowserLang());
+            }
+          }
+        },
+        noValue => {
+          void this._storageService.setData('locale', this._translateService.getBrowserLang());
+          console.warn('novalue of locale', noValue);
+        },
+    );
+  }
 
-    private _getLocale(): void {
-        this._storageService.getData('locale').then(
-            (locale: ELocales) => {
-                if (locale) {
-                    this._translateService.setDefaultLang(locale);
-                    void this._storageService.setData('locale', locale);
-                } else {
-                    if (this._translateService.getBrowserLang() === ELocales.FR) {
-                        this._translateService.setDefaultLang('fr');
-                        void this._storageService.setData('locale', ELocales.FR);
-                    } else {
-                        this._translateService.setDefaultLang(this._translateService.getBrowserLang());
-                        void this._storageService.setData('locale', this._translateService.getBrowserLang());
-                    }
-                }
-            },
-            noValue => {
-                void this._storageService.setData('locale', this._translateService.getBrowserLang());
-                console.warn('novalue of locale', noValue);
-            },
-        );
-    }
-
-    private _getUnit(): void {
-        this._storageService.getData('unit').then(
-            (unit: Unit) => {
-                if (unit) {
-                    void this._storageService.setData('unit', unit);
-                } else {
-                    if (this._translateService.getBrowserLang() === 'fr') {
-                        void this._storageService.setData('unit', 'metric');
-                    } else {
-                        void this._storageService.setData('unit', 'imperial');
-                    }
-                }
-            },
-            noValue => {
-                void this._storageService.setData('unit', 'metric');
-                console.warn('novalue of units', noValue);
-            },
-        );
-    }
+  private _getUnit(): void {
+    this._storageService.getData('unit').then(
+        (unit: Unit) => {
+          if (unit) {
+            void this._storageService.setData('unit', unit);
+          } else {
+            if (this._translateService.getBrowserLang() === 'fr') {
+              void this._storageService.setData('unit', 'metric');
+            } else {
+              void this._storageService.setData('unit', 'imperial');
+            }
+          }
+        },
+        noValue => {
+          void this._storageService.setData('unit', 'metric');
+          console.warn('novalue of units', noValue);
+        },
+    );
+  }
 }

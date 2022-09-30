@@ -1,4 +1,4 @@
-import { OPENWHEATHER_API_KEY } from "./keep";
+import { OPENWHEATHER_API_KEY } from './keep';
 
 export const environment = {
   production: true,

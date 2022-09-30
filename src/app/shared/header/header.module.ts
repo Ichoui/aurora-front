@@ -6,16 +6,9 @@ import { IonicModule } from '@ionic/angular';
 
 import { HeaderComponent } from './header.component';
 
-
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-  ],
-  exports: [
-    HeaderComponent
-  ],
-  declarations: [HeaderComponent]
+  imports: [CommonModule, FormsModule, IonicModule],
+  exports: [HeaderComponent],
+  declarations: [HeaderComponent],
 })
 export class HeaderPageModule {}

@@ -13,22 +13,13 @@ import { HeaderPageModule } from '../../shared/header/header.module';
 const routes: Routes = [
   {
     path: '',
-    component: LocationMapPage
-  }
+    component: LocationMapPage,
+  },
 ];
 
 @NgModule({
-    imports: [
-        CommonModule,
-        FormsModule,
-        IonicModule,
-        RouterModule.forChild(routes),
-        TranslateModule,
-        HeaderPageModule
-    ],
+  imports: [CommonModule, FormsModule, IonicModule, RouterModule.forChild(routes), TranslateModule, HeaderPageModule],
   declarations: [LocationMapPage],
-  providers: [
-    Geolocation,
-  ]
+  providers: [Geolocation],
 })
 export class LocationMapPageModule {}

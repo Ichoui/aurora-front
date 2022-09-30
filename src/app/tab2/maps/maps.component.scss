@@ -1,10 +1,9 @@
-@import "../../../theme/shared";
+@import '../../../theme/shared';
 
 .container {
   //height: 100%;
   //overflow: scroll;
 }
-
 
 .container-world {
   display: flex;
@@ -34,14 +33,16 @@
 
 .container-chart {
   margin-top: 15px;
-  font-size: .8em;
+  font-size: 0.8em;
 
   .header {
     @include header-title;
+
     &:before {
       @include bottom-header;
     }
   }
+
   .sub {
     @include subtitle-header;
   }

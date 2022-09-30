@@ -12,16 +12,15 @@
 
     <div class="kp ace-data">
         <div class="colored">
-    <span
-            *ngFor="let i of [1, 2, 3, 4]"
-            [ngClass]="{
-        green: kpCurrent.color === AuroraEnumColours.green,
-        yellow: kpCurrent.color === AuroraEnumColours.yellow,
-        orange: kpCurrent.color === AuroraEnumColours.orange,
-        red: kpCurrent.color === AuroraEnumColours.red
-      }"
-    >
-    </span>
+      <span
+              *ngFor="let i of [1, 2, 3, 4]"
+              [ngClass]="{
+          green: kpCurrent.color === AuroraEnumColours.green,
+          yellow: kpCurrent.color === AuroraEnumColours.yellow,
+          orange: kpCurrent.color === AuroraEnumColours.orange,
+          red: kpCurrent.color === AuroraEnumColours.red
+        }"
+      ></span>
         </div>
         <div class="value">Kp{{ kpCurrent.value | number: '1.0-0' }}</div>
         <div class="label">{{ 'tab2.kp.kpindex' | translate }}</div>
@@ -29,16 +28,15 @@
 
     <div class="density ace-data">
         <div class="colored">
-    <span
-            *ngFor="let i of [1, 2, 3, 4]"
-            [ngClass]="{
-        green: density.color === AuroraEnumColours.green,
-        yellow: density.color === AuroraEnumColours.yellow,
-        orange: density.color === AuroraEnumColours.orange,
-        red: density.color === AuroraEnumColours.red
-      }"
-    >
-    </span>
+      <span
+              *ngFor="let i of [1, 2, 3, 4]"
+              [ngClass]="{
+          green: density.color === AuroraEnumColours.green,
+          yellow: density.color === AuroraEnumColours.yellow,
+          orange: density.color === AuroraEnumColours.orange,
+          red: density.color === AuroraEnumColours.red
+        }"
+      ></span>
         </div>
         <div class="value">{{ density.value }}</div>
         <div class="label">{{ 'tab2.kp.density' | translate }}</div>
@@ -46,16 +44,15 @@
 
     <div class="speed ace-data">
         <div class="colored">
-    <span
-            *ngFor="let i of [1, 2, 3, 4]"
-            [ngClass]="{
-        green: speed.color === AuroraEnumColours.green,
-        yellow: speed.color === AuroraEnumColours.yellow,
-        orange: speed.color === AuroraEnumColours.orange,
-        red: speed.color === AuroraEnumColours.red
-      }"
-    >
-    </span>
+      <span
+              *ngFor="let i of [1, 2, 3, 4]"
+              [ngClass]="{
+          green: speed.color === AuroraEnumColours.green,
+          yellow: speed.color === AuroraEnumColours.yellow,
+          orange: speed.color === AuroraEnumColours.orange,
+          red: speed.color === AuroraEnumColours.red
+        }"
+      ></span>
         </div>
         <div class="value">{{ speed.value }}</div>
         <div class="label">{{ 'tab2.kp.speed' | translate: {val: speed.unit === 'imperial' ? '(mph)' : '(km/h)'} }}</div>
@@ -63,16 +60,15 @@
 
     <div class="bz ace-data">
         <div class="colored">
-    <span
-            *ngFor="let i of [1, 2, 3, 4]"
-            [ngClass]="{
-        green: speed.color === AuroraEnumColours.green,
-        yellow: speed.color === AuroraEnumColours.yellow,
-        orange: speed.color === AuroraEnumColours.orange,
-        red: speed.color === AuroraEnumColours.red
-      }"
-    >
-    </span>
+      <span
+              *ngFor="let i of [1, 2, 3, 4]"
+              [ngClass]="{
+          green: speed.color === AuroraEnumColours.green,
+          yellow: speed.color === AuroraEnumColours.yellow,
+          orange: speed.color === AuroraEnumColours.orange,
+          red: speed.color === AuroraEnumColours.red
+        }"
+      ></span>
         </div>
         <div class="value">{{ bz.value }}</div>
         <div class="label">{{ 'tab2.kp.bz' | translate }}</div>
@@ -80,16 +76,15 @@
 
     <div class="bt ace-data">
         <div class="colored">
-    <span
-            *ngFor="let i of [1, 2, 3, 4]"
-            [ngClass]="{
-        green: speed.color === AuroraEnumColours.green,
-        yellow: speed.color === AuroraEnumColours.yellow,
-        orange: speed.color === AuroraEnumColours.orange,
-        red: speed.color === AuroraEnumColours.red
-      }"
-    >
-    </span>
+      <span
+              *ngFor="let i of [1, 2, 3, 4]"
+              [ngClass]="{
+          green: speed.color === AuroraEnumColours.green,
+          yellow: speed.color === AuroraEnumColours.yellow,
+          orange: speed.color === AuroraEnumColours.orange,
+          red: speed.color === AuroraEnumColours.red
+        }"
+      ></span>
         </div>
         <div class="value">{{ bt.value }}</div>
         <div class="label">{{ 'tab2.kp.bt' | translate }}</div>

@@ -4,19 +4,10 @@ import { KpindexComponent } from './kpindex.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { IonicModule } from '@ionic/angular';
 
-
-
 @NgModule({
-  declarations: [
-    KpindexComponent
-  ],
-  exports: [
-    KpindexComponent
-  ],
-    imports: [
-        CommonModule,
-        TranslateModule,
-        IonicModule
-    ]
+  declarations: [KpindexComponent],
+  exports: [KpindexComponent],
+  imports: [CommonModule, TranslateModule, IonicModule],
 })
-export class KpindexModule { }
+export class KpindexModule {
+}

@@ -1,13 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-informations',
   templateUrl: './informations.page.html',
   styleUrls: ['./informations.page.scss'],
 })
-
-
 export class InformationsPage {
   text;
   tabOpen = [];

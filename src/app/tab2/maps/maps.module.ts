@@ -5,18 +5,10 @@ import { ModalModule } from '../../shared/modal/modal.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { LottieAnimationViewModule } from 'ng-lottie';
 
-
 @NgModule({
-    declarations: [MapsComponent],
-    imports: [
-        CommonModule,
-        ModalModule,
-        TranslateModule,
-        LottieAnimationViewModule.forRoot()
-    ],
-    exports: [
-        MapsComponent
-    ]
+  declarations: [MapsComponent],
+  imports: [CommonModule, ModalModule, TranslateModule, LottieAnimationViewModule.forRoot()],
+  exports: [MapsComponent],
 })
 export class MapsModule {
 }

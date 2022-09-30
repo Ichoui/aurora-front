@@ -134,7 +134,7 @@ export enum LottiesValues {
   CLOUDY_DAY = 'cloudy-day',
   PARTLY_CLOUDY_NIGHT = 'partly-cloudy-night',
   CLOUDY_NIGHT = 'cloudy-night',
-  RAIN_NIGHT = 'rainly-night'
+  RAIN_NIGHT = 'rainly-night',
 }
 
 export enum ExcludeType {
@@ -152,14 +152,14 @@ export enum Unit {
 export const units: SelectContents[] = [
   {
     slug: 'metric',
-    label: 'tab3.settings.metric'
+    label: 'tab3.settings.metric',
   },
   {
     slug: 'imperial',
-    label: 'tab3.settings.imperial'
+    label: 'tab3.settings.imperial',
   },
   {
     slug: 'kelvin',
-    label: 'tab3.settings.kelvin'
+    label: 'tab3.settings.kelvin',
   },
 ];

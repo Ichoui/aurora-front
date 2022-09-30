@@ -63,7 +63,9 @@ export class AuroraService {
    * Donnée : https://www.swpc.noaa.gov/products/aurora-30-minute-forecast
    */
   getPoles$(pole: Pole): Observable<unknown> {
-    return this.http.get(`${environment.cors}/https://services.swpc.noaa.gov/products/animations/ovation_${pole}_24h.json`);
+    return this.http.get(
+        `${environment.cors}/https://services.swpc.noaa.gov/products/animations/ovation_${pole}_24h.json`,
+    );
   }
 
   /**
@@ -75,7 +77,7 @@ export class AuroraService {
     const params = {
       appid: environment.apikey,
       lat: lat.toString(),
-      lon: lon.toString()
+      lon: lon.toString(),
     };
     return this.http.get<Geocoding[]>(`${environment.cors}/${environment.api_reverse_geocode}`, { params });
   }

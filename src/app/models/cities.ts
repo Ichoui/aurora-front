@@ -27,101 +27,96 @@ export const cities: City[] = [
         code: 'mtl',
         ville: 'Montréal',
         pays: 'Canada',
-        codePays:'CA',
+        codePays: 'CA',
         latitude: 45.501379,
-        longitude: -73.564936
+        longitude: -73.564936,
     },
     {
         code: 'qc',
         ville: 'Québec',
         pays: 'Canada',
-        codePays:'CA',
+        codePays: 'CA',
         latitude: 46.826835,
-        longitude: -71.205849
+        longitude: -71.205849,
     },
     {
         code: 'sgn',
         ville: 'Saguenay',
         pays: 'Canada',
-        codePays:'CA',
+        codePays: 'CA',
         latitude: 48.427878,
-        longitude: -71.066089
+        longitude: -71.066089,
     },
     {
         code: 'bff',
         ville: 'Banff',
         pays: 'Canada',
-        codePays:'CA',
+        codePays: 'CA',
         latitude: 51.178911,
-        longitude: -115.569748
-
+        longitude: -115.569748,
     },
     {
-
         code: 'jsp',
         ville: 'Jasper',
         pays: 'Canada',
-        codePays:'CA',
+        codePays: 'CA',
         latitude: 52.873291,
-        longitude: -118.080682
+        longitude: -118.080682,
     },
     {
         code: 'edm',
         ville: 'Edmonton',
         pays: 'Canada',
-        codePays:'CA',
-        latitude: 53.546250,
-        longitude: -113.493442
+        codePays: 'CA',
+        latitude: 53.54625,
+        longitude: -113.493442,
     },
     {
-
         code: 'ylk',
         ville: 'Yellowknife',
         pays: 'Canada',
-        codePays:'CA',
+        codePays: 'CA',
         latitude: 62.452538,
-        longitude: -114.377654
+        longitude: -114.377654,
     },
     {
-
         code: 'anc',
         ville: 'Anchorage',
         pays: 'Alaska',
-        codePays:'USA',
+        codePays: 'USA',
         latitude: 61.228421,
-        longitude: -149.887640
+        longitude: -149.88764,
     },
     {
         code: 'tls',
         ville: 'Toulouse',
         pays: 'France',
-        codePays:'FR',
+        codePays: 'FR',
         latitude: 43.608763,
-        longitude: 1.436908
+        longitude: 1.436908,
     },
     {
         code: 'bgn',
         ville: 'Bergen',
         pays: 'Norvège',
-        codePays:'NW',
+        codePays: 'NW',
         latitude: 60.387856,
-        longitude: 5.330406
+        longitude: 5.330406,
     },
     {
-
         code: 'trm',
         ville: 'Trømso',
         pays: 'Norvège',
-        codePays:'NW',
+        codePays: 'NW',
         latitude: 69.650288,
-        longitude: 18.955098
+        longitude: 18.955098,
     },
     {
         code: 'ryk',
         ville: 'Reykjavik',
         pays: 'Islande',
-        codePays:'ISL',
+        codePays: 'ISL',
         latitude: 64.146653,
-        longitude: -21.940686
-    }
+        longitude: -21.940686,
+    },
 ];

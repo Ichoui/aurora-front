@@ -28,7 +28,7 @@ export class ModalComponent implements OnInit {
   @Input() cgu = false;
   @Input() canvasInput = false;
 
-  pole= Pole;
+  pole = Pole;
 
   tabNorth = [];
   minNorth = 0;

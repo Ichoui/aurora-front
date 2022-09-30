@@ -13,19 +13,19 @@ import { BrokenPageModule } from '../shared/broken/broken.module';
 import { SwiperModule } from 'swiper/angular';
 
 @NgModule({
-    imports: [
-        IonicModule,
-        CommonModule,
-        FormsModule,
-        TranslateModule,
-        RouterModule.forChild([{path: '', component: Tab2Page}]),
-        HeaderPageModule,
-        KpindexModule,
-        MapsModule,
-        BrokenPageModule,
-        SwiperModule
-    ],
+  imports: [
+    IonicModule,
+    CommonModule,
+    FormsModule,
+    TranslateModule,
+    RouterModule.forChild([{path: '', component: Tab2Page}]),
+    HeaderPageModule,
+    KpindexModule,
+    MapsModule,
+    BrokenPageModule,
+    SwiperModule,
+  ],
   declarations: [Tab2Page],
-  providers: [Geolocation]
+  providers: [Geolocation],
 })
 export class Tab2PageModule {}

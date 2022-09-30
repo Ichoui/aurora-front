@@ -15,7 +15,14 @@ export function playerFactory() {
 }
 
 @NgModule({
-  imports: [IonicModule, CommonModule, FormsModule, TabsPageRoutingModule, TranslateModule, LottieModule.forRoot({ player: playerFactory })],
+  imports: [
+    IonicModule,
+    CommonModule,
+    FormsModule,
+    TabsPageRoutingModule,
+    TranslateModule,
+    LottieModule.forRoot({player: playerFactory}),
+  ],
   declarations: [TabsPage],
 })
 export class TabsPageModule {}

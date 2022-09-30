@@ -7,8 +7,11 @@
         <div [innerHTML]="'tab3.infos.' + block + '.' + value + '.message' | translate"></div>
         <div *ngFor="let l of list" [class]="classList">
             <span>{{ 'tab3.infos.' + block + '.' + value + '.' + l + '.list' | translate }}</span>
-            {{ 'tab3.infos.' + block + '.' + value + '.' + l + '.message' | translate}}
+            {{ 'tab3.infos.' + block + '.' + value + '.' + l + '.message' | translate }}
         </div>
-        <div *ngIf="!!extra"><br>{{ 'tab3.infos.' + block + '.' + value + '.' + extra | translate }}</div>
+        <div *ngIf="!!extra">
+            <br/>
+            {{ 'tab3.infos.' + block + '.' + value + '.' + extra | translate }}
+        </div>
     </ion-card-content>
 </ion-card>

@@ -11,7 +11,16 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { BrokenPageModule } from '../shared/broken/broken.module';
 
 @NgModule({
-  imports: [IonicModule, CommonModule, FormsModule, TranslateModule, RouterModule.forChild([{ path: '', component: Tab1Page }]), HeaderPageModule, MeteoModule, BrokenPageModule],
+  imports: [
+    IonicModule,
+    CommonModule,
+    FormsModule,
+    TranslateModule,
+    RouterModule.forChild([{path: '', component: Tab1Page}]),
+    HeaderPageModule,
+    MeteoModule,
+    BrokenPageModule,
+  ],
   declarations: [Tab1Page],
   providers: [Geolocation],
 })

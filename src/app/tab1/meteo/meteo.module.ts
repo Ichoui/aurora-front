@@ -14,4 +14,3 @@ export const playerFactory = () => player;
   imports: [CommonModule, IonicModule, TranslateModule, LottieModule.forRoot({ player: playerFactory })],
 })
 export class MeteoModule {}
-

@@ -44,7 +44,10 @@ ion-tab-bar {
   z-index: 500;
   width: 124px;
   ng-lottie {
-    > div {width: 100%}
+    > div {
+      width: 100%;
+    }
+
     &:hover,
     &:focus {
       outline: none;
@@ -61,13 +64,12 @@ ion-tab-bar {
   &.tab1 {
     //left: 43px;
     bottom: -11px; // seul sans label
-    left:0;
+    left: 0;
 
     .currentview {
       bottom: 11px;
       left: 36px;
     }
-
   }
   &.tab3 {
     //right: 50px;
@@ -77,7 +79,6 @@ ion-tab-bar {
     .currentview {
       bottom: 0;
       left: 36px;
-
     }
   }
 }

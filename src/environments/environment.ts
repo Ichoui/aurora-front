@@ -23,5 +23,3 @@ export const environment = {
   apikey: OPENWHEATHER_API_KEY,
   application_name: 'Aurora - Northern Light',
 };
-
-
