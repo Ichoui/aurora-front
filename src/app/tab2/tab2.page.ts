@@ -6,7 +6,7 @@ import { ACEModule, Kp27day, KpForecast } from '../models/aurorav2';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { ErrorTemplate } from '../shared/broken/broken.model';
 import { StorageService } from '../storage.service';
-import { tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
 import { Unit } from '../models/weather';
 
@@ -45,6 +45,15 @@ export class Tab2Page {
   ) {}
 
   ionViewWillEnter() {
+    this._auroraService
+      .test$()
+      .pipe(
+        tap(console.log),
+        map(e => ({ long: e.coordinates[0], lat: e.coordinates[1], index: e.coordinates[2] })),
+        tap(console.log),
+      )
+      .subscribe();
+
     this.tabLoading = [];
     // Cheminement en fonction si la localisation est pré-set ou si géoloc
     this._storageService.getData('location').then(
