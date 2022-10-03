@@ -9,6 +9,10 @@ ion-title {
 }
 
 .container-map {
+  &.map {
+    width: 100%;
+    overflow-x: auto;
+  }
   &:first-child {
     margin-top: 30px;
   }
@@ -30,7 +34,9 @@ ion-title {
   }
 
   ion-img {
+    margin-top: 15px;
     border: 1px solid var(--ion-color-primary);
+    width: 150% !important;
   }
 
   ion-range {

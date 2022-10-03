@@ -52,7 +52,6 @@
     "moment": "^2.29.4",
     "ng-lottie": "^0.3.2",
     "ngx-lottie": "^8.2.1",
-    "ngx-pinch-zoom": "^2.6.2",
     "rxjs": "~6.6.0",
     "swiper": "^8.3.2",
     "tslib": "^2.2.0",

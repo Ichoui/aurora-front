@@ -1,7 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { ModalComponent } from '../../shared/modal/modal.component';
-import { TranslateService } from '@ngx-translate/core';
 import { Chart, registerables } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { AuroraEnumColours, Kp27day, KpForecast } from '../../models/aurorav2';
@@ -25,7 +24,7 @@ export class MapsComponent implements OnChanges {
   chartKpForecast: Chart;
   chartKpForecast27: Chart;
 
-  constructor(private modalController: ModalController, private translateService: TranslateService) {}
+  constructor(private _modalController: ModalController) {}
 
   ngOnChanges(changes: SimpleChanges) {
     this.chartKpForecast?.destroy();
@@ -40,7 +39,7 @@ export class MapsComponent implements OnChanges {
   }
 
   async showMap(): Promise<void> {
-    const modal = await this.modalController.create({
+    const modal = await this._modalController.create({
       component: ModalComponent,
       componentProps: {
         map: 'https://v2.api.auroras.live/images/embed/nowcast.png',
@@ -50,7 +49,7 @@ export class MapsComponent implements OnChanges {
   }
 
   async showPoles(): Promise<void> {
-    const modal = await this.modalController.create({
+    const modal = await this._modalController.create({
       component: ModalComponent,
       componentProps: {
         northPole: 'https://v2.api.auroras.live/images/ovation-north.jpg',
