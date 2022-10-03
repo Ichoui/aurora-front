@@ -32,17 +32,16 @@ export class SettingsPage implements OnInit {
   unit = Unit.METRIC;
   readonly units: SelectContents[] = units;
 
-  @ViewChild('map_canvas', {static: false}) mapElement: ElementRef;
+  @ViewChild('map_canvas', { static: false }) mapElement: ElementRef;
 
   constructor(
-      private _storageService: StorageService,
-      private _router: Router,
-      private _geoloc: Geolocation,
-      private _navController: NavController,
-      private _modalController: ModalController,
-      private _translateService: TranslateService,
-  ) {
-  }
+    private _storageService: StorageService,
+    private _router: Router,
+    private _geoloc: Geolocation,
+    private _navController: NavController,
+    private _modalController: ModalController,
+    private _translateService: TranslateService,
+  ) {}
 
   /**
    * Invoqué au premier chargement de la page
@@ -82,19 +81,19 @@ export class SettingsPage implements OnInit {
    * */
   private _userLocalisation() {
     this._geoloc
-        .getCurrentPosition()
-        .then((resp: Geoposition) => {
-          this._coords = resp.coords;
-          this._mapInit(this._coords.latitude, this._coords.longitude);
-          void this._storageService.setData('location', {
-            code: 'currentLocation',
-            lat: this._coords.latitude,
-            long: this._coords.longitude,
-          });
-        })
-        .catch(error => {
-          console.warn('Error getting location', error);
+      .getCurrentPosition()
+      .then((resp: Geoposition) => {
+        this._coords = resp.coords;
+        this._mapInit(this._coords.latitude, this._coords.longitude);
+        void this._storageService.setData('location', {
+          code: 'currentLocation',
+          lat: this._coords.latitude,
+          long: this._coords.longitude,
         });
+      })
+      .catch(error => {
+        console.warn('Error getting location', error);
+      });
   }
 
   /**
@@ -184,7 +183,7 @@ export class SettingsPage implements OnInit {
    * Demande à l'utilisateur d'ouvrir dans l'application au choix le lien
    **/
   openUrl(url: string): void {
-    void Browser.open({url});
+    void Browser.open({ url });
   }
 
   // need backend

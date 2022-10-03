@@ -48,15 +48,14 @@ export class MeteoComponent implements OnInit, OnChanges {
   private _locale: string;
   private _englishFormat = false; // h, hh : 12 && H,HH : 24
 
-  constructor(private _storageService: StorageService) {
-  }
+  constructor(private _storageService: StorageService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     // Convert seconds to hours
     if (
-        !changes?.currentWeather.firstChange &&
-        !changes?.hourlyWeather.firstChange &&
-        !changes?.sevenDayWeather.firstChange
+      !changes?.currentWeather.firstChange &&
+      !changes?.hourlyWeather.firstChange &&
+      !changes?.sevenDayWeather.firstChange
     ) {
       this._nextHoursChart.destroy();
       this._todayForecast();
@@ -85,8 +84,8 @@ export class MeteoComponent implements OnInit, OnChanges {
     this.sunrise = this._manageDates(this.currentWeather.sunrise, this._englishFormat ? 'h:mm A' : 'H:mm');
     this._lotties(this._calculateWeaterIcons(this.currentWeather));
     this.currentDatetime = this._manageDates(
-        moment().unix(),
-        this._englishFormat ? 'dddd Do of MMMM, hh:mm:ss' : 'dddd DD MMMM, HH:mm:ss',
+      moment().unix(),
+      this._englishFormat ? 'dddd Do of MMMM, hh:mm:ss' : 'dddd DD MMMM, HH:mm:ss',
     );
   }
 
@@ -143,8 +142,8 @@ export class MeteoComponent implements OnInit, OnChanges {
       options: {
         responsive: true,
         plugins: {
-          tooltip: {enabled: false},
-          legend: {display: false},
+          tooltip: { enabled: false },
+          legend: { display: false },
           datalabels: {
             align: 'end',
             color: WEATHER_NEXT_HOUR_CHART_COLOR,
@@ -164,7 +163,7 @@ export class MeteoComponent implements OnInit, OnChanges {
             },
             ticks: {
               color: '#949494',
-              font: (ctx, options) => ({family: 'Oswald-SemiBold'}),
+              font: (ctx, options) => ({ family: 'Oswald-SemiBold' }),
             },
           },
           y: {

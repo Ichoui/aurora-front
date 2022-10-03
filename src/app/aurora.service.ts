@@ -64,7 +64,7 @@ export class AuroraService {
    */
   getPoles$(pole: Pole): Observable<unknown> {
     return this.http.get(
-        `${environment.cors}/https://services.swpc.noaa.gov/products/animations/ovation_${pole}_24h.json`,
+      `${environment.cors}/https://services.swpc.noaa.gov/products/animations/ovation_${pole}_24h.json`,
     );
   }
 

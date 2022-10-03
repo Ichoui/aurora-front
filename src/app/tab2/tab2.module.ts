@@ -18,7 +18,7 @@ import { SwiperModule } from 'swiper/angular';
     CommonModule,
     FormsModule,
     TranslateModule,
-    RouterModule.forChild([{path: '', component: Tab2Page}]),
+    RouterModule.forChild([{ path: '', component: Tab2Page }]),
     HeaderPageModule,
     KpindexModule,
     MapsModule,

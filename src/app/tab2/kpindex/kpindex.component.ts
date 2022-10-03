@@ -23,8 +23,7 @@ export class KpindexComponent implements OnInit, OnChanges {
   @Input() unit: Unit;
   @Input() dataSolarWind: ACEModule;
 
-  constructor(private _storageService: StorageService) {
-  }
+  constructor(private _storageService: StorageService) {}
 
   ngOnInit() {
     this._auroraBackground();
@@ -33,7 +32,7 @@ export class KpindexComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (!changes?.unit?.firstChange && changes?.unit?.currentValue !== changes?.unit?.previousValue) {
-      this.speed = {...this.speed, value: convertUnit(this.speed.value, this.unit), unit: this.unit};
+      this.speed = { ...this.speed, value: convertUnit(this.speed.value, this.unit), unit: this.unit };
     }
     if (changes?.dataSolarWind) {
       const dataSolarWind = changes.dataSolarWind.currentValue;
@@ -72,6 +71,5 @@ export class KpindexComponent implements OnInit, OnChanges {
   /**
    * Observable permettant de récupérer les données des vents solaires
    * */
-  solarWindData(): void {
-  }
+  solarWindData(): void {}
 }

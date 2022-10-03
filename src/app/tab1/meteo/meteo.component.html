@@ -3,10 +3,10 @@
   <div class="today" *ngIf="currentWeather">
     <div class="row">
       <ng-lottie
-              *ngIf="lottieConfig"
-              [options]="lottieConfig"
-              [width]="widthCurrent + 'px'"
-              [height]="heightCurrent + 'px'"
+        *ngIf="lottieConfig"
+        [options]="lottieConfig"
+        [width]="widthCurrent + 'px'"
+        [height]="heightCurrent + 'px'"
       ></ng-lottie>
       <div class="temperature">
         {{ currentWeather.temp | number: '1.0-0' }}
@@ -37,8 +37,8 @@
         <ng-container *ngFor="let hourly of hourlyWeather; index as i">
           <div *ngIf="i < dataNumberInCharts" class="next-content">
             <img
-                    src="assets/img/meteoOWM/{{ hourly.weather[0].icon }}@2x.png"
-                    alt="{{ hourly.weather[0].description }}"
+              src="assets/img/meteoOWM/{{ hourly.weather[0].icon }}@2x.png"
+              alt="{{ hourly.weather[0].description }}"
             />
             <div class="rain">
               <span class="icon icon-drop"></span>
@@ -66,7 +66,7 @@
           <div class="percent">{{ day.pop ? (day.pop | percent: '1.0-0') : '0%' }}</div>
         </div>
         <span class="icon">
-          <img src="assets/img/meteoOWM/{{ day.weather[0].icon }}@2x.png" alt="{{ day.weather[0].description }}"/>
+          <img src="assets/img/meteoOWM/{{ day.weather[0].icon }}@2x.png" alt="{{ day.weather[0].description }}" />
         </span>
         <div class="temps">
           <span class="temp-max">{{ day.temp.max | number: '1.0-0' }}°</span>

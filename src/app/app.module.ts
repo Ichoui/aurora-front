@@ -40,7 +40,7 @@ import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpsInterceptorService,
@@ -49,8 +49,7 @@ import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {
-}
+export class AppModule {}
 
 // required for AOT compilation
 export function HttpLoaderFactory(http: HttpClient) {

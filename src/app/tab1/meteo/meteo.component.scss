@@ -184,11 +184,12 @@ ion-header {
       height: 15px;
       width: 60vw;
       background: linear-gradient(
-                      to right,
-                      var(--ion-color-secondary) 30%,
-                      var(--ion-color-primary) 55%,
-                      var(--ion-color-tertiary)
-      ) 100%;
+          to right,
+          var(--ion-color-secondary) 30%,
+          var(--ion-color-primary) 55%,
+          var(--ion-color-tertiary)
+        )
+        100%;
     }
 
     .percent {

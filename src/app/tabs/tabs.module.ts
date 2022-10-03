@@ -21,7 +21,7 @@ export function playerFactory() {
     FormsModule,
     TabsPageRoutingModule,
     TranslateModule,
-    LottieModule.forRoot({player: playerFactory}),
+    LottieModule.forRoot({ player: playerFactory }),
   ],
   declarations: [TabsPage],
 })

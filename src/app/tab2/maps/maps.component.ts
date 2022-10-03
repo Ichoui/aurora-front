@@ -25,8 +25,7 @@ export class MapsComponent implements OnChanges {
   chartKpForecast: Chart;
   chartKpForecast27: Chart;
 
-  constructor(private modalController: ModalController, private translateService: TranslateService) {
-  }
+  constructor(private modalController: ModalController, private translateService: TranslateService) {}
 
   ngOnChanges(changes: SimpleChanges) {
     this.chartKpForecast?.destroy();
@@ -95,8 +94,8 @@ export class MapsComponent implements OnChanges {
       options: {
         responsive: true,
         plugins: {
-          tooltip: {enabled: false},
-          legend: {display: false},
+          tooltip: { enabled: false },
+          legend: { display: false },
           datalabels: {
             anchor: 'end',
             align: 'end',
@@ -114,7 +113,7 @@ export class MapsComponent implements OnChanges {
             },
             ticks: {
               color: '#949494',
-              font: (ctx, options) => ({family: 'Oswald-SemiBold'}),
+              font: (ctx, options) => ({ family: 'Oswald-SemiBold' }),
             },
           },
           y: {
@@ -168,8 +167,8 @@ export class MapsComponent implements OnChanges {
       options: {
         responsive: true,
         plugins: {
-          legend: {display: false},
-          tooltip: {enabled: false},
+          legend: { display: false },
+          tooltip: { enabled: false },
           datalabels: {
             anchor: 'end',
             align: 'end',
@@ -187,7 +186,7 @@ export class MapsComponent implements OnChanges {
             },
             ticks: {
               color: '#949494',
-              font: (ctx, options) => ({family: 'Oswald-SemiBold'}),
+              font: (ctx, options) => ({ family: 'Oswald-SemiBold' }),
             },
           },
           y: {

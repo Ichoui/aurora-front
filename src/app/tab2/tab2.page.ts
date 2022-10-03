@@ -38,35 +38,34 @@ export class Tab2Page {
   unit: Unit;
 
   constructor(
-      private _geoloc: Geolocation,
-      private _storageService: StorageService,
-      private _navCtrl: NavController,
-      private _auroraService: AuroraService,
-  ) {
-  }
+    private _geoloc: Geolocation,
+    private _storageService: StorageService,
+    private _navCtrl: NavController,
+    private _auroraService: AuroraService,
+  ) {}
 
   ionViewWillEnter() {
     this.tabLoading = [];
     // Cheminement en fonction si la localisation est pré-set ou si géoloc
     this._storageService.getData('location').then(
-        (codeLocation: CodeLocation) => {
-          if (!codeLocation) {
-            this._userLocalisation();
-          } else if (codeLocation.code === 'currentLocation' || codeLocation.code === 'marker') {
-            this._getExistingLocalisation(codeLocation.lat, codeLocation.long);
-          } else {
-            this._chooseExistingCity(codeLocation.code);
-          }
-        },
-        error => {
-          console.warn('Local storage error', error);
-          this.dataError = new ErrorTemplate({
-            value: true,
-            status: error.status,
-            message: error.statusText,
-            error,
-          });
-        },
+      (codeLocation: CodeLocation) => {
+        if (!codeLocation) {
+          this._userLocalisation();
+        } else if (codeLocation.code === 'currentLocation' || codeLocation.code === 'marker') {
+          this._getExistingLocalisation(codeLocation.lat, codeLocation.long);
+        } else {
+          this._chooseExistingCity(codeLocation.code);
+        }
+      },
+      error => {
+        console.warn('Local storage error', error);
+        this.dataError = new ErrorTemplate({
+          value: true,
+          status: error.status,
+          message: error.statusText,
+          error,
+        });
+      },
     );
   }
 
@@ -76,20 +75,20 @@ export class Tab2Page {
    */
   private _userLocalisation() {
     this._geoloc
-        .getCurrentPosition()
-        .then(resp => {
-          this._getExistingLocalisation(resp.coords.latitude, resp.coords.longitude);
-        })
-        .catch(error => {
-          console.warn('Geolocalisation error', error);
-          this.loading = false;
-          this.dataError = new ErrorTemplate({
-            value: true,
-            status: error.status,
-            message: error.statusText,
-            error,
-          });
+      .getCurrentPosition()
+      .then(resp => {
+        this._getExistingLocalisation(resp.coords.latitude, resp.coords.longitude);
+      })
+      .catch(error => {
+        console.warn('Geolocalisation error', error);
+        this.loading = false;
+        this.dataError = new ErrorTemplate({
+          value: true,
+          status: error.status,
+          message: error.statusText,
+          error,
         });
+      });
   }
 
   /**
@@ -129,29 +128,29 @@ export class Tab2Page {
       this._auroraService.auroraLiveV2$(this.coords.latitude, this.coords.longitude),
       this._storageService.getData('unit'),
     ])
-        .pipe(
-            tap({
-              next: ([ace, unit]: [ACEModule, Unit]) => {
-                this.loading = false;
-                this.moduleACE = ace;
-                this.kpForecast27days = ace['kp:27day'];
-                this.kpForecast = ace['kp:forecast'];
-                this._trickLoading('1st');
-                this.unit = unit;
-              },
-              error: error => {
-                console.warn('Wind Solar data error', error);
-                this.loading = false;
-                this.dataError = new ErrorTemplate({
-                  value: true,
-                  status: error.status,
-                  message: error.statusText,
-                  error,
-                });
-              },
-            }),
-        )
-        .subscribe();
+      .pipe(
+        tap({
+          next: ([ace, unit]: [ACEModule, Unit]) => {
+            this.loading = false;
+            this.moduleACE = ace;
+            this.kpForecast27days = ace['kp:27day'];
+            this.kpForecast = ace['kp:forecast'];
+            this._trickLoading('1st');
+            this.unit = unit;
+          },
+          error: error => {
+            console.warn('Wind Solar data error', error);
+            this.loading = false;
+            this.dataError = new ErrorTemplate({
+              value: true,
+              status: error.status,
+              message: error.statusText,
+              error,
+            });
+          },
+        }),
+      )
+      .subscribe();
   }
 
   /**

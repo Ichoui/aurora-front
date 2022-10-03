@@ -10,5 +10,4 @@ import { LottieAnimationViewModule } from 'ng-lottie';
   imports: [CommonModule, ModalModule, TranslateModule, LottieAnimationViewModule.forRoot()],
   exports: [MapsComponent],
 })
-export class MapsModule {
-}
+export class MapsModule {}

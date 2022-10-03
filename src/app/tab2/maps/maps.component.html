@@ -1,26 +1,26 @@
 <div class="container">
-    <div class="container-world">
-        <div (click)="showMap()" class="world">
-            <span>{{ 'tab2.maps.worldmap' | translate }}</span>
-            <span class="icon icon-map"></span>
-        </div>
-        <div (click)="showPoles()" class="world">
-            <span>{{ 'tab2.maps.poles' | translate }}</span>
-            <span class="icon icon-earth"></span>
-        </div>
+  <div class="container-world">
+    <div (click)="showMap()" class="world">
+      <span>{{ 'tab2.maps.worldmap' | translate }}</span>
+      <span class="icon icon-map"></span>
     </div>
-
-    <h2>{{ 'tab2.maps.solarwind' | translate }}</h2>
-
-    <div class="container-chart">
-        <div class="header">{{ 'tab2.maps.nexthours.title' | translate }}</div>
-        <div class="sub">{{ 'tab2.maps.nexthours.sub' | translate }}</div>
-        <canvas id="kpnexthours"></canvas>
+    <div (click)="showPoles()" class="world">
+      <span>{{ 'tab2.maps.poles' | translate }}</span>
+      <span class="icon icon-earth"></span>
     </div>
+  </div>
 
-    <div class="container-chart">
-        <div class="header">{{ 'tab2.maps.longterm.title' | translate }}</div>
-        <div class="sub">{{ 'tab2.maps.longterm.sub' | translate }}</div>
-        <canvas id="kpforecast"></canvas>
-    </div>
+  <h2>{{ 'tab2.maps.solarwind' | translate }}</h2>
+
+  <div class="container-chart">
+    <div class="header">{{ 'tab2.maps.nexthours.title' | translate }}</div>
+    <div class="sub">{{ 'tab2.maps.nexthours.sub' | translate }}</div>
+    <canvas id="kpnexthours"></canvas>
+  </div>
+
+  <div class="container-chart">
+    <div class="header">{{ 'tab2.maps.longterm.title' | translate }}</div>
+    <div class="sub">{{ 'tab2.maps.longterm.sub' | translate }}</div>
+    <canvas id="kpforecast"></canvas>
+  </div>
 </div>

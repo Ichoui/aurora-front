@@ -1,43 +1,43 @@
 <app-header titre="{{ 'tab3.settings.infos' | translate }}"></app-header>
 
 <ion-content>
-    <div [routerLink]="['','tabs','tab3']" class="back">
-        <!--        <span>{{ 'global.back' | translate }}</span>-->
-        <span class="icon icon-back1"></span>
-    </div>
-    <ion-card class="welcome-card" (click)="visibility($event, 0)">
-        <ion-card-header>{{'tab3.infos.welcome.title' | translate }}</ion-card-header>
-        <ion-card-content class="dont-touch" [innerHtml]="'tab3.infos.welcome.message' | translate"></ion-card-content>
-    </ion-card>
-    <ion-card class="card-container">
-        <ion-card-header class="header">{{ 'tab3.infos.firstblock.header' | translate }}</ion-card-header>
-        <app-card (click)="visibility($event, 1)" [block]="'firstblock'" [value]="'how'"></app-card>
-        <app-card (click)="visibility($event, 2)" [block]="'firstblock'" [value]="'solarwind'"></app-card>
-        <app-card (click)="visibility($event, 3)" [block]="'firstblock'" [value]="'colors'"></app-card>
-        <app-card (click)="visibility($event, 4)" [block]="'firstblock'" [value]="'where'"></app-card>
-        <app-card (click)="visibility($event, 5)" [block]="'firstblock'" [value]="'corona'"></app-card>
-        <app-card (click)="visibility($event, 6)" [block]="'firstblock'" [value]="'steve'"></app-card>
-        <app-card
-                (click)="visibility($event, 7)"
-                [block]="'firstblock'"
-                [value]="'legends'"
-                [classList]="'countries'"
-                [list]="['alaska','canada','sami','finlande','france']"
-                [extra]="'conclusion'"
-        ></app-card>
-        <app-card
-                (click)="visibility($event, 8)"
-                [block]="'firstblock'"
-                [value]="'annecdotes'"
-                [classList]="'annecdotes'"
-                [list]="['une','deux','trois','quatre','cinq', 'six', 'sept']"
-        ></app-card>
-    </ion-card>
+  <div [routerLink]="['','tabs','tab3']" class="back">
+    <!--        <span>{{ 'global.back' | translate }}</span>-->
+    <span class="icon icon-back1"></span>
+  </div>
+  <ion-card class="welcome-card" (click)="visibility($event, 0)">
+    <ion-card-header>{{'tab3.infos.welcome.title' | translate }}</ion-card-header>
+    <ion-card-content class="dont-touch" [innerHtml]="'tab3.infos.welcome.message' | translate"></ion-card-content>
+  </ion-card>
+  <ion-card class="card-container">
+    <ion-card-header class="header">{{ 'tab3.infos.firstblock.header' | translate }}</ion-card-header>
+    <app-card (click)="visibility($event, 1)" [block]="'firstblock'" [value]="'how'"></app-card>
+    <app-card (click)="visibility($event, 2)" [block]="'firstblock'" [value]="'solarwind'"></app-card>
+    <app-card (click)="visibility($event, 3)" [block]="'firstblock'" [value]="'colors'"></app-card>
+    <app-card (click)="visibility($event, 4)" [block]="'firstblock'" [value]="'where'"></app-card>
+    <app-card (click)="visibility($event, 5)" [block]="'firstblock'" [value]="'corona'"></app-card>
+    <app-card (click)="visibility($event, 6)" [block]="'firstblock'" [value]="'steve'"></app-card>
+    <app-card
+      (click)="visibility($event, 7)"
+      [block]="'firstblock'"
+      [value]="'legends'"
+      [classList]="'countries'"
+      [list]="['alaska','canada','sami','finlande','france']"
+      [extra]="'conclusion'"
+    ></app-card>
+    <app-card
+      (click)="visibility($event, 8)"
+      [block]="'firstblock'"
+      [value]="'annecdotes'"
+      [classList]="'annecdotes'"
+      [list]="['une','deux','trois','quatre','cinq', 'six', 'sept']"
+    ></app-card>
+  </ion-card>
 
-    <ion-card class="card-container">
-        <ion-card-header class="header">{{ 'tab3.infos.secondblock.header' | translate }}</ion-card-header>
-        <app-card (click)="visibility($event, 9)" [block]="'secondblock'" [value]="'forecast'"></app-card>
-        <app-card (click)="visibility($event, 10)" [block]="'secondblock'" [value]="'capricious'"></app-card>
-        <app-card (click)="visibility($event, 11)" [block]="'secondblock'" [value]="'kp'"></app-card>
-    </ion-card>
+  <ion-card class="card-container">
+    <ion-card-header class="header">{{ 'tab3.infos.secondblock.header' | translate }}</ion-card-header>
+    <app-card (click)="visibility($event, 9)" [block]="'secondblock'" [value]="'forecast'"></app-card>
+    <app-card (click)="visibility($event, 10)" [block]="'secondblock'" [value]="'capricious'"></app-card>
+    <app-card (click)="visibility($event, 11)" [block]="'secondblock'" [value]="'kp'"></app-card>
+  </ion-card>
 </ion-content>

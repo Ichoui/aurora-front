@@ -9,5 +9,4 @@ import { IonicModule } from '@ionic/angular';
   exports: [KpindexComponent],
   imports: [CommonModule, TranslateModule, IonicModule],
 })
-export class KpindexModule {
-}
+export class KpindexModule {}

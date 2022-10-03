@@ -9,7 +9,7 @@ const routes: Routes = [
   // { path: 'informations', loadChildren: './tab3/informations/informations.module#InformationsPageModule' }
 ];
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules})],
+  imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

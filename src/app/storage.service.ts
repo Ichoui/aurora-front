@@ -10,8 +10,7 @@ import { BehaviorSubject } from 'rxjs';
 export class StorageService {
   private _storageReady = new BehaviorSubject(false);
 
-  constructor(private _storage: Storage) {
-  }
+  constructor(private _storage: Storage) {}
 
   async init(): Promise<void> {
     await this._storage.defineDriver(CordovaSQLiteDriver);
