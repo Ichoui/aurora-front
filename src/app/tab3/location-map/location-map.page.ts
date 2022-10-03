@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { cities, CodeLocation } from '../../models/cities';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { icon, LatLng, Map, marker, Marker, tileLayer, ZoomPanOptions } from 'leaflet';
+import { icon, LatLng, LatLngBoundsExpression, Map, Marker, marker, Rectangle, tileLayer, ZoomPanOptions } from 'leaflet';
 import { TranslateService } from '@ngx-translate/core';
 import { StorageService } from '../../storage.service';
 import { Geoposition } from '@ionic-native/geolocation';
@@ -105,6 +105,18 @@ export class LocationMapPage implements OnInit, OnDestroy {
       let latLng: LatLng = params['latlng'];
       void this.selectedLoc(null, latLng);
     });
+
+
+    this._auroraService
+        .getAuroraMapData$()
+        .pipe(
+            map(e => e.coordinates),
+            tap(console.log),
+        )
+        .subscribe();
+    // https://leafletjs.com/reference.html#rectangle
+    const bounds: LatLngBoundsExpression = [[54.9999, 54.0000], [54.000,54.9999]];
+    new Rectangle(bounds, {color: "#ff7800", weight: 1}).addTo(this._map)
   }
 
   /**

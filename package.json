@@ -42,6 +42,7 @@
     "@ngx-translate/core": "^14.0.0",
     "@ngx-translate/http-loader": "^7.0.0",
     "@types/chart.js": "^2.9.37",
+    "@types/leaflet": "^1.8.0",
     "chart.js": "^3.9.1",
     "chartjs": "^0.3.24",
     "chartjs-plugin-datalabels": "^2.1.0",

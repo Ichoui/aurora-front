@@ -82,7 +82,7 @@ export class AuroraService {
     return this.http.get<Geocoding[]>(`${environment.cors}/${environment.api_reverse_geocode}`, { params });
   }
 
-  test$():Observable<any> {
+  getAuroraMapData$():Observable<any> {
     return this.http.get(`${environment.cors}/https://services.swpc.noaa.gov/json/ovation_aurora_latest.json`)
   }
 }
