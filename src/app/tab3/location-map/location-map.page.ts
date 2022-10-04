@@ -2,7 +2,19 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { cities, CodeLocation } from '../../models/cities';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { icon, LatLng, LatLngBoundsExpression, Map, Marker, marker, Rectangle, tileLayer, ZoomPanOptions } from 'leaflet';
+import {
+  Icon,
+  icon,
+  LatLng,
+  LatLngBoundsExpression,
+  Map,
+  Marker,
+  marker,
+  Popup,
+  Rectangle,
+  tileLayer,
+  ZoomPanOptions,
+} from 'leaflet';
 import { TranslateService } from '@ngx-translate/core';
 import { StorageService } from '../../storage.service';
 import { Geoposition } from '@ionic-native/geolocation';
@@ -106,17 +118,26 @@ export class LocationMapPage implements OnInit, OnDestroy {
       void this.selectedLoc(null, latLng);
     });
 
-
     this._auroraService
-        .getAuroraMapData$()
-        .pipe(
-            map(e => e.coordinates),
-            tap(console.log),
-        )
-        .subscribe();
+      .getAuroraMapData$()
+      .pipe(
+        map(e => e.coordinates),
+        tap(console.log),
+      )
+      .subscribe();
     // https://leafletjs.com/reference.html#rectangle
-    const bounds: LatLngBoundsExpression = [[54.9999, 54.0000], [54.000,54.9999]];
-    new Rectangle(bounds, {color: "#ff7800", weight: 1}).addTo(this._map)
+    const bounds: LatLngBoundsExpression = [
+      [54.9999, 54.0],
+      [54.0, 54.9999],
+    ];
+
+    // Haut droit LAT 45.12 3.16
+    // Haut gauche LAT 45.1 LONG 1.48
+
+
+    // Bas droit LAT 44.15 LONG 3.1
+    // Bas gauche LAT 44.22 LONG 1.5
+    new Rectangle(bounds, { color: '#ff7800', weight: 1 }).addTo(this._map);
   }
 
   /**
@@ -129,14 +150,15 @@ export class LocationMapPage implements OnInit, OnDestroy {
 
     this._reverseGeocode(lat, long);
 
-    this._marker = marker([lat, long], {
+    this._marker = new Marker([lat, long], {
       draggable: false,
-
-      icon: icon({
-        iconSize: [45, 45],
+      icon: new Icon({
+        iconSize: [25, 25],
         iconUrl: 'assets/img/marker-icon.png',
       }),
-    }).addTo(this._map);
+    }).addTo(this._map).on('click',e => {
+      console.log(e);
+    });
   }
 
   /**
@@ -193,8 +215,7 @@ export class LocationMapPage implements OnInit, OnDestroy {
             this._createTooltip(infoWindow, lat, long);
           },
           error: error => {
-            console.warn('Reverse geocode error ==> ', error);
-            console.error('Error localisation', error);
+            console.error('Reverse geocode error ==> ', error);
             const infoWindow = this._translate.instant('global.unknown');
             this._createTooltip(infoWindow);
           },
@@ -206,16 +227,18 @@ export class LocationMapPage implements OnInit, OnDestroy {
   /**
    * @param infoWindow {string}
    * @param lat {number}
-   * @param long {number}
+   * @param lng
    * Affiche le tooltip
    * */
-  private _createTooltip(infoWindow: string, lat?, long?): void {
-    if (lat && long) {
-      this._marker
-        .bindPopup(`<b>${infoWindow}</b> <br /> Lat: ${lat} <br/> Long: ${long}`, { closeOnClick: true })
-        .openPopup();
+  private _createTooltip(infoWindow: string, lat?, lng?): void {
+    const popup = new Popup({ closeButton: true, autoClose: true });
+    let message;
+    if (lat && lng) {
+      message = `<b>${infoWindow}</b> <br /> Lat: ${lat} <br/> Long: ${lng}`;
     } else {
-      this._marker.bindPopup(`<b>${infoWindow}</b><br /> ${this._translate.instant('tab3.map.another')} `).openPopup();
+      message = `<b>${infoWindow}</b><br /> ${this._translate.instant('tab3.map.another')} `;
     }
+    popup.setLatLng({ lat, lng }).setContent(message).addTo(this._map).openOn(this._map);
+    document.querySelector('.leaflet-popup-close-button').removeAttribute('href'); // href on marker tooltip reload page if not this line...
   }
 }
