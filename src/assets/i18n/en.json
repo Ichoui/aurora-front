@@ -64,7 +64,7 @@
         "third.link": "rate me!"
       },
       "cgu": "Terms of Use",
-      "languages": "Languages",
+      "languages": "Language",
       "sublanguages": "Pick your favorite language",
       "infos": "Auroras",
       "subinfos": "Technical explanations and anecdotes (French)",
@@ -175,18 +175,18 @@
     }
   },
   "cgu": {
-    "title": "Terms of Use (only in French)",
+    "title": "Terms of Use (French only)",
     "art1": {
       "title": "Article 1 : Mentions légales",
-      "text": "L’édition de l’application est assurée par Mr Morgan NICOL, développeur indépendant et créatif, non déclaré. <br>L’application est à but non-lucratif, et est proposée dans l'unique but de renseigner un utilisateur sur des faits météorologique.<br>L'application est hébergée sur le Play Store / Apple Store, en fonction de votre smartphone.<br>Adresse de contact : <a href='mailto:morganichoui@gmail.com'>morganichoui@gmail.com</a><br>"
+      "text": "L’édition de l’application est assurée par Mr Morgan N, développeur indépendant et créatif, non déclaré. <br>L’application est à but non-lucratif, et est proposée dans l'unique but de renseigner un utilisateur sur des faits météorologique.<br>L'application est hébergée sur le Play Store seulement.<br>Adresse de contact : <a href='mailto:morganichoui@gmail.com'>morganichoui@gmail.com</a><br>"
     },
     "art2": {
       "title": "Article 2 : Accès et utilisation du site ",
-      "text": "L’utilisateur peut accéder en toute heure, en tout lieu et à tout moment à l’application.<br>L’utilisateur devra bénéficier d’une connexion internet pour accéder à la majeure partie des fonctionnalités proposées par l’application.<br>L’utilisation pourra trouver des informations relatives aux aurores boréales. Grâce à sa géolocalisation, il sera en capacité de consulter les données du &laquo; Space Weather Prediction Center &raquo;, situé aux Etats-Unis, retravaillée par le développeur. De plus, l’utilisateur pourra également consulter la météo dans la ville choisie. <br>Le site ne dispose d’aucune publicité, et est entièrement gratuit. Il ne génère aucuns revenus."
+      "text": "L’utilisateur peut accéder en toute heure, en tout lieu et à tout moment à l’application.<br>L’utilisateur devra bénéficier d’une connexion internet pour accéder à la majeure partie des fonctionnalités proposées par l’application.<br>L’utilisation pourra trouver des informations relatives aux aurores boréales. Grâce à sa géolocalisation, il sera en capacité de consulter les données du &laquo; Space Weather Prediction Center &raquo;, situé aux Etats-Unis, retravaillée et mise en forme par le développeur. De plus, l’utilisateur pourra également consulter la météo dans la ville choisie. <br>Le site ne dispose d’aucune publicité, et est entièrement gratuit. Il ne génère aucuns revenus."
     },
     "art3": {
       "title": "Article 3 : Données personnelles",
-      "text": "En vertu de la loi Informatique et Libertés, en date du 6 janvier, l’utilisateur dispose d’un droit d’accès, de rectification, de suppression et d’opposition de ses données personnelles.<br>De ce fait :<ul><li>Seules les données de géolocalisation de l’utilisateur seront demandées pour veiller au bon fonctionnement de l’application sur son smartphone / tablette. Ces données sont stockées directement dans l’application sur le téléphone de l’utilisateur, par technique de &laquo; Local Storage &raquo;</li><li>La donnée de géolocalisation ne se créée qu'à la demande de l'utilisateur. L'application ne &laquo traque &raquo pas l'utilisateur dans ses déplacements</li><li>Aucune information n'est collectée, transmise, utilisable ou traitée par le développeur à ce jour.</li><li>Aucun cookie n'est utilisé dans cette application</li><li>Aucune donnée personnelle ou impersonnelle n’est stockée ailleurs que sur le smartphone / tablette de l’utilisateur</li><li>Aucune base de données n’a été mise en service pour cette application</li><li>Il n’est pas prévu, à ce jour, que la gestion de ces données évolue avec le temps</li></ul>"
+      "text": "En vertu de la loi Informatique et Libertés, en date du 6 janvier, l’utilisateur dispose d’un droit d’accès, de rectification, de suppression et d’opposition de ses données personnelles.<br>De ce fait :<ul><li>Seules les données de géolocalisation de l’utilisateur seront demandées pour veiller au bon fonctionnement de l’application sur son smartphone / tablette. Ces données sont stockées directement dans l’application sur le téléphone de l’utilisateur, par technique de &laquo; Local Storage &raquo;</li><li>La donnée de géolocalisation ne se créée qu'à la demande de l'utilisateur. L'application ne &laquo traque &raquo pas l'utilisateur dans ses déplacements</li><li>Aucune information n'est collectée, transmise, utilisable ou traitée par le développeur à ce jour.</li><li>Aucun cookie n'est utilisé dans cette application</li><li>Aucune donnée personnelle ou impersonnelle n’est stockée ailleurs que sur le smartphone / tablette de l’utilisateur</li><li>Aucune base de données n’a été mise en service pour cette application</li><li>Il n’est pas prévu, à ce jour, que la gestion de ces données évolue avec le temps.</li></ul>"
     },
     "art4": {
       "title": "Article 4 : Propriété intellectuelle",

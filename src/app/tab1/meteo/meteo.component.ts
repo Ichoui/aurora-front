@@ -7,7 +7,7 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { AnimationOptions } from 'ngx-lottie';
 import { ELocales } from '../../models/locales';
 import { StorageService } from '../../storage.service';
-import { WEATHER_NEXT_HOUR_CHART_COLOR } from '../../models/colors';
+import { MAIN_TEXT_COLOR, WEATHER_NEXT_HOUR_CHART_COLOR } from '../../models/colors';
 
 // import 'moment/locale/fr';
 Chart.register(...registerables);
@@ -162,7 +162,7 @@ export class MeteoComponent implements OnInit, OnChanges {
               display: false,
             },
             ticks: {
-              color: '#949494',
+              color: MAIN_TEXT_COLOR,
               font: (ctx, options) => ({ family: 'Oswald-SemiBold' }),
             },
           },

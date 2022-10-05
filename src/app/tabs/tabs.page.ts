@@ -17,7 +17,7 @@ export class TabsPage implements OnInit {
 
   activeRoute: number = null;
 
-  constructor(private router: Router) {}
+  constructor(private _router: Router) {}
 
   ngOnInit(): void {
     this.interval();
@@ -34,7 +34,7 @@ export class TabsPage implements OnInit {
       loop: true,
     };
 
-    this.router.events.subscribe((event: NavigationEnd) => {
+    this._router.events.subscribe((event: NavigationEnd) => {
       if (event && event.url) {
         this.selectTab(null, event.url);
       }

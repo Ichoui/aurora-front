@@ -6,6 +6,7 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { AuroraEnumColours, Kp27day, KpForecast } from '../../models/aurorav2';
 import * as moment from 'moment';
 import { colorSwitcher } from '../../models/utils';
+import { MAIN_TEXT_COLOR } from '../../models/colors';
 // import 'moment/locale/fr';
 
 const numberMax27Forecast = 14;
@@ -111,7 +112,7 @@ export class MapsComponent implements OnChanges {
               display: false,
             },
             ticks: {
-              color: '#949494',
+              color: MAIN_TEXT_COLOR,
               font: (ctx, options) => ({ family: 'Oswald-SemiBold' }),
             },
           },
@@ -184,7 +185,7 @@ export class MapsComponent implements OnChanges {
               display: false,
             },
             ticks: {
-              color: '#949494',
+              color: MAIN_TEXT_COLOR,
               font: (ctx, options) => ({ family: 'Oswald-SemiBold' }),
             },
           },

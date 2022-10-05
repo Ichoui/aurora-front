@@ -6,6 +6,10 @@ ion-tab-bar {
   font-family: 'aurora-icons', serif !important;
 }
 
+ion-tab-button.tab-selected ion-label {
+    color: var(--ion-color-primary) !important;
+}
+
 .main-btn {
   .icon-aurora {
     font-size: 5em;
@@ -13,15 +17,14 @@ ion-tab-bar {
     position: absolute;
     transform: translate(-50%, -50%);
     left: 50%;
-    //border-radius: 50%;
-    //overflow: hidden;
   }
 
   ion-label {
     padding-top: 25px;
-    font-family: var(--ion-font-bold);
+    font-family: var(--ion-font-semibold);
     text-transform: uppercase;
     font-size: 1.3em;
+    color: var(--ion-text-color);
   }
 }
 

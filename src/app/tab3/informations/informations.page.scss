@@ -11,7 +11,9 @@ ion-card {
 
     &:not(.header) {
       font-style: italic;
-      color: var(--ion-color-tertiary);
+      color: var(--ion-color-primary);
+      font-family: var(--ion-font-medium);
+      text-transform: inherit;
     }
   }
 

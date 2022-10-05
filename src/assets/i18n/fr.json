@@ -65,7 +65,7 @@
       },
       "subcredits": "",
       "cgu": "Conditions Générales d'Utilisation",
-      "languages": "Langues",
+      "languages": "Langue",
       "sublanguages": "Choisis ta langue préférée",
       "infos": "Aurores boréales",
       "subinfos": "Explications techniques, mécanismes et annecdotes",
@@ -180,7 +180,7 @@
     }
   },
   "cgu": {
-    "title": "Conditions Générales d'Utilisations (CGU)",
+    "title": "CGU",
     "art1": {
       "title": "Article 1 : Mentions légales",
       "text": "L’édition de l’application est assurée par Mr Morgan NICOL, développeur indépendant et créatif. <br>L’application est à but non-lucratif, et est proposée dans l'unique but de renseigner un utilisateur sur des faits météorologique.<br>L'application est hébergée sur le Play Store / Apple Store, en fonction de ton smartphone.<br>Adresse de contact : <a href='mailto:morganichoui@gmail.com'>morganichoui@gmail.com</a><br>"

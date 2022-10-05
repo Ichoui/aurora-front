@@ -9,7 +9,6 @@
   display: flex;
   justify-content: center;
   z-index: 88;
-  font-family: var(--ion-font-semibold);
 
   p {
     padding: 0 12px;
@@ -91,11 +90,13 @@
     font-size: 14px;
     width: 25%;
     text-align: left;
+    font-family: var(--ion-font-semibold);
   }
 
   .value {
     width: 75%;
     font-size: 45px;
+    font-family: var(--ion-font-semibold);
   }
 
   &.nowcast {

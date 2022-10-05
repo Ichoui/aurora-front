@@ -53,7 +53,7 @@
   // https://enappd.com/blog/dark-mode-in-your-ionic-4-apps/105/
   --ion-background-color: #013147;
   //--ion-background-color: #2f2f2f;
-  --ion-text-color: #f4f5f8;
+  --ion-text-color: #f3f3f3;
 
   --ion-item-background: rgba(#013147, 0.66);
   --color-toolbar-background: #013147;
@@ -70,7 +70,7 @@
   --ion-color-step-400: #717171;
   --ion-color-step-450: #a0a0a0; // 7d7d7d
   --ion-color-step-500: #898989;
-  --ion-color-step-550: #949494;
+  --ion-color-step-550: var(--ion-text-color); // #949494;
   --ion-color-step-600: #a0a0a0; //a0a0a0
   --ion-color-step-650: #acacac;
   --ion-color-step-700: #b8b8b8;
