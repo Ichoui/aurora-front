@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { cities, CodeLocation } from '../../models/cities';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { Icon, LatLng, LatLngBounds, LatLngBoundsExpression, LatLngTuple, Map, Marker, Popup, Rectangle, tileLayer, ZoomPanOptions, } from 'leaflet';
+import { GeoJSON, Icon, LatLng, LatLngBounds, Map, Marker, Popup, Rectangle, tileLayer, ZoomPanOptions } from 'leaflet';
 import { TranslateService } from '@ngx-translate/core';
 import { StorageService } from '../../storage.service';
 import { Geoposition } from '@ionic-native/geolocation';
@@ -10,6 +10,9 @@ import { map, tap } from 'rxjs/operators';
 import { Geocoding } from '../../models/geocoding';
 import { AuroraService } from '../../aurora.service';
 import { countryNameFromCode } from '../../models/utils';
+
+// import * as L from 'leaflet';
+// import * as geojson from 'geojson';
 
 @Component({
   selector: 'app-location-map',
@@ -94,6 +97,7 @@ export class LocationMapPage implements OnInit, OnDestroy {
       animate: true,
       duration: 1.2,
     };
+
     this._map = new Map('map_canvas_select').setView([lat, long], 3, mapOpt);
     tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: ' <div style="font-size: 1em">&copy;<a href="https://www.openstreetmap.org/copyright">OSM</a></div>',
@@ -105,44 +109,180 @@ export class LocationMapPage implements OnInit, OnDestroy {
       let latLng: LatLng = params['latlng'];
       void this.selectedLoc(null, latLng);
     });
+    // https://github.com/nouhouari/angular-leaflet/blob/master/package.jsonf
+
+    this.pocGeoJson();
+
+    // this._auroraService
+    //   .getAuroraMapData$()
+    //   .pipe(
+    //     map(e => e.coordinates),
+    //     tap((coords: number[] /*[long, lat, aurora]*/) => {
+    //       // console.log(coords);
+    //       // for (const coord of coords) {
+    //       // if (coord[2] >= 5) {
+    //       //   const corner1 = new LatLng(coord[1] + 1, coord[0] + 1 - 180),
+    //       //     corner2 = new LatLng(coord[1], coord[0] - 180),
+    //       //     bounds = new LatLngBounds(corner1, corner2);
+    //       // new Rectangle(bounds, { color: this._mapColor(coord[2]), opacity: 0.7, fill: true, weight: 0 }) //
+    //       //   .addTo(this._map);
+    //       // https://leafletjs.com/reference.html#rectangle
+    //       // Raster map  / layers
+    //       // https://leafletjs.com/plugins.html
+    //       // we remove and add the rectangle layers here, because it throws an error if this happens in the onEachFeature function
+    //       // }
+    //     }),
+    //   )
+    //   .subscribe();
+
+    // KEEP THIUS
+    // const corner1: LatLngTuple = [54.99, 54.0];
+    // const corner2: LatLngTuple = [54.0, 54.99];
+    // const bounds: LatLngBoundsExpression = [corner1, corner2];
+    // new Rectangle(bounds, { color: this._mapColor(44), weight: 1 }).addTo(this._map);
+  }
+
+  pocGeoJson() {
+    // const geoJsonFeatures: GeoJSON.FeatureCollection = {
+    //   "type": "FeatureCollection",
+    //   "features": [
+    //     {
+    //       "type": "Feature",
+    //       "properties": {},
+    //       "geometry": {
+    //         "type": "Polygon",
+    //         "coordinates": [
+    //           [
+    //             [
+    //               5.2789306640625,
+    //               49.7173764049358
+    //             ],
+    //             [
+    //               5.295410156249999,
+    //               49.61070993807422
+    //             ],
+    //             [
+    //               5.532989501953125,
+    //               49.63117246129088
+    //             ],
+    //             [
+    //               5.604400634765625,
+    //               49.74045665339642
+    //             ],
+    //             [
+    //               5.601654052734375,
+    //               49.82558098327032
+    //             ],
+    //             [
+    //               5.329742431640625,
+    //               49.82469504231389
+    //             ],
+    //             [
+    //               5.2789306640625,
+    //               49.7173764049358
+    //             ]
+    //           ]
+    //         ]
+    //       }
+    //     }
+    //   ]
+    // };
+
+    // const geoJsonFeatures: GeoJSON.FeatureCollection = {
+    //   type: 'FeatureCollection',
+    //   features: [
+    //     {
+    //       type: 'Feature',
+    //       geometry: {
+    //         type: 'Polygon',
+    //         coordinates: [
+    //           [
+    //             [-42, -9],
+    //             [18, -9],
+    //             [18, 9],
+    //             [-18, 9],
+    //             [-18, -9],
+    //           ],
+    //         ],
+    //       },
+    //       properties: { name: 'area1' },
+    //     },
+    //   ],
+    // };
+    //
+    // const geoJsonFeaturess: GeoJSON.FeatureCollection = {
+    //   type: 'FeatureCollection',
+    //   features: [
+    //     {
+    //       type: 'Feature',
+    //       geometry: {
+    //         type: 'Polygon',
+    //         coordinates: [
+    //           [
+    //             [-17, -9],
+    //             [17, -9],
+    //             [17, 9],
+    //             [-17, 9],
+    //             [-17, -9],
+    //           ],
+    //         ],
+    //       },
+    //       properties: { name: 'area1' },
+    //     },
+    //   ],
+    // };
+
+    // let layer = new GeoJSON(null).addTo(this._map);
+
+    // layer.addData(geoJsonFeatures);
+    // layer.addData(geoJsonFeaturess);
+
+    const collection: GeoJSON.FeatureCollection = {
+      type: 'FeatureCollection',
+      features: [],
+    };
+
+    let layer = new GeoJSON(collection).addTo(this._map);
 
     this._auroraService
       .getAuroraMapData$()
       .pipe(
         map(e => e.coordinates),
         tap((coords: number[] /*[long, lat, aurora]*/) => {
+          let i = 0;
           for (const coord of coords) {
-            if (coord[2] >= 5) {
-              const corner1 = new LatLng(coord[1] + 1, coord[0] + 1 - 180),
+            if (coord[2] >= 5 && coord[0] % 2 === 0 && coord[1] % 2 === 0) {
+              i++;
+              // On prend les valeur paire seulement, et on leur rajoute +2 pour compenser les "trous" causé par l'impair
+              // On passe ainsi d'environ 7500 à 1900
+              const corner1 = new LatLng(coord[1] + 2, coord[0] + 2 - 180),
                 corner2 = new LatLng(coord[1], coord[0] - 180),
                 bounds = new LatLngBounds(corner1, corner2);
-              new Rectangle(bounds, { color: this._mapColor(coord[2]), opacity: 0.7, fill: true, weight: 0 }) //
-                .addTo(this._map);
-              // https://leafletjs.com/reference.html#rectangle
+              layer.addLayer(
+                new Rectangle(bounds, { color: this._mapColor(coord[2]), opacity: 0.8, fill: true, weight: 0 }),
+              ); //
 
-              // Raster map  / layers
-              // https://leafletjs.com/plugins.html
+              // layer.addData({
+              //   type: 'Feature',
+              //   geometry: {
+              //     type: 'Polygon',
+              //     coordinates: [
+              //       [
+              //         [-coord[1] + 1, -coord[0]],
+              //         [17, -9],
+              //         [17, 9],
+              //         [-17, 9],
+              //         [-17, -9],
+              //       ],
+              //     ],
+              //   },
+              // } as GeoJSON.Feature);
             }
           }
+          console.log(i);
         }),
       )
       .subscribe();
-
-    // const corner1 = [54.9999, 54.0];
-    // const corner2 = [54.0, 54.9999];
-    const corner1: LatLngTuple = [54.99, 54.0];
-    const corner2: LatLngTuple = [54.0, 54.99];
-    const bounds: LatLngBoundsExpression = [corner1, corner2];
-    // new Rectangle(bounds, { color: this._mapColor(44), weight: 1 }).addTo(this._map);
-
-    const corner12: LatLngTuple = [55.99, 55.0];
-    const corner22: LatLngTuple = [55.0, 55.99];
-    const bounds2: LatLngBoundsExpression = [corner12, corner22];
-
-    // Haut droit LAT 45.12 3.16
-    // Haut gauche LAT 45.1 LONG 1.48
-    // Bas droit LAT 44.15 LONG 3.1
-    // Bas gauche LAT 44.22 LONG 1.5
   }
 
   /**
