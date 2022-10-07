@@ -10,6 +10,7 @@
     "android:create": "npx cap add android",
     "android": "npm run start:build:prod && npx cap copy",
     "android:watch": "ionic cap sync --watch --prod",
+    "android:copy-files": "npx cap copy",
     "info:ionic": "ionic info",
     "prettier": "prettier --write \"**/*.{js,ts,css,scss,html}\"",
     "prettier:check": "prettier --check \"**/*.{js,ts,css,scss,html}\"",

@@ -21,7 +21,8 @@
 @mixin subtitle-header {
   text-align: left;
   margin-left: 15px;
-  font-size: 0.8em;
+  font-size: 11px;
   margin-top: 3px;
-  color: var(--ion-color-step-600);
+  font-family: var(--ion-font-light);
+  color: var(--ion-text-color)
 }

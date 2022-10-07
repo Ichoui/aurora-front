@@ -2,19 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { cities, CodeLocation } from '../../models/cities';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import {
-  Icon,
-  icon,
-  LatLng,
-  LatLngBoundsExpression,
-  Map,
-  Marker,
-  marker,
-  Popup,
-  Rectangle,
-  tileLayer,
-  ZoomPanOptions,
-} from 'leaflet';
+import { Icon, LatLng, LatLngBounds, LatLngBoundsExpression, LatLngTuple, Map, Marker, Popup, Rectangle, tileLayer, ZoomPanOptions, } from 'leaflet';
 import { TranslateService } from '@ngx-translate/core';
 import { StorageService } from '../../storage.service';
 import { Geoposition } from '@ionic-native/geolocation';
@@ -122,27 +110,44 @@ export class LocationMapPage implements OnInit, OnDestroy {
       .getAuroraMapData$()
       .pipe(
         map(e => e.coordinates),
-        tap(console.log),
+        tap((coords: number[] /*[long, lat, aurora]*/) => {
+          for (const coord of coords) {
+            if (coord[2] >= 5) {
+              const corner1 = new LatLng(coord[1] + 1, coord[0] + 1 - 180),
+                corner2 = new LatLng(coord[1], coord[0] - 180),
+                bounds = new LatLngBounds(corner1, corner2);
+              new Rectangle(bounds, { color: this._mapColor(coord[2]), opacity: 0.7, fill: true, weight: 0 }) //
+                .addTo(this._map);
+              // https://leafletjs.com/reference.html#rectangle
+
+              // Raster map  / layers
+              // https://leafletjs.com/plugins.html
+            }
+          }
+        }),
       )
       .subscribe();
-    // https://leafletjs.com/reference.html#rectangle
-    const bounds: LatLngBoundsExpression = [
-      [54.9999, 54.0],
-      [54.0, 54.9999],
-    ];
+
+    // const corner1 = [54.9999, 54.0];
+    // const corner2 = [54.0, 54.9999];
+    const corner1: LatLngTuple = [54.99, 54.0];
+    const corner2: LatLngTuple = [54.0, 54.99];
+    const bounds: LatLngBoundsExpression = [corner1, corner2];
+    // new Rectangle(bounds, { color: this._mapColor(44), weight: 1 }).addTo(this._map);
+
+    const corner12: LatLngTuple = [55.99, 55.0];
+    const corner22: LatLngTuple = [55.0, 55.99];
+    const bounds2: LatLngBoundsExpression = [corner12, corner22];
 
     // Haut droit LAT 45.12 3.16
     // Haut gauche LAT 45.1 LONG 1.48
-
-
     // Bas droit LAT 44.15 LONG 3.1
     // Bas gauche LAT 44.22 LONG 1.5
-    new Rectangle(bounds, { color: '#ff7800', weight: 1 }).addTo(this._map);
   }
 
   /**
    * @param lat {number}
-   * @param long {number}
+   * @param long {number}$
    * Permet de créer un marqueur
    * */
   private _addMarker(lat, long): void {
@@ -156,9 +161,7 @@ export class LocationMapPage implements OnInit, OnDestroy {
         iconSize: [25, 25],
         iconUrl: 'assets/img/marker-icon.png',
       }),
-    }).addTo(this._map).on('click',e => {
-      console.log(e);
-    });
+    }).addTo(this._map);
   }
 
   /**
@@ -208,7 +211,7 @@ export class LocationMapPage implements OnInit, OnDestroy {
               infoWindow = `${res?.name}${res?.state ? ', ' + res.state : ''} - ${countryNameFromCode(res.country)}`;
             } else {
               infoWindow = this._translate.instant('global.unknown');
-              res.country
+              res?.country
                 ? (infoWindow = countryNameFromCode(res.country))
                 : (infoWindow = this._translate.instant('global.unknown'));
             }
@@ -240,5 +243,23 @@ export class LocationMapPage implements OnInit, OnDestroy {
     }
     popup.setLatLng({ lat, lng }).setContent(message).addTo(this._map).openOn(this._map);
     document.querySelector('.leaflet-popup-close-button').removeAttribute('href'); // href on marker tooltip reload page if not this line...
+  }
+
+  private _mapColor(index: number): string {
+    let color;
+    if (index < 10) {
+      color = 'gray';
+    } else if (index >= 10 && index < 20) {
+      color = 'green';
+    } else if (index >= 20 && index < 30) {
+      color = 'yellow';
+    } else if (index >= 30 && index < 40) {
+      color = 'orange';
+    } else if (index >= 40 && index < 60) {
+      color = 'red';
+    } else if (index >= 60 && index < 40) {
+      color = 'purple';
+    }
+    return color;
   }
 }

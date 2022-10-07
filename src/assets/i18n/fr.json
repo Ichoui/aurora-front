@@ -81,7 +81,7 @@
     "infos": {
       "title": "Informations",
       "welcome": {
-        "title": "Aurora - Northern Lights",
+        "title": "Aurora Chasers",
         "message": "Cette application est destinée au phénomène des Aurores Boréales.<br>Que tu vives dans un pays lointain du phénomène, ou que tu sois un chasseur d'aurores assidu, cette application te permettra de t'informer quant à la probabilité de voir une Aurore Boréale, grâce aux données du <i>Space Weather Prediction Center</i>.<br> Une section météo est également intégrée à l'application, pour optimiser vos recherches !"
       },
       "firstblock": {
@@ -169,7 +169,7 @@
         }
       },
       "help": {
-        "title": "Comment marche Aurora - Northern Lights ?",
+        "title": "Comment marche Aurora Chasers ?",
         "message": "C'est très simple ! <ol><li>Premièrement, comprends comment fonctionne une aurore.</li><li>Ensuite, choisis une localisation, sinon tu seras géolocalisé si tu me l'autorises.</li><li>Tu n'auras plus qu'à consulter l'activité solaire et la couverture nuageuse. Rappel, ces données fournissent des indicateurs pour chasser une aurore boréale. Elles ne t'assureront pas d'en voir ☺</li></ol>"
       }
     },

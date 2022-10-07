@@ -13,7 +13,7 @@ export default config;
 
 // {
 //     "appId": "io.aurora.start",
-//     "appName": "Aurora - Northern Lights",
+//     "appName": "Aurora Chasers",
 //     "bundledWebRuntime": false,
 //     "npmClient": "npm",
 //     "webDir": "www",

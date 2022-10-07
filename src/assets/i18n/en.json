@@ -80,8 +80,8 @@
     "infos": {
       "title": "Informations",
       "welcome": {
-        "title": "Aurora - Northern Lights",
-        "message": "Auroras - Northern Lights has been designed for any user interested in the Northern Lights phenomenon.<br>Wheter you are living in a land far away, or you are a Aurora Hunter, this application will inform you about your chances to observe Northern Lights, thanks to data from the Space Weather Prediction Center.<br>Moreover, a weather part is integrated to the app, to optimize your research.<br>."
+        "title": "Aurora Chasers",
+        "message": "Auroras Chasers has been designed for any user interested in the Northern Lights phenomenon.<br>Wheter you are living in a land far away, or you are a Aurora Hunter, this application will inform you about your chances to observe Northern Lights, thanks to data from the Space Weather Prediction Center.<br>Moreover, a weather part is integrated to the app, to optimize your research.<br>."
       },
       "firstblock": {
         "header": "Aurora Borealis ?",
@@ -164,7 +164,7 @@
         }
       },
       "help": {
-        "title": "How Aurora - Northern Lights works ?",
+        "title": "How Aurora Chasers works ?",
         "message": "It's very easy ! <ol><li>First of all, you have to learn how works the Northern Lights</li><li>Then, choose a location in the settings tab. Otherwise, you will be geolocated.</li><li>Finally, take a look at the Aurora tab and check both the solar wind and the cloud cover.</li></ol>"
       }
     },

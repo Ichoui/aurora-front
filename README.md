@@ -1,4 +1,4 @@
-# Aurora Northern Lights Project
+# Aurora Chasers Project (ex Northern Lights Project)
 
 ### Installation
 `npm i` for dependencies
@@ -9,10 +9,10 @@ You will need an OpenWeatherMap free account.
 
 
 ### About 
-Aurora Northern Lights Forecast 
+Aurora Chasers
 <br>
 Mobile App (IONIC - Capacitor Angular 14).
-This project will be deployed on Android mobile devices in a first time. 
+This project is available only on Android. 
 <br>
 1st Release date : mi-december 2019.
 2nd release, after 2 years of no maintenability (CORS problems, weather problems, Android compilation problems)
