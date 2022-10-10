@@ -1,11 +1,19 @@
 pinch-zoom {
   margin-top: 40px;
 }
-ion-title {
-  font-size: 1em;
-  text-align: center;
-  font-family: var(--ion-font-semibold);
-  text-transform: uppercase;
+
+ion-toolbar {
+  ion-buttons {
+    max-width: 40px;
+    margin-inline-start: 0;
+  }
+  ion-title {
+    padding: 20px 40px 20px 0;
+    font-size: 1em;
+    text-align: center;
+    font-family: var(--ion-font-semibold);
+    text-transform: uppercase;
+  }
 }
 
 .container-map {
@@ -16,7 +24,6 @@ ion-title {
       margin-top: 15px;
 
       width: 150% !important;
-
     }
   }
   &:first-child {
@@ -57,7 +64,7 @@ ion-title {
 }
 
 #cgu {
-  padding: 0 5px;
+  padding: 0 15px;
 
   .title {
     text-align: center;

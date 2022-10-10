@@ -1,4 +1,4 @@
-<app-header titre="{{ 'tab2.title' | translate }}"></app-header>
+<app-header [titre]=" 'tab2.title' | translate"></app-header>
 <ion-content fullscreen>
   <ng-container *ngIf="loading">
     <ion-progress-bar type="indeterminate"></ion-progress-bar>
