@@ -34,7 +34,6 @@
       "bt": "Bt"
     },
     "maps": {
-      "worldmap": "Carte du monde",
       "poles": " Prévisions par pôle",
       "pole.north": "Pôle Nord",
       "pole.south": "Pôle Sud",
@@ -43,14 +42,14 @@
       "nexthours.sub": "Kp maximum",
       "longterm.title": "Prévisions à long termes",
       "longterm.sub": "Kp maximum",
-      "solarwind": "Vent solaire"
+      "solarwind": "Vent solaire",
+      "aurora-map": "Carte des Aurores",
+      "sub-aurora-map": "Touche pour visualiser les Aurores en temps réel et choisir ta localisation"
     }
   },
   "tab3": {
     "settings": {
       "title": "Paramètres",
-      "location": "Localisation",
-      "sublocation": "Touche pour choisir ta localisation",
       "notifications": "Notifications",
       "kp": "KP Index",
       "current.position": "Position actuelle",
@@ -174,7 +173,7 @@
       }
     },
     "map": {
-      "title": "Localisation",
+      "title": "Carte des Aurores",
       "select": "Localisation prédéfinie",
       "another": "Essaye un autre endroit"
     }

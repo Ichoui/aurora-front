@@ -17,15 +17,6 @@ ion-toolbar {
 }
 
 .container-map {
-  &.map {
-    width: 100%;
-    overflow-x: auto;
-    ion-img {
-      margin-top: 15px;
-
-      width: 150% !important;
-    }
-  }
   &:first-child {
     margin-top: 30px;
   }

@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { KpindexComponent } from './kpindex.component';
+import { InstantForecastComponent } from './instant-forecast.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { IonicModule } from '@ionic/angular';
 
 @NgModule({
-  declarations: [KpindexComponent],
-  exports: [KpindexComponent],
+  declarations: [InstantForecastComponent],
+  exports: [InstantForecastComponent],
   imports: [CommonModule, TranslateModule, IonicModule],
 })
-export class KpindexModule {}
+export class InstantForecastModule {}

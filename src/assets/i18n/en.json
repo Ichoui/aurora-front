@@ -34,7 +34,6 @@
       "bt": "Bt"
     },
     "maps": {
-      "worldmap": "World map",
       "poles": "Poles forecast",
       "pole.north": "North pole",
       "pole.south": "South pole",
@@ -43,14 +42,14 @@
       "nexthours.sub": "Kp maximum",
       "longterm.title": "Long term forecast",
       "longterm.sub": "Kp maximum",
-      "solarwind": "Solar wind"
+      "solarwind": "Solar wind",
+      "aurora-map": "Auroras map",
+      "sub-aurora-map": "Tap to watch live Auroras and to choose your location"
     }
   },
   "tab3": {
     "settings": {
       "title": "Settings",
-      "location": "Location",
-      "sublocation": "Tap to choose your location",
       "notifications": "Notifications",
       "kp": "KP Index",
       "current.position": "Current location",
@@ -169,7 +168,7 @@
       }
     },
     "map": {
-      "title": "Location",
+      "title": "Auroras map",
       "select": "Preset locations",
       "another": "Try another location"
     }

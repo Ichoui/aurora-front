@@ -24,14 +24,7 @@ ion-card {
 
   .sub {
     @include subtitle-header;
-    margin-bottom: 15px;
     margin-left: 0;
-  }
-
-  #map_canvas {
-    margin-top: 15px;
-    height: 125px;
-    width: 100%;
   }
 
   ion-button.legal {

@@ -23,6 +23,10 @@ const routes: Routes = [
             path: '',
             loadChildren: () => import('../tab2/tab2.module').then(m => m.Tab2PageModule),
           },
+          {
+            path: 'map',
+            loadChildren: () => import('../tab2/map-leaflet/map-leaflet.module').then(m => m.LocationMapPageModule),
+          },
         ],
       },
       {
@@ -36,10 +40,6 @@ const routes: Routes = [
           {
             path: 'settings',
             loadChildren: () => import('../tab3/settings/settings.module').then(m => m.SettingsPageModule),
-          },
-          {
-            path: 'map',
-            loadChildren: () => import('../tab3/location-map/location-map.module').then(m => m.LocationMapPageModule),
           },
           {
             path: 'infos',

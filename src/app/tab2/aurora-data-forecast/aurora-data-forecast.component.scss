@@ -1,26 +1,39 @@
 @import '../../../theme/shared';
+:host {
+  .container {
+    height: 75vh;
+    overflow-y: auto;
+    .header {
+      @include header-title;
 
-.container {
-  //height: 100%;
-  //overflow: scroll;
+      &:before {
+        @include bottom-header;
+      }
+    }
+
+    .sub {
+      @include subtitle-header;
+    }
+  }
+}
+.container-leaflet {
+  #map_canvas {
+    height: 125px;
+    width: 100%;
+  }
 }
 
-.container-world {
+.container-poles {
   display: flex;
   width: 100%;
   justify-content: space-evenly;
 
-  .world {
+  .poles {
     display: flex;
     flex-direction: column;
 
     span:first-child {
       font-family: var(--ion-font-semibold);
-    }
-
-    span.icon-map {
-      color: var(--ion-color-primary);
-      font-size: 5em;
     }
 
     span.icon-earth {
@@ -34,16 +47,4 @@
 .container-chart {
   margin-top: 15px;
   font-size: 0.8em;
-
-  .header {
-    @include header-title;
-
-    &:before {
-      @include bottom-header;
-    }
-  }
-
-  .sub {
-    @include subtitle-header;
-  }
 }

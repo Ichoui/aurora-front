@@ -6,10 +6,10 @@ import { Unit } from '../../models/weather';
 
 @Component({
   selector: 'app-kpindex',
-  templateUrl: './kpindex.component.html',
-  styleUrls: ['./kpindex.component.scss'],
+  templateUrl: './instant-forecast.component.html',
+  styleUrls: ['./instant-forecast.component.scss'],
 })
-export class KpindexComponent implements OnInit, OnChanges {
+export class InstantForecastComponent implements OnInit, OnChanges {
   density: Density;
   kpCurrent: KpCurrent;
   speed: Speed;

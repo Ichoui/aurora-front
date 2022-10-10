@@ -19,8 +19,6 @@ export const SWPC_URL_PREFIX = 'https://services.swpc.noaa.gov/';
   styleUrls: ['./modal.component.scss'],
 })
 export class ModalComponent implements OnInit {
-  @Input() map: string;
-
   @Input() northPole: string;
 
   @Input() southPole: string;

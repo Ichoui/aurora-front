@@ -39,7 +39,7 @@ export class AppComponent {
         this._getUnit();
       });
       this._translateService.addLangs(['fr', 'en']);
-      await this._router.navigate(['/tabs/tab3']); // TODO pour charger la tab 3
+      await this._router.navigate(['/tabs/tab2']);
 
       // this.getKp();
       // this.isNotifsActive();

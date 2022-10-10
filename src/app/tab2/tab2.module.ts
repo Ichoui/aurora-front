@@ -6,11 +6,11 @@ import { FormsModule } from '@angular/forms';
 import { Tab2Page } from './tab2.page';
 import { HeaderPageModule } from '../shared/header/header.module';
 import { TranslateModule } from '@ngx-translate/core';
-import { KpindexModule } from './kpindex/kpindex.module';
-import { MapsModule } from './maps/maps.module';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { BrokenPageModule } from '../shared/broken/broken.module';
 import { SwiperModule } from 'swiper/angular';
+import { AuroraDataForecastModule } from './aurora-data-forecast/aurora-data-forecast.module';
+import { InstantForecastModule } from './instant-forecast/instant-forecast.module';
 
 @NgModule({
   imports: [
@@ -20,8 +20,8 @@ import { SwiperModule } from 'swiper/angular';
     TranslateModule,
     RouterModule.forChild([{ path: '', component: Tab2Page }]),
     HeaderPageModule,
-    KpindexModule,
-    MapsModule,
+    InstantForecastModule,
+    AuroraDataForecastModule,
     BrokenPageModule,
     SwiperModule,
   ],

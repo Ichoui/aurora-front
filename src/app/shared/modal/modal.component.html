@@ -7,14 +7,9 @@
     </ion-buttons>
     <ion-title>
       <span *ngIf="cgu">{{ 'cgu.title' | translate }}</span>
-      <span *ngIf="map">{{ 'tab2.maps.worldmap' | translate }}</span>
       <span *ngIf="northPole && southPole">{{ 'tab2.maps.poles' | translate }}</span>
     </ion-title>
   </ion-toolbar>
-
-  <div *ngIf="map" class="container-map map">
-    <ion-img [src]="map"></ion-img>
-  </div>
 
   <div *ngIf="northPole" class="container-map">
     <div class="subtitle explanations">{{ 'tab2.maps.poles.explanations' | translate }}</div>

@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { cities, CodeLocation } from '../../models/cities';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { GeoJSON, Icon, LatLng, LatLngBounds, Map, Marker, Popup, Rectangle, tileLayer, ZoomPanOptions } from 'leaflet';
+import { GeoJSON, Icon, LatLng, LatLngBounds, Map, Marker, PathOptions, Popup, Rectangle, tileLayer, ZoomPanOptions, } from 'leaflet';
 import { TranslateService } from '@ngx-translate/core';
 import { StorageService } from '../../storage.service';
 import { Geoposition } from '@ionic-native/geolocation';
@@ -10,16 +10,17 @@ import { map, tap } from 'rxjs/operators';
 import { Geocoding } from '../../models/geocoding';
 import { AuroraService } from '../../aurora.service';
 import { countryNameFromCode } from '../../models/utils';
-
+import geojsonvt from 'geojson-vt';
+import { FORECAST_COLOR_GRAY, FORECAST_COLOR_GREEN, FORECAST_COLOR_ORANGE, FORECAST_COLOR_PURPLE, FORECAST_COLOR_RED, FORECAST_COLOR_YELLOW, } from '../../models/colors';
 // import * as L from 'leaflet';
 // import * as geojson from 'geojson';
 
 @Component({
-  selector: 'app-location-map',
-  templateUrl: './location-map.page.html',
-  styleUrls: ['./location-map.page.scss'],
+  selector: 'app-map-leaflet',
+  templateUrl: './map-leaflet.page.html',
+  styleUrls: ['./map-leaflet.page.scss'],
 })
-export class LocationMapPage implements OnInit, OnDestroy {
+export class MapLeafletPage implements OnInit, OnDestroy {
   private _map: Map;
   private _marker: Marker;
   readonly cities = cities;
@@ -104,11 +105,15 @@ export class LocationMapPage implements OnInit, OnDestroy {
         [-90, -180],
         [90, 180],
       ]);
-    tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: ' <div style="font-size: 1em">&copy;<a href="https://www.openstreetmap.org/copyright">OSM</a></div>',
+
+    const test = tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution:
+        ' <div style="font-size: 12px; text-align:right;">&copy;<a href="https://www.openstreetmap.org/copyright">OSM</a></div>',
       noWrap: true,
       minZoom: 1,
-    }).addTo(this._map);
+    });
+
+    this._map.addLayer(test);
 
     this._addMarker(lat, long);
 
@@ -127,11 +132,11 @@ export class LocationMapPage implements OnInit, OnDestroy {
     //     tap((coords: number[] /*[long, lat, aurora]*/) => {
     //       // console.log(coords);
     //       // for (const coord of coords) {
-    //       // if (coord[2] >= 5) {
-    //       //   const corner1 = new LatLng(coord[1] + 1, coord[0] + 1 - 180),
-    //       //     corner2 = new LatLng(coord[1], coord[0] - 180),
+    //       // if (auroraPercent >= 5) {
+    //       //   const corner1 = new LatLng(lat + 1, long + 1 - 180),
+    //       //     corner2 = new LatLng(lat, long - 180),
     //       //     bounds = new LatLngBounds(corner1, corner2);
-    //       // new Rectangle(bounds, { color: this._mapColor(coord[2]), opacity: 0.7, fill: true, weight: 0 }) //
+    //       // new Rectangle(bounds, { color: this._mapColor(auroraPercent), opacity: 0.7, fill: true, weight: 0 }) //
     //       //   .addTo(this._map);
     //       // https://leafletjs.com/reference.html#rectangle
     //       // Raster map  / layers
@@ -141,152 +146,101 @@ export class LocationMapPage implements OnInit, OnDestroy {
     //     }),
     //   )
     //   .subscribe();
-
-    // KEEP THIUS
-    // const corner1: LatLngTuple = [54.99, 54.0];
-    // const corner2: LatLngTuple = [54.0, 54.99];
-    // const bounds: LatLngBoundsExpression = [corner1, corner2];
-    // new Rectangle(bounds, { color: this._mapColor(44), weight: 1 }).addTo(this._map);
   }
 
   pocGeoJson() {
-    // const geoJsonFeatures: GeoJSON.FeatureCollection = {
-    //   "type": "FeatureCollection",
-    //   "features": [
-    //     {
-    //       "type": "Feature",
-    //       "properties": {},
-    //       "geometry": {
-    //         "type": "Polygon",
-    //         "coordinates": [
-    //           [
-    //             [
-    //               5.2789306640625,
-    //               49.7173764049358
-    //             ],
-    //             [
-    //               5.295410156249999,
-    //               49.61070993807422
-    //             ],
-    //             [
-    //               5.532989501953125,
-    //               49.63117246129088
-    //             ],
-    //             [
-    //               5.604400634765625,
-    //               49.74045665339642
-    //             ],
-    //             [
-    //               5.601654052734375,
-    //               49.82558098327032
-    //             ],
-    //             [
-    //               5.329742431640625,
-    //               49.82469504231389
-    //             ],
-    //             [
-    //               5.2789306640625,
-    //               49.7173764049358
-    //             ]
-    //           ]
-    //         ]
-    //       }
-    //     }
-    //   ]
-    // };
-
-    // const geoJsonFeatures: GeoJSON.FeatureCollection = {
-    //   type: 'FeatureCollection',
-    //   features: [
-    //     {
-    //       type: 'Feature',
-    //       geometry: {
-    //         type: 'Polygon',
-    //         coordinates: [
-    //           [
-    //             [-42, -9],
-    //             [18, -9],
-    //             [18, 9],
-    //             [-18, 9],
-    //             [-18, -9],
-    //           ],
-    //         ],
-    //       },
-    //       properties: { name: 'area1' },
-    //     },
-    //   ],
-    // };
-    //
-    // const geoJsonFeaturess: GeoJSON.FeatureCollection = {
-    //   type: 'FeatureCollection',
-    //   features: [
-    //     {
-    //       type: 'Feature',
-    //       geometry: {
-    //         type: 'Polygon',
-    //         coordinates: [
-    //           [
-    //             [-17, -9],
-    //             [17, -9],
-    //             [17, 9],
-    //             [-17, 9],
-    //             [-17, -9],
-    //           ],
-    //         ],
-    //       },
-    //       properties: { name: 'area1' },
-    //     },
-    //   ],
-    // };
-
-    // let layer = new GeoJSON(null).addTo(this._map);
-
-    // layer.addData(geoJsonFeatures);
-    // layer.addData(geoJsonFeaturess);
-
     const collection: GeoJSON.FeatureCollection = {
       type: 'FeatureCollection',
       features: [],
     };
 
-    let layer = new GeoJSON(collection).addTo(this._map);
+    // Voir pour mettre ceci en place
+    var tileIndex = geojsonvt(collection, {
+      maxZoom: 14, // max zoom to preserve detail on; can't be higher than 24
+      tolerance: 3, // simplification tolerance (higher means simpler)
+      extent: 4096, // tile extent (both width and height)
+      buffer: 64, // tile buffer on each side
+      debug: 0, // logging level (0 to disable, 1 or 2)
+      lineMetrics: false, // whether to enable line metrics tracking for LineString/MultiLineString features
+      promoteId: null, // name of a feature property to promote to feature.id. Cannot be used with `generateId`
+      generateId: false, // whether to generate feature ids. Cannot be used with `promoteId`
+      indexMaxZoom: 5, // max zoom in the initial tile index
+      indexMaxPoints: 100000, // max number of points per tile in the index
+    });
+
+    let layer = new GeoJSON(collection, { style }).addTo(this._map);
 
     this._auroraService
       .getAuroraMapData$()
       .pipe(
         map(e => e.coordinates),
         tap((coords: number[] /*[long, lat, aurora]*/) => {
+          console.log(coords);
           let i = 0;
           for (const coord of coords) {
-            if (coord[2] >= 5 && coord[0] % 2 === 0 && coord[1] % 2 === 0) {
-              i++;
-              // On prend les valeur paire seulement, et on leur rajoute +2 pour compenser les "trous" causé par l'impair
-              // On passe ainsi d'environ 7500 à 1900
-              const corner1 = new LatLng(coord[1] + 2, coord[0] + 2 - 180),
-                corner2 = new LatLng(coord[1], coord[0] - 180),
+            let long = coord[0];
+            const lat = coord[1];
+            const auroraPercent = coord[2];
+            // On prend les valeurs paires seulement, et on leur rajoute +2 pour compenser les "trous" causés par l'impair
+            // On passe ainsi d'environ 7500 à 1900 layers supplémentaire
+            if (auroraPercent >= 5 && long % 2 === 0 && lat % 2 === 0) {
+              if (long > 180) {
+                // Longitude 180+ dépasse de la map à droite, cela permet de revenir tout à gauche de la carte
+                long = long - 360;
+              }
+              const corner1 = new LatLng(lat + 2, long + 2),
+                corner2 = new LatLng(lat, long),
                 bounds = new LatLngBounds(corner1, corner2);
               layer.addLayer(
-                new Rectangle(bounds, { color: this._mapColor(coord[2]), opacity: 0.8, fill: true, weight: 0 }),
-              ); //
-
+                new Rectangle(bounds, {
+                  color: mapColor(auroraPercent),
+                  fill: true,
+                  weight: 0,
+                  opacity: 0,
+                  fillOpacity: 0.6,
+                  stroke: false,
+                  interactive: false,
+                  smoothFactor: 2,
+                } as PathOptions),
+                // https://leafletjs.com/reference.html#path explanations about options
+              );
+              // i++;
+              // --------------------------------------------------------------------------------------------
               // layer.addData({
               //   type: 'Feature',
+              //   properties: {
+              //     color: [auroraPercent],
+              //   },
               //   geometry: {
               //     type: 'Polygon',
               //     coordinates: [
               //       [
-              //         [-coord[1] + 1, -coord[0]],
-              //         [17, -9],
-              //         [17, 9],
-              //         [-17, 9],
-              //         [-17, -9],
+              //         [long, lat],
+              //         [long, lat],
+              //         [long, lat],
+              //         [long, lat],
+              //         [long, lat],
               //       ],
               //     ],
               //   },
               // } as GeoJSON.Feature);
+
+              // if (i === 1) {
+              // console.log(layer);
+              // }
             }
           }
-          console.log(i);
+          /*
+          // WORKING!!
+            layer.addData({
+              type: 'Feature',
+              geometry: {
+                type: 'Polygon',
+                coordinates
+              },
+            } as GeoJSON.Feature);*/
+
+          // console.log(i);
         }),
       )
       .subscribe();
@@ -391,22 +345,33 @@ export class LocationMapPage implements OnInit, OnDestroy {
     popup.setLatLng({ lat, lng }).setContent(message).addTo(this._map).openOn(this._map);
     document.querySelector('.leaflet-popup-close-button').removeAttribute('href'); // href on marker tooltip reload page if not this line...
   }
+}
 
-  private _mapColor(index: number): string {
-    let color;
-    if (index < 10) {
-      color = 'gray';
-    } else if (index >= 10 && index < 20) {
-      color = 'green';
-    } else if (index >= 20 && index < 30) {
-      color = 'yellow';
-    } else if (index >= 30 && index < 40) {
-      color = 'orange';
-    } else if (index >= 40 && index < 60) {
-      color = 'red';
-    } else if (index >= 60 && index < 40) {
-      color = 'purple';
-    }
-    return color;
+function mapColor(index: number): string {
+  let color;
+  if (index < 10) {
+    color = FORECAST_COLOR_GRAY;
+  } else if (index >= 10 && index < 20) {
+    color = FORECAST_COLOR_GREEN;
+  } else if (index >= 20 && index < 30) {
+    color = FORECAST_COLOR_YELLOW;
+  } else if (index >= 30 && index < 40) {
+    color = FORECAST_COLOR_ORANGE;
+  } else if (index >= 40 && index < 60) {
+    color = FORECAST_COLOR_RED;
+  } else if (index >= 60 && index < 40) {
+    color = FORECAST_COLOR_PURPLE;
   }
+  return color;
+}
+
+function style(feature: { properties: { color: number } }): PathOptions {
+  return {
+    fill: true,
+    stroke: false,
+    fillColor: mapColor(feature.properties.color),
+    opacity: 1,
+    color: mapColor(feature.properties.color),
+    fillOpacity: 0.6,
+  };
 }

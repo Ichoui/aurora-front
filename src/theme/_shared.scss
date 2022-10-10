@@ -5,6 +5,7 @@
   font-family: var(--ion-font-bold);
   color: #fff;
   width: fit-content;
+  font-size: 16px;
 }
 
 @mixin bottom-header {
@@ -24,5 +25,6 @@
   font-size: 11px;
   margin-top: 3px;
   font-family: var(--ion-font-light);
-  color: var(--ion-text-color)
+  color: var(--ion-text-color);
+  margin-bottom: 15px;
 }

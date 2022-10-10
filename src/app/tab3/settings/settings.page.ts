@@ -1,15 +1,11 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { icon, Map, Marker, marker, tileLayer, ZoomPanOptions } from 'leaflet';
-import { CodeLocation, Coords } from '../../models/cities';
+import { Component } from '@angular/core';
 import { ELocales, Locales, SelectContents } from '../../models/locales';
 import { Router } from '@angular/router';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { ModalController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { ModalComponent } from '../../shared/modal/modal.component';
 import { Unit, units } from '../../models/weather';
 import { StorageService } from '../../storage.service';
-import { Geoposition } from '@ionic-native/geolocation';
 import { Browser } from '@capacitor/browser';
 
 @Component({
@@ -17,14 +13,10 @@ import { Browser } from '@capacitor/browser';
   templateUrl: './settings.page.html',
   styleUrls: ['./settings.page.scss'],
 })
-export class SettingsPage implements OnInit {
+export class SettingsPage {
   kpindex = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   notifications = false;
   notifKp;
-
-  private _marker: Marker;
-  private _coords: Coords = {} as any;
-  private _map: Map;
 
   locale = ELocales.FR;
   readonly locales: SelectContents[] = Locales;
@@ -32,110 +24,20 @@ export class SettingsPage implements OnInit {
   unit = Unit.METRIC;
   readonly units: SelectContents[] = units;
 
-  @ViewChild('map_canvas', { static: false }) mapElement: ElementRef;
-
   constructor(
     private _storageService: StorageService,
     private _router: Router,
-    private _geoloc: Geolocation,
     private _navController: NavController,
     private _modalController: ModalController,
     private _translateService: TranslateService,
   ) {}
 
   /**
-   * Invoqué au premier chargement de la page
-   * */
-  ngOnInit() {
-    this.minimapLocation();
-  }
-
-  /**
    * Invoqué à chaque retour sur la page
    * */
   ionViewWillEnter() {
     this._getLocale();
-    this.minimapLocation();
     this._getUnit();
-    // this.storageNotif();
-  }
-
-  /**
-   *  Si la localisation n'a jamais été remplie, on set avec "currentLocation" && on localise l'utilisateur pour la minimap
-   *  Sinon si la page a déjà été chargée une fois, on ne fait qu'ajouter un marker à la map
-   * Sinon charge la map avec les lat/long envoyée depuis la page popup (Marker et Ville Préselectionnées)
-   * */
-  minimapLocation() {
-    // localisation format json ? {code: 'currentlocation', lat: 41.1, long: 10.41} --> pas besoin de call à chaque fois lat et long comme ça...
-    this._storageService.getData('location').then((codeLocation: CodeLocation) => {
-      if (!codeLocation) {
-        this._userLocalisation();
-      } else {
-        this._mapInit(codeLocation.lat, codeLocation.long);
-      }
-    });
-  }
-
-  /**
-   * localise l'utilisateur et lance l'affichage de la map
-   * */
-  private _userLocalisation() {
-    this._geoloc
-      .getCurrentPosition()
-      .then((resp: Geoposition) => {
-        this._coords = resp.coords;
-        this._mapInit(this._coords.latitude, this._coords.longitude);
-        void this._storageService.setData('location', {
-          code: 'currentLocation',
-          lat: this._coords.latitude,
-          long: this._coords.longitude,
-        });
-      })
-      .catch(error => {
-        console.warn('Error getting location', error);
-      });
-  }
-
-  /**
-   * @param lat
-   * @param long
-   * Création de la map
-   * */
-  private _mapInit(lat: any, long: any): void {
-    if (this._map) {
-      this._map.remove();
-    }
-    const mapOpt: ZoomPanOptions = {
-      noMoveStart: false,
-      animate: false,
-    };
-
-    this._map = new Map('map_canvas').setView([lat, long], 4, mapOpt);
-
-    this._addMarker(lat, long);
-
-    this._map.dragging.disable();
-    this._map.zoomControl.remove();
-
-    tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: ' <div style="font-size: 1em">&copy;<a href="https://www.openstreetmap.org/copyright">OSM</a></div>',
-    }).addTo(this._map);
-  }
-
-  /**
-   * @param lat
-   * @param long
-   * Création d'un marker sur la map
-   * */
-  private _addMarker(lat: any, long: any) {
-    if (this._marker) this._marker.remove();
-    this._marker = marker([lat, long], {
-      icon: icon({
-        iconSize: [25, 25],
-        iconUrl: 'assets/img/marker-icon.png',
-        // shadowUrl: 'assets/img/marker-shadow.png',
-      }),
-    }).addTo(this._map);
   }
 
   async CGU() {

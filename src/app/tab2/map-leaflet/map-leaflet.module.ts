@@ -5,7 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { LocationMapPage } from './location-map.page';
+import { MapLeafletPage } from './map-leaflet.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { HeaderPageModule } from '../../shared/header/header.module';
@@ -13,13 +13,13 @@ import { HeaderPageModule } from '../../shared/header/header.module';
 const routes: Routes = [
   {
     path: '',
-    component: LocationMapPage,
+    component: MapLeafletPage,
   },
 ];
 
 @NgModule({
   imports: [CommonModule, FormsModule, IonicModule, RouterModule.forChild(routes), TranslateModule, HeaderPageModule],
-  declarations: [LocationMapPage],
+  declarations: [MapLeafletPage],
   providers: [Geolocation],
 })
 export class LocationMapPageModule {}
