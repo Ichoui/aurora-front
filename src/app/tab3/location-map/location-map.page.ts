@@ -98,9 +98,16 @@ export class LocationMapPage implements OnInit, OnDestroy {
       duration: 1.2,
     };
 
-    this._map = new Map('map_canvas_select').setView([lat, long], 3, mapOpt);
+    this._map = new Map('map_canvas_select') //
+      .setView([lat, long], 3, mapOpt) //
+      .setMaxBounds([
+        [-90, -180],
+        [90, 180],
+      ]);
     tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: ' <div style="font-size: 1em">&copy;<a href="https://www.openstreetmap.org/copyright">OSM</a></div>',
+      noWrap: true,
+      minZoom: 1,
     }).addTo(this._map);
 
     this._addMarker(lat, long);
