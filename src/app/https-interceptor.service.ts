@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class HttpsInterceptorService implements HttpInterceptor {
-  constructor() {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     req = req.clone({

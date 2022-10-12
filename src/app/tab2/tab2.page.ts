@@ -2,14 +2,14 @@ import { Component } from '@angular/core';
 import { cities, CodeLocation, Coords } from '../models/cities';
 import { AuroraService } from '../aurora.service';
 import { NavController } from '@ionic/angular';
-import { ACEModule, KpForecast } from '../models/aurorav2';
+import { ACEModule } from '../models/aurorav2';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { ErrorTemplate } from '../shared/broken/broken.model';
 import { StorageService } from '../storage.service';
 import { tap } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
 import { Unit } from '../models/weather';
-import { Kp27day, SolarWind } from '../models/aurorav3';
+import { Kp27day, KpForecast, SolarWind } from '../models/aurorav3';
 import { determineColorsOfValue, monthSwitcher } from '../models/utils';
 import { OnViewWillEnter } from '../models/ionic';
 // import 'moment/locale/fr';
@@ -37,6 +37,7 @@ export class Tab2Page implements OnViewWillEnter {
   kpForecast27days: Kp27day[] = [];
 
   dataError = new ErrorTemplate(null);
+
   unit: Unit;
   solarWind: SolarWind[];
 
@@ -131,21 +132,23 @@ export class Tab2Page implements OnViewWillEnter {
       this._auroraService.getSolarWind$(),
       this._auroraService.auroraLiveV2$(this.coords.latitude, this.coords.longitude), // To be removed
       this._auroraService.getKpForecast27Days$(),
+      this._auroraService.getKpForecast$(),
       this._storageService.getData('unit'),
     ])
       .pipe(
         tap({
-          next: ([solarWind, ace, kp27day, unit]: [SolarWind[], ACEModule, string, Unit]) => {
+          next: ([solarWind, ace, kp27day, kpForecast, unit]: [SolarWind[], ACEModule, string, KpForecast[], Unit]) => {
             this.loading = false;
             this.solarWind = solarWind;
             this.moduleACE = ace; // to be removed
             // this.kpForecast27days = ace['kp:27day'];// to be replaced
-            this.kpForecast = ace['kp:forecast']; //to be replaced
+            // this.kpForecast = ace['kp:forecast']; //to be replaced
+            // console.log(ace['kp:forecast']);
 
             this.unit = unit;
-            this._getKpForecast27day(kp27day)
+            this._getKpForecast(kpForecast);
+            this._getKpForecast27day(kp27day);
             this._trickLoading('1st');
-
           },
           error: error => {
             console.warn('Wind Solar data error', error);
@@ -160,6 +163,16 @@ export class Tab2Page implements OnViewWillEnter {
         }),
       )
       .subscribe();
+  }
+
+  private _getKpForecast(kpForecast: KpForecast[]): void {
+    this.kpForecast =
+     kpForecast.map(kp => ({
+      color: determineColorsOfValue('kp', parseInt(kp[1])),
+      value: parseInt(kp[1]),
+      predicted: kp[2],
+      date: new Date(kp[0]),
+    })).filter(kp => kp.predicted === 'predicted');
   }
 
   private _getKpForecast27day(file: string) {

@@ -1,7 +1,7 @@
 import { HttpParams } from '@angular/common/http';
 import { Unit } from './weather';
 import { FORECAST_COLOR_GREEN, FORECAST_COLOR_ORANGE, FORECAST_COLOR_RED, FORECAST_COLOR_YELLOW } from './colors';
-import { AuroraEnumColours } from './aurorav2';
+import { AuroraEnumColours } from './aurorav3';
 
 /**
  * @param source objet typé qui doit être converti en HttpParams pour une requete API
@@ -27,7 +27,7 @@ export function countryNameFromCode(code: string): string {
 export function convertUnit(nb: number, unit: Unit): number {
   switch (unit) {
     case Unit.IMPERIAL:
-      return Math.round((nb / 1.609) * 100) / 100; // pour arrondir à 2 chiffres
+      return Math.round(nb * 0.62137119223733 * 100) / 100; // pour arrondir à 2 chiffres
     default:
       return nb;
   }
@@ -59,7 +59,7 @@ export function colorSwitcher(c: AuroraEnumColours): string {
 }
 
 export function monthSwitcher(
-  strMonth: 'jan' | 'feb' | 'mar' | 'apr' | 'may' | 'june' | 'july' | 'aug' | 'sept' | 'oct' | 'nov' | 'dec' |string,
+  strMonth: 'jan' | 'feb' | 'mar' | 'apr' | 'may' | 'june' | 'july' | 'aug' | 'sept' | 'oct' | 'nov' | 'dec' | string,
 ): number {
   switch (strMonth) {
     case 'jan':
@@ -89,12 +89,12 @@ export function monthSwitcher(
   }
 }
 
-
 // http://auroraslive.io/#/api/v1/introduction
-export function determineColorsOfValue(data: 'bz' | 'density' | 'speed' | 'bt' | 'kp', value: number): AuroraEnumColours {
-  if (!value) {
-    // return AuroraEnumColours.no_data;
-  }
+export function determineColorsOfValue(
+  data: 'bz' | 'density' | 'speed' | 'bt' | 'kp',
+  value: number,
+  unit?: Unit,
+): AuroraEnumColours {
   switch (data) {
     case 'density':
       if (value >= 15) {
@@ -108,14 +108,27 @@ export function determineColorsOfValue(data: 'bz' | 'density' | 'speed' | 'bt' |
       }
       break;
     case 'speed':
-      if (value >= 700) {
-        return AuroraEnumColours.red;
-      } else if (value >= 500 && value < 700) {
-        return AuroraEnumColours.orange;
-      } else if (value >= 350 && value < 500) {
-        return AuroraEnumColours.yellow;
-      } else if (value < 350) {
-        return AuroraEnumColours.green;
+      if (unit === Unit.METRIC) {
+        if (value >= 700) {
+          return AuroraEnumColours.red;
+        } else if (value >= 500 && value < 700) {
+          return AuroraEnumColours.orange;
+        } else if (value >= 350 && value < 500) {
+          return AuroraEnumColours.yellow;
+        } else if (value < 350) {
+          return AuroraEnumColours.green;
+        }
+      }
+      if (unit === Unit.IMPERIAL) {
+        if (value >= 435) {
+          return AuroraEnumColours.red;
+        } else if (value >= 310 && value < 435) {
+          return AuroraEnumColours.orange;
+        } else if (value >= 217 && value < 310) {
+          return AuroraEnumColours.yellow;
+        } else if (value < 217) {
+          return AuroraEnumColours.green;
+        }
       }
       break;
     case 'bz':

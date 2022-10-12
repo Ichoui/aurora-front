@@ -1,9 +1,9 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { ACEModule, AuroraEnumColours, KpCurrent, Nowcast } from '../../models/aurorav2';
+import { ACEModule, KpCurrent, Nowcast } from '../../models/aurorav2';
 import { StorageService } from '../../storage.service';
 import { convertUnit, determineColorsOfValue } from '../../models/utils';
 import { Unit } from '../../models/weather';
-import { Bt, Bz, Density, SolarWind, Speed } from '../../models/aurorav3';
+import { AuroraEnumColours, Bt, Bz, Density, SolarWind, Speed } from '../../models/aurorav3';
 
 @Component({
   selector: 'app-instant-forecast',
@@ -24,7 +24,7 @@ export class InstantForecastComponent implements OnInit, OnChanges {
 
   @Input() unit: Unit;
   @Input() dataSolarWind: ACEModule;
-  @Input() dataSolarWind2: SolarWind;
+  @Input() dataSolarWind2: SolarWind[];
 
   constructor(private _storageService: StorageService) {}
 
@@ -34,8 +34,14 @@ export class InstantForecastComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (!changes?.unit?.firstChange && changes?.unit?.currentValue !== changes?.unit?.previousValue) {
-      this.speed = { ...this.speed, value: convertUnit(this.speed.value, this.unit), unit: this.unit };
+      this.speed = {
+        ...this.speed,
+        value: convertUnit(this.speed.value, this.unit),
+        color: determineColorsOfValue('speed', convertUnit(this.speed.value, this.unit), this.unit),
+        unit: this.unit,
+      };
     }
+
     if (changes?.dataSolarWind) {
       const dataSolarWind = changes.dataSolarWind.currentValue;
 
@@ -87,7 +93,7 @@ export class InstantForecastComponent implements OnInit, OnChanges {
         value: convertUnit(wind.speed, this.unit),
         date: new Date((dataSolarWind2 as SolarWind).time_tag),
         time_tag: new Date((dataSolarWind2 as SolarWind).time_tag),
-        color: determineColorsOfValue('speed', wind.speed),
+        color: determineColorsOfValue('speed', convertUnit(wind.speed, this.unit), this.unit),
         unit: this.unit,
       };
     }

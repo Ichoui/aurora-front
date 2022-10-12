@@ -3,7 +3,6 @@ import { ModalController } from '@ionic/angular';
 import { ModalComponent } from '../../shared/modal/modal.component';
 import { Chart, registerables } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import { AuroraEnumColours, KpForecast } from '../../models/aurorav2';
 import * as moment from 'moment';
 import { colorSwitcher } from '../../models/utils';
 import { MAIN_TEXT_COLOR, WEATHER_NEXT_HOUR_CHART_COLOR } from '../../models/colors';
@@ -12,7 +11,7 @@ import { StorageService } from '../../storage.service';
 import { Geoposition } from '@ionic-native/geolocation';
 import { icon, Map, Marker, marker, tileLayer, ZoomPanOptions } from 'leaflet';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { Kp27day } from '../../models/aurorav3';
+import { AuroraEnumColours, Kp27day, KpForecast } from '../../models/aurorav3';
 import { OnViewWillEnter } from '../../models/ionic';
 // import 'moment/locale/fr';
 

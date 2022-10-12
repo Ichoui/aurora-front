@@ -1,5 +1,5 @@
 // Données sur le vent solaire
-import { AuroraEnumColours } from './aurorav2';
+import { AuroraEnumColours } from './aurorav3';
 
 // FIRST VERSION Aurora.live
 export interface SolarWindv1 {

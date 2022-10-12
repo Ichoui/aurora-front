@@ -1,5 +1,4 @@
 import { Unit } from './weather';
-import { AuroraEnumColours } from './aurorav2';
 
 export interface SolarWind {
   time_tag?: string;
@@ -14,6 +13,13 @@ export interface SolarWind {
   vx?: number; // Not used
   vy?: number; // Not used
   vz?: number; // Not used
+}
+
+export enum AuroraEnumColours {
+  green = 'green',
+  yellow = 'yellow',
+  orange = 'orange',
+  red = 'red',
 }
 
 export interface Speed {
@@ -48,4 +54,11 @@ export interface Kp27day {
   value: number;
   color: AuroraEnumColours;
   date: Date;
+}
+
+export interface KpForecast {
+  value: number;
+  color: AuroraEnumColours;
+  date: Date;
+  predicted: 'predicted' | 'estimated' | 'observed';
 }

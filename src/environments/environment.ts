@@ -27,6 +27,7 @@ export const environment = {
     poleSouth: 'https://services.swpc.noaa.gov/products/animations/ovation_south_24h.json',
     auroraMap: 'https://services.swpc.noaa.gov/json/ovation_aurora_latest.json',
     solarWind: 'https://services.swpc.noaa.gov/products/geospace/propagated-solar-wind-1-hour.json',
-    kpForecast27Days: 'https://services.swpc.noaa.gov/text/27-day-outlook.txt'
+    kpForecast27Days: 'https://services.swpc.noaa.gov/text/27-day-outlook.txt',
+    kpForecast: 'https://services.swpc.noaa.gov/products/noaa-planetary-k-index-forecast.json'
   }
 };
