@@ -1,8 +1,8 @@
 @import '../../../theme/shared';
 :host {
   .container {
-    height: 75vh;
-    overflow-y: auto;
+    margin-bottom: 25px;
+
     .header {
       @include header-title;
 

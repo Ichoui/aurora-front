@@ -23,12 +23,16 @@ ion-content {
 app-kpindex {
   width: 100%;
   min-height: 80vh !important;
+  overflow: hidden;
 }
 
+app-maps {
+  height: 80vh;
+  overflow-y: auto;
+}
 app-kpindex,
 app-maps {
-  margin-top: 5px;
-  overflow: hidden;
+  margin-top: 10px;
 }
 
 ion-card-content {
