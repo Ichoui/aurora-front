@@ -2,16 +2,16 @@ import { Component } from '@angular/core';
 import { cities, CodeLocation, Coords } from '../models/cities';
 import { AuroraService } from '../aurora.service';
 import { NavController } from '@ionic/angular';
-import { ACEModule, Kp27day, KpForecast } from '../models/aurorav2';
+import { ACEModule, KpForecast } from '../models/aurorav2';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { ErrorTemplate } from '../shared/broken/broken.model';
 import { StorageService } from '../storage.service';
 import { tap } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
 import { Unit } from '../models/weather';
-import { SolarWind } from '../models/aurorav3';
-import { environment } from '../../environments/environment';
-
+import { Kp27day, SolarWind } from '../models/aurorav3';
+import { determineColorsOfValue, monthSwitcher } from '../models/utils';
+import { OnViewWillEnter } from '../models/ionic';
 // import 'moment/locale/fr';
 const API_CALL_NUMBER = 1; // nombre de fois où une API est appelé sur cette page
 
@@ -20,7 +20,7 @@ const API_CALL_NUMBER = 1; // nombre de fois où une API est appelé sur cette p
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss'],
 })
-export class Tab2Page {
+export class Tab2Page implements OnViewWillEnter {
   loading = true;
   tabLoading: string[] = [];
 
@@ -47,25 +47,8 @@ export class Tab2Page {
     private _auroraService: AuroraService,
   ) {}
 
-  ionViewWillEnter() {
+  ionViewWillEnter(): void {
     this.tabLoading = [];
-
-    fetch(`${environment.cors}/https://services.swpc.noaa.gov/text/27-day-outlook.txt`).then((e: Response) => {
-      console.log(e);
-      // return e.formData();
-      // return e.text();
-    }).then(f => {
-      // fs.
-      // console.log(f);
-      // console.log(f);
-      // const t =JSON.stringify(f)
-      // const l = JSON.parse(t)
-      // console.log(l);
-    })
-
-
-    // this._auroraService.test$().subscribe(console.log);
-
     // Cheminement en fonction si la localisation est pré-set ou si géoloc
     this._storageService.getData('location').then(
       (codeLocation: CodeLocation) => {
@@ -121,7 +104,7 @@ export class Tab2Page {
       latitude: lat,
       longitude: long,
     };
-    this._getSolarWind();
+    this._getDataACE();
   }
 
   /**
@@ -137,28 +120,32 @@ export class Tab2Page {
       latitude: city.latitude,
       longitude: city.longitude,
     };
-    this._getSolarWind();
+    this._getDataACE();
   }
 
   /**
-   * Récupère les données ACE de vent solaire & nowcast
+   * Récupère les données ACE de vent solaire, nowcast et kp
    * */
-  private _getSolarWind(): void {
+  private _getDataACE(): void {
     combineLatest([
       this._auroraService.getSolarWind$(),
-      this._auroraService.auroraLiveV2$(this.coords.latitude, this.coords.longitude),
+      this._auroraService.auroraLiveV2$(this.coords.latitude, this.coords.longitude), // To be removed
+      this._auroraService.getKpForecast27Days$(),
       this._storageService.getData('unit'),
     ])
       .pipe(
         tap({
-          next: ([solarWind, ace, unit]: [SolarWind[], ACEModule, Unit]) => {
-            this.solarWind = solarWind;
+          next: ([solarWind, ace, kp27day, unit]: [SolarWind[], ACEModule, string, Unit]) => {
             this.loading = false;
-            this.moduleACE = ace;
-            this.kpForecast27days = ace['kp:27day'];
-            this.kpForecast = ace['kp:forecast'];
-            this._trickLoading('1st');
+            this.solarWind = solarWind;
+            this.moduleACE = ace; // to be removed
+            // this.kpForecast27days = ace['kp:27day'];// to be replaced
+            this.kpForecast = ace['kp:forecast']; //to be replaced
+
             this.unit = unit;
+            this._getKpForecast27day(kp27day)
+            this._trickLoading('1st');
+
           },
           error: error => {
             console.warn('Wind Solar data error', error);
@@ -173,6 +160,22 @@ export class Tab2Page {
         }),
       )
       .subscribe();
+  }
+
+  private _getKpForecast27day(file: string) {
+    let lineObject: Kp27day[] = [];
+    for (const [index, line] of file.split(/[\r\n]+/).entries()) {
+      const hashRegex = /#(\w*)/; // Ligne ne commençant pas par un commentaire #
+      if (index >= 11 && !hashRegex.exec(line)) {
+        const lineArray = line.split(' ').filter(e => !!e);
+        lineObject.push({
+          date: new Date(parseInt(lineArray[0]), monthSwitcher(lineArray[1]?.toLowerCase()), parseInt(lineArray[2])),
+          value: parseInt(lineArray[lineArray.length - 1]),
+          color: determineColorsOfValue('kp', parseInt(lineArray[lineArray.length - 1])),
+        });
+      }
+    }
+    this.kpForecast27days = lineObject;
   }
 
   /**
@@ -195,6 +198,6 @@ export class Tab2Page {
   doRefresh(event) {
     this.tabLoading = [];
     this.eventRefresh = event;
-    this._getSolarWind();
+    this._getDataACE();
   }
 }

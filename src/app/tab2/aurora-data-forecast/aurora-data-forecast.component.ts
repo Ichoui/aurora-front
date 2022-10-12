@@ -3,15 +3,17 @@ import { ModalController } from '@ionic/angular';
 import { ModalComponent } from '../../shared/modal/modal.component';
 import { Chart, registerables } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import { AuroraEnumColours, Kp27day, KpForecast } from '../../models/aurorav2';
+import { AuroraEnumColours, KpForecast } from '../../models/aurorav2';
 import * as moment from 'moment';
 import { colorSwitcher } from '../../models/utils';
-import { MAIN_TEXT_COLOR } from '../../models/colors';
+import { MAIN_TEXT_COLOR, WEATHER_NEXT_HOUR_CHART_COLOR } from '../../models/colors';
 import { CodeLocation, Coords } from '../../models/cities';
 import { StorageService } from '../../storage.service';
 import { Geoposition } from '@ionic-native/geolocation';
 import { icon, Map, Marker, marker, tileLayer, ZoomPanOptions } from 'leaflet';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { Kp27day } from '../../models/aurorav3';
+import { OnViewWillEnter } from '../../models/ionic';
 // import 'moment/locale/fr';
 
 const numberMax27Forecast = 14;
@@ -19,11 +21,11 @@ const numberMaxNextHours = 10;
 Chart.register(...registerables);
 
 @Component({
-  selector: 'app-maps',
+  selector: 'app-aurora-data-forecast',
   templateUrl: './aurora-data-forecast.component.html',
   styleUrls: ['./aurora-data-forecast.component.scss'],
 })
-export class AuroraDataForecastComponent implements OnChanges, OnInit {
+export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWillEnter {
   @Input() kpForecast: KpForecast[];
   @Input() kpForecast27: Kp27day[];
 
@@ -198,7 +200,7 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit {
           datalabels: {
             anchor: 'end',
             align: 'end',
-            color: '#8cffea',
+            color: WEATHER_NEXT_HOUR_CHART_COLOR,
             font: {
               family: 'Oswald-SemiBold',
               size: 15,
@@ -271,7 +273,7 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit {
           datalabels: {
             anchor: 'end',
             align: 'end',
-            color: '#8cffea',
+            color: WEATHER_NEXT_HOUR_CHART_COLOR,
             font: {
               family: 'Oswald-SemiBold',
               size: 15,

@@ -20,18 +20,18 @@ ion-content {
   z-index: 450;
 }
 
-app-kpindex {
+app-instant-forecast {
   width: 100%;
   min-height: 80vh !important;
   overflow: hidden;
 }
 
-app-maps {
+app-aurora-data-forecast {
   height: 80vh;
   overflow-y: auto;
 }
-app-kpindex,
-app-maps {
+app-instant-forecast,
+app-aurora-data-forecast {
   margin-top: 10px;
 }
 

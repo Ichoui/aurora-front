@@ -42,9 +42,9 @@
       "pole.south": "Pôle Sud",
       "poles.explanations": "Offre 30 à 90 minutes de prévisions pour une Aurore, ainsi que les dernières 24 heures. Modèle OVATION.",
       "nexthours.title": "Les prochaines heures",
-      "nexthours.sub": "Kp maximum",
+      "nexthours.sub": "Kp planétaire max.",
       "longterm.title": "Prévisions à long termes",
-      "longterm.sub": "Kp maximum",
+      "longterm.sub": "Kp planétaire max.",
       "solarwind": "Vent solaire",
       "aurora-map": "Carte des Aurores",
       "sub-aurora-map": "Touche pour visualiser les Aurores en temps réel et choisir ta localisation"

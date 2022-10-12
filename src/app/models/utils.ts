@@ -33,9 +33,12 @@ export function convertUnit(nb: number, unit: Unit): number {
   }
 }
 
+// Arrondir
 export function roundTwoNumbers(nb: number): number {
   return Math.round(nb * 100) / 100;
 }
+
+// Replace a string color with the correct Application color
 export function colorSwitcher(c: AuroraEnumColours): string {
   let color;
   switch (c) {
@@ -53,4 +56,100 @@ export function colorSwitcher(c: AuroraEnumColours): string {
       break;
   }
   return color;
+}
+
+export function monthSwitcher(
+  strMonth: 'jan' | 'feb' | 'mar' | 'apr' | 'may' | 'june' | 'july' | 'aug' | 'sept' | 'oct' | 'nov' | 'dec' |string,
+): number {
+  switch (strMonth) {
+    case 'jan':
+      return 1;
+    case 'feb':
+      return 2;
+    case 'mar':
+      return 3;
+    case 'apr':
+      return 4;
+    case 'may':
+      return 5;
+    case 'june':
+      return 6;
+    case 'july':
+      return 7;
+    case 'aug':
+      return 8;
+    case 'sept':
+      return 9;
+    case 'oct':
+      return 10;
+    case 'nov':
+      return 11;
+    case 'dec':
+      return 12;
+  }
+}
+
+
+// http://auroraslive.io/#/api/v1/introduction
+export function determineColorsOfValue(data: 'bz' | 'density' | 'speed' | 'bt' | 'kp', value: number): AuroraEnumColours {
+  if (!value) {
+    // return AuroraEnumColours.no_data;
+  }
+  switch (data) {
+    case 'density':
+      if (value >= 15) {
+        return AuroraEnumColours.red;
+      } else if (value >= 10 && value < 15) {
+        return AuroraEnumColours.orange;
+      } else if (value >= 4 && value < 10) {
+        return AuroraEnumColours.yellow;
+      } else if (value < 4) {
+        return AuroraEnumColours.green;
+      }
+      break;
+    case 'speed':
+      if (value >= 700) {
+        return AuroraEnumColours.red;
+      } else if (value >= 500 && value < 700) {
+        return AuroraEnumColours.orange;
+      } else if (value >= 350 && value < 500) {
+        return AuroraEnumColours.yellow;
+      } else if (value < 350) {
+        return AuroraEnumColours.green;
+      }
+      break;
+    case 'bz':
+      if (value <= -15) {
+        return AuroraEnumColours.red;
+      } else if (value > -15 || value <= -10) {
+        return AuroraEnumColours.orange;
+      } else if (value > -10 || value < 0) {
+        return AuroraEnumColours.yellow;
+      } else if (value >= 10) {
+        return AuroraEnumColours.green;
+      }
+      break;
+    case 'bt':
+      if (value > 30) {
+        return AuroraEnumColours.red;
+      } else if (value < 30 && value >= 20) {
+        return AuroraEnumColours.orange;
+      } else if (value < 20 && value >= 10) {
+        return AuroraEnumColours.yellow;
+      } else if (value < 10) {
+        return AuroraEnumColours.green;
+      }
+      break;
+    case 'kp':
+      if (value >= 6) {
+        return AuroraEnumColours.red;
+      } else if (value === 5) {
+        return AuroraEnumColours.orange;
+      } else if (value === 3 || value === 4) {
+        return AuroraEnumColours.yellow;
+      } else if (value < 3) {
+        return AuroraEnumColours.green;
+      }
+      break;
+  }
 }

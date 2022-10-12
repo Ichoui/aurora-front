@@ -7,13 +7,14 @@ import { ModalComponent } from '../../shared/modal/modal.component';
 import { Unit, units } from '../../models/weather';
 import { StorageService } from '../../storage.service';
 import { Browser } from '@capacitor/browser';
+import { OnViewWillEnter } from '../../models/ionic';
 
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.page.html',
   styleUrls: ['./settings.page.scss'],
 })
-export class SettingsPage {
+export class SettingsPage implements OnViewWillEnter  {
   kpindex = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   notifications = false;
   notifKp;

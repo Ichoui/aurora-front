@@ -11,6 +11,7 @@ import { map, tap } from 'rxjs/operators';
 import { Geocoding } from '../models/geocoding';
 import { countryNameFromCode, roundTwoNumbers } from '../models/utils';
 import { combineLatest } from 'rxjs';
+import { OnViewWillEnter } from '../models/ionic';
 
 const API_CALL_NUMBER = 1; // nombre de fois où une API est appelé sur cette page
 
@@ -19,7 +20,7 @@ const API_CALL_NUMBER = 1; // nombre de fois où une API est appelé sur cette p
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
 })
-export class Tab1Page {
+export class Tab1Page implements OnViewWillEnter{
   private _tabLoading: string[] = [];
   loading = true;
 

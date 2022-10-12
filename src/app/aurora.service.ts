@@ -7,6 +7,8 @@ import { ExcludeType, Unit, Weather } from './models/weather';
 import { Pole } from './shared/modal/modal.component';
 import { Geocoding } from './models/geocoding';
 import { SolarWind } from './models/aurorav3';
+import { fromFetch } from 'rxjs/fetch';
+import { switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -24,11 +26,11 @@ export class AuroraService {
     return this.http.post(`${environment.cors}/${environment.aurora_v2_api}`, {
       modules: [
         AuroraModules.kpcurrent,
+        AuroraModules.nowcastlocal,
+        AuroraModules.kpforecast,
         // AuroraModules.density,
         // AuroraModules.speed,
-        AuroraModules.nowcastlocal,
-        AuroraModules.kp27day,
-        AuroraModules.kpforecast,
+        // AuroraModules.kp27day,
         // AuroraModules.bz,
         // AuroraModules.bt,
       ],
@@ -37,22 +39,6 @@ export class AuroraService {
         long,
       },
     });
-  }
-
-  /*
-  * Solar wind value
-  * Density Speed
-  * */
-  getSolarWind$(): Observable<SolarWind[]> {
-    return this.http.get<SolarWind[]>(`${environment.cors}/https://services.swpc.noaa.gov/products/geospace/propagated-solar-wind-1-hour.json`)
-  }
-
-  /*
-  * Solar wind value
-  * Density Speed
-  * */
-  test$(): Observable<any> {
-    return this.http.get<any>(`${environment.cors}/https://services.swpc.noaa.gov/text/27-day-outlook.txt`).pipe()
   }
 
   /**
@@ -74,22 +60,10 @@ export class AuroraService {
   }
 
   /**
-   * @pole {string} NORTH / SOUTH*
-   * OVATION Model
-   * Images des poles nord/sud sur les dernières 24h et entre 30 et 90mn de prévisions
-   * Donnée : https://www.swpc.noaa.gov/products/aurora-30-minute-forecast
-   */
-  getPoles$(pole: Pole): Observable<unknown> {
-    return this.http.get(
-      `${environment.cors}/https://services.swpc.noaa.gov/products/animations/ovation_${pole}_24h.json`,
-    );
-  }
-
-  /**
    * @lat {number} latitude
    * @lon {number} longitude
+   * Reverse localisation grâce à la latitude et la longitude fournies
    */
-
   getGeocoding$(lat: number, lon: number): Observable<Geocoding[]> {
     const params = {
       appid: environment.apikey,
@@ -99,7 +73,37 @@ export class AuroraService {
     return this.http.get<Geocoding[]>(`${environment.cors}/${environment.api_reverse_geocode}`, { params });
   }
 
+  /*
+   * Solar wind value
+   * Density Speed
+   * */
+  getSolarWind$(): Observable<SolarWind[]> {
+    return this.http.get<SolarWind[]>(`${environment.cors}/${environment.swpc.solarWind}`);
+  }
+
+  /*
+   * KP Forecast 27 days
+   * file .txt
+   * */
+  getKpForecast27Days$() {
+    return fromFetch(`${environment.cors}/${environment.swpc.kpForecast27Days}`).pipe(
+      switchMap((res: Response) => res.text()),
+    );
+  }
+
+  /**
+   * @pole {string} NORTH / SOUTH*
+   * OVATION Model
+   * Images des poles nord/sud sur les dernières 24h et entre 30 et 90mn de prévisions
+   * Donnée : https://www.swpc.noaa.gov/products/aurora-30-minute-forecast
+   */
+  getPoles$(pole: Pole): Observable<unknown> {
+    return this.http.get(
+      `${environment.cors}/${pole === Pole.NORTH ? environment.swpc.poleNorth : environment.swpc.poleSouth}`,
+    );
+  }
+
   getAuroraMapData$(): Observable<any> {
-    return this.http.get(`${environment.cors}/https://services.swpc.noaa.gov/json/ovation_aurora_latest.json`);
+    return this.http.get(`${environment.cors}/${environment.swpc.auroraMap}`);
   }
 }

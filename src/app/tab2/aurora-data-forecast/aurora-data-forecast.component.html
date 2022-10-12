@@ -1,11 +1,10 @@
+
 <div class="container">
   <div class="container-leaflet" [routerLink]="['..', 'tab2', 'map']">
     <div class="header">{{ 'tab2.maps.aurora-map' | translate }}</div>
     <div class="sub">{{ 'tab2.maps.sub-aurora-map' | translate }}</div>
     <div id="map_canvas"></div>
   </div>
-
-  <h2>{{ 'tab2.maps.solarwind' | translate }}</h2>
 
   <div class="container-chart">
     <div class="header">{{ 'tab2.maps.nexthours.title' | translate }}</div>
@@ -18,6 +17,8 @@
     <div class="sub">{{ 'tab2.maps.longterm.sub' | translate }}</div>
     <canvas id="kpforecast"></canvas>
   </div>
+
+  <h2>{{ 'tab2.maps.solarwind' | translate }}</h2>
 
   <div class="container-poles">
     <div (click)="showPoles()" class="poles">

@@ -22,4 +22,11 @@ export const environment = {
   aurora_v2_api: 'https://v2.api.auroras.live',
   apikey: OPENWHEATHER_API_KEY,
   application_name: 'Aurora Chasers',
+  swpc: {
+    poleNorth: 'https://services.swpc.noaa.gov/products/animations/ovation_north_24h.json',
+    poleSouth: 'https://services.swpc.noaa.gov/products/animations/ovation_south_24h.json',
+    auroraMap: 'https://services.swpc.noaa.gov/json/ovation_aurora_latest.json',
+    solarWind: 'https://services.swpc.noaa.gov/products/geospace/propagated-solar-wind-1-hour.json',
+    kpForecast27Days: 'https://services.swpc.noaa.gov/text/27-day-outlook.txt'
+  }
 };

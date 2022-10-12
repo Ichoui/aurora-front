@@ -1,4 +1,4 @@
-import { Bt, Bz, Density, Speed } from './aurorav3';
+import { Bt, Bz, Density, Kp27day, Speed } from './aurorav3';
 
 export interface Aurora {
   modules: AuroraModules[];
@@ -28,7 +28,6 @@ export enum AuroraEnumColours {
   yellow = 'yellow',
   orange = 'orange',
   red = 'red',
-  // no_data= 'noData'
 }
 
 export interface KpCurrent {
@@ -38,13 +37,7 @@ export interface KpCurrent {
   request_date: Date;
 }
 
-export interface Kp27day {
-  value: number;
-  color: AuroraEnumColours;
-  date: Date;
-  request_date: Date;
-  current: boolean;
-}
+
 
 export interface KpForecast {
   value: number;

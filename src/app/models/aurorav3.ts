@@ -5,15 +5,15 @@ export interface SolarWind {
   time_tag?: string;
   speed?: number;
   density?: number;
-  temperature?: number;
-  bx?: number;
-  by?: number;
   bz?: number;
   bt?: number;
-  vx?: number;
-  vy?: number;
-  vz?: number;
   propagated_time_tag?: string;
+  temperature?: number; // not used
+  bx?: number; // Not used
+  by?: number; // Not used
+  vx?: number; // Not used
+  vy?: number; // Not used
+  vz?: number; // Not used
 }
 
 export interface Speed {
@@ -42,4 +42,10 @@ export interface Bt {
   color: AuroraEnumColours;
   date: Date;
   request_date: Date;
+}
+
+export interface Kp27day {
+  value: number;
+  color: AuroraEnumColours;
+  date: Date;
 }
