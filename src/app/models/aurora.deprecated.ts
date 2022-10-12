@@ -2,7 +2,7 @@
 import { AuroraEnumColours } from './aurorav2';
 
 // FIRST VERSION Aurora.live
-export interface SolarWind {
+export interface SolarWindv1 {
   date: string;
   bz: number;
   density: number;

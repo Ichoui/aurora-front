@@ -1,6 +1,7 @@
 import { HttpParams } from '@angular/common/http';
 import { Unit } from './weather';
 import { FORECAST_COLOR_GREEN, FORECAST_COLOR_ORANGE, FORECAST_COLOR_RED, FORECAST_COLOR_YELLOW } from './colors';
+import { AuroraEnumColours } from './aurorav2';
 
 /**
  * @param source objet typé qui doit être converti en HttpParams pour une requete API
@@ -35,7 +36,7 @@ export function convertUnit(nb: number, unit: Unit): number {
 export function roundTwoNumbers(nb: number): number {
   return Math.round(nb * 100) / 100;
 }
-export function colorSwitcher(c: 'green' | 'yellow' | 'orange' | 'red'): string {
+export function colorSwitcher(c: AuroraEnumColours): string {
   let color;
   switch (c) {
     case 'green':

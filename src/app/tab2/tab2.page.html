@@ -15,7 +15,7 @@
 
     <swiper [scrollbar]="false" [slidesPerView]="1" [autoHeight]="true">
       <ng-template swiperSlide>
-        <app-kpindex [dataSolarWind]="moduleACE" [unit]="unit"></app-kpindex>
+        <app-kpindex [dataSolarWind]="moduleACE" [dataSolarWind2]="solarWind" [unit]="unit"></app-kpindex>
       </ng-template>
       <ng-template swiperSlide>
         <app-maps [kpForecast27]="kpForecast27days" [kpForecast]="kpForecast"></app-maps>

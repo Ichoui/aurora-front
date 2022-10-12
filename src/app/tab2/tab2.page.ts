@@ -9,6 +9,8 @@ import { StorageService } from '../storage.service';
 import { tap } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
 import { Unit } from '../models/weather';
+import { SolarWind } from '../models/aurorav3';
+import { environment } from '../../environments/environment';
 
 // import 'moment/locale/fr';
 const API_CALL_NUMBER = 1; // nombre de fois où une API est appelé sur cette page
@@ -36,6 +38,7 @@ export class Tab2Page {
 
   dataError = new ErrorTemplate(null);
   unit: Unit;
+  solarWind: SolarWind[];
 
   constructor(
     private _geoloc: Geolocation,
@@ -46,6 +49,23 @@ export class Tab2Page {
 
   ionViewWillEnter() {
     this.tabLoading = [];
+
+    fetch(`${environment.cors}/https://services.swpc.noaa.gov/text/27-day-outlook.txt`).then((e: Response) => {
+      console.log(e);
+      // return e.formData();
+      // return e.text();
+    }).then(f => {
+      // fs.
+      // console.log(f);
+      // console.log(f);
+      // const t =JSON.stringify(f)
+      // const l = JSON.parse(t)
+      // console.log(l);
+    })
+
+
+    // this._auroraService.test$().subscribe(console.log);
+
     // Cheminement en fonction si la localisation est pré-set ou si géoloc
     this._storageService.getData('location').then(
       (codeLocation: CodeLocation) => {
@@ -125,12 +145,14 @@ export class Tab2Page {
    * */
   private _getSolarWind(): void {
     combineLatest([
+      this._auroraService.getSolarWind$(),
       this._auroraService.auroraLiveV2$(this.coords.latitude, this.coords.longitude),
       this._storageService.getData('unit'),
     ])
       .pipe(
         tap({
-          next: ([ace, unit]: [ACEModule, Unit]) => {
+          next: ([solarWind, ace, unit]: [SolarWind[], ACEModule, Unit]) => {
+            this.solarWind = solarWind;
             this.loading = false;
             this.moduleACE = ace;
             this.kpForecast27days = ace['kp:27day'];

@@ -4,7 +4,7 @@
     <div class="whirly-loader"></div>
   </div>
 </ng-template>
-<ng-container *ngIf="dataSolarWind; else load">
+<ng-container *ngIf="dataSolarWind2 && dataSolarWind; else load">
   <div class="nowcast ace-data">
     <div>{{ nowcastVal }}%</div>
     <p [innerHTML]="'tab2.kp.probability' | translate"></p>
@@ -39,7 +39,10 @@
       ></span>
     </div>
     <div class="value">{{ density.value }}</div>
-    <div class="label">{{ 'tab2.kp.density' | translate }}</div>
+    <div class="label">
+      {{ 'tab2.kp.density' | translate }}
+      <div class="unit">{{ 'tab2.kp.density.unit' | translate }}</div>
+    </div>
   </div>
 
   <div class="speed ace-data">
@@ -55,7 +58,10 @@
       ></span>
     </div>
     <div class="value">{{ speed.value }}</div>
-    <div class="label">{{ 'tab2.kp.speed' | translate: { val: speed.unit === 'imperial' ? '(mph)' : '(km/h)' } }}</div>
+    <div class="label">
+      {{ 'tab2.kp.speed' | translate }}
+      <div class="unit">{{ speed.unit === 'imperial' ? '(mps)' : '(km/s)' }}</div>
+    </div>
   </div>
 
   <div class="bz ace-data">
@@ -63,15 +69,18 @@
       <span
         *ngFor="let i of [1, 2, 3, 4]"
         [ngClass]="{
-          green: speed.color === AuroraEnumColours.green,
-          yellow: speed.color === AuroraEnumColours.yellow,
-          orange: speed.color === AuroraEnumColours.orange,
-          red: speed.color === AuroraEnumColours.red
+          green: bz.color === AuroraEnumColours.green,
+          yellow: bz.color === AuroraEnumColours.yellow,
+          orange: bz.color === AuroraEnumColours.orange,
+          red: bz.color === AuroraEnumColours.red
         }"
       ></span>
     </div>
     <div class="value">{{ bz.value }}</div>
-    <div class="label">{{ 'tab2.kp.bz' | translate }}</div>
+    <div class="label">
+      {{ 'tab2.kp.bz' | translate }}
+      <div class="unit">{{ bz.value > 0 ? ('tab2.kp.bz.north' | translate) : ('tab2.kp.bz.south' | translate) }}</div>
+    </div>
   </div>
 
   <div class="bt ace-data">
@@ -79,10 +88,10 @@
       <span
         *ngFor="let i of [1, 2, 3, 4]"
         [ngClass]="{
-          green: speed.color === AuroraEnumColours.green,
-          yellow: speed.color === AuroraEnumColours.yellow,
-          orange: speed.color === AuroraEnumColours.orange,
-          red: speed.color === AuroraEnumColours.red
+          green: bt.color === AuroraEnumColours.green,
+          yellow: bt.color === AuroraEnumColours.yellow,
+          orange: bt.color === AuroraEnumColours.orange,
+          red: bt.color === AuroraEnumColours.red
         }"
       ></span>
     </div>

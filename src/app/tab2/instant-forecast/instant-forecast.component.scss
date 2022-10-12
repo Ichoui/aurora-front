@@ -91,6 +91,10 @@
     width: 25%;
     text-align: left;
     font-family: var(--ion-font-semibold);
+    .unit {
+      display: block;
+      font-size: 10px;
+    }
   }
 
   .value {

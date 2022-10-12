@@ -6,6 +6,7 @@ import { AuroraModules } from './models/aurorav2';
 import { ExcludeType, Unit, Weather } from './models/weather';
 import { Pole } from './shared/modal/modal.component';
 import { Geocoding } from './models/geocoding';
+import { SolarWind } from './models/aurorav3';
 
 @Injectable({
   providedIn: 'root',
@@ -23,19 +24,35 @@ export class AuroraService {
     return this.http.post(`${environment.cors}/${environment.aurora_v2_api}`, {
       modules: [
         AuroraModules.kpcurrent,
-        AuroraModules.density,
-        AuroraModules.speed,
+        // AuroraModules.density,
+        // AuroraModules.speed,
         AuroraModules.nowcastlocal,
         AuroraModules.kp27day,
         AuroraModules.kpforecast,
-        AuroraModules.bz,
-        AuroraModules.bt,
+        // AuroraModules.bz,
+        // AuroraModules.bt,
       ],
       common: {
         lat,
         long,
       },
     });
+  }
+
+  /*
+  * Solar wind value
+  * Density Speed
+  * */
+  getSolarWind$(): Observable<SolarWind[]> {
+    return this.http.get<SolarWind[]>(`${environment.cors}/https://services.swpc.noaa.gov/products/geospace/propagated-solar-wind-1-hour.json`)
+  }
+
+  /*
+  * Solar wind value
+  * Density Speed
+  * */
+  test$(): Observable<any> {
+    return this.http.get<any>(`${environment.cors}/https://services.swpc.noaa.gov/text/27-day-outlook.txt`).pipe()
   }
 
   /**
@@ -82,7 +99,7 @@ export class AuroraService {
     return this.http.get<Geocoding[]>(`${environment.cors}/${environment.api_reverse_geocode}`, { params });
   }
 
-  getAuroraMapData$():Observable<any> {
-    return this.http.get(`${environment.cors}/https://services.swpc.noaa.gov/json/ovation_aurora_latest.json`)
+  getAuroraMapData$(): Observable<any> {
+    return this.http.get(`${environment.cors}/https://services.swpc.noaa.gov/json/ovation_aurora_latest.json`);
   }
 }

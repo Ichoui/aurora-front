@@ -1,4 +1,4 @@
-import { Unit } from './weather';
+import { Bt, Bz, Density, Speed } from './aurorav3';
 
 export interface Aurora {
   modules: AuroraModules[];
@@ -28,6 +28,7 @@ export enum AuroraEnumColours {
   yellow = 'yellow',
   orange = 'orange',
   red = 'red',
+  // no_data= 'noData'
 }
 
 export interface KpCurrent {
@@ -51,35 +52,6 @@ export interface KpForecast {
   date: Date;
   request_date: Date;
   current: boolean;
-}
-
-export interface Speed {
-  value: number;
-  color: AuroraEnumColours;
-  date: Date;
-  request_date: Date;
-  minutes_to_eart: number;
-  unit?: Unit; // Ajouté à la main par nécessité pour mph ou km/h
-}
-
-export interface Density {
-  value: number;
-  color: AuroraEnumColours;
-  date: Date;
-  request_date: Date;
-}
-
-export interface Bz {
-  value: number;
-  color: AuroraEnumColours;
-  date: Date;
-  request_date: Date;
-}
-export interface Bt {
-  value: number;
-  color: AuroraEnumColours;
-  date: Date;
-  request_date: Date;
 }
 
 export interface Nowcast {

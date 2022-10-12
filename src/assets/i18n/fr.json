@@ -3,8 +3,8 @@
     "unknown": "Lieu inconnu",
     "loading": "Ta localisation est en cours de chargement ...",
     "back": "Retour",
-    "cancel": "Annuler"
-  },
+    "cancel": "Annuler",
+    "uselesstemplate": "My text {{val}} {'path.to | translate: {val: condition}}"},
   "tab1": {
     "title": "Météo",
     "weather": {
@@ -27,10 +27,13 @@
     "title": "Aurores",
     "kp": {
       "kpindex": "Kp Index",
-      "density": " Densitée des particules (p/cc)",
-      "speed": " Vent solaire {{val}}",
+      "density": " Densitée des particules",
+      "density.unit": "(p/cc)",
+      "speed": " Vent solaire",
       "probability": "Probabilités depuis ta localisation <br>d'observer une Aurore Boréale",
       "bz": "Bz",
+      "bz.north": "Nord",
+      "bz.south": "Sud",
       "bt": "Bt"
     },
     "maps": {
