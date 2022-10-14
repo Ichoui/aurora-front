@@ -23,8 +23,8 @@ export class InstantForecastComponent implements OnInit, OnChanges {
   AuroraEnumColours = AuroraEnumColours;
 
   @Input() unit: Unit;
-  @Input() dataSolarWind: ACEModule;
-  @Input() dataSolarWind2: SolarWind[];
+  @Input() exDataSolarWind: ACEModule;
+  @Input() dataSolarWind: SolarWind[];
 
   constructor(private _storageService: StorageService) {}
 
@@ -42,8 +42,9 @@ export class InstantForecastComponent implements OnInit, OnChanges {
       };
     }
 
-    if (changes?.dataSolarWind) {
-      const dataSolarWind = changes.dataSolarWind.currentValue;
+    if (changes?.exDataSolarWind) {
+      // TOdo will be removed
+      const dataSolarWind = changes.exDataSolarWind.currentValue;
 
       this.kpCurrent = dataSolarWind['kp:current'];
       this.nowcast = dataSolarWind['nowcast:local'];
@@ -52,47 +53,42 @@ export class InstantForecastComponent implements OnInit, OnChanges {
       void this._storageService.setData('current_kp', this.kpCurrent.value);
     }
 
-    if (changes?.dataSolarWind2) {
-      const keyFromFirstIndexValue = Object.values(changes.dataSolarWind2.currentValue[0]);
-      const values = Object.values(changes.dataSolarWind2.currentValue[changes.dataSolarWind2.currentValue.length - 1]);
-      let dataSolarWind2 = <any>{};
-
-        // @ts-ignore
-      keyFromFirstIndexValue.forEach((key, index) => dataSolarWind2[key] = values[index]);
+    if (changes?.dataSolarWind) {
+      const dataSolarWind =changes.dataSolarWind.currentValue
 
       const wind: SolarWind = {
-        density: parseFloat(dataSolarWind2.density),
-        speed: parseFloat(dataSolarWind2.speed),
-        bt: parseFloat(dataSolarWind2.bt),
-        bz: parseFloat(dataSolarWind2.bz),
-        time_tag: dataSolarWind2.time_tag,
-        propagated_time_tag: dataSolarWind2.propagated_time_tag,
+        density: parseFloat(dataSolarWind.density),
+        speed: parseFloat(dataSolarWind.speed),
+        bt: parseFloat(dataSolarWind.bt),
+        bz: parseFloat(dataSolarWind.bz),
+        time_tag: dataSolarWind.time_tag,
+        propagated_time_tag: dataSolarWind.propagated_time_tag,
       };
 
       this.density = {
         value: wind.density,
-        date: new Date((dataSolarWind2 as SolarWind).time_tag),
-        time_tag: new Date((dataSolarWind2 as SolarWind).time_tag),
+        date: new Date((dataSolarWind as SolarWind).time_tag),
+        time_tag: new Date((dataSolarWind as SolarWind).time_tag),
         color: determineColorsOfValue('density', wind.density),
       };
 
       this.bz = {
         value: wind.bz,
-        date: new Date((dataSolarWind2 as SolarWind).time_tag),
-        time_tag: new Date((dataSolarWind2 as SolarWind).time_tag),
+        date: new Date((dataSolarWind as SolarWind).time_tag),
+        time_tag: new Date((dataSolarWind as SolarWind).time_tag),
         color: determineColorsOfValue('bz', wind.bz),
       };
       this.bt = {
         value: wind.bt,
-        date: new Date((dataSolarWind2 as SolarWind).time_tag),
-        request_date: new Date((dataSolarWind2 as SolarWind).time_tag),
+        date: new Date((dataSolarWind as SolarWind).time_tag),
+        request_date: new Date((dataSolarWind as SolarWind).time_tag),
         color: determineColorsOfValue('bt', wind.bt),
       };
 
       this.speed = {
         value: convertUnit(wind.speed, this.unit),
-        date: new Date((dataSolarWind2 as SolarWind).time_tag),
-        time_tag: new Date((dataSolarWind2 as SolarWind).time_tag),
+        date: new Date((dataSolarWind as SolarWind).time_tag),
+        time_tag: new Date((dataSolarWind as SolarWind).time_tag),
         color: determineColorsOfValue('speed', convertUnit(wind.speed, this.unit), this.unit),
         unit: this.unit,
       };

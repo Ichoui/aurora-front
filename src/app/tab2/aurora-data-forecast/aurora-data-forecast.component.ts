@@ -11,7 +11,7 @@ import { StorageService } from '../../storage.service';
 import { Geoposition } from '@ionic-native/geolocation';
 import { icon, Map, Marker, marker, tileLayer, ZoomPanOptions } from 'leaflet';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { AuroraEnumColours, Kp27day, KpForecast } from '../../models/aurorav3';
+import { AuroraEnumColours, Kp27day, KpForecast, SolarWind } from '../../models/aurorav3';
 import { OnViewWillEnter } from '../../models/ionic';
 // import 'moment/locale/fr';
 
@@ -67,6 +67,8 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
     if (changes?.kpForecast27?.currentValue !== changes?.kpForecast27?.previousValue) {
       this._chartForecast27day(changes.kpForecast27.currentValue);
     }
+
+    // this._calculateDataForChartSolarWind(changes.)
   }
 
   /**
@@ -167,7 +169,7 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
     let i = 0;
     forecast.forEach(unit => {
       if (nextHoursForecast.length < numberMaxNextHours) {
-        nextHoursDate.push(moment(unit.date).format('HH:mm'));
+        nextHoursDate.push(moment(unit.date).format('HH') + 'h');
         nextHoursForecast.push(unit.value);
         if (unit.value >= 6) {
           unit.color = AuroraEnumColours.red;
@@ -305,4 +307,81 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
       },
     });
   }
+
+  private _calculateDataForChartSolarWind(forecast: SolarWind[]): void {
+    const nextHoursForecast = [];
+    const nextHoursDate = [];
+    const nextHoursColors = [];
+    let i = 0;
+    console.log(forecast);
+    forecast.forEach(unit => {
+      if (nextHoursForecast.length < numberMaxNextHours) {
+        // nextHoursDate.push(moment(unit.date).format('HH') + 'h');
+        // nextHoursForecast.push(unit.value);
+        // if (unit.value >= 6) {
+        //   unit.color = AuroraEnumColours.red;
+        // }
+        // nextHoursColors.push(colorSwitcher(unit.color));
+      }
+      i++;
+    });
+  }
+
+  private _chartSolarWind(type: 'bz' | 'bt' | 'speed' | 'density'): any {
+    // return new Chart(type, {
+    //   type: 'bar',
+    //   plugins: [ChartDataLabels],
+    //   data: {
+    //     labels: nextHoursDate,
+    //     datasets: [
+    //       {
+    //         data: nextHoursForecast,
+    //         backgroundColor: nextHoursColors,
+    //         borderColor: nextHoursColors,
+    //         borderWidth: 1,
+    //       },
+    //     ],
+    //   },
+    //   options: {
+    //     responsive: true,
+    //     plugins: {
+    //       tooltip: { enabled: false },
+    //       legend: { display: false },
+    //       datalabels: {
+    //         anchor: 'end',
+    //         align: 'end',
+    //         color: WEATHER_NEXT_HOUR_CHART_COLOR,
+    //         font: {
+    //           family: 'Oswald-SemiBold',
+    //           size: 15,
+    //         },
+    //       },
+    //     },
+    //     scales: {
+    //       x: {
+    //         grid: {
+    //           display: false,
+    //         },
+    //         ticks: {
+    //           color: MAIN_TEXT_COLOR,
+    //           font: (ctx, options) => ({ family: 'Oswald-SemiBold' }),
+    //         },
+    //       },
+    //       y: {
+    //         min: 0,
+    //         display: false,
+    //         grid: {
+    //           display: false,
+    //         },
+    //       },
+    //     },
+    //     layout: {
+    //       padding: {
+    //         top: 30,
+    //       },
+    //     },
+    //   },
+    // });
+  }
+
 }

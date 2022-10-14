@@ -139,15 +139,15 @@ export class Tab2Page implements OnViewWillEnter {
         tap({
           next: ([solarWind, ace, kp27day, kpForecast, unit]: [SolarWind[], ACEModule, string, KpForecast[], Unit]) => {
             this.loading = false;
-            this.solarWind = solarWind;
             this.moduleACE = ace; // to be removed
             // this.kpForecast27days = ace['kp:27day'];// to be replaced
             // this.kpForecast = ace['kp:forecast']; //to be replaced
             // console.log(ace['kp:forecast']);
 
             this.unit = unit;
-            this._getKpForecast(kpForecast);
-            this._getKpForecast27day(kp27day);
+            this.solarWind = this._getSolarWind(solarWind);
+            this.kpForecast = this._getKpForecast(kpForecast);
+            this.kpForecast27days = this._getKpForecast27day(kp27day);
             this._trickLoading('1st');
           },
           error: error => {
@@ -165,17 +165,27 @@ export class Tab2Page implements OnViewWillEnter {
       .subscribe();
   }
 
-  private _getKpForecast(kpForecast: KpForecast[]): void {
-    this.kpForecast =
-     kpForecast.map(kp => ({
-      color: determineColorsOfValue('kp', parseInt(kp[1])),
-      value: parseInt(kp[1]),
-      predicted: kp[2],
-      date: new Date(kp[0]),
-    })).filter(kp => kp.predicted === 'predicted');
+  private _getSolarWind(dataSolarWind: SolarWind[]): SolarWind[] {
+    const keyFromFirstIndexValue = Object.values(dataSolarWind[0]);
+    const values = Object.values(dataSolarWind[dataSolarWind.length - 1]);
+    let solarWind = <any>{};
+    // @ts-ignore
+    keyFromFirstIndexValue.forEach((key, index) => (solarWind[key] = values[index]));
+    return solarWind;
   }
 
-  private _getKpForecast27day(file: string) {
+  private _getKpForecast(kpForecast: KpForecast[]): KpForecast[] {
+    return kpForecast
+      .map(kp => ({
+        color: determineColorsOfValue('kp', parseInt(kp[1])),
+        value: parseInt(kp[1]),
+        predicted: kp[2],
+        date: new Date(kp[0]),
+      }))
+      .filter(kp => kp.predicted === 'predicted');
+  }
+
+  private _getKpForecast27day(file: string): Kp27day[] {
     let lineObject: Kp27day[] = [];
     for (const [index, line] of file.split(/[\r\n]+/).entries()) {
       const hashRegex = /#(\w*)/; // Ligne ne commençant pas par un commentaire #
@@ -188,7 +198,7 @@ export class Tab2Page implements OnViewWillEnter {
         });
       }
     }
-    this.kpForecast27days = lineObject;
+    return lineObject;
   }
 
   /**
