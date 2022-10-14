@@ -1,21 +1,5 @@
 @import '../../../theme/shared';
-:host {
-  .container {
-    margin-bottom: 25px;
 
-    .header {
-      @include header-title;
-
-      &:before {
-        @include bottom-header;
-      }
-    }
-
-    .sub {
-      @include subtitle-header;
-    }
-  }
-}
 .container-leaflet {
   #map_canvas {
     height: 125px;
@@ -44,7 +28,3 @@
   }
 }
 
-.container-chart {
-  margin-top: 15px;
-  font-size: 0.8em;
-}

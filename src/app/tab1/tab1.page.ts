@@ -10,8 +10,9 @@ import { StorageService } from '../storage.service';
 import { map, tap } from 'rxjs/operators';
 import { Geocoding } from '../models/geocoding';
 import { countryNameFromCode, roundTwoNumbers } from '../models/utils';
-import { combineLatest } from 'rxjs';
+import { combineLatest, from } from 'rxjs';
 import { OnViewWillEnter } from '../models/ionic';
+import { ELocales } from '../models/locales';
 
 const API_CALL_NUMBER = 1; // nombre de fois où une API est appelé sur cette page
 
@@ -38,6 +39,7 @@ export class Tab1Page implements OnViewWillEnter{
 
   unit: Unit;
   dataError = new ErrorTemplate(null);
+  locale: ELocales;
 
   constructor(
     private _geoloc: Geolocation,
@@ -54,20 +56,23 @@ export class Tab1Page implements OnViewWillEnter{
     // Cheminement en fonction si la localisation est pré-set ou si géoloc
 
     combineLatest([
-      this._storageService.getData('location'),
-      this._storageService.getData('previousLocation'),
-      this._storageService.getData('unit'),
-      this._storageService.getData('weather'),
+      from(this._storageService.getData('location')),
+      from(this._storageService.getData('previousLocation')),
+      from(this._storageService.getData('unit')),
+      from(this._storageService.getData('weather')),
+      from(this._storageService.getData('locale')),
     ])
       .pipe(
         tap({
-          next: ([location, previousLocation, unit, weather]: [
+          next: ([location, previousLocation, unit, weather, locale]: [
             CodeLocation,
             { lat: number; long: number },
             Unit,
             unknown,
+            ELocales
           ]) => {
             this.unit = unit;
+            this.locale = locale;
             // Ceci pour éviter de call l'API trop souvent
             if (
               roundTwoNumbers(location?.lat) !== roundTwoNumbers(previousLocation?.lat) ||
@@ -91,6 +96,7 @@ export class Tab1Page implements OnViewWillEnter{
             }
           },
           error: error => {
+            console.log(error);
             console.warn('Local storage error', error);
             this.dataError = new ErrorTemplate({
               value: true,

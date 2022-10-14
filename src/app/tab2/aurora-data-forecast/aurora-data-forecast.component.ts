@@ -41,7 +41,6 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
   private _map: Map;
   @ViewChild('map_canvas', { static: false }) mapElement: ElementRef;
 
-
   constructor(
     private _modalController: ModalController,
     private _storageService: StorageService,
@@ -63,6 +62,7 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    console.log(this.chartKpForecast);
     this.chartKpForecast?.destroy();
     this.chartKpForecast27?.destroy();
     if (changes?.kpForecast?.currentValue !== changes?.kpForecast?.previousValue) {
@@ -173,8 +173,7 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
     const nextHoursForecast = [];
     const nextHoursDate = [];
     const nextHoursColors = [];
-    let i = 0;
-    forecast.forEach(unit => {
+    for (const unit of forecast) {
       if (nextHoursForecast.length < numberMaxNextHours) {
         nextHoursDate.push(moment(unit.date).format('HH') + 'h');
         nextHoursForecast.push(unit.value);
@@ -183,8 +182,7 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
         }
         nextHoursColors.push(colorSwitcher(unit.color));
       }
-      i++;
-    });
+    }
     // 14 values
     this.chartKpForecast = new Chart('kpnexthours', {
       type: 'bar',
@@ -246,9 +244,8 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
     const forecastValue = [];
     const forecastDate = [];
     const forecastColors = [];
-    let i = 0;
-    forecast.forEach(unit => {
-      if (forecastValue.length < numberMax27Forecast && i % 2 === 0) {
+      for (const [i, unit] of forecast.entries()) {
+        if (forecastValue.length < numberMax27Forecast && i % 2 === 0) {
         forecastDate.push(moment(unit.date).format('DD/MM'));
         forecastValue.push(unit.value);
         if (unit.value >= 6) {
@@ -256,8 +253,7 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
         }
         forecastColors.push(colorSwitcher(unit.color));
       }
-      i++;
-    });
+      }
     // 14 values
     this.chartKpForecast27 = new Chart('kpforecast', {
       type: 'bar',
@@ -316,8 +312,11 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
   }
 
   private _calculateDataForChartSolarWind(forecast: SolarWind[]): void {
-    const nextHoursForecast = [];
-    const nextHoursDate = [];
+    const bzForecast = [];
+    const btForecast = [];
+    const densityForecast = [];
+    const speedForecast = [];
+    const solarWindDate = [];
     const nextHoursColors = [];
     // this.chartKpDensity =
     // this.chartKpSpeed =
@@ -325,51 +324,99 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
     // this.chartKpBt =
     let i = 0;
     console.log(forecast);
-    forecast.forEach(unit => {
-      if (nextHoursForecast.length < numberMaxNextHours) {
-        // nextHoursDate.push(moment(unit.date).format('HH') + 'h');
-        // nextHoursForecast.push(unit.value);
-        // if (unit.value >= 6) {
-        //   unit.color = AuroraEnumColours.red;
-        // }
-        // nextHoursColors.push(colorSwitcher(unit.color));
-      }
-      i++;
-    });
+    for (const [i, unit] of forecast.entries()) {
+
+      // if (nextHoursForecast.length < numberMaxNextHours) {
+      // nextHoursDate.push(moment(unit.date).format('HH') + 'h');
+      // nextHoursForecast.push(unit.value);
+      // if (unit.value >= 6) {
+      //   unit.color = AuroraEnumColours.red;
+      // }
+      // nextHoursColors.push(colorSwitcher(unit.color));
+      // }
+    }
   }
 
-  private _chartSolarWind(type: 'bz' | 'bt' | 'speed' | 'density'): any {
-    // const config = {
+  private _chartSolarWind(type: 'bz' | 'bt' | 'speed' | 'density', labels: string[]): any {
+
+
+    // return new Chart(type, {
     //   type: 'line',
-    //   data: data,
+    //   plugins: [ChartDataLabels],
+    //   data: {
+    //     labels: this._nextHours,
+    //     datasets: [
+    //       {
+    //         data: this._temps,
+    //         backgroundColor: [
+    //           'rgba(105, 191, 175, 0.4)',
+    //           'rgba(105, 191, 175, 0.4)',
+    //           'rgba(105, 191, 175, 0.4)',
+    //           'rgba(105, 191, 175, 0.4)',
+    //           'rgba(105, 191, 175, 0.4)',
+    //           'rgba(105, 191, 175, 0.4)',
+    //           'rgba(105, 191, 175, 0.4)',
+    //           'rgba(105, 191, 175, 0.4)',
+    //         ],
+    //         borderColor: [
+    //           'rgba(140, 255, 234, 0.4)',
+    //           'rgba(105, 191, 175, 0.4)',
+    //           'rgba(105, 191, 175, 0.4)',
+    //           'rgba(105, 191, 175, 0.4)',
+    //           'rgba(105, 191, 175, 0.4)',
+    //           'rgba(105, 191, 175, 0.4)',
+    //           'rgba(105, 191, 175, 0.4)',
+    //           'rgba(105, 191, 175, 0.4)',
+    //         ],
+    //         borderWidth: 2,
+    //         pointBorderWidth: 3,
+    //         pointHitRadius: 10,
+    //         pointHoverBackgroundColor: WEATHER_NEXT_HOUR_CHART_COLOR,
+    //       },
+    //     ],
+    //   },
     //   options: {
+    //     responsive: true,
     //     plugins: {
-    //       title: {
-    //         text: 'Chart.js Time Scale',
-    //         display: true
-    //       }
+    //       tooltip: { enabled: false },
+    //       legend: { display: false },
+    //       datalabels: {
+    //         align: 'end',
+    //         color: WEATHER_NEXT_HOUR_CHART_COLOR,
+    //         font: {
+    //           family: 'Oswald-SemiBold',
+    //           size: 15,
+    //         },
+    //         formatter(value) {
+    //           return value + '°';
+    //         },
+    //       },
     //     },
     //     scales: {
     //       x: {
-    //         type: 'time',
-    //         time: {
-    //           // Luxon format string
-    //           tooltipFormat: 'DD T'
+    //         grid: {
+    //           display: false,
     //         },
-    //         title: {
-    //           display: true,
-    //           text: 'Date'
-    //         }
+    //         ticks: {
+    //           color: MAIN_TEXT_COLOR,
+    //           font: (ctx, options) => ({ family: 'Oswald-SemiBold' }),
+    //         },
     //       },
     //       y: {
-    //         title: {
-    //           display: true,
-    //           text: 'value'
-    //         }
-    //       }
+    //         display: false,
+    //         grid: {
+    //           display: false,
+    //         },
+    //       },
+    //     },
+    //     layout: {
+    //       padding: {
+    //         top: 30,
+    //       },
     //     },
     //   },
-    // };
+    // });
+
 
 
     // return new Chart(type, {
@@ -427,5 +474,4 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
     //   },
     // });
   }
-
 }

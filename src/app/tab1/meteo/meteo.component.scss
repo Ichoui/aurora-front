@@ -14,18 +14,6 @@
   overflow: scroll;
 }
 
-ion-header {
-  @include header-title;
-
-  &:before {
-    @include bottom-header;
-  }
-
-  &:after {
-    background-image: none;
-  }
-}
-
 // Temperature du jour
 .today {
   display: flex;

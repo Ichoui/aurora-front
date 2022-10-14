@@ -29,8 +29,9 @@
     </div>
   </div>
 
-  <ion-card>
-    <ion-header>{{ 'tab1.weather.next.hours' | translate }}</ion-header>
+  <div class="container-chart">
+    <div class="header">{{ 'tab1.weather.next.hours' | translate }}</div>
+    <div class="sub"></div>
     <div class="next-hours">
       <canvas id="next-hours"></canvas>
       <div class="next-more-info">
@@ -48,16 +49,11 @@
         </ng-container>
       </div>
     </div>
-  </ion-card>
+  </div>
 
-  <!--  <ion-card>-->
-  <!--    tests-->
-  <!--  <ng-lottie *ngIf="lottieConfig1" [options]="lottieConfig1" [width]="heightCurrent+'px'" [height]="heightCurrent+'px'"> </ng-lottie>-->
-  <!--  <ng-lottie *ngIf="lottieConfig2" [options]="lottieConfig2" [width]="heightCurrent+'px'" [height]="heightCurrent+'px'"> </ng-lottie>-->
-  <!--  </ion-card>-->
-
-  <ion-card>
-    <ion-header>{{ 'tab1.weather.seven.days' | translate }}</ion-header>
+  <div class="container-chart">
+    <div class="header">{{ 'tab1.weather.seven.days' | translate }}</div>
+    <div class="sub"></div>
     <div class="previsions">
       <div *ngFor="let day of days; let i = index" class="next-days">
         <span class="day">{{ day.date }}</span>
@@ -74,10 +70,11 @@
         </div>
       </div>
     </div>
-  </ion-card>
+  </div>
 
-  <ion-card>
-    <ion-header>{{ 'tab1.weather.cover.clouds' | translate }}</ion-header>
+  <div class="container-chart">
+    <div class="header">{{ 'tab1.weather.cover.clouds' | translate }}</div>
+    <div class="sub"></div>
     <div class="cloudy-rate">
       <div *ngFor="let c of cloudy" class="cloudy">
         <div class="time">{{ c.time }}</div>
@@ -85,10 +82,11 @@
         <div class="percent">{{ c.percent }}%</div>
       </div>
     </div>
-  </ion-card>
+  </div>
 
-  <ion-card *ngIf="currentWeather">
-    <ion-header>{{ 'tab1.weather.details' | translate }}</ion-header>
+  <div class="container-chart" *ngIf="currentWeather">
+    <div class="header">{{ 'tab1.weather.details' | translate }}</div>
+    <div class="sub"></div>
     <div class="data-details">
       <div class="sun">
         <div class="icon">
@@ -140,5 +138,5 @@
         <div class="value">{{ currentWeather.humidity }} %</div>
       </div>
     </div>
-  </ion-card>
+  </div>
 </div>

@@ -23,6 +23,7 @@ export class MeteoComponent implements OnInit, OnChanges {
   @Input() hourlyWeather: Hourly[];
   @Input() sevenDayWeather: Daily[];
 
+  @Input() locale: ELocales;
   @Input() utc: number;
   @Input() unit: Unit;
   //
@@ -45,37 +46,27 @@ export class MeteoComponent implements OnInit, OnChanges {
   readonly widthCurrent = 110;
   readonly heightCurrent = 110;
 
-  private _locale: string;
   private _englishFormat = false; // h, hh : 12 && H,HH : 24
 
   constructor(private _storageService: StorageService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    // Convert seconds to hours
-    if (
-      !changes?.currentWeather.firstChange &&
-      !changes?.hourlyWeather.firstChange &&
-      !changes?.sevenDayWeather.firstChange
-    ) {
-      this._nextHoursChart.destroy();
+    this._nextHoursChart?.destroy();
+    if (changes?.currentWeather?.currentValue !== changes?.currentWeather?.previousValue) {
       this._todayForecast();
+    }
+    if (changes?.hourlyWeather?.currentValue !== changes?.hourlyWeather?.previousValue) {
       this._nextHoursForecast();
+    }
+    if (changes?.sevenDayWeather?.currentValue !== changes?.sevenDayWeather?.previousValue) {
       this._sevenDayForecast();
     }
   }
 
   ngOnInit() {
-    this._storageService.getData('locale').then((locale: ELocales) => {
-      this._locale = locale;
-      if (locale === ELocales.EN) {
-        this._englishFormat = true;
-      }
-      this._todayForecast();
-      this._nextHoursForecast();
-      this._sevenDayForecast();
-    });
-
-    // Convert seconds to hours
+    if (this.locale === ELocales.EN) {
+      this._englishFormat = true;
+    }
     this.utc = this.utc / 60 / 60;
   }
 
@@ -91,7 +82,7 @@ export class MeteoComponent implements OnInit, OnChanges {
 
   private _nextHoursForecast() {
     this.cloudy = [];
-    this.hourlyWeather.forEach((hours: Hourly, i) => {
+    for (const [i, hours] of this.hourlyWeather.entries()) {
       if (this._temps.length < this.dataNumberInCharts && i % 2 === 0) {
         this._temps.push(Math.round(hours.temp));
         this._nextHours.push(this._manageDates(hours.dt, this._englishFormat ? 'hh A' : 'HH:mm'));
@@ -103,7 +94,7 @@ export class MeteoComponent implements OnInit, OnChanges {
       if (this.cloudy.length < this.dataNumberInCharts) {
         this.cloudy.push(cloudy);
       }
-    });
+    }
     this._nextHoursChart = new Chart('next-hours', {
       type: 'line',
       plugins: [ChartDataLabels],
@@ -202,7 +193,7 @@ export class MeteoComponent implements OnInit, OnChanges {
    * */
   private _manageDates(date: number, format?: string): string | moment.Moment {
     let unixToLocal;
-    unixToLocal = moment.unix(date).utc().add(this.utc, 'h').locale(this._locale);
+    unixToLocal = moment.unix(date).utc().add(this.utc, 'h').locale(this.locale);
     // if (this.language === 'fr') {
     // } else {
     //   unixToLocal = moment.unix(date).add(this.utc, 'h').locale('en');
@@ -302,25 +293,25 @@ export class MeteoComponent implements OnInit, OnChanges {
     } else if (windSpeed >= 157.5 && windSpeed < 202.5) {
       return 'S';
     } else if (windSpeed >= 202.5 && windSpeed < 247.5) {
-      return this._locale === ELocales.FR ? 'SO' : 'SW';
+      return this.locale === ELocales.FR ? 'SO' : 'SW';
     } else if (windSpeed >= 247.5 && windSpeed < 292.5) {
-      return this._locale === ELocales.FR ? 'O' : 'W';
+      return this.locale === ELocales.FR ? 'O' : 'W';
     } else if (windSpeed >= 292.5 && windSpeed < 337.5) {
-      return this._locale === ELocales.FR ? 'NO' : 'NW';
+      return this.locale === ELocales.FR ? 'NO' : 'NW';
     }
   }
 
   calculateUV(indexUv): string {
     if (indexUv >= 0 && indexUv < 3) {
-      return this._locale === ELocales.FR ? 'Faible' : 'Low';
+      return this.locale === ELocales.FR ? 'Faible' : 'Low';
     } else if (indexUv >= 3 && indexUv < 6) {
-      return this._locale === ELocales.FR ? 'Modéré' : 'Moderate';
+      return this.locale === ELocales.FR ? 'Modéré' : 'Moderate';
     } else if (indexUv >= 6 && indexUv < 8) {
-      return this._locale === ELocales.FR ? 'Élevé' : 'High';
+      return this.locale === ELocales.FR ? 'Élevé' : 'High';
     } else if (indexUv >= 8 && indexUv < 11) {
-      return this._locale === ELocales.FR ? 'Très élevé' : 'Very high';
+      return this.locale === ELocales.FR ? 'Très élevé' : 'Very high';
     } else if (indexUv >= 11) {
-      return this._locale === ELocales.FR ? 'Extrême' : 'Extreme';
+      return this.locale === ELocales.FR ? 'Extrême' : 'Extreme';
     }
   }
 
