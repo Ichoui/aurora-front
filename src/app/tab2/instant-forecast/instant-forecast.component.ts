@@ -24,7 +24,7 @@ export class InstantForecastComponent implements OnInit, OnChanges {
 
   @Input() unit: Unit;
   @Input() exDataSolarWind: ACEModule;
-  @Input() dataSolarWind: SolarWind[];
+  @Input() solarWind: SolarWind;
 
   constructor(private _storageService: StorageService) {}
 
@@ -53,42 +53,42 @@ export class InstantForecastComponent implements OnInit, OnChanges {
       void this._storageService.setData('current_kp', this.kpCurrent.value);
     }
 
-    if (changes?.dataSolarWind) {
-      const dataSolarWind =changes.dataSolarWind.currentValue
+    if (changes?.solarWind) {
+      const solarWind =changes.solarWind.currentValue
 
       const wind: SolarWind = {
-        density: parseFloat(dataSolarWind.density),
-        speed: parseFloat(dataSolarWind.speed),
-        bt: parseFloat(dataSolarWind.bt),
-        bz: parseFloat(dataSolarWind.bz),
-        time_tag: dataSolarWind.time_tag,
-        propagated_time_tag: dataSolarWind.propagated_time_tag,
+        density: parseFloat(solarWind.density),
+        speed: parseFloat(solarWind.speed),
+        bt: parseFloat(solarWind.bt),
+        bz: parseFloat(solarWind.bz),
+        time_tag: solarWind.time_tag,
+        propagated_time_tag: solarWind.propagated_time_tag,
       };
 
       this.density = {
         value: wind.density,
-        date: new Date((dataSolarWind as SolarWind).time_tag),
-        time_tag: new Date((dataSolarWind as SolarWind).time_tag),
+        date: new Date((solarWind as SolarWind).time_tag),
+        time_tag: new Date((solarWind as SolarWind).time_tag),
         color: determineColorsOfValue('density', wind.density),
       };
 
       this.bz = {
         value: wind.bz,
-        date: new Date((dataSolarWind as SolarWind).time_tag),
-        time_tag: new Date((dataSolarWind as SolarWind).time_tag),
+        date: new Date((solarWind as SolarWind).time_tag),
+        time_tag: new Date((solarWind as SolarWind).time_tag),
         color: determineColorsOfValue('bz', wind.bz),
       };
       this.bt = {
         value: wind.bt,
-        date: new Date((dataSolarWind as SolarWind).time_tag),
-        request_date: new Date((dataSolarWind as SolarWind).time_tag),
+        date: new Date((solarWind as SolarWind).time_tag),
+        request_date: new Date((solarWind as SolarWind).time_tag),
         color: determineColorsOfValue('bt', wind.bt),
       };
 
       this.speed = {
         value: convertUnit(wind.speed, this.unit),
-        date: new Date((dataSolarWind as SolarWind).time_tag),
-        time_tag: new Date((dataSolarWind as SolarWind).time_tag),
+        date: new Date((solarWind as SolarWind).time_tag),
+        time_tag: new Date((solarWind as SolarWind).time_tag),
         color: determineColorsOfValue('speed', convertUnit(wind.speed, this.unit), this.unit),
         unit: this.unit,
       };

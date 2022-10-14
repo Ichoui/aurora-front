@@ -15,10 +15,10 @@
 
     <swiper [scrollbar]="false" [slidesPerView]="1" [autoHeight]="true">
       <ng-template swiperSlide>
-        <app-instant-forecast [exDataSolarWind]="moduleACE" [dataSolarWind]="solarWind" [unit]="unit"></app-instant-forecast>
+        <app-instant-forecast [exDataSolarWind]="moduleACE" [solarWind]="solarWindInstant" [unit]="unit"></app-instant-forecast>
       </ng-template>
       <ng-template swiperSlide>
-        <app-aurora-data-forecast [kpForecast27]="kpForecast27days" [kpForecast]="kpForecast" ></app-aurora-data-forecast>
+        <app-aurora-data-forecast [kpForecast27]="kpForecast27days" [kpForecast]="kpForecast" [solarWind]="solarWind"></app-aurora-data-forecast>
       </ng-template>
     </swiper>
   </ng-container>

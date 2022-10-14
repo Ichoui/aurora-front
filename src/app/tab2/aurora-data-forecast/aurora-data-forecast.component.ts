@@ -27,9 +27,14 @@ Chart.register(...registerables);
 export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWillEnter {
   @Input() kpForecast: KpForecast[];
   @Input() kpForecast27: Kp27day[];
+  @Input() solarWind: SolarWind[];
 
   chartKpForecast: Chart;
   chartKpForecast27: Chart;
+  chartKpDensity: Chart;
+  chartKpSpeed: Chart;
+  chartKpBz: Chart;
+  chartKpBt: Chart;
 
   private _marker: Marker;
   private _coords: Coords = {} as any;
@@ -67,8 +72,10 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
     if (changes?.kpForecast27?.currentValue !== changes?.kpForecast27?.previousValue) {
       this._chartForecast27day(changes.kpForecast27.currentValue);
     }
-
-    // this._calculateDataForChartSolarWind(changes.)
+    // console.log(changes);
+    if (changes?.solarWind?.currentValue !== changes?.solarWind?.previousValue) {
+      this._calculateDataForChartSolarWind(changes.solarWind.currentValue);
+    }
   }
 
   /**
@@ -312,6 +319,10 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
     const nextHoursForecast = [];
     const nextHoursDate = [];
     const nextHoursColors = [];
+    // this.chartKpDensity =
+    // this.chartKpSpeed =
+    // this.chartKpBz =
+    // this.chartKpBt =
     let i = 0;
     console.log(forecast);
     forecast.forEach(unit => {
@@ -328,8 +339,41 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
   }
 
   private _chartSolarWind(type: 'bz' | 'bt' | 'speed' | 'density'): any {
+    // const config = {
+    //   type: 'line',
+    //   data: data,
+    //   options: {
+    //     plugins: {
+    //       title: {
+    //         text: 'Chart.js Time Scale',
+    //         display: true
+    //       }
+    //     },
+    //     scales: {
+    //       x: {
+    //         type: 'time',
+    //         time: {
+    //           // Luxon format string
+    //           tooltipFormat: 'DD T'
+    //         },
+    //         title: {
+    //           display: true,
+    //           text: 'Date'
+    //         }
+    //       },
+    //       y: {
+    //         title: {
+    //           display: true,
+    //           text: 'value'
+    //         }
+    //       }
+    //     },
+    //   },
+    // };
+
+
     // return new Chart(type, {
-    //   type: 'bar',
+    //   type: 'line',
     //   plugins: [ChartDataLabels],
     //   data: {
     //     labels: nextHoursDate,

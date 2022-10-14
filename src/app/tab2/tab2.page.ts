@@ -35,11 +35,11 @@ export class Tab2Page implements OnViewWillEnter {
   moduleACE: ACEModule;
   kpForecast: KpForecast[] = [];
   kpForecast27days: Kp27day[] = [];
+  unit: Unit;
+  solarWindInstant: SolarWind;
+  solarWind: SolarWind[];
 
   dataError = new ErrorTemplate(null);
-
-  unit: Unit;
-  solarWind: SolarWind[];
 
   constructor(
     private _geoloc: Geolocation,
@@ -143,9 +143,9 @@ export class Tab2Page implements OnViewWillEnter {
             // this.kpForecast27days = ace['kp:27day'];// to be replaced
             // this.kpForecast = ace['kp:forecast']; //to be replaced
             // console.log(ace['kp:forecast']);
-
             this.unit = unit;
-            this.solarWind = this._getSolarWind(solarWind);
+            this.solarWindInstant = this._getSolarWind(solarWind, true) as SolarWind;
+            this.solarWind = this._getSolarWind(solarWind) as SolarWind[];
             this.kpForecast = this._getKpForecast(kpForecast);
             this.kpForecast27days = this._getKpForecast27day(kp27day);
             this._trickLoading('1st');
@@ -165,12 +165,17 @@ export class Tab2Page implements OnViewWillEnter {
       .subscribe();
   }
 
-  private _getSolarWind(dataSolarWind: SolarWind[]): SolarWind[] {
+  private _getSolarWind(dataSolarWind: SolarWind[], instant = false): SolarWind[] | SolarWind {
     const keyFromFirstIndexValue = Object.values(dataSolarWind[0]);
-    const values = Object.values(dataSolarWind[dataSolarWind.length - 1]);
-    let solarWind = <any>{};
-    // @ts-ignore
-    keyFromFirstIndexValue.forEach((key, index) => (solarWind[key] = values[index]));
+    let solarWind: SolarWind[] = [];
+    let dataObject = <any>{};
+    for (const value of Object.values(dataSolarWind)) {
+      keyFromFirstIndexValue.forEach((key, index) => (dataObject[key] = value[index]));
+      solarWind.push(dataObject);
+    }
+    if (instant) {
+      return solarWind[solarWind.length -1]
+    }
     return solarWind;
   }
 
