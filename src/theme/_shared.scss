@@ -1,6 +1,7 @@
 @mixin header-title {
   position: relative;
-  margin: 5px 0 0 15px;
+  margin-left: 15px;
+  padding-top: 5px;
   text-align: left;
   font-family: var(--ion-font-bold);
   color: #fff;
@@ -14,7 +15,6 @@
   height: 2px;
   background: var(--ion-color-primary);
   bottom: -2px;
-  //width: 40px;
   width: 50%;
   left: 0;
 }

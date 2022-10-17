@@ -1,25 +1,13 @@
 <app-header titre="{{ 'tab3.settings.title' | translate }}"></app-header>
 
 <ion-content>
-  <ion-card>
-    <ion-card-content>
-      <ion-header>{{ 'tab3.settings.infos' | translate }}</ion-header>
-      <div class="sub">{{ 'tab3.settings.subinfos' | translate }}</div>
-      <ion-item [routerLink]="['..', 'infos']">
-        <span style="font-size: 0.9em">{{ 'tab3.settings.infos.text' | translate }}</span>
-      </ion-item>
-    </ion-card-content>
-  </ion-card>
-
-  <ion-card>
-<!--    <ion-card-content>-->
-<!--      <div [routerLink]="['..', 'map']">-->
-<!--        <ion-header>{{ 'tab3.settings.location' | translate }}</ion-header>-->
-<!--        <div class="sub">{{ 'tab3.settings.sublocation' | translate }}</div>-->
-<!--        <div id="map_canvas"></div>-->
-<!--      </div>-->
-<!--    </ion-card-content>-->
-  </ion-card>
+  <div class="card-container">
+    <div class="header">{{ 'tab3.settings.infos' | translate }}</div>
+    <div class="sub">{{ 'tab3.settings.subinfos' | translate }}</div>
+    <ion-item [routerLink]="['..', 'infos']">
+      <span>{{ 'tab3.settings.infos.text' | translate }}</span>
+    </ion-item>
+  </div>
 
   <!--    <ion-card>z
           <ion-card-content>
@@ -37,71 +25,67 @@
       </ion-card>-->
   <!--    <ion-img src="/assets/img/aurora-tab3.jpg"></ion-img>-->
 
-  <ion-card>
-    <ion-card-content>
-      <ion-header>{{ 'tab3.settings.languages' | translate }}</ion-header>
-      <div class="sub">{{ 'tab3.settings.sublanguages' | translate }}</div>
-      <ion-item>
-        <ion-select
-          value="{{ locale }}"
-          interface="action-sheet"
-          (ionChange)="setLocale($event)"
-          cancelText="{{ 'global.cancel' | translate }}"
-        >
-          <ion-select-option *ngFor="let locale of locales" value="{{ locale.slug }}">
-            {{ locale.label | translate }}
-          </ion-select-option>
-        </ion-select>
-      </ion-item>
-    </ion-card-content>
-  </ion-card>
+  <div class="card-container">
+    <div class="header">{{ 'tab3.settings.languages' | translate }}</div>
+    <div class="sub">{{ 'tab3.settings.sublanguages' | translate }}</div>
+    <ion-item>
+      <ion-select
+        value="{{ locale }}"
+        interface="action-sheet"
+        (ionChange)="setLocale($event)"
+        cancelText="{{ 'global.cancel' | translate }}"
+      >
+        <ion-select-option *ngFor="let locale of locales" value="{{ locale.slug }}">
+          {{ locale.label | translate }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+  </div>
 
-  <ion-card>
-    <ion-card-content>
-      <ion-header>{{ 'tab3.settings.units' | translate }}</ion-header>
-      <div class="sub">{{ 'tab3.settings.subunits' | translate }}</div>
-      <ion-item>
-        <ion-select
-          value="{{ unit }}"
-          interface="action-sheet"
-          (ionChange)="setUnit($event)"
-          cancelText="{{ 'global.cancel' | translate }}"
-        >
-          <ion-select-option *ngFor="let u of units" value="{{ u.slug }}">
-            <span>{{ u.label | translate }}</span>
-          </ion-select-option>
-        </ion-select>
-      </ion-item>
-    </ion-card-content>
-  </ion-card>
+  <div class="card-container">
+    <div class="header">{{ 'tab3.settings.units' | translate }}</div>
+    <div class="sub">{{ 'tab3.settings.subunits' | translate }}</div>
+    <ion-item>
+      <ion-select
+        value="{{ unit }}"
+        interface="action-sheet"
+        (ionChange)="setUnit($event)"
+        cancelText="{{ 'global.cancel' | translate }}"
+      >
+        <ion-select-option *ngFor="let u of units" value="{{ u.slug }}">
+          <span>{{ u.label | translate }}</span>
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+  </div>
 
-  <ion-card class="credits">
-    <ion-card-content>
-      <ion-header class="credits">{{ 'tab3.settings.credits.title' | translate }}</ion-header>
-      <p>
+  <div class="card-container credits">
+      <div class="header credits">{{ 'tab3.settings.credits.title' | translate }}</div>
+      <span>
         {{ 'tab3.settings.credits.first' | translate }}
         <a href="#" (click)="openUrl('http://auroraslive.io/#/')">
           {{ 'tab3.settings.credits.first.link' | translate }}
         </a>
-      </p>
-      <p>
+      </span>
+      <span>
         {{ 'tab3.settings.credits.second' | translate }}
         <a href="#" (click)="openUrl('https://codepen.io/jh3y/pen/JKddVx')">
           {{ 'tab3.settings.credits.second.link' | translate }}
         </a>
-      </p>
-      <p>
+      </span>
+      <span>
         {{ 'tab3.settings.credits.third' | translate }}
         <a href="#" (click)="openUrl('https://play.google.com/store/apps/details?id=io.aurora.start')">
           {{ 'tab3.settings.credits.third.link' | translate }}
         </a>
         ☺
-      </p>
-      <ion-button class="legal" color="primary" size="small" (click)="CGU()">
-        {{ 'tab3.settings.cgu' | translate }}
-      </ion-button>
-    </ion-card-content>
-  </ion-card>
+      </span>
+      <span>
+        <ion-button class="legal" color="primary" size="small" (click)="CGU()">
+          {{ 'tab3.settings.cgu' | translate }}
+        </ion-button>
+      </span>
+    </div>
 </ion-content>
 
 <ion-fab vertical="bottom" horizontal="end" slot="fixed">

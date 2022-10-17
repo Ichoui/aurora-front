@@ -12,6 +12,7 @@ import { Unit } from '../models/weather';
 import { Kp27day, KpForecast, SolarWind } from '../models/aurorav3';
 import { determineColorsOfValue, monthSwitcher } from '../models/utils';
 import { OnViewWillEnter } from '../models/ionic';
+import { HttpErrorResponse } from '@angular/common/http';
 // import 'moment/locale/fr';
 const API_CALL_NUMBER = 1; // nombre de fois où une API est appelé sur cette page
 
@@ -150,7 +151,7 @@ export class Tab2Page implements OnViewWillEnter {
             this.kpForecast27days = this._getKpForecast27day(kp27day);
             this._trickLoading('1st');
           },
-          error: error => {
+          error: (error: HttpErrorResponse) => {
             console.warn('Wind Solar data error', error);
             this.loading = false;
             this.dataError = new ErrorTemplate({

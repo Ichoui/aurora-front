@@ -1,55 +1,31 @@
 @import '../../../theme/shared';
-ion-card {
-  ion-item {
-    --inner-border-width: 0 !important;
-    --border-width: 0 !important;
-  }
 
-  ion-header {
-    @include header-title;
-    margin-left: 0;
+.card-container {
+  &.credits {
+    color: white;
+    background-image: url('/assets/img/artwork-auroras.jpg');
+    background-size: cover;
+    height: 150px;
 
-    &:before {
-      @include bottom-header;
+    :nth-child(2) {
+      margin-top: 15px;
     }
-
-    &:after {
-      background-image: none;
+    :last-child {
+      text-align: center;
     }
-
-    &.credits {
-      margin-bottom: 15px;
+    span {
+      display: block;
+      margin-left: 15px;
     }
-  }
-
-  .sub {
-    @include subtitle-header;
-    margin-left: 0;
-  }
-
-  ion-button.legal {
-    margin-top: 10px;
-    text-transform: capitalize;
-    font-size: 12px;
+    ion-button.legal {
+      margin-top: 10px;
+      text-transform: capitalize;
+      font-size: 12px;
+    }
   }
 
   ion-img {
     border: 2px solid var(--ion-color-primary);
     width: auto;
-  }
-
-  &.credits {
-    color: white;
-
-    &:before {
-      width: 100%;
-      height: 100%;
-      content: ' ';
-      background-image: url('/assets/img/artwork-auroras.jpg');
-      background-size: cover;
-      position: absolute;
-      left: -2px;
-      top: -2px;
-    }
   }
 }
