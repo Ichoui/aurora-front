@@ -82,6 +82,7 @@ export class MeteoComponent implements OnInit, OnChanges {
 
   private _nextHoursForecast() {
     this.cloudy = [];
+    // TODO this_temps private inutile, à mettre en variable LET (ainsi que nextHours)
     for (const [i, hours] of this.hourlyWeather.entries()) {
       if (this._temps.length < this.dataNumberInCharts && i % 2 === 0) {
         this._temps.push(Math.round(hours.temp));

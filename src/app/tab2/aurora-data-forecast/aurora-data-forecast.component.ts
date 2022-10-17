@@ -4,7 +4,7 @@ import { ModalComponent } from '../../shared/modal/modal.component';
 import { Chart, registerables } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import * as moment from 'moment';
-import { colorSwitcher } from '../../models/utils';
+import { colorSwitcher, determineColorsOfValue } from '../../models/utils';
 import { MAIN_TEXT_COLOR, WEATHER_NEXT_HOUR_CHART_COLOR } from '../../models/colors';
 import { CodeLocation, Coords } from '../../models/cities';
 import { StorageService } from '../../storage.service';
@@ -13,6 +13,8 @@ import { icon, Map, Marker, marker, tileLayer, ZoomPanOptions } from 'leaflet';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { AuroraEnumColours, Kp27day, KpForecast, SolarWind } from '../../models/aurorav3';
 import { OnViewWillEnter } from '../../models/ionic';
+import { ELocales } from '../../models/locales';
+import { Unit } from '../../models/weather';
 // import 'moment/locale/fr';
 
 const numberMax27Forecast = 14;
@@ -28,6 +30,7 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
   @Input() kpForecast: KpForecast[];
   @Input() kpForecast27: Kp27day[];
   @Input() solarWind: SolarWind[];
+  @Input() unit: Unit;
 
   chartKpForecast: Chart;
   chartKpForecast27: Chart;
@@ -36,6 +39,7 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
   chartKpBz: Chart;
   chartKpBt: Chart;
 
+  private _locale: ELocales;
   private _marker: Marker;
   private _coords: Coords = {} as any;
   private _map: Map;
@@ -49,6 +53,7 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
 
   ngOnInit(): void {
     this.minimapLocation();
+    this._storageService.getData('locale').then((l: ELocales) => (this._locale = l));
     console.log('ef');
   }
 
@@ -62,9 +67,13 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(this.chartKpForecast);
     this.chartKpForecast?.destroy();
     this.chartKpForecast27?.destroy();
+    this.chartKpDensity?.destroy();
+    this.chartKpSpeed?.destroy();
+    this.chartKpBz?.destroy();
+    this.chartKpBt?.destroy();
+
     if (changes?.kpForecast?.currentValue !== changes?.kpForecast?.previousValue) {
       this._chartNextHoursForecast(changes.kpForecast.currentValue);
     }
@@ -72,9 +81,9 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
     if (changes?.kpForecast27?.currentValue !== changes?.kpForecast27?.previousValue) {
       this._chartForecast27day(changes.kpForecast27.currentValue);
     }
-    // console.log(changes);
     if (changes?.solarWind?.currentValue !== changes?.solarWind?.previousValue) {
-      this._calculateDataForChartSolarWind(changes.solarWind.currentValue);
+      const firstChange = changes?.solarWind?.firstChange;
+      this._calculateDataForChartSolarWind(changes.solarWind.currentValue, firstChange);
     }
   }
 
@@ -244,8 +253,8 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
     const forecastValue = [];
     const forecastDate = [];
     const forecastColors = [];
-      for (const [i, unit] of forecast.entries()) {
-        if (forecastValue.length < numberMax27Forecast && i % 2 === 0) {
+    for (const [i, unit] of forecast.entries()) {
+      if (forecastValue.length < numberMax27Forecast && i % 2 === 0) {
         forecastDate.push(moment(unit.date).format('DD/MM'));
         forecastValue.push(unit.value);
         if (unit.value >= 6) {
@@ -253,7 +262,7 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
         }
         forecastColors.push(colorSwitcher(unit.color));
       }
-      }
+    }
     // 14 values
     this.chartKpForecast27 = new Chart('kpforecast', {
       type: 'bar',
@@ -311,167 +320,128 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
     });
   }
 
-  private _calculateDataForChartSolarWind(forecast: SolarWind[]): void {
-    const bzForecast = [];
-    const btForecast = [];
-    const densityForecast = [];
-    const speedForecast = [];
+  private _calculateDataForChartSolarWind(forecast: SolarWind[], firstChange: boolean): void {
+    const bzForecast = {
+      value: [],
+      color: [],
+    };
+    const btForecast = {
+      value: [],
+      color: [],
+    };
+    const densityForecast = {
+      value: [],
+      color: [],
+    };
+    const speedForecast = {
+      value: [],
+      color: [],
+    };
     const solarWindDate = [];
-    const nextHoursColors = [];
-    // this.chartKpDensity =
-    // this.chartKpSpeed =
-    // this.chartKpBz =
-    // this.chartKpBt =
-    let i = 0;
+
     console.log(forecast);
     for (const [i, unit] of forecast.entries()) {
+      if (i % 5 === 0) {
+        if (i % 2 === 0) {
+          solarWindDate.push(moment(unit.propagated_time_tag).format(this._locale === ELocales.FR ? 'HH:mm' : 'hh:mm'));
+        }
+        densityForecast.value.push(unit.density);
+        densityForecast.color.push(colorSwitcher(determineColorsOfValue('density', unit.density)));
 
-      // if (nextHoursForecast.length < numberMaxNextHours) {
-      // nextHoursDate.push(moment(unit.date).format('HH') + 'h');
-      // nextHoursForecast.push(unit.value);
-      // if (unit.value >= 6) {
-      //   unit.color = AuroraEnumColours.red;
-      // }
-      // nextHoursColors.push(colorSwitcher(unit.color));
-      // }
+        bzForecast.value.push(unit.bz);
+        bzForecast.color.push(colorSwitcher(determineColorsOfValue('bz', unit.bz)));
+        console.log(unit.bz);
+        console.log(bzForecast);
+
+        btForecast.value.push(unit.bt);
+        btForecast.color.push(colorSwitcher(determineColorsOfValue('bt', unit.bt)));
+
+        speedForecast.value.push(unit.speed);
+        speedForecast.color.push(colorSwitcher(determineColorsOfValue('speed', unit.speed, this.unit)));
+
+      }
+    }
+
+    console.log(solarWindDate);
+    console.log(densityForecast);
+
+    if (firstChange) {
+      this.chartKpDensity = this._chartSolarWind(
+        'density',
+        solarWindDate,
+        densityForecast.value,
+        densityForecast.color,
+      );
+      this.chartKpSpeed = this._chartSolarWind('speed', solarWindDate, speedForecast.value, speedForecast.color);
+      this.chartKpBz = this._chartSolarWind('bz', solarWindDate, bzForecast.value, bzForecast.color);
+      this.chartKpBt = this._chartSolarWind('bt', solarWindDate, btForecast.value, btForecast.color);
+    } else {
+      // Update data only !
     }
   }
 
-  private _chartSolarWind(type: 'bz' | 'bt' | 'speed' | 'density', labels: string[]): any {
-
-
-    // return new Chart(type, {
-    //   type: 'line',
-    //   plugins: [ChartDataLabels],
-    //   data: {
-    //     labels: this._nextHours,
-    //     datasets: [
-    //       {
-    //         data: this._temps,
-    //         backgroundColor: [
-    //           'rgba(105, 191, 175, 0.4)',
-    //           'rgba(105, 191, 175, 0.4)',
-    //           'rgba(105, 191, 175, 0.4)',
-    //           'rgba(105, 191, 175, 0.4)',
-    //           'rgba(105, 191, 175, 0.4)',
-    //           'rgba(105, 191, 175, 0.4)',
-    //           'rgba(105, 191, 175, 0.4)',
-    //           'rgba(105, 191, 175, 0.4)',
-    //         ],
-    //         borderColor: [
-    //           'rgba(140, 255, 234, 0.4)',
-    //           'rgba(105, 191, 175, 0.4)',
-    //           'rgba(105, 191, 175, 0.4)',
-    //           'rgba(105, 191, 175, 0.4)',
-    //           'rgba(105, 191, 175, 0.4)',
-    //           'rgba(105, 191, 175, 0.4)',
-    //           'rgba(105, 191, 175, 0.4)',
-    //           'rgba(105, 191, 175, 0.4)',
-    //         ],
-    //         borderWidth: 2,
-    //         pointBorderWidth: 3,
-    //         pointHitRadius: 10,
-    //         pointHoverBackgroundColor: WEATHER_NEXT_HOUR_CHART_COLOR,
-    //       },
-    //     ],
-    //   },
-    //   options: {
-    //     responsive: true,
-    //     plugins: {
-    //       tooltip: { enabled: false },
-    //       legend: { display: false },
-    //       datalabels: {
-    //         align: 'end',
-    //         color: WEATHER_NEXT_HOUR_CHART_COLOR,
-    //         font: {
-    //           family: 'Oswald-SemiBold',
-    //           size: 15,
-    //         },
-    //         formatter(value) {
-    //           return value + '°';
-    //         },
-    //       },
-    //     },
-    //     scales: {
-    //       x: {
-    //         grid: {
-    //           display: false,
-    //         },
-    //         ticks: {
-    //           color: MAIN_TEXT_COLOR,
-    //           font: (ctx, options) => ({ family: 'Oswald-SemiBold' }),
-    //         },
-    //       },
-    //       y: {
-    //         display: false,
-    //         grid: {
-    //           display: false,
-    //         },
-    //       },
-    //     },
-    //     layout: {
-    //       padding: {
-    //         top: 30,
-    //       },
-    //     },
-    //   },
-    // });
-
-
-
-    // return new Chart(type, {
-    //   type: 'line',
-    //   plugins: [ChartDataLabels],
-    //   data: {
-    //     labels: nextHoursDate,
-    //     datasets: [
-    //       {
-    //         data: nextHoursForecast,
-    //         backgroundColor: nextHoursColors,
-    //         borderColor: nextHoursColors,
-    //         borderWidth: 1,
-    //       },
-    //     ],
-    //   },
-    //   options: {
-    //     responsive: true,
-    //     plugins: {
-    //       tooltip: { enabled: false },
-    //       legend: { display: false },
-    //       datalabels: {
-    //         anchor: 'end',
-    //         align: 'end',
-    //         color: WEATHER_NEXT_HOUR_CHART_COLOR,
-    //         font: {
-    //           family: 'Oswald-SemiBold',
-    //           size: 15,
-    //         },
-    //       },
-    //     },
-    //     scales: {
-    //       x: {
-    //         grid: {
-    //           display: false,
-    //         },
-    //         ticks: {
-    //           color: MAIN_TEXT_COLOR,
-    //           font: (ctx, options) => ({ family: 'Oswald-SemiBold' }),
-    //         },
-    //       },
-    //       y: {
-    //         min: 0,
-    //         display: false,
-    //         grid: {
-    //           display: false,
-    //         },
-    //       },
-    //     },
-    //     layout: {
-    //       padding: {
-    //         top: 30,
-    //       },
-    //     },
-    //   },
-    // });
+  private _chartSolarWind(
+    type: 'bz' | 'bt' | 'speed' | 'density',
+    labels: string[],
+    data: string[],
+    colors: string[],
+  ): any {
+    console.log(colors);
+    return new Chart(type, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            data: data,
+            backgroundColor: colors,
+            borderColor: colors,
+            borderWidth: 2,
+            pointBorderWidth: 3,
+            pointHitRadius: 10,
+            pointHoverBackgroundColor: WEATHER_NEXT_HOUR_CHART_COLOR,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          tooltip: { enabled: false },
+          legend: { display: false },
+          datalabels: {
+            align: 'end',
+            color: WEATHER_NEXT_HOUR_CHART_COLOR,
+            font: {
+              family: 'Oswald-SemiBold',
+              size: 15,
+            },
+            formatter(value) {
+              return value + '°';
+            },
+          },
+        },
+        scales: {
+          x: {
+            grid: {
+              display: false,
+            },
+            ticks: {
+              color: MAIN_TEXT_COLOR,
+              font: (ctx, options) => ({ family: 'Oswald-SemiBold' }),
+            },
+          },
+          y: {
+            grid: {
+              display: false,
+            },
+          },
+        },
+        layout: {
+          padding: {
+            top: 30,
+          },
+        },
+      },
+    });
   }
 }

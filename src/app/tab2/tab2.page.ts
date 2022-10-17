@@ -169,14 +169,23 @@ export class Tab2Page implements OnViewWillEnter {
   private _getSolarWind(dataSolarWind: SolarWind[], instant = false): SolarWind[] | SolarWind {
     const keyFromFirstIndexValue = Object.values(dataSolarWind[0]);
     let solarWind: SolarWind[] = [];
-    let dataObject = <any>{};
     for (const value of Object.values(dataSolarWind)) {
-      keyFromFirstIndexValue.forEach((key, index) => (dataObject[key] = value[index]));
-      solarWind.push(dataObject);
+      // Associe un tableau de clef à un tableau de valeurs à chaque itération et l'ajoute à un tableau
+      solarWind.push(
+        keyFromFirstIndexValue.reduce((o, k, i) => {
+          let val = value[i];
+          if (k !== 'propagated_time_tag' && k !== 'time_tag' && k !== 'temperature') {
+            // Transforme certaine valeur en Integer
+            val = parseFloat(value[i]);
+          }
+          return { ...o, [k]: val };
+        }, {}),
+      );
     }
     if (instant) {
-      return solarWind[solarWind.length -1]
+      return solarWind[solarWind.length - 1];
     }
+    solarWind.shift(); // Removing first index with keys
     return solarWind;
   }
 

@@ -54,42 +54,33 @@ export class InstantForecastComponent implements OnInit, OnChanges {
     }
 
     if (changes?.solarWind) {
-      const solarWind =changes.solarWind.currentValue
-
-      const wind: SolarWind = {
-        density: parseFloat(solarWind.density),
-        speed: parseFloat(solarWind.speed),
-        bt: parseFloat(solarWind.bt),
-        bz: parseFloat(solarWind.bz),
-        time_tag: solarWind.time_tag,
-        propagated_time_tag: solarWind.propagated_time_tag,
-      };
+      const solarWind: SolarWind =changes.solarWind.currentValue
 
       this.density = {
-        value: wind.density,
+        value: solarWind.density,
         date: new Date((solarWind as SolarWind).time_tag),
         time_tag: new Date((solarWind as SolarWind).time_tag),
-        color: determineColorsOfValue('density', wind.density),
+        color: determineColorsOfValue('density', solarWind.density),
       };
 
       this.bz = {
-        value: wind.bz,
+        value: solarWind.bz,
         date: new Date((solarWind as SolarWind).time_tag),
         time_tag: new Date((solarWind as SolarWind).time_tag),
-        color: determineColorsOfValue('bz', wind.bz),
+        color: determineColorsOfValue('bz', solarWind.bz),
       };
       this.bt = {
-        value: wind.bt,
+        value: solarWind.bt,
         date: new Date((solarWind as SolarWind).time_tag),
         request_date: new Date((solarWind as SolarWind).time_tag),
-        color: determineColorsOfValue('bt', wind.bt),
+        color: determineColorsOfValue('bt', solarWind.bt),
       };
 
       this.speed = {
-        value: convertUnit(wind.speed, this.unit),
+        value: convertUnit(solarWind.speed, this.unit),
         date: new Date((solarWind as SolarWind).time_tag),
         time_tag: new Date((solarWind as SolarWind).time_tag),
-        color: determineColorsOfValue('speed', convertUnit(wind.speed, this.unit), this.unit),
+        color: determineColorsOfValue('speed', convertUnit(solarWind.speed, this.unit), this.unit),
         unit: this.unit,
       };
     }

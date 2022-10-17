@@ -132,13 +132,13 @@ export function determineColorsOfValue(
       }
       break;
     case 'bz':
-      if (value <= -15) {
+      if (value <= -15) { // -20 par exemple
         return AuroraEnumColours.red;
       } else if (value > -15 && value <= -10) {
         return AuroraEnumColours.orange;
       } else if (value > -10 && value < 0) {
         return AuroraEnumColours.yellow;
-      } else if (value >= 10) {
+      } else if (value >= 0) {
         return AuroraEnumColours.green;
       }
       break;
