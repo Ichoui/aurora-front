@@ -2,7 +2,7 @@ import { OPENWHEATHER_API_KEY } from './keep';
 
 export const environment = {
   production: true,
-  cors: 'https://thingproxy.freeboard.io/fetch',
+  cors: '', // compiled with android --> CORS not necessary ? Test
   api_weather: 'https://api.openweathermap.org/data/2.5/onecall',
   api_reverse_geocode: 'https://api.openweathermap.org/geo/1.0/reverse',
   aurora_v1_api: 'https://api.auroras.live/v1',

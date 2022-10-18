@@ -23,7 +23,7 @@ export class AuroraService {
    * https://v2.api.auroras.live/images/embed/nowcast.png
    */
   auroraLiveV2$(lat?: number, long?: number): Observable<any> {
-    return this._http.post(`${environment.cors}/${environment.aurora_v2_api}`, {
+    return this._http.post(`${environment.cors}${environment.aurora_v2_api}`, {
       modules: [
         AuroraModules.kpcurrent,
         AuroraModules.nowcastlocal,
@@ -56,7 +56,7 @@ export class AuroraService {
       units: unit,
       exclude,
     };
-    return this._http.get<Weather>(`${environment.cors}/${environment.api_weather}`, { params });
+    return this._http.get<Weather>(`${environment.cors}${environment.api_weather}`, { params });
   }
 
   /**
@@ -70,7 +70,7 @@ export class AuroraService {
       lat: lat.toString(),
       lon: lon.toString(),
     };
-    return this._http.get<Geocoding[]>(`${environment.cors}/${environment.api_reverse_geocode}`, { params });
+    return this._http.get<Geocoding[]>(`${environment.cors}${environment.api_reverse_geocode}`, { params });
   }
 
   /*
@@ -78,7 +78,7 @@ export class AuroraService {
    * Density Speed
    * */
   getSolarWind$(): Observable<SolarWind[]> {
-    return this._http.get<SolarWind[]>(`${environment.cors}/${environment.swpc.solarWind}`);
+    return this._http.get<SolarWind[]>(`${environment.cors}${environment.swpc.solarWind}`);
   }
 
   /*
@@ -86,7 +86,7 @@ export class AuroraService {
    * file .txt
    * */
   getKpForecast27Days$() {
-    return fromFetch(`${environment.cors}/${environment.swpc.kpForecast27Days}`).pipe(
+    return fromFetch(`${environment.cors}${environment.swpc.kpForecast27Days}`).pipe(
       switchMap((res: Response) => res.text()),
     );
   }
@@ -95,7 +95,7 @@ export class AuroraService {
    * KP Forecast next 3 days
    * */
   getKpForecast$(): Observable<KpForecast[]> {
-    return this._http.get<KpForecast[]>(`${environment.cors}/${environment.swpc.kpForecast}`);
+    return this._http.get<KpForecast[]>(`${environment.cors}${environment.swpc.kpForecast}`);
   }
 
   /**
@@ -106,11 +106,11 @@ export class AuroraService {
    */
   getPoles$(pole: Pole): Observable<unknown> {
     return this._http.get(
-      `${environment.cors}/${pole === Pole.NORTH ? environment.swpc.poleNorth : environment.swpc.poleSouth}`,
+      `${environment.cors}${pole === Pole.NORTH ? environment.swpc.poleNorth : environment.swpc.poleSouth}`,
     );
   }
 
   getAuroraMapData$(): Observable<any> {
-    return this._http.get(`${environment.cors}/${environment.swpc.auroraMap}`);
+    return this._http.get(`${environment.cors}${environment.swpc.auroraMap}`);
   }
 }

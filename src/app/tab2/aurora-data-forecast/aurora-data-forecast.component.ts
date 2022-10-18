@@ -31,6 +31,7 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
   @Input() kpForecast27: Kp27day[];
   @Input() solarWind: SolarWind[];
   @Input() unit: Unit;
+  @Input() locale: ELocales;
 
   chartKpForecast: Chart;
   chartKpForecast27: Chart;
@@ -39,7 +40,6 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
   chartKpBz: Chart;
   chartKpBt: Chart;
 
-  private _locale: ELocales;
   private _marker: Marker;
   private _coords: Coords = {} as any;
   private _map: Map;
@@ -53,7 +53,6 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
 
   ngOnInit(): void {
     this.minimapLocation();
-    this._storageService.getData('locale').then((l: ELocales) => (this._locale = l));
     console.log('ef');
   }
 
@@ -341,10 +340,7 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
 
     console.log(forecast);
     for (const [i, unit] of forecast.entries()) {
-      if (i % 5 === 0) {
-        if (i % 2 === 0) {
-          solarWindDate.push(moment(unit.propagated_time_tag).format(this._locale === ELocales.FR ? 'HH:mm' : 'hh:mm'));
-        }
+      solarWindDate.push(moment(unit.propagated_time_tag).format(this.locale === ELocales.FR ? 'HH:mm' : 'hh:mm'));
         densityForecast.value.push(unit.density);
         densityForecast.color.push(colorSwitcher(determineColorsOfValue('density', unit.density)));
 
@@ -358,12 +354,8 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
 
         speedForecast.value.push(unit.speed);
         speedForecast.color.push(colorSwitcher(determineColorsOfValue('speed', unit.speed, this.unit)));
-
-      }
     }
 
-    console.log(solarWindDate);
-    console.log(densityForecast);
 
     if (firstChange) {
       this.chartKpDensity = this._chartSolarWind(
@@ -379,13 +371,14 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
       // Update data only !
     }
   }
-
+// https://www.chartjs.org/docs/latest/charts/line.html#point-styling
   private _chartSolarWind(
     type: 'bz' | 'bt' | 'speed' | 'density',
     labels: string[],
     data: string[],
     colors: string[],
   ): any {
+    console.log(data);
     console.log(colors);
     return new Chart(type, {
       type: 'line',
@@ -397,28 +390,18 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
             backgroundColor: colors,
             borderColor: colors,
             borderWidth: 2,
-            pointBorderWidth: 3,
-            pointHitRadius: 10,
-            pointHoverBackgroundColor: WEATHER_NEXT_HOUR_CHART_COLOR,
+            pointRadius: 0,
+            tension: 30,
+            stepped: true,
+            // pointBorderWidth: 3,
+            // pointHoverBackgroundColor: WEATHER_NEXT_HOUR_CHART_COLOR,
           },
         ],
       },
       options: {
         responsive: true,
         plugins: {
-          tooltip: { enabled: false },
           legend: { display: false },
-          datalabels: {
-            align: 'end',
-            color: WEATHER_NEXT_HOUR_CHART_COLOR,
-            font: {
-              family: 'Oswald-SemiBold',
-              size: 15,
-            },
-            formatter(value) {
-              return value + '°';
-            },
-          },
         },
         scales: {
           x: {

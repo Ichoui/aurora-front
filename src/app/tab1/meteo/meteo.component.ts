@@ -125,8 +125,6 @@ export class MeteoComponent implements OnInit, OnChanges {
               'rgba(105, 191, 175, 0.4)',
             ],
             borderWidth: 2,
-            pointBorderWidth: 3,
-            pointHitRadius: 10,
             pointHoverBackgroundColor: WEATHER_NEXT_HOUR_CHART_COLOR,
           },
         ],
