@@ -45,6 +45,14 @@
       "nexthours.sub": "Kp maximum",
       "longterm.title": "Long term forecast",
       "longterm.sub": "Kp maximum",
+      "density.title": "Density",
+      "density.sub": "Solar wind",
+      "speed.title": "Speed",
+      "speed.sub": "Solar wind",
+      "bz.title": "Bz",
+      "bz.sub": "Interplanetary Magnetic Field (IMF)",
+      "bt.title": "Bt",
+      "bt.sub": "Interplanetary Magnetic Field (IMF)",
       "aurora-map": "Auroras map",
       "sub-aurora-map": "Tap to watch live Auroras and to choose your location"
     }
@@ -57,8 +65,6 @@
       "current.position": "Current location",
       "credits": {
         "title": "Crédits",
-        "first": "Auroras datas provided by ",
-        "first.link": "Auroras.live API",
         "second": "Thanks to JHEY for his ",
         "second.link": "Aurora CSS Project",
         "third": "If you like it, don't forget to ",

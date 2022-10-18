@@ -74,8 +74,10 @@ export class AuroraService {
   }
 
   /*
-   * Solar wind value
-   * Density Speed
+   * Solar wind values
+   * Density Speed Bt Bz
+   * time_tag is UTC formaty
+   * https://www.swpc.noaa.gov/products/real-time-solar-wind --> Other API here, who confirms that I use the correct one API
    * */
   getSolarWind$(): Observable<SolarWind[]> {
     return this._http.get<SolarWind[]>(`${environment.cors}${environment.swpc.solarWind}`);

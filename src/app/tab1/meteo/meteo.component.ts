@@ -71,8 +71,8 @@ export class MeteoComponent implements OnInit, OnChanges {
   }
 
   private _todayForecast() {
-    this.sunset = this._manageDates(this.currentWeather.sunset, this._englishFormat ? 'h:mm A' : 'H:mm');
-    this.sunrise = this._manageDates(this.currentWeather.sunrise, this._englishFormat ? 'h:mm A' : 'H:mm');
+    this.sunset = this._manageDates(this.currentWeather.sunset, this._englishFormat ? 'hh:mm A' : 'HH[h]mm');
+    this.sunrise = this._manageDates(this.currentWeather.sunrise, this._englishFormat ? 'hh:mm A' : 'HH[h]mm');
     this._lotties(this._calculateWeaterIcons(this.currentWeather));
     this.currentDatetime = this._manageDates(
       moment().unix(),
@@ -86,11 +86,11 @@ export class MeteoComponent implements OnInit, OnChanges {
     for (const [i, hours] of this.hourlyWeather.entries()) {
       if (this._temps.length < this.dataNumberInCharts && i % 2 === 0) {
         this._temps.push(Math.round(hours.temp));
-        this._nextHours.push(this._manageDates(hours.dt, this._englishFormat ? 'hh A' : 'HH:mm'));
+        this._nextHours.push(this._manageDates(hours.dt, this._englishFormat ? 'hh A' : 'HH[h]'));
       }
       const cloudy: Cloudy = {
         percent: hours.clouds,
-        time: this._manageDates(hours.dt, this._englishFormat ? 'hhA' : 'HH:mm'),
+        time: this._manageDates(hours.dt, this._englishFormat ? 'hhA' : 'HH[h]'),
       };
       if (this.cloudy.length < this.dataNumberInCharts) {
         this.cloudy.push(cloudy);

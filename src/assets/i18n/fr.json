@@ -45,7 +45,7 @@
       "nexthours.sub": "Prochaines heures",
       "longterm.title": "Kp Index",
       "longterm.sub": "Prévisions 27 jours",
-      "density.title": " Densitée des particules",
+      "density.title": "Densitée des particules",
       "density.sub": "Vent solaire",
       "speed.title": "Vitesse",
       "speed.sub": "Vent solaire",
@@ -65,8 +65,6 @@
       "current.position": "Position actuelle",
       "credits": {
         "title": "Crédits",
-        "first": "Data Aurores fournies par ",
-        "first.link": "Auroras.live API",
         "second": "Merci à JHEY pour son ",
         "second.link": "Aurora CSS Project",
         "third": "Si t'aimes, laisse-moi une ",
