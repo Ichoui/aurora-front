@@ -3,6 +3,7 @@ import { MeasureUnits, TemperatureUnits } from './weather';
 import { FORECAST_COLOR_GREEN, FORECAST_COLOR_ORANGE, FORECAST_COLOR_RED, FORECAST_COLOR_YELLOW } from './colors';
 import { AuroraEnumColours } from './aurorav3';
 import * as moment from 'moment/moment';
+import { ELocales } from './locales';
 
 /**
  * @param source objet typé qui doit être converti en HttpParams pour une requete API
@@ -51,11 +52,12 @@ export function convertUnitTemperature(nb: number, unit: TemperatureUnits): numb
  * Gestion des dates
  * @param date {number} Date
  * @param format {string} Permet de choisir le formatage de la date. (ex: YYYY MM DD)
+ * @param locale ELocale
  * @param unix {boolean} Permet de convertir une date au format UNIX (Unix Timestamp) ou DATE lambda
  * */
-export function manageDates(date: number | string, format: string, unix = false): string | moment.Moment {
+export function manageDates(date: number | string, format: string, locale?: ELocales, unix = false): string | moment.Moment {
   const offset = moment().utcOffset();
-  const d = unix ? moment.unix(date as number) : moment.utc(date);
+  const d = unix ? moment.unix(date as number).locale(locale) : moment.utc(date);
   return d.utcOffset(offset).format(format);
 }
 

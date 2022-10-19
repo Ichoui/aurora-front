@@ -49,6 +49,7 @@ export class MeteoComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     this._nextHoursChart?.destroy();
     if (changes?.currentWeather?.currentValue !== changes?.currentWeather?.previousValue) {
+      console.log('dddd');
       this._todayForecast(changes.currentWeather.currentValue);
     }
     if (changes?.hourlyWeather?.currentValue !== changes?.hourlyWeather?.previousValue) {
@@ -65,12 +66,23 @@ export class MeteoComponent implements OnChanges {
       temp: convertUnitTemperature(currentWeather.temp, this.temperature),
       feels_like: convertUnitTemperature(currentWeather.feels_like, this.temperature),
     };
-    this.sunset = manageDates(currentWeather.sunset, this.locale === ELocales.EN ? 'hh:mm A' : 'HH[h]mm', true);
-    this.sunrise = manageDates(currentWeather.sunrise, this.locale === ELocales.EN ? 'hh:mm A' : 'HH[h]mm', true);
+    this.sunset = manageDates(
+      currentWeather.sunset,
+      this.locale === ELocales.EN ? 'hh:mm A' : 'HH[h]mm',
+      this.locale,
+      true,
+    );
+    this.sunrise = manageDates(
+      currentWeather.sunrise,
+      this.locale === ELocales.EN ? 'hh:mm A' : 'HH[h]mm',
+      this.locale,
+      true,
+    );
     this._lotties(this._calculateWeaterIcons(currentWeather));
     this.currentDatetime = manageDates(
       moment().unix(),
       this.locale === ELocales.EN ? 'dddd Do of MMMM, hh:mm A' : 'dddd DD MMMM, HH[h]mm',
+        this.locale,
       true,
     );
   }
@@ -83,11 +95,11 @@ export class MeteoComponent implements OnChanges {
       if (temperaturesArr.length < this.dataNumbersInChart && i % 2 === 0) {
         const temp = convertUnitTemperature(Math.round(hours.temp), this.temperature);
         temperaturesArr.push(temp); //TODO convert temp en fonction de celsius/far
-        nextHoursArr.push(manageDates(hours.dt, this.locale === ELocales.EN ? 'hh A' : 'HH[h]', true));
+        nextHoursArr.push(manageDates(hours.dt, this.locale === ELocales.EN ? 'hh A' : 'HH[h]', this.locale, true));
       }
       const cloudy: Cloudy = {
         percent: hours.clouds,
-        time: manageDates(hours.dt, this.locale === ELocales.EN ? 'hh A' : 'HH[h]', true),
+        time: manageDates(hours.dt, this.locale === ELocales.EN ? 'hh A' : 'HH[h]', this.locale, true),
       };
       if (this.cloudy.length < this.dataNumbersInChart) {
         this.cloudy.push(cloudy);
@@ -177,12 +189,11 @@ export class MeteoComponent implements OnChanges {
           ...day.temp,
           max: convertUnitTemperature(day.temp.max, this.temperature),
           min: convertUnitTemperature(day.temp.min, this.temperature),
-        }; // TODO convert temp en fonction de celsius/far
-        console.log(day);
+        };
       } else {
         this.days.push({
           ...day,
-          date: manageDates(day.dt, 'ddd', true),
+          date: manageDates(day.dt, 'ddd', this.locale, true),
           temp: {
             ...day.temp,
             max: convertUnitTemperature(day.temp.max, this.temperature),
