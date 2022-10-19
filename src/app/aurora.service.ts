@@ -3,12 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
 import { AuroraModules } from './models/aurorav2';
-import { ExcludeType, Unit, Weather } from './models/weather';
+import { ExcludeType, MeasureUnits, Weather } from './models/weather';
 import { Pole } from './shared/modal/modal.component';
 import { Geocoding } from './models/geocoding';
 import { KpForecast, SolarWind } from './models/aurorav3';
 import { fromFetch } from 'rxjs/fetch';
 import { switchMap } from 'rxjs/operators';
+import { ELocales } from './models/locales';
 
 @Injectable({
   providedIn: 'root',
@@ -42,18 +43,19 @@ export class AuroraService {
   }
 
   /**
+   * Choix tranché : on envoie le système français (métrique et langues), de sorte à ne récupérer que des valeurs en km/h et des celsius.
+   * Il faut obligatoirement les remplacer à la main via du code
    * @lat {number} latitude
    * @lon {number} longitude
    * @exclude {string} hourly | daily
-   * @unit  {unit}
    */
-  openWeatherMapForecast$(lat: number, lon: number, unit?: Unit, exclude?: ExcludeType): Observable<Weather> {
+  openWeatherMapForecast$(lat: number, lon: number, lang: ELocales, exclude?: ExcludeType): Observable<Weather> {
     const params = {
       appid: environment.apikey,
       lat: lat.toString(),
       lon: lon.toString(),
-      lang: 'fr',
-      units: unit,
+      lang,
+      units: MeasureUnits.METRIC,
       exclude,
     };
     return this._http.get<Weather>(`${environment.cors}${environment.api_weather}`, { params });

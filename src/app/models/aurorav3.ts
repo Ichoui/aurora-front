@@ -1,4 +1,4 @@
-import { Unit } from './weather';
+import { MeasureUnits } from './weather';
 
 export interface SolarWind {
   time_tag?: string;
@@ -27,7 +27,7 @@ export interface Speed {
   color: AuroraEnumColours;
   date: Date;
   time_tag: Date;
-  unit?: Unit; // Ajouté à la main par nécessité pour mph ou km/h
+  unit?: MeasureUnits; // Ajouté à la main par nécessité pour mph ou km/h
 }
 
 export interface Density {

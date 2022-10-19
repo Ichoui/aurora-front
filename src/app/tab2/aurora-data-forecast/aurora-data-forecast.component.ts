@@ -4,7 +4,7 @@ import { ModalComponent } from '../../shared/modal/modal.component';
 import { Chart, registerables } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import * as moment from 'moment';
-import { colorSwitcher, determineColorsOfValue } from '../../models/utils';
+import { colorSwitcher, convertUnitMeasure, determineColorsOfValue, manageDates } from '../../models/utils';
 import { MAIN_TEXT_COLOR, WEATHER_NEXT_HOUR_CHART_COLOR } from '../../models/colors';
 import { CodeLocation, Coords } from '../../models/cities';
 import { StorageService } from '../../storage.service';
@@ -14,8 +14,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { AuroraEnumColours, Kp27day, KpForecast, SolarWind } from '../../models/aurorav3';
 import { OnViewWillEnter } from '../../models/ionic';
 import { ELocales } from '../../models/locales';
-import { Unit } from '../../models/weather';
-// import 'moment/locale/fr';
+import { MeasureUnits } from '../../models/weather';
 
 const numberMax27Forecast = 14;
 const numberMaxNextHours = 10;
@@ -30,7 +29,7 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
   @Input() kpForecast: KpForecast[];
   @Input() kpForecast27: Kp27day[];
   @Input() solarWind: SolarWind[];
-  @Input() unit: Unit;
+  @Input() measure: MeasureUnits;
   @Input() locale: ELocales;
 
   chartKpForecast: Chart;
@@ -339,14 +338,8 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
     const solarWindDate = [];
 
     console.log(forecast);
-    const offset = moment().utcOffset();
     for (const unit of forecast) {
-      solarWindDate.push(
-        moment
-          .utc(unit.time_tag)
-          .utcOffset(offset)
-          .format(this.locale === ELocales.FR ? 'HH[h]mm' : 'hh:mm A'),
-      );
+      solarWindDate.push(manageDates(unit.time_tag, this.locale === ELocales.FR ? 'HH[h]mm' : 'hh:mm A'));
       densityForecast.value.push(unit.density);
       densityForecast.color.push(colorSwitcher(determineColorsOfValue('density', unit.density)));
 
@@ -356,8 +349,9 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
       btForecast.value.push(unit.bt);
       btForecast.color.push(colorSwitcher(determineColorsOfValue('bt', unit.bt)));
 
-      speedForecast.value.push(unit.speed);
-      speedForecast.color.push(colorSwitcher(determineColorsOfValue('speed', unit.speed, this.unit)));
+      const speed = convertUnitMeasure(unit.speed, this.measure);
+      speedForecast.value.push(speed);
+      speedForecast.color.push(colorSwitcher(determineColorsOfValue('speed', speed, this.measure)));
     }
 
     if (firstChange) {
@@ -392,7 +386,7 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
             data: data,
             backgroundColor: colors,
             borderColor: colors,
-            borderWidth: 2,
+            borderWidth: 1,
             pointRadius: 0,
             tension: 30,
             stepped: true,
@@ -423,7 +417,7 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
             ticks: {
               color: MAIN_TEXT_COLOR,
               font: (ctx, options) => ({ family: 'Oswald-SemiBold' }),
-            }
+            },
           },
         },
         layout: {

@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { ModalController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { ModalComponent } from '../../shared/modal/modal.component';
-import { Unit, units } from '../../models/weather';
+import { MeasureUnits, measureUnits, temperatureUnits, TemperatureUnits } from '../../models/weather';
 import { StorageService } from '../../storage.service';
 import { Browser } from '@capacitor/browser';
 import { OnViewWillEnter } from '../../models/ionic';
@@ -14,7 +14,7 @@ import { OnViewWillEnter } from '../../models/ionic';
   templateUrl: './settings.page.html',
   styleUrls: ['./settings.page.scss'],
 })
-export class SettingsPage implements OnViewWillEnter  {
+export class SettingsPage implements OnViewWillEnter {
   kpindex = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   notifications = false;
   notifKp;
@@ -22,8 +22,29 @@ export class SettingsPage implements OnViewWillEnter  {
   locale = ELocales.FR;
   readonly locales: SelectContents[] = Locales;
 
-  unit = Unit.METRIC;
-  readonly units: SelectContents[] = units;
+  measureUnits = MeasureUnits.METRIC;
+  readonly measure: SelectContents[] = measureUnits;
+
+  temperatureUnits = TemperatureUnits.CELSIUS;
+  readonly temperature: SelectContents[] = temperatureUnits;
+
+  readonly credits = [
+    {
+      label: 'first',
+      labelLink: 'first.link',
+      url: 'https://www.swpc.noaa.gov/',
+    },
+    {
+      label: 'second',
+      labelLink: 'second.link',
+      url: 'https://codepen.io/jh3y/pen/JKddVx',
+    },
+    {
+      label: 'third',
+      labelLink: 'third.link',
+      url: 'https://play.google.com/store/apps/details?id=io.aurora.start',
+    },
+  ];
 
   constructor(
     private _storageService: StorageService,
@@ -38,7 +59,8 @@ export class SettingsPage implements OnViewWillEnter  {
    * */
   ionViewWillEnter() {
     this._getLocale();
-    this._getUnit();
+    this._getMeasureUnit();
+    this._getTemperatureUnit();
   }
 
   async CGU() {
@@ -63,9 +85,17 @@ export class SettingsPage implements OnViewWillEnter  {
   /**
    * Sélection de l'unité Imperiale ou Métrique
    * */
-  setUnit(event): void {
-    this.unit = event.detail.value;
-    void this._storageService.setData('unit', this.unit);
+  setMeasureUnit(event): void {
+    this.measureUnits = event.detail.value;
+    void this._storageService.setData('measure', this.measureUnits);
+  }
+
+  /**
+   * Sélection de l'unité Celsius ou Farheneight
+   * */
+  setTemperatureUnit(event): void {
+    this.temperatureUnits = event.detail.value;
+    void this._storageService.setData('temperature', this.temperatureUnits);
   }
 
   private _getLocale(): void {
@@ -75,10 +105,12 @@ export class SettingsPage implements OnViewWillEnter  {
     });
   }
 
-  private _getUnit(): void {
-    this._storageService.getData('unit').then((unit: Unit) => {
-      this.unit = unit;
-    });
+  private _getMeasureUnit(): void {
+    this._storageService.getData('measure').then((measure: MeasureUnits) => this.measureUnits = measure);
+  }
+
+  private _getTemperatureUnit(): void {
+    this._storageService.getData('temperature').then((temp: TemperatureUnits) => this.temperatureUnits = temp);
   }
 
   /**

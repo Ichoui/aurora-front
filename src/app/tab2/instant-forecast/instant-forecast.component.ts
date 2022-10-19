@@ -1,8 +1,8 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ACEModule, KpCurrent, Nowcast } from '../../models/aurorav2';
 import { StorageService } from '../../storage.service';
-import { convertUnit, determineColorsOfValue } from '../../models/utils';
-import { Unit } from '../../models/weather';
+import { convertUnitMeasure, determineColorsOfValue } from '../../models/utils';
+import { MeasureUnits } from '../../models/weather';
 import { AuroraEnumColours, Bt, Bz, Density, SolarWind, Speed } from '../../models/aurorav3';
 
 @Component({
@@ -22,7 +22,7 @@ export class InstantForecastComponent implements OnInit, OnChanges {
   nowcastVal: number;
   AuroraEnumColours = AuroraEnumColours;
 
-  @Input() unit: Unit;
+  @Input() unit: MeasureUnits;
   @Input() exDataSolarWind: ACEModule;
   @Input() solarWind: SolarWind;
 
@@ -36,8 +36,8 @@ export class InstantForecastComponent implements OnInit, OnChanges {
     if (!changes?.unit?.firstChange && changes?.unit?.currentValue !== changes?.unit?.previousValue) {
       this.speed = {
         ...this.speed,
-        value: convertUnit(this.speed.value, this.unit),
-        color: determineColorsOfValue('speed', convertUnit(this.speed.value, this.unit), this.unit),
+        value: convertUnitMeasure(this.speed.value, this.unit),
+        color: determineColorsOfValue('speed', convertUnitMeasure(this.speed.value, this.unit), this.unit),
         unit: this.unit,
       };
     }
@@ -77,10 +77,10 @@ export class InstantForecastComponent implements OnInit, OnChanges {
       };
 
       this.speed = {
-        value: convertUnit(solarWind.speed, this.unit),
+        value: convertUnitMeasure(solarWind.speed, this.unit),
         date: new Date((solarWind as SolarWind).time_tag),
         time_tag: new Date((solarWind as SolarWind).time_tag),
-        color: determineColorsOfValue('speed', convertUnit(solarWind.speed, this.unit), this.unit),
+        color: determineColorsOfValue('speed', convertUnitMeasure(solarWind.speed, this.unit), this.unit),
         unit: this.unit,
       };
     }

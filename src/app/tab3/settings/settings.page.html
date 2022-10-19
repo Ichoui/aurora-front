@@ -43,16 +43,33 @@
   </div>
 
   <div class="card-container">
-    <div class="header">{{ 'tab3.settings.units' | translate }}</div>
-    <div class="sub">{{ 'tab3.settings.subunits' | translate }}</div>
+    <div class="header">{{ 'tab3.settings.measure' | translate }}</div>
+    <div class="sub">{{ 'tab3.settings.submeasure' | translate }}</div>
     <ion-item>
       <ion-select
-        value="{{ unit }}"
+        [value]="measureUnits"
         interface="action-sheet"
-        (ionChange)="setUnit($event)"
-        cancelText="{{ 'global.cancel' | translate }}"
+        (ionChange)="setMeasureUnit($event)"
+        [cancelText]="'global.cancel' | translate"
       >
-        <ion-select-option *ngFor="let u of units" value="{{ u.slug }}">
+        <ion-select-option *ngFor="let u of measure" [value]="u.slug">
+          <span>{{ u.label | translate }}</span>
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+  </div>
+
+  <div class="card-container">
+    <div class="header">{{ 'tab3.settings.temperature' | translate }}</div>
+    <div class="sub">{{ 'tab3.settings.subtemperature' | translate }}</div>
+    <ion-item>
+      <ion-select
+        [value]="temperatureUnits"
+        interface="action-sheet"
+        (ionChange)="setTemperatureUnit($event)"
+        [cancelText]="'global.cancel' | translate"
+      >
+        <ion-select-option *ngFor="let u of temperature" [value]="u.slug">
           <span>{{ u.label | translate }}</span>
         </ion-select-option>
       </ion-select>
@@ -60,26 +77,19 @@
   </div>
 
   <div class="card-container credits">
-      <div class="header credits">{{ 'tab3.settings.credits.title' | translate }}</div>
-      <span>
-        {{ 'tab3.settings.credits.second' | translate }}
-        <a href="#" (click)="openUrl('https://codepen.io/jh3y/pen/JKddVx')">
-          {{ 'tab3.settings.credits.second.link' | translate }}
-        </a>
-      </span>
-      <span>
-        {{ 'tab3.settings.credits.third' | translate }}
-        <a href="#" (click)="openUrl('https://play.google.com/store/apps/details?id=io.aurora.start')">
-          {{ 'tab3.settings.credits.third.link' | translate }}
-        </a>
-        ☺
-      </span>
-      <span>
-        <ion-button class="legal" color="primary" size="small" (click)="CGU()">
-          {{ 'tab3.settings.cgu' | translate }}
-        </ion-button>
-      </span>
-    </div>
+    <div class="header credits">{{ 'tab3.settings.credits.title' | translate }}</div>
+    <span *ngFor="let c of credits">
+      {{ 'tab3.settings.credits.' + c.label | translate }}
+      <a href="#" (click)="openUrl(c.url)">
+        {{ 'tab3.settings.credits.' + c.labelLink | translate }}
+      </a>
+    </span>
+    <span>
+      <ion-button class="legal" color="primary" size="small" (click)="CGU()">
+        {{ 'tab3.settings.cgu' | translate }}
+      </ion-button>
+    </span>
+  </div>
 </ion-content>
 
 <ion-fab vertical="bottom" horizontal="end" slot="fixed">

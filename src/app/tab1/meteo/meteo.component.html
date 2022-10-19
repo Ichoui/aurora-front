@@ -10,9 +10,9 @@
       ></ng-lottie>
       <div class="temperature">
         {{ currentWeather.temp | number: '1.0-0' }}
-        <sup *ngIf="unit === Unit.METRIC">°C</sup>
-        <sup *ngIf="unit === Unit.IMPERIAL">°F</sup>
-        <sup *ngIf="unit === Unit.KELVIN">K</sup>
+        <sup *ngIf="temperature === temperatureUnits.CELSIUS">°C</sup>
+        <sup *ngIf="temperature === temperatureUnits.FAHRENHEIT">°F</sup>
+        <sup *ngIf="temperature === temperatureUnits.KELVIN">°K</sup>
       </div>
       <span *ngIf="currentWeather.temp >= 33" class="icon minicons icon-hot"></span>
       <span *ngIf="currentWeather.temp <= 0" class="icon minicons icon-cold"></span>
@@ -36,7 +36,7 @@
       <canvas id="next-hours"></canvas>
       <div class="next-more-info">
         <ng-container *ngFor="let hourly of hourlyWeather; index as i">
-          <div *ngIf="i < dataNumberInCharts" class="next-content">
+          <div *ngIf="i < dataNumbersInChart" class="next-content">
             <img
               src="assets/img/meteoOWM/{{ hourly.weather[0].icon }}@2x.png"
               alt="{{ hourly.weather[0].description }}"
@@ -109,10 +109,10 @@
           <span class="icon icon-wind-cloud"></span>
         </div>
         <div class="label">{{ 'tab1.weather.details.data.windspeed' | translate }}</div>
-        <div class="value" *ngIf="unit === Unit.METRIC">
+        <div class="value" *ngIf="measure === measureUnits.METRIC">
           {{ currentWeather.wind_speed * 3.2 | number: '1.0-0' }} km/h
         </div>
-        <div class="value" *ngIf="unit === Unit.IMPERIAL">{{ currentWeather.wind_speed | number: '1.0-0' }} mph</div>
+        <div class="value" *ngIf="measure === measureUnits.IMPERIAL">{{ currentWeather.wind_speed | number: '1.0-0' }} mph</div>
       </div>
       <div class="feels-like">
         <div class="icon" [style.transform]="'rotate(' + currentWeather.wind_deg + 'deg)'">

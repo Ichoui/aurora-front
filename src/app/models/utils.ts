@@ -1,7 +1,8 @@
 import { HttpParams } from '@angular/common/http';
-import { Unit } from './weather';
+import { MeasureUnits, TemperatureUnits } from './weather';
 import { FORECAST_COLOR_GREEN, FORECAST_COLOR_ORANGE, FORECAST_COLOR_RED, FORECAST_COLOR_YELLOW } from './colors';
 import { AuroraEnumColours } from './aurorav3';
+import * as moment from 'moment/moment';
 
 /**
  * @param source objet typé qui doit être converti en HttpParams pour une requete API
@@ -24,16 +25,41 @@ export function countryNameFromCode(code: string): string {
   return code;
 }
 
-export function convertUnit(nb: number, unit: Unit): number {
+export function convertUnitMeasure(nb: number, unit: MeasureUnits): number {
   switch (unit) {
-    case Unit.IMPERIAL:
-      return Math.round(nb * 0.62137119223733 * 100) / 100; // pour arrondir à 2 chiffres
+    case MeasureUnits.IMPERIAL:
+      return roundTwoNumbers(nb * 0.62137119223733);
     default:
+      // Metric
       return nb;
   }
 }
 
-// Arrondir
+export function convertUnitTemperature(nb: number, unit: TemperatureUnits): number {
+  switch (unit) {
+    case TemperatureUnits.FAHRENHEIT:
+      return Math.round((nb * 9) / 5 + 32);
+    case TemperatureUnits.KELVIN:
+      return Math.round(nb + 273.15);
+    default:
+      // Celsius
+      return nb;
+  }
+}
+
+/**
+ * Gestion des dates
+ * @param date {number} Date
+ * @param format {string} Permet de choisir le formatage de la date. (ex: YYYY MM DD)
+ * @param unix {boolean} Permet de convertir une date au format UNIX (Unix Timestamp) ou DATE lambda
+ * */
+export function manageDates(date: number | string, format: string, unix = false): string | moment.Moment {
+  const offset = moment().utcOffset();
+  const d = unix ? moment.unix(date as number) : moment.utc(date);
+  return d.utcOffset(offset).format(format);
+}
+
+// Arrondir à 2 chiffres
 export function roundTwoNumbers(nb: number): number {
   return Math.round(nb * 100) / 100;
 }
@@ -93,7 +119,7 @@ export function monthSwitcher(
 export function determineColorsOfValue(
   data: 'bz' | 'density' | 'speed' | 'bt' | 'kp',
   value: number,
-  unit?: Unit,
+  unit?: MeasureUnits,
 ): AuroraEnumColours {
   switch (data) {
     case 'density':
@@ -108,7 +134,7 @@ export function determineColorsOfValue(
       }
       break;
     case 'speed':
-      if (unit === Unit.METRIC) {
+      if (unit === MeasureUnits.METRIC) {
         if (value >= 700) {
           return AuroraEnumColours.red;
         } else if (value >= 500 && value < 700) {
@@ -119,7 +145,7 @@ export function determineColorsOfValue(
           return AuroraEnumColours.green;
         }
       }
-      if (unit === Unit.IMPERIAL) {
+      if (unit === MeasureUnits.IMPERIAL) {
         if (value >= 435) {
           return AuroraEnumColours.red;
         } else if (value >= 310 && value < 435) {
@@ -132,7 +158,8 @@ export function determineColorsOfValue(
       }
       break;
     case 'bz':
-      if (value <= -15) { // -20 par exemple
+      if (value <= -15) {
+        // -20 par exemple
         return AuroraEnumColours.red;
       } else if (value > -15 && value <= -10) {
         return AuroraEnumColours.orange;

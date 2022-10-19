@@ -7,11 +7,12 @@ export interface Weather {
   lat: number;
   long: number;
   timezone: string;
-  timezone_offset: number;
+  timezone_offset?: number; // not used atm
   current: Currently;
   minutely: Minutely[];
   hourly: Hourly[];
   daily: Daily[];
+  date?: string
 }
 
 export interface Currently {
@@ -143,13 +144,18 @@ export enum ExcludeType {
   DAILY = 'daily',
 }
 
-export enum Unit {
+export enum MeasureUnits {
   METRIC = 'metric',
   IMPERIAL = 'imperial',
+}
+
+export enum TemperatureUnits {
+  CELSIUS = 'celsius',
+  FAHRENHEIT = 'fahrenheit',
   KELVIN = 'kelvin',
 }
 
-export const units: SelectContents[] = [
+export const measureUnits: SelectContents[] = [
   {
     slug: 'metric',
     label: 'tab3.settings.metric',
@@ -157,6 +163,17 @@ export const units: SelectContents[] = [
   {
     slug: 'imperial',
     label: 'tab3.settings.imperial',
+  }
+];
+
+export const temperatureUnits: SelectContents[] = [
+  {
+    slug: 'celsius',
+    label: 'tab3.settings.celsius',
+  },
+  {
+    slug: 'fahrenheit',
+    label: 'tab3.settings.fahrenheit',
   },
   {
     slug: 'kelvin',

@@ -3,7 +3,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NavController, Platform } from '@ionic/angular';
 import { AuroraService } from '../aurora.service';
 import { cities, CodeLocation, Coords } from '../models/cities';
-import { Currently, Daily, Hourly, Unit, Weather } from '../models/weather';
+import { Currently, Daily, Hourly, MeasureUnits, TemperatureUnits, Weather } from '../models/weather';
 import { ErrorTemplate } from '../shared/broken/broken.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { StorageService } from '../storage.service';
@@ -13,16 +13,14 @@ import { countryNameFromCode, roundTwoNumbers } from '../models/utils';
 import { combineLatest, from } from 'rxjs';
 import { OnViewWillEnter } from '../models/ionic';
 import { ELocales } from '../models/locales';
-
-const API_CALL_NUMBER = 1; // nombre de fois où une API est appelé sur cette page
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
 })
-export class Tab1Page implements OnViewWillEnter{
-  private _tabLoading: string[] = [];
+export class Tab1Page implements OnViewWillEnter {
   loading = true;
 
   coords: Coords;
@@ -35,9 +33,9 @@ export class Tab1Page implements OnViewWillEnter{
   dataCurrentWeather: Currently;
   dataHourly: Hourly[];
   dataSevenDay: Daily[];
-  utcOffset: number;
 
-  unit: Unit;
+  measureUnits: MeasureUnits;
+  temperatureUnits: TemperatureUnits;
   dataError = new ErrorTemplate(null);
   locale: ELocales;
 
@@ -51,43 +49,39 @@ export class Tab1Page implements OnViewWillEnter{
 
   ionViewWillEnter(): void {
     this.loading = true; // buffer constant
-    this._tabLoading = [];
 
     // Cheminement en fonction si la localisation est pré-set ou si géoloc
-
     combineLatest([
       from(this._storageService.getData('location')),
       from(this._storageService.getData('previousLocation')),
-      from(this._storageService.getData('unit')),
+      from(this._storageService.getData('measure')),
+      from(this._storageService.getData('temperature')),
       from(this._storageService.getData('weather')),
       from(this._storageService.getData('locale')),
     ])
       .pipe(
         tap({
-          next: ([location, previousLocation, unit, weather, locale]: [
+          next: ([location, previousLocation, measure, temperature, weather, locale]: [
             CodeLocation,
             { lat: number; long: number },
-            Unit,
-            unknown,
-            ELocales
+            MeasureUnits,
+            TemperatureUnits,
+            any,
+            ELocales,
           ]) => {
-            this.unit = unit;
+            this.temperatureUnits = temperature;
+            this.measureUnits = measure;
             this.locale = locale;
+
             // Ceci pour éviter de call l'API trop souvent
-            if (
-              roundTwoNumbers(location?.lat) !== roundTwoNumbers(previousLocation?.lat) ||
-              roundTwoNumbers(location?.long) !== roundTwoNumbers(previousLocation?.long) ||
-              !weather
-            ) {
-              // Si previousLoc et Loc sont différentes, on va refaire un appel à l'API
+            if (this._shouldRecallWeatherAPI(weather, location, previousLocation)) {
               this._manageWeatherDisplay(location);
             } else {
-              this.dataCurrentWeather = weather['dataCurrentWeather'];
-              this.dataHourly = weather['dataHourly'];
-              this.dataSevenDay = weather['dataSevenDay'];
-              this.utcOffset = weather['utcOffset'];
-              this.city = weather['city'];
-              this.country = weather['country'];
+              this.dataCurrentWeather = weather.dataCurrentWeather;
+              this.dataHourly = weather.dataHourly;
+              this.dataSevenDay = weather.dataSevenDay;
+              this.city = weather.city;
+              this.country = weather.country;
               this.coords = {
                 latitude: location?.lat,
                 longitude: location?.long,
@@ -95,8 +89,7 @@ export class Tab1Page implements OnViewWillEnter{
               this.loading = false;
             }
           },
-          error: error => {
-            console.log(error);
+          error: (error: HttpErrorResponse) => {
             console.warn('Local storage error', error);
             this.dataError = new ErrorTemplate({
               value: true,
@@ -108,6 +101,31 @@ export class Tab1Page implements OnViewWillEnter{
         }),
       )
       .subscribe();
+  }
+
+  /**
+   * Return TRUE
+   * PreviousLocation and location are different
+   * No weather in store
+   * Date stored is passed from more than 5mn
+   * */
+  private _shouldRecallWeatherAPI(
+    weather: Weather,
+    location: CodeLocation,
+    previousLocation: { lat: number; long: number },
+  ): boolean {
+    const weatherDateDifference = weather?.date ? moment(new Date()).diff(moment(weather['date']), 'minutes') : null;
+    let bool = false;
+
+    if (
+      roundTwoNumbers(location?.lat) !== roundTwoNumbers(previousLocation?.lat) ||
+      roundTwoNumbers(location?.long) !== roundTwoNumbers(previousLocation?.long) ||
+      !weather ||
+      weatherDateDifference > 5
+    ) {
+      bool = true;
+    }
+    return bool;
   }
 
   // How to get Forecast if location has recently changed
@@ -165,8 +183,7 @@ export class Tab1Page implements OnViewWillEnter{
             // TODO Rajouter également un country code en FR et EN, préférable en JSON pour charger plus vite et pas d'API
             this._getForecast(this.city, this.country);
           },
-          error: error => {
-            // (error: HttpErrorResponse)
+          error: (error: HttpErrorResponse) => {
             console.warn('Reverse geocode error ==> ', error);
             this.loading = false;
             this.dataError = new ErrorTemplate({
@@ -199,53 +216,43 @@ export class Tab1Page implements OnViewWillEnter{
 
   /**
    * API OpenWeatherMap
-   * 4 variables pour aujourd'hui, les variables vont aux enfants via Input()
    */
   private _getForecast(city: string, country: string): void {
-    this._auroraService.openWeatherMapForecast$(this.coords.latitude, this.coords.longitude, this.unit).subscribe(
-      (res: Weather) => {
-        this.dataCurrentWeather = res.current;
-        this.dataHourly = res.hourly;
-        this.dataSevenDay = res.daily;
-        this.utcOffset = res.timezone_offset; // in seconds
-        void this._storageService.setData('weather', {
-          dataCurrentWeather: res.current,
-          dataHourly: res.hourly,
-          dataSevenDay: res.daily,
-          utcOffset: res.timezone_offset,
-          city: city,
-          country: country,
-        });
-        void this._storageService.setData('previousLocation', {
-          lat: this.coords.latitude,
-          long: this.coords.longitude,
-        });
-        this._trickLoading('1st');
-      },
-      (error: HttpErrorResponse) => {
-        console.warn('OpenWeatherMap forecast error', error);
-        this.loading = false;
-        this.dataError = new ErrorTemplate({
-          value: true,
-          status: error.status,
-          message: error.statusText,
-          error,
-        });
-      },
-    );
-  }
+    this._auroraService
+      .openWeatherMapForecast$(this.coords.latitude, this.coords.longitude, this.locale)
+      .subscribe(
+        (res: Weather) => {
+          this.dataCurrentWeather = res.current;
+          this.dataHourly = res.hourly;
+          this.dataSevenDay = res.daily;
+          void this._storageService.setData('weather', {
+            dataCurrentWeather: res.current,
+            dataHourly: res.hourly,
+            dataSevenDay: res.daily,
+            city: city,
+            country: country,
+            date: new Date(),
+          });
+          void this._storageService.setData('previousLocation', {
+            lat: this.coords.latitude,
+            long: this.coords.longitude,
+          });
 
-  /**
-   * @count {string}
-   * Gère le loader
-   * Lorsque tout les appels API sont passés et le tableau égal à la valeur API_CALL_NUMBER, débloque le loader
-   */
-  private _trickLoading(count: string): void {
-    this._tabLoading.push(count);
-    if (this._tabLoading.length === API_CALL_NUMBER) {
-      this.loading = false;
-      this._eventRefresh ? this._eventRefresh.target.complete() : '';
-    }
+          // End loading
+          this.loading = false;
+          this._eventRefresh ? this._eventRefresh.target.complete() : '';
+        },
+        (error: HttpErrorResponse) => {
+          console.warn('OpenWeatherMap forecast error', error);
+          this.loading = false;
+          this.dataError = new ErrorTemplate({
+            value: true,
+            status: error.status,
+            message: error.statusText,
+            error,
+          });
+        },
+      );
   }
 
   /**
@@ -253,7 +260,6 @@ export class Tab1Page implements OnViewWillEnter{
    * Attends les retours des résultats d'API pour retirer l'animation visuelle
    */
   doRefresh(event: any): void {
-    this._tabLoading = [];
     this._eventRefresh = event;
     this._getForecast(this.city, this.country);
   }

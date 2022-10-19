@@ -8,14 +8,14 @@ import { ErrorTemplate } from '../shared/broken/broken.model';
 import { StorageService } from '../storage.service';
 import { tap } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
-import { Unit } from '../models/weather';
+import { MeasureUnits } from '../models/weather';
 import { Kp27day, KpForecast, SolarWind } from '../models/aurorav3';
 import { determineColorsOfValue, monthSwitcher } from '../models/utils';
 import { OnViewWillEnter } from '../models/ionic';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ELocales } from '../models/locales';
+
 // import 'moment/locale/fr';
-const API_CALL_NUMBER = 1; // nombre de fois où une API est appelé sur cette page
 
 @Component({
   selector: 'app-tab2',
@@ -24,9 +24,7 @@ const API_CALL_NUMBER = 1; // nombre de fois où une API est appelé sur cette p
 })
 export class Tab2Page implements OnViewWillEnter {
   loading = true;
-  tabLoading: string[] = [];
 
-  localisation: string;
   coords: Coords;
   city: string;
   country: string;
@@ -37,7 +35,7 @@ export class Tab2Page implements OnViewWillEnter {
   moduleACE: ACEModule;
   kpForecast: KpForecast[] = [];
   kpForecast27days: Kp27day[] = [];
-  unit: Unit;
+  unit: MeasureUnits;
   locale: ELocales;
   solarWindInstant: SolarWind;
   solarWind: SolarWind[];
@@ -52,7 +50,6 @@ export class Tab2Page implements OnViewWillEnter {
   ) {}
 
   ionViewWillEnter(): void {
-    this.tabLoading = [];
     // Cheminement en fonction si la localisation est pré-set ou si géoloc
     this._storageService.getData('location').then(
       (codeLocation: CodeLocation) => {
@@ -136,12 +133,12 @@ export class Tab2Page implements OnViewWillEnter {
       this._auroraService.auroraLiveV2$(this.coords.latitude, this.coords.longitude), // To be removed
       this._auroraService.getKpForecast27Days$(),
       this._auroraService.getKpForecast$(),
-      this._storageService.getData('unit'),
+      this._storageService.getData('measure'),
       this._storageService.getData('locale'),
     ])
       .pipe(
         tap({
-          next: ([solarWind, ace, kp27day, kpForecast, unit, locale]: [SolarWind[], ACEModule, string, KpForecast[], Unit, ELocales]) => {
+          next: ([solarWind, ace, kp27day, kpForecast, unit, locale]: [SolarWind[], ACEModule, string, KpForecast[], MeasureUnits, ELocales]) => {
             this.loading = false;
             this.moduleACE = ace; // to be removed
             // this.kpForecast27days = ace['kp:27day'];// to be replaced
@@ -153,7 +150,10 @@ export class Tab2Page implements OnViewWillEnter {
             this.solarWind = this._getSolarWind(solarWind) as SolarWind[];
             this.kpForecast = this._getKpForecast(kpForecast);
             this.kpForecast27days = this._getKpForecast27day(kp27day);
-            this._trickLoading('1st');
+
+            // End loading
+            this.loading = false;
+            this.eventRefresh ? this.eventRefresh.target.complete() : '';
           },
           error: (error: HttpErrorResponse) => {
             console.warn('Wind Solar data error', error);
@@ -221,24 +221,10 @@ export class Tab2Page implements OnViewWillEnter {
   }
 
   /**
-   * @param count {string}
-   * Gère le loader
-   * Lorsque tout les appels API sont passés et le tableau égal à la valeur API_CALL_NUMBER, débloque le loader
-   * */
-  private _trickLoading(count: string): void {
-    this.tabLoading.push(count);
-    if (this.tabLoading.length === API_CALL_NUMBER) {
-      this.loading = false;
-      this.eventRefresh ? this.eventRefresh.target.complete() : '';
-    }
-  }
-
-  /**
    @param event {event} renvoyé par le rafraichissement
    * Attends les retours des résultats d'API pour retirer l'animation visuelle
    * */
   doRefresh(event) {
-    this.tabLoading = [];
     this.eventRefresh = event;
     this._getDataACE();
   }
