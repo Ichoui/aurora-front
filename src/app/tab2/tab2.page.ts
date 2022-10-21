@@ -9,7 +9,7 @@ import { StorageService } from '../storage.service';
 import { tap } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
 import { MeasureUnits } from '../models/weather';
-import { Kp27day, KpForecast, SolarWind } from '../models/aurorav3';
+import { Kp27day, KpForecast, SolarCycle, SolarWind } from '../models/aurorav3';
 import { determineColorsOfValue, monthSwitcher } from '../models/utils';
 import { OnViewWillEnter } from '../models/ionic';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -39,6 +39,7 @@ export class Tab2Page implements OnViewWillEnter {
   locale: ELocales;
   solarWindInstant: SolarWind;
   solarWind: SolarWind[];
+  solarCycle: SolarCycle[];
 
   dataError = new ErrorTemplate(null);
 
@@ -133,17 +134,16 @@ export class Tab2Page implements OnViewWillEnter {
       this._auroraService.auroraLiveV2$(this.coords.latitude, this.coords.longitude), // To be removed
       this._auroraService.getKpForecast27Days$(),
       this._auroraService.getKpForecast$(),
+      this._auroraService.getSolarCycle$(),
       this._storageService.getData('measure'),
       this._storageService.getData('locale'),
     ])
       .pipe(
         tap({
-          next: ([solarWind, ace, kp27day, kpForecast, unit, locale]: [SolarWind[], ACEModule, string, KpForecast[], MeasureUnits, ELocales]) => {
+          next: ([solarWind, ace, kp27day, kpForecast, solarCycle, unit, locale]: [SolarWind[], ACEModule, string, KpForecast[], SolarCycle[], MeasureUnits, ELocales]) => {
             this.loading = false;
             this.moduleACE = ace; // to be removed
-            // this.kpForecast27days = ace['kp:27day'];// to be replaced
-            // this.kpForecast = ace['kp:forecast']; //to be replaced
-            // console.log(ace['kp:forecast']);
+            this.solarCycle = solarCycle;
             this.unit = unit;
             this.locale = locale;
             this.solarWindInstant = this._getSolarWind(solarWind, true) as SolarWind;

@@ -62,3 +62,13 @@ export interface KpForecast {
   date: Date;
   predicted: 'predicted' | 'estimated' | 'observed';
 }
+
+export interface SolarCycle {
+  'time-tag': string; // "2022-04"
+  'predicted_ssn': number;
+  'high_ssn': number;
+  'low_ssn': number;
+  'predicted_f10.7': number;
+  'high_f10.7': number;
+  'low_f10.7': number;
+}

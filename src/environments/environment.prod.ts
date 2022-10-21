@@ -2,7 +2,7 @@ import { OPENWHEATHER_API_KEY } from './keep';
 
 export const environment = {
   production: true,
-  cors: '', // compiled with android --> CORS not necessary ? Test
+  cors: 'https://thingproxy.freeboard.io/fetch/', // compiled with android --> CORS not necessary ? Test
   api_weather: 'https://api.openweathermap.org/data/2.5/onecall',
   api_reverse_geocode: 'https://api.openweathermap.org/geo/1.0/reverse',
   aurora_v1_api: 'https://api.auroras.live/v1',
@@ -15,6 +15,7 @@ export const environment = {
     auroraMap: 'https://services.swpc.noaa.gov/json/ovation_aurora_latest.json',
     solarWind: 'https://services.swpc.noaa.gov/products/geospace/propagated-solar-wind-1-hour.json',
     kpForecast27Days: 'https://services.swpc.noaa.gov/text/27-day-outlook.txt',
-    kpForecast: 'https://services.swpc.noaa.gov/products/noaa-planetary-k-index-forecast.json'
+    kpForecast: 'https://services.swpc.noaa.gov/products/noaa-planetary-k-index-forecast.json',
+    solarCycle: 'https://services.swpc.noaa.gov/json/solar-cycle/predicted-solar-cycle.json'
   }
 };

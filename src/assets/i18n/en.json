@@ -53,6 +53,8 @@
       "bz.sub": "Interplanetary Magnetic Field (IMF)",
       "bt.title": "Bt",
       "bt.sub": "Interplanetary Magnetic Field (IMF)",
+      "cycle.title": "Solar cycle",
+      "cycle.sub": "Sunspot number",
       "aurora-map": "Auroras map",
       "sub-aurora-map": "Tap to watch live Auroras and to choose your location"
     }

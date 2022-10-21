@@ -6,7 +6,7 @@ import { AuroraModules } from './models/aurorav2';
 import { ExcludeType, MeasureUnits, Weather } from './models/weather';
 import { Pole } from './shared/modal/modal.component';
 import { Geocoding } from './models/geocoding';
-import { KpForecast, SolarWind } from './models/aurorav3';
+import { KpForecast, SolarCycle, SolarWind } from './models/aurorav3';
 import { fromFetch } from 'rxjs/fetch';
 import { switchMap } from 'rxjs/operators';
 import { ELocales } from './models/locales';
@@ -100,6 +100,15 @@ export class AuroraService {
    * */
   getKpForecast$(): Observable<KpForecast[]> {
     return this._http.get<KpForecast[]>(`${environment.cors}${environment.swpc.kpForecast}`);
+  }
+
+  /*
+   * Predictions Solar cycle
+   * F10.7 Solar Flux Units
+   * Sunspot Number
+   * */
+  getSolarCycle$(): Observable<SolarCycle[]> {
+    return this._http.get<SolarCycle[]>(`${environment.cors}${environment.swpc.solarCycle}`);
   }
 
   /**

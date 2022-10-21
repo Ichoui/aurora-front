@@ -94,7 +94,7 @@ export class MeteoComponent implements OnChanges {
     for (const [i, hours] of hourly.entries()) {
       if (temperaturesArr.length < this.dataNumbersInChart && i % 2 === 0) {
         const temp = convertUnitTemperature(Math.round(hours.temp), this.temperature);
-        temperaturesArr.push(temp); //TODO convert temp en fonction de celsius/far
+        temperaturesArr.push(temp);
         nextHoursArr.push(manageDates(hours.dt, this.locale === ELocales.EN ? 'hh A' : 'HH[h]', this.locale, true));
       }
       const cloudy: Cloudy = {

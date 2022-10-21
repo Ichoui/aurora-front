@@ -11,7 +11,7 @@ import { StorageService } from '../../storage.service';
 import { Geoposition } from '@ionic-native/geolocation';
 import { icon, Map, Marker, marker, tileLayer, ZoomPanOptions } from 'leaflet';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { AuroraEnumColours, Kp27day, KpForecast, SolarWind } from '../../models/aurorav3';
+import { AuroraEnumColours, Kp27day, KpForecast, SolarCycle, SolarWind } from '../../models/aurorav3';
 import { OnViewWillEnter } from '../../models/ionic';
 import { ELocales } from '../../models/locales';
 import { MeasureUnits } from '../../models/weather';
@@ -29,6 +29,7 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
   @Input() kpForecast: KpForecast[];
   @Input() kpForecast27: Kp27day[];
   @Input() solarWind: SolarWind[];
+  @Input() solarCycle: SolarCycle[];
   @Input() measure: MeasureUnits;
   @Input() locale: ELocales;
 
@@ -38,6 +39,7 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
   chartKpSpeed: Chart;
   chartKpBz: Chart;
   chartKpBt: Chart;
+  chartCycle: Chart;
 
   private _marker: Marker;
   private _coords: Coords = {} as any;
@@ -71,17 +73,26 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
     this.chartKpSpeed?.destroy();
     this.chartKpBz?.destroy();
     this.chartKpBt?.destroy();
+    this.chartCycle?.destroy();
 
     if (changes?.kpForecast?.currentValue !== changes?.kpForecast?.previousValue) {
-      this._chartNextHoursForecast(changes.kpForecast.currentValue);
+      const firstChange = changes?.kpForecast?.firstChange;
+      this._chartNextHoursForecast(changes.kpForecast.currentValue, firstChange);
     }
 
     if (changes?.kpForecast27?.currentValue !== changes?.kpForecast27?.previousValue) {
-      this._chartForecast27day(changes.kpForecast27.currentValue);
+      const firstChange = changes?.kpForecast27?.firstChange;
+      this._chartForecast27day(changes.kpForecast27.currentValue, firstChange);
     }
+
     if (changes?.solarWind?.currentValue !== changes?.solarWind?.previousValue) {
       const firstChange = changes?.solarWind?.firstChange;
       this._calculateDataForChartSolarWind(changes.solarWind.currentValue, firstChange);
+    }
+
+    if (changes?.solarCycle?.currentValue !== changes?.solarCycle?.previousValue) {
+      const firstChange = changes?.solarCycle?.firstChange;
+      this._calculateDataForChartSolarCycle(changes.solarCycle.currentValue, firstChange);
     }
   }
 
@@ -176,7 +187,7 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
     return await modal.present();
   }
 
-  private _chartNextHoursForecast(forecast: KpForecast[]): void {
+  private _chartNextHoursForecast(forecast: KpForecast[], firstChange = false): void {
     const nextHoursForecast = [];
     const nextHoursDate = [];
     const nextHoursColors = [];
@@ -247,7 +258,7 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
     });
   }
 
-  private _chartForecast27day(forecast: Kp27day[]): void {
+  private _chartForecast27day(forecast: Kp27day[], firstChange = false): void {
     const forecastValue = [];
     const forecastDate = [];
     const forecastColors = [];
@@ -368,6 +379,25 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
       // Update data only !
     }
   }
+
+  private _calculateDataForChartSolarCycle(solarCycles: SolarCycle[], firstChange = false): void {
+    const solarCycleDate = [];
+    const predictedF10 = [];
+    const predictedSsn = [];
+    const colorSsn = colorSwitcher(AuroraEnumColours.red);
+    const colorF10 = colorSwitcher(AuroraEnumColours.green);
+
+    for (const cycle of solarCycles) {
+      predictedF10.push(cycle['predicted_f10.7']);
+      predictedSsn.push(cycle.predicted_ssn);
+      solarCycleDate.push(cycle['time-tag']);
+    }
+
+    if (firstChange) {
+      this.solarCycle = this._chartSolarCycle(solarCycleDate, predictedSsn, predictedF10, colorSsn, colorF10);
+    }
+  }
+
   // https://www.chartjs.org/docs/latest/charts/line.html#point-styling
   private _chartSolarWind(
     type: 'bz' | 'bt' | 'speed' | 'density',
@@ -375,8 +405,6 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
     data: string[],
     colors: string[],
   ): any {
-    console.log(data);
-    console.log(colors);
     return new Chart(type, {
       type: 'line',
       data: {
@@ -404,10 +432,10 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
               display: false,
             },
             ticks: {
-              autoSkipPadding: 30, // more padding between each tick of X axe
+              autoSkipPadding: 25, // more padding between each tick of X axe
               maxRotation: 0, // No rotation of label for each tick of X axe
               color: MAIN_TEXT_COLOR,
-              font: (ctx, options) => ({ family: 'Oswald-SemiBold' }),
+              font: (ctx, options) => ({ family: 'Oswald-Regular' }),
             },
           },
           y: {
@@ -416,7 +444,81 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
             },
             ticks: {
               color: MAIN_TEXT_COLOR,
-              font: (ctx, options) => ({ family: 'Oswald-SemiBold' }),
+              font: (ctx, options) => ({ family: 'Oswald-Regular' }),
+            },
+          },
+        },
+        layout: {
+          padding: {
+            top: 30,
+          },
+        },
+      },
+    });
+  }
+
+  private _chartSolarCycle(
+    labels: string[],
+    dataSsn: string[],
+    dataF10: string[],
+    colorsSsn: string,
+    colorsF10: string,
+  ): any {
+    return new Chart('cycle', {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Sunspot number',
+            data: dataSsn,
+            backgroundColor: colorsSsn,
+            borderColor: colorsSsn,
+            borderWidth: 1,
+            pointRadius: 0,
+            tension: 30,
+            stepped: true,
+          },
+          {
+            label: 'Solar Flux units',
+            data: dataF10,
+            backgroundColor: colorsF10,
+            borderColor: colorsF10,
+            borderWidth: 1,
+            pointRadius: 0,
+            tension: 30,
+            stepped: true,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: true,
+            maxHeight: 35,
+            labels: { boxWidth: 12, boxHeight: 12, font: () => ({ family: 'Oswald-Regular' }), padding: 0 },
+          },
+        },
+        scales: {
+          x: {
+            grid: {
+              display: false,
+            },
+            ticks: {
+              autoSkipPadding: 25, // more padding between each tick of X axe
+              maxRotation: 0, // No rotation of label for each tick of X axe
+              color: MAIN_TEXT_COLOR,
+              font: (ctx, options) => ({ family: 'Oswald-Regular' }),
+            },
+          },
+          y: {
+            grid: {
+              display: false,
+            },
+            ticks: {
+              color: MAIN_TEXT_COLOR,
+              font: (ctx, options) => ({ family: 'Oswald-Regular' }),
             },
           },
         },
