@@ -249,11 +249,6 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
             },
           },
         },
-        layout: {
-          padding: {
-            top: 30,
-          },
-        },
       },
     });
   }
@@ -318,11 +313,6 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
             grid: {
               display: false,
             },
-          },
-        },
-        layout: {
-          padding: {
-            top: 30,
           },
         },
       },
@@ -448,11 +438,6 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
             },
           },
         },
-        layout: {
-          padding: {
-            top: 30,
-          },
-        },
       },
     });
   }
@@ -476,8 +461,6 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
             borderColor: colorsSsn,
             borderWidth: 1,
             pointRadius: 0,
-            tension: 30,
-            stepped: true,
           },
           {
             label: 'Solar Flux units',
@@ -486,8 +469,6 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
             borderColor: colorsF10,
             borderWidth: 1,
             pointRadius: 0,
-            tension: 30,
-            stepped: true,
           },
         ],
       },
@@ -496,8 +477,16 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
         plugins: {
           legend: {
             display: true,
-            maxHeight: 35,
-            labels: { boxWidth: 12, boxHeight: 12, font: () => ({ family: 'Oswald-Regular' }), padding: 0 },
+            // maxHeight: 50,
+            labels: {
+              // boxPadding: 40,
+              usePointStyle: true,
+              pointStyle: 'circle',
+              // boxWidth: 20,
+              // boxHeight: 20,
+              font: () => ({ family: 'Oswald-Regular' }),
+              // padding: 0,
+            },
           },
         },
         scales: {
@@ -506,8 +495,8 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
               display: false,
             },
             ticks: {
-              autoSkipPadding: 25, // more padding between each tick of X axe
-              maxRotation: 0, // No rotation of label for each tick of X axe
+              autoSkipPadding: 15, // more padding between each tick of X axe
+              maxRotation: 90, // No rotation of label for each tick of X axe
               color: MAIN_TEXT_COLOR,
               font: (ctx, options) => ({ family: 'Oswald-Regular' }),
             },
@@ -518,13 +507,8 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
             },
             ticks: {
               color: MAIN_TEXT_COLOR,
-              font: (ctx, options) => ({ family: 'Oswald-Regular' }),
+              font: (ctx, options) => ({ family: 'Oswald-Regular', size: 12 }),
             },
-          },
-        },
-        layout: {
-          padding: {
-            top: 30,
           },
         },
       },

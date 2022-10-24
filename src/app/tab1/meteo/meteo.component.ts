@@ -82,7 +82,7 @@ export class MeteoComponent implements OnChanges {
     this.currentDatetime = manageDates(
       moment().unix(),
       this.locale === ELocales.EN ? 'dddd Do of MMMM, hh:mm A' : 'dddd DD MMMM, HH[h]mm',
-        this.locale,
+      this.locale,
       true,
     );
   }
@@ -170,11 +170,6 @@ export class MeteoComponent implements OnChanges {
             grid: {
               display: false,
             },
-          },
-        },
-        layout: {
-          padding: {
-            top: 30,
           },
         },
       },
