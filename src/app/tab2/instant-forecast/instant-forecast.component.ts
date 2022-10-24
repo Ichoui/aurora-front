@@ -54,32 +54,34 @@ export class InstantForecastComponent implements OnInit, OnChanges {
     }
 
     if (changes?.solarWind) {
-      const solarWind: SolarWind =changes.solarWind.currentValue
+      const solarWind: SolarWind = changes.solarWind.currentValue;
 
       this.density = {
         value: solarWind.density,
-        date: new Date((solarWind as SolarWind).time_tag),
-        time_tag: new Date((solarWind as SolarWind).time_tag),
+        date: new Date(solarWind.time_tag),
+        time_tag: new Date(solarWind.time_tag),
         color: determineColorsOfValue('density', solarWind.density),
       };
 
+      console.log('bz ', solarWind.bz);
+      console.log('bt ', solarWind.bt);
       this.bz = {
-        value: solarWind.bz,
-        date: new Date((solarWind as SolarWind).time_tag),
-        time_tag: new Date((solarWind as SolarWind).time_tag),
+        value: solarWind?.bz ?? 0,
+        date: new Date(solarWind.time_tag),
+        time_tag: new Date(solarWind.time_tag),
         color: determineColorsOfValue('bz', solarWind.bz),
       };
       this.bt = {
-        value: solarWind.bt,
-        date: new Date((solarWind as SolarWind).time_tag),
-        request_date: new Date((solarWind as SolarWind).time_tag),
+        value: solarWind?.bt ?? 0,
+        date: new Date(solarWind.time_tag),
+        request_date: new Date(solarWind.time_tag),
         color: determineColorsOfValue('bt', solarWind.bt),
       };
 
       this.speed = {
         value: convertUnitMeasure(solarWind.speed, this.unit),
-        date: new Date((solarWind as SolarWind).time_tag),
-        time_tag: new Date((solarWind as SolarWind).time_tag),
+        date: new Date(solarWind.time_tag),
+        time_tag: new Date(solarWind.time_tag),
         color: determineColorsOfValue('speed', convertUnitMeasure(solarWind.speed, this.unit), this.unit),
         unit: this.unit,
       };
@@ -101,5 +103,4 @@ export class InstantForecastComponent implements OnInit, OnChanges {
       stars[i].addEventListener('animationend', reset);
     }
   }
-
 }

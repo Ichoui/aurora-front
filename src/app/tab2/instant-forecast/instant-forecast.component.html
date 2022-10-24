@@ -38,7 +38,7 @@
         }"
       ></span>
     </div>
-    <div class="value">{{ density?.value ?? 'NoData' }}</div>
+    <div class="value">{{ density?.value }}</div>
     <div class="label">
       {{ 'tab2.kp.density' | translate }}
       <div class="unit">{{ 'tab2.kp.density.unit' | translate }}</div>
@@ -57,7 +57,7 @@
         }"
       ></span>
     </div>
-    <div class="value">{{ speed?.value ?? 'NoData' }}</div>
+    <div class="value">{{ speed?.value }}</div>
     <div class="label">
       {{ 'tab2.kp.speed' | translate }}
       <div class="unit">{{ speed.unit === 'imperial' ? '(mps)' : '(km/s)' }}</div>
@@ -76,7 +76,7 @@
         }"
       ></span>
     </div>
-    <div class="value">{{ bz?.value ?? 'NoData' }}</div>
+    <div class="value">{{ bz?.value }}</div>
     <div class="label">
       {{ 'tab2.kp.bz' | translate }}
       <div class="unit">{{ bz.value > 0 ? ('tab2.kp.bz.north' | translate) : ('tab2.kp.bz.south' | translate) }}</div>
@@ -95,7 +95,7 @@
         }"
       ></span>
     </div>
-    <div class="value">{{ bt?.value ?? 'NoData' }}</div>
+    <div class="value">{{ bt?.value }}</div>
     <div class="label">{{ 'tab2.kp.bt' | translate }}</div>
   </div>
 </ng-container>
