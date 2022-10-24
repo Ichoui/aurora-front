@@ -14,7 +14,9 @@ import { determineColorsOfValue, monthSwitcher } from '../models/utils';
 import { OnViewWillEnter } from '../models/ionic';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ELocales } from '../models/locales';
+import SwiperCore, { Navigation, Pagination, SwiperOptions } from 'swiper';
 
+SwiperCore.use([Pagination, Navigation]);
 // import 'moment/locale/fr';
 
 @Component({
@@ -42,6 +44,17 @@ export class Tab2Page implements OnViewWillEnter {
   solarCycle: SolarCycle[];
 
   dataError = new ErrorTemplate(null);
+  configSwiper: SwiperOptions = {
+    pagination: {
+      enabled: true,
+      clickable: false,
+      type: 'bullets',
+      bulletClass: `swiper-pagination-bullet`,
+    },
+    scrollbar: false,
+    slidesPerView: 1,
+    autoHeight: true,
+  };
 
   constructor(
     private _geoloc: Geolocation,
@@ -140,7 +153,15 @@ export class Tab2Page implements OnViewWillEnter {
     ])
       .pipe(
         tap({
-          next: ([solarWind, ace, kp27day, kpForecast, solarCycle, unit, locale]: [SolarWind[], ACEModule, string, KpForecast[], SolarCycle[], MeasureUnits, ELocales]) => {
+          next: ([solarWind, ace, kp27day, kpForecast, solarCycle, unit, locale]: [
+            SolarWind[],
+            ACEModule,
+            string,
+            KpForecast[],
+            SolarCycle[],
+            MeasureUnits,
+            ELocales,
+          ]) => {
             this.loading = false;
             this.moduleACE = ace; // to be removed
             this.solarCycle = solarCycle;

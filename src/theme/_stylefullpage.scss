@@ -42,8 +42,27 @@ ion-card-content {
   padding-bottom: 7px !important;
 }
 
-.swiper swiper.slide {
-  height: auto !important;
+app-tab2 {
+  .swiper swiper.slide {
+    height: auto !important;
+  }
+  .swiper-pagination {
+    display: flex;
+    position: fixed;
+    top: 68px;
+    z-index: 2;
+    width: 100%;
+    .swiper-pagination-bullet {
+      display: block;
+      background-color: var(--ion-color-tertiary);
+      height: 3px;
+      width: 50%;
+    }
+
+    .swiper-pagination-bullet-active {
+      background-color: var(--ion-color-primary);
+    }
+  }
 }
 
 .card-container {

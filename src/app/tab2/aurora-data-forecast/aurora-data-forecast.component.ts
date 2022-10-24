@@ -477,15 +477,10 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
         plugins: {
           legend: {
             display: true,
-            // maxHeight: 50,
             labels: {
-              // boxPadding: 40,
               usePointStyle: true,
               pointStyle: 'circle',
-              // boxWidth: 20,
-              // boxHeight: 20,
               font: () => ({ family: 'Oswald-Regular' }),
-              // padding: 0,
             },
           },
         },
