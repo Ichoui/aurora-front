@@ -201,7 +201,8 @@ export class Tab2Page implements OnViewWillEnter {
           let val = value[i];
           if (k !== 'propagated_time_tag' && k !== 'time_tag' && k !== 'temperature') {
             // Transforme certaine valeur en Integer
-            val = parseFloat(value[i]);
+            // Si value n'existe pas (null), on retourne null (bt bz)
+            val = val ? parseFloat(value[i]) : value[i]
           }
           return { ...o, [k]: val };
         }, {}),

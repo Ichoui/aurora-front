@@ -4,6 +4,7 @@ import { FORECAST_COLOR_GREEN, FORECAST_COLOR_ORANGE, FORECAST_COLOR_RED, FORECA
 import { AuroraEnumColours } from './aurorav3';
 import * as moment from 'moment/moment';
 import { ELocales } from './locales';
+import { Chart } from 'chart.js';
 
 /**
  * @param source objet typé qui doit être converti en HttpParams pour une requete API
@@ -55,7 +56,12 @@ export function convertUnitTemperature(nb: number, unit: TemperatureUnits): numb
  * @param locale ELocale
  * @param unix {boolean} Permet de convertir une date au format UNIX (Unix Timestamp) ou DATE lambda
  * */
-export function manageDates(date: number | string, format: string, locale?: ELocales, unix = false): string | moment.Moment {
+export function manageDates(
+  date: number | string,
+  format: string,
+  locale?: ELocales,
+  unix = false,
+): string | moment.Moment {
   const offset = moment().utcOffset();
   const d = unix ? moment.unix(date as number).locale(locale) : moment.utc(date);
   return d.utcOffset(offset).format(format);
@@ -64,6 +70,13 @@ export function manageDates(date: number | string, format: string, locale?: ELoc
 // Arrondir à 2 chiffres
 export function roundTwoNumbers(nb: number): number {
   return Math.round(nb * 100) / 100;
+}
+
+// https://www.chartjs.org/docs/latest/developers/updates.html
+export function addDataChart(chart: Chart, label: string[], data: any) {
+  chart.data.labels.push(label);
+  chart.data.datasets.forEach(dataset => dataset.data.push(data));
+  chart.update('none');
 }
 
 // Replace a string color with the correct Application color

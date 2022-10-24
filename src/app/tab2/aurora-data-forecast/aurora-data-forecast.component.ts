@@ -4,7 +4,7 @@ import { ModalComponent } from '../../shared/modal/modal.component';
 import { Chart, registerables } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import * as moment from 'moment';
-import { colorSwitcher, convertUnitMeasure, determineColorsOfValue, manageDates } from '../../models/utils';
+import { addDataChart, colorSwitcher, convertUnitMeasure, determineColorsOfValue, manageDates } from '../../models/utils';
 import { MAIN_TEXT_COLOR, WEATHER_NEXT_HOUR_CHART_COLOR } from '../../models/colors';
 import { CodeLocation, Coords } from '../../models/cities';
 import { StorageService } from '../../storage.service';
@@ -73,7 +73,7 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
     this.chartKpSpeed?.destroy();
     this.chartKpBz?.destroy();
     this.chartKpBt?.destroy();
-    this.chartCycle?.destroy();
+    // this.chartCycle?.destroy();
 
     if (changes?.kpForecast?.currentValue !== changes?.kpForecast?.previousValue) {
       const firstChange = changes?.kpForecast?.firstChange;
@@ -367,6 +367,11 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
       this.chartKpBt = this._chartSolarWind('bt', solarWindDate, btForecast.value, btForecast.color);
     } else {
       // Update data only !
+      addDataChart(this.chartKpDensity, solarWindDate, [densityForecast.value])
+      addDataChart(this.chartKpSpeed, solarWindDate, [speedForecast.value])
+      addDataChart(this.chartKpBz, solarWindDate, [bzForecast.value])
+      addDataChart(this.chartKpBt, solarWindDate, [btForecast.value])
+
     }
   }
 
@@ -383,8 +388,11 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
       solarCycleDate.push(cycle['time-tag']);
     }
 
+    console.log(this.solarCycle);
     if (firstChange) {
-      this.solarCycle = this._chartSolarCycle(solarCycleDate, predictedSsn, predictedF10, colorSsn, colorF10);
+      this.chartCycle = this._chartSolarCycle(solarCycleDate, predictedSsn, predictedF10, colorSsn, colorF10);
+    } else {
+      addDataChart(this.chartCycle, solarCycleDate, [predictedSsn, predictedF10])
     }
   }
 
