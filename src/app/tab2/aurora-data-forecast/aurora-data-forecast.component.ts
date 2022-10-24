@@ -69,10 +69,10 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
   ngOnChanges(changes: SimpleChanges) {
     this.chartKpForecast?.destroy();
     this.chartKpForecast27?.destroy();
-    this.chartKpDensity?.destroy();
-    this.chartKpSpeed?.destroy();
-    this.chartKpBz?.destroy();
-    this.chartKpBt?.destroy();
+    // this.chartKpDensity?.destroy();
+    // this.chartKpSpeed?.destroy();
+    // this.chartKpBz?.destroy();
+    // this.chartKpBt?.destroy();
     // this.chartCycle?.destroy();
 
     if (changes?.kpForecast?.currentValue !== changes?.kpForecast?.previousValue) {
