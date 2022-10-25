@@ -4,7 +4,7 @@ import { FORECAST_COLOR_GREEN, FORECAST_COLOR_ORANGE, FORECAST_COLOR_RED, FORECA
 import { AuroraEnumColours } from './aurorav3';
 import * as moment from 'moment/moment';
 import { ELocales } from './locales';
-import { Chart } from 'chart.js';
+import { Chart, ChartType } from 'chart.js';
 
 /**
  * @param source objet typé qui doit être converti en HttpParams pour une requete API
@@ -73,10 +73,21 @@ export function roundTwoNumbers(nb: number): number {
 }
 
 // https://www.chartjs.org/docs/latest/developers/updates.html
-export function addDataChart(chart: Chart, label: string[], data: any) {
-  chart.data.labels.push(label);
-  chart.data.datasets.forEach(dataset => dataset.data.push(data));
-  chart.update('none');
+export function addDataChart(chart: Chart<ChartType, string[]>, label: string[], data: any, colors: any) {
+  chart.data.labels = label;
+  chart.data.datasets.forEach((dataset, index) => {
+    console.log(dataset);
+    dataset.data = data[index];
+    if (colors.length > 1) {
+    dataset.backgroundColor = colors[index];
+    dataset.borderColor = colors[index];
+    } else {
+    dataset.backgroundColor = colors;
+    dataset.borderColor = colors;
+    }
+
+  });
+  chart.update();
 }
 
 // Replace a string color with the correct Application color

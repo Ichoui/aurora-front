@@ -1,10 +1,10 @@
 import { Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { ModalComponent } from '../../shared/modal/modal.component';
-import { Chart, registerables } from 'chart.js';
+import { Chart, ChartType, registerables } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import * as moment from 'moment';
-import { addDataChart, colorSwitcher, convertUnitMeasure, determineColorsOfValue, manageDates } from '../../models/utils';
+import { addDataChart, colorSwitcher, convertUnitMeasure, determineColorsOfValue, manageDates, } from '../../models/utils';
 import { MAIN_TEXT_COLOR, WEATHER_NEXT_HOUR_CHART_COLOR } from '../../models/colors';
 import { CodeLocation, Coords } from '../../models/cities';
 import { StorageService } from '../../storage.service';
@@ -33,13 +33,13 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
   @Input() measure: MeasureUnits;
   @Input() locale: ELocales;
 
-  chartKpForecast: Chart;
-  chartKpForecast27: Chart;
-  chartKpDensity: Chart;
-  chartKpSpeed: Chart;
-  chartKpBz: Chart;
-  chartKpBt: Chart;
-  chartCycle: Chart;
+  chartKpForecast: Chart<ChartType, string[]>;
+  chartKpForecast27: Chart<ChartType, string[]>;
+  chartKpDensity: Chart<ChartType, string[]>;
+  chartKpSpeed: Chart<ChartType, string[]>;
+  chartKpBz: Chart<ChartType, string[]>;
+  chartKpBt: Chart<ChartType, string[]>;
+  chartCycle: Chart<ChartType, string[]>;
 
   private _marker: Marker;
   private _coords: Coords = {} as any;
@@ -67,14 +67,6 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.chartKpForecast?.destroy();
-    this.chartKpForecast27?.destroy();
-    // this.chartKpDensity?.destroy();
-    // this.chartKpSpeed?.destroy();
-    // this.chartKpBz?.destroy();
-    // this.chartKpBt?.destroy();
-    // this.chartCycle?.destroy();
-
     if (changes?.kpForecast?.currentValue !== changes?.kpForecast?.previousValue) {
       const firstChange = changes?.kpForecast?.firstChange;
       this._chartNextHoursForecast(changes.kpForecast.currentValue, firstChange);
@@ -201,56 +193,12 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
         nextHoursColors.push(colorSwitcher(unit.color));
       }
     }
-    // 14 values
-    this.chartKpForecast = new Chart('kpnexthours', {
-      type: 'bar',
-      plugins: [ChartDataLabels],
-      data: {
-        labels: nextHoursDate,
-        datasets: [
-          {
-            data: nextHoursForecast,
-            backgroundColor: nextHoursColors,
-            borderColor: nextHoursColors,
-            borderWidth: 1,
-          },
-        ],
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          tooltip: { enabled: false },
-          legend: { display: false },
-          datalabels: {
-            anchor: 'end',
-            align: 'end',
-            color: WEATHER_NEXT_HOUR_CHART_COLOR,
-            font: {
-              family: 'Oswald-SemiBold',
-              size: 15,
-            },
-          },
-        },
-        scales: {
-          x: {
-            grid: {
-              display: false,
-            },
-            ticks: {
-              color: MAIN_TEXT_COLOR,
-              font: (ctx, options) => ({ family: 'Oswald-SemiBold' }),
-            },
-          },
-          y: {
-            min: 0,
-            display: false,
-            grid: {
-              display: false,
-            },
-          },
-        },
-      },
-    });
+    if (firstChange) {
+      // 14 values
+      this.chartKpForecast = this._chartKp('kpnexthours', nextHoursDate, nextHoursForecast, nextHoursColors);
+    } else {
+      addDataChart(this.chartCycle, nextHoursDate, [nextHoursForecast], nextHoursColors);
+    }
   }
 
   private _chartForecast27day(forecast: Kp27day[], firstChange = false): void {
@@ -267,17 +215,31 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
         forecastColors.push(colorSwitcher(unit.color));
       }
     }
-    // 14 values
-    this.chartKpForecast27 = new Chart('kpforecast', {
+
+    if (firstChange) {
+      // 14 values
+      this.chartKpForecast27 = this._chartKp('kpforecast', forecastDate, forecastValue, forecastColors);
+    } else {
+      addDataChart(this.chartCycle, forecastDate, [forecastValue], forecastColors);
+    }
+  }
+
+  private _chartKp(
+    type: 'kpforecast' | 'kpnexthours',
+    labels: string[],
+    data: string[],
+    colors: string[],
+  ): Chart<ChartType, string[]> {
+    return new Chart(type, {
       type: 'bar',
       plugins: [ChartDataLabels],
       data: {
-        labels: forecastDate,
+        labels: labels,
         datasets: [
           {
-            data: forecastValue,
-            backgroundColor: forecastColors,
-            borderColor: forecastColors,
+            data: data,
+            backgroundColor: colors,
+            borderColor: colors,
             borderWidth: 1,
           },
         ],
@@ -303,6 +265,7 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
               display: false,
             },
             ticks: {
+              maxRotation: 90, // No rotation of label for each tick of X axe
               color: MAIN_TEXT_COLOR,
               font: (ctx, options) => ({ family: 'Oswald-SemiBold' }),
             },
@@ -314,6 +277,9 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
               display: false,
             },
           },
+        },
+        layout: {
+          padding: { top: 30 },
         },
       },
     });
@@ -338,7 +304,6 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
     };
     const solarWindDate = [];
 
-    console.log(forecast);
     for (const unit of forecast) {
       solarWindDate.push(manageDates(unit.time_tag, this.locale === ELocales.FR ? 'HH[h]mm' : 'hh:mm A'));
       densityForecast.value.push(unit.density);
@@ -356,22 +321,36 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
     }
 
     if (firstChange) {
-      this.chartKpDensity = this._chartSolarWind(
+      this.chartKpDensity = AuroraDataForecastComponent._chartSolarWind(
         'density',
         solarWindDate,
         densityForecast.value,
         densityForecast.color,
       );
-      this.chartKpSpeed = this._chartSolarWind('speed', solarWindDate, speedForecast.value, speedForecast.color);
-      this.chartKpBz = this._chartSolarWind('bz', solarWindDate, bzForecast.value, bzForecast.color);
-      this.chartKpBt = this._chartSolarWind('bt', solarWindDate, btForecast.value, btForecast.color);
+      this.chartKpSpeed = AuroraDataForecastComponent._chartSolarWind(
+        'speed',
+        solarWindDate,
+        speedForecast.value,
+        speedForecast.color,
+      );
+      this.chartKpBz = AuroraDataForecastComponent._chartSolarWind(
+        'bz',
+        solarWindDate,
+        bzForecast.value,
+        bzForecast.color,
+      );
+      this.chartKpBt = AuroraDataForecastComponent._chartSolarWind(
+        'bt',
+        solarWindDate,
+        btForecast.value,
+        btForecast.color,
+      );
     } else {
       // Update data only !
-      addDataChart(this.chartKpDensity, solarWindDate, [densityForecast.value])
-      addDataChart(this.chartKpSpeed, solarWindDate, [speedForecast.value])
-      addDataChart(this.chartKpBz, solarWindDate, [bzForecast.value])
-      addDataChart(this.chartKpBt, solarWindDate, [btForecast.value])
-
+      addDataChart(this.chartKpDensity, solarWindDate, [densityForecast.value], densityForecast.color);
+      addDataChart(this.chartKpSpeed, solarWindDate, [speedForecast.value], speedForecast.color);
+      addDataChart(this.chartKpBz, solarWindDate, [bzForecast.value], bzForecast.color);
+      addDataChart(this.chartKpBt, solarWindDate, [btForecast.value], btForecast.color);
     }
   }
 
@@ -387,22 +366,20 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
       predictedSsn.push(cycle.predicted_ssn);
       solarCycleDate.push(cycle['time-tag']);
     }
-
-    console.log(this.solarCycle);
     if (firstChange) {
       this.chartCycle = this._chartSolarCycle(solarCycleDate, predictedSsn, predictedF10, colorSsn, colorF10);
     } else {
-      addDataChart(this.chartCycle, solarCycleDate, [predictedSsn, predictedF10])
+      addDataChart(this.chartCycle, solarCycleDate, [predictedSsn, predictedF10], [colorSsn, colorF10]);
     }
   }
 
   // https://www.chartjs.org/docs/latest/charts/line.html#point-styling
-  private _chartSolarWind(
+  private static _chartSolarWind(
     type: 'bz' | 'bt' | 'speed' | 'density',
     labels: string[],
     data: string[],
     colors: string[],
-  ): any {
+  ): Chart<ChartType, string[]> {
     return new Chart(type, {
       type: 'line',
       data: {
@@ -456,7 +433,7 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
     dataF10: string[],
     colorsSsn: string,
     colorsF10: string,
-  ): any {
+  ): Chart<ChartType, string[]> {
     return new Chart('cycle', {
       type: 'line',
       data: {
