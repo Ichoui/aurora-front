@@ -10,5 +10,6 @@ export class CardComponent {
   @Input() value: string;
   @Input() classList: string;
   @Input() list: string[];
+  @Input() annecdotes: string[]; // TODO
   @Input() extra: string;
 }
