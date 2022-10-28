@@ -1,0 +1,8 @@
+{
+  "/": {
+    "target": "http://localhost:3945/fetch/",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}
