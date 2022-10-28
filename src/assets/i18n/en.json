@@ -55,8 +55,11 @@
       "bt.sub": "Interplanetary Magnetic Field (IMF)",
       "cycle.title": "Solar cycle",
       "cycle.sub": "Avg. duration of 11 year",
-      "aurora-map": "Auroras map",
-      "sub-aurora-map": "Tap to watch live Auroras and to choose your location"
+      "aurora-map": "Auroral oval map",
+      "sub-aurora-map": "Tap to watch live Auroral oval and to choose your location",
+      "title": "Auroral oval map",
+      "select": "Preset locations",
+      "another": "Try another location"
     }
   },
   "tab3": {
@@ -91,102 +94,6 @@
       "kelvin": "Kelvin",
       "fr": "French",
       "en": "English"
-    },
-    "infos": {
-      "title": "Informations",
-      "welcome": {
-        "title": "Aurora Chasers",
-        "message": "Auroras Chasers has been designed for any user interested in the Northern Lights phenomenon.<br>Wheter you are living in a land far away, or you are a Aurora Hunter, this application will inform you about your chances to observe Northern Lights, thanks to data from the Space Weather Prediction Center.<br>Moreover, a weather part is integrated to the app, to optimize your research.<br>."
-      },
-      "firstblock": {
-        "header": "Aurora Borealis ?",
-        "how": {
-          "title": "How it works ?",
-          "message": "Une Aurore Boréale est un phénomène naturel qui a pour origine le <b>Soleil</b>.<br>Elles apparaissent lorsque des <b>particules solaires</b>, propulsées par des vents solaires, entrent dans le champ magnétique terrestre. Elles se produisent à proximité des pôles magnétiques, dans la <b>zone aurorale<b> (située entre 65 et 75° de latitude), où elles interagissent avec les couches supérieures de l'atmosphère : ozone, oxygène, hydrogène et autres gaz. De l'énergie se créé alors et devient visible sous forme de lumières dansantes.<br>Ce phénomène se produit à une altitude de 100 km, au niveau de la ligne de Karman (ligne qui sépare l'atmosphère de l'espace), c'est à dire dans la Thermosphère (85 - 690 km).<br><br>Pour plus d'informations techniques et scientifiques, je vous propose les sites suivants :<ul><li><a href='https://tinyurl.com/y3ptbsab'>visitnorway.fr</a></li><li><a href='https://tinyurl.com/yxslqesx'>bastienfoucher.com</a></li></ul>"
-        },
-        "solarwind": {
-          "title": "Solar wind",
-          "message": "Le vent solaire est un <b>plasma</b> (un gaz constitué principalement d'électrons, d'ions et de protons). Il existe 2 type de vents solaires :<ul><li>le lent (environ 300 km/s)</li><li>le rapide (entre 500 et 800 km/s)</li></ul> C'est le second qui a un impact direct sur la Terre, et qui est soumis à l'activité et aux cycles solaires.<br>Le vent solaire est émis continuellement, mais son émission peut dépendre de certains phénomènes, comme les trous coronaux ou encore les éruptions solaires, qui peuvent amplifier sa <b>vitesse</b> et sa <b>densité</b>.<br>Plus ces caractéristiques seront élevées, et plus les Aurores Boréales seront intenses.<br>"
-        },
-        "colors": {
-          "title": "Green, purple or pink",
-          "message": "La couleur d'Aurores Boréales dépend de l'altitude à laquelle le plasma des vents solaires entrent en contact avec les gaz contenus dans notre atmosphère. Plus la <b>densité</b> d'un vent solaire est élevé, plus les particules contenues dans le plasma descendront bas dans l'atmosphère.<ul><li><b>Violette / Rouge</b> : entre 200 et 500km d'altitude, les électrons ionisent l'oxygène qui est plutôt rare.</li><li><b>Vert</b> : entre 100 et 200km d'altitude, les électrons ionisent l'oxygène qui est plus dense à cette altitude. C'est le phénomène le plus fréquent</li><li><b>Rose</b> : entre 80 et 100km d'altitude, les électrons ionisent l'hydrogène et l'azote. Plutôt rare car il faut un vent solaire très dense et/ou chargé en énergie</li></ul>"
-        },
-        "where": {
-          "title": "Where to see ?",
-          "message": "Plus on se rapproche d'un pôle de la planète, plus les probabilités d'en voir seront élevées.<br>L'Alaska, le Canada du Nord, la Norvège, l'Islande ou encore la Laponie sont des endroits de choix pour en admirer à la tombée de la nuit. Dans l'hémisphère Sud, ce sera surtout en Nouvelle-Zélande, par manque de continents à basse latitude. Bien entendu, cela dépend de l'activité solaire.<br>En été, il est impossible de voir des Aurores Boréales à proximité du pôle Nord à cause du soleil de minuit (le jour ne se couche pas ou très peu). Il faut alors se rapprocher du solstice d'hiver (21 décembre) pour en apercevoir. A l'inverse, en été il est possible d'en voir en se rapprochant du pôle Sud"
-        },
-        "corona": {
-          "title": "Aurora Corona",
-          "message": "C'est une apparition d'Aurore en forme de couronne au zénith (à 90° au dessus de notre tête). L'aspect de l'Aurore paraît alors circulaire, en forme de spirale. La base de l'Aurore se situe entre 80 et 100km, tandis que son extrémité est bien plus haut dans la Thermosphère. Une impression se créée alors : des rayons lumineux d'Aurores paraissent converger des extrémités vers la base, et cela donne une impression de couronne, d'où le nom.<br>Il est nécessaire d'être à une haute latitude ainsi qu'un Kp5 pour avoir la chance d'en voir."
-        },
-        "steve": {
-          "title": "STEVE",
-          "message": "STEVE (Strong Thermal Emission Velocity Enhancement) est l'appelation donnée à un nouveau genre d'Aurore Boréale, découverte en 2017 par des chasseurs d'Aurores Boréales sur un groupe Facebook en Alberta, Canada. <br>Elle se présente sous la forme d'un long et étroit ruban pourpre, à travers le ciel. Les scientifiques, alertés par cette communauté, n'a pas été en mesure d'expliquer immédiatement le phénomène. C'est en 2018, après des recherches, qu'un professeur de l'Université de Calgary a pu affirmer que STEVE est un flux de gaz chaud (environ 3000°) qui se déplace plus rapidement que l'air environnant, d'ou sa couleur pourpre.<br>Le &laquo phénomène Steve &raquo; peut durer jusqu'à 1h, avance à une vitesse maximum de 6km/s et peut mesurer jusqu'à 25km. STEVE est observable en Alberta, à la latitude de Calgary. "
-        },
-        "legends": {
-          "title": "Myths & Legends",
-          "message": "Il existe bon nombre de légendes autour des Aurores, qui diffèrent en fonction des Régions. En voici quelques-une.",
-          "alaska": {
-            "list": "Alaska : ",
-            "message": "Les Inuits craignaient les Aurores. Ils voyaient dedans des âmes dansantes d'animaux, comme le saumon, le phoque, le béluga ou le cerf. Ils se munissaient alors de couteau pour tenter de les chasser."
-          },
-          "canada": {
-            "list": "Canada : ",
-            "message": "Les Inuits de la Baie d'Hudson pensaient que le ciel était un dôme immense pourvu de trous, par lesquels les esprits des morts passaient pour se rendre vers les régions célestes. Ils y allumaient alors de nombreuses torches, permettant de guider les nouveaux arrivant. Quant à eux, les Indiens de l'Ouest voyaient des géants amicaux."
-          },
-          "vikings": {
-            "list": "Vikings : ",
-            "message": "Elles représentaient pour le peuple Vikings les Valkyries, qui sont connues comme étant les messagères du dieu nordique Odin. Au terme de chaque guerre, Odin sélectionnait les plus valeureux guerriers pouvant rejoindre le Valhaha pour le Ragnarök, et envoyait les Valkyries les récupérer. Les Vikings pensaient que les Aurores étaient le reflet des armures des Valkyries venues sur terre pour accomplir leur mission."
-          },
-          "sami": {
-            "list": "Sami : ",
-            "message": "Ce peuple lapon regroupe la partie Nord de la Norvège, de la Suède, de la Finlande et de la Péninsule de Kola en Russie. Pour certaines tribus de ce peuple, les Aurores sont de Mauvais Présages, évoquant la mort. Elles apparaissent lorsqu'une personne est brûlée vive, ou qu'il y a eu un meurtre, un suicide ou un accouchement.<br>Pour d'autre tribus, elles annoncent un Bon Présage, comme le souffle des baleines dans l'océan Arctique."
-          },
-          "finlande": {
-            "list": "Finnish : ",
-            "message": "La légende raconte que des renards arctiques produisaient les Aurores en courant dans le ciel à une grande vitesse, à tel point que la fourrure de leurs queues déclenchaient des étincelles et projetaient ces illuminations. Une autre légende raconte que les renards de feu faisaient tourbillonner la neige déposée sur le sol vers le ciel. Les flocons refletaient alors la lueur émise par la lune.<br>En Finlandais, une Aurore boréale se dit « Revontulet », soit littéralement Renard de feu."
-          },
-          "france": {
-            "list": "France : ",
-            "message": "Les pêcheurs Normands avaient peurs des Aurores, car elles étaient de couleurs rougeâtre. Les Aurores ne descendant pas fréquemment jusqu'en France à cette basse latitude, ils pensaient que celles-ci étaient annonciatrices de malheurs."
-          },
-          "romains": {
-            "list": "Romans :",
-            "message": "Dans la mythologie romaine, Aurora était la déesse de l'Aurore. Le mot « borealis » fait référence au dieu grec du vent du Nord. « Aurora Borealis », ou Aurore Boréale, signifie donc « vent de l'Aurore ». Dans de nombreuses langues, ce phénomène est appelé « lumières du Nord »."
-          },
-          "conclusion": "Ces légendes sont de très brefs résumés, il en existe un nombre très conséquent. Il en existe dans les différents pays Scandinaves, en Russie, en Amérique du Nord, et sont toutes différentes. La seule chose que ces légendes ont en commun, c'est qu'elles ne laissent personne indifférent."
-        },
-        "annecdotes": {
-          "title": "Anecdotes",
-          "une": "Galilée aurait inventé le terme « Aurora Borealis » en 1619.",
-          "deux": "Des Aurores Boréales ont été observées sur Mars, Vénus, Saturne, Jupiter et Uranus. En raison de sa taille et de sa proximité du soleil, Mercure n'a pas d'atmosphère. Par conséquent, les Aurores Boréales ne peuvent pas s'y produire.",
-          "trois": "Dans l'hémisphère nord, l'Aurore Boréale est aussi appelée Aurore Polaire. Elle peut être aperçue depuis la banquise Arctique, l'Amérique du Nord (Alaska, Canada), le Groenland, le nord des pays Scandinave et de l'Ecosse, ou encore en Islande.",
-          "quatre": "Dans l'hémisphère sud, l'Aurore Boréale est appelée Aurore Australe. Elle peut être aperçue depuis l'Antarctique, la Tasmanie, et même à l'extrémité sud de la Nouvelle-Zélande.",
-          "cinq": "Les Aurores Boréales dépendent de l'activité magnétique du Soleil. Il se trouve que l'activité solaire a un cycle de 11 ans. Lors d'un pic haut, les tempêtes magnétiques sont violentes et entraînent de magnifiques Aurores Boréales. Elles peuvent même être un problème pour les instruments magnétiques, comme la boussole et son Nord magnétique. A l'inverse, lors d'un pic bas, les tempêtes magnétiques sont moins intenses et se montrent plutôt rare.<br>En 2019, l'activité est au plus bas car un cycle se termine.",
-          "six": "Il existe deux villes situées en Alaska, Fairbanks et Nome, où il est possible d'observer des Aurores Boréales plus de 200 jours par an."
-        }
-      },
-      "secondblock": {
-        "header": "Forecasts",
-        "forecast": {
-          "title": "How can we predict Auroras ?",
-          "message": "Grâce à un satellite nommé ACE, qui a pour mission d'étudier les particules solaires.<br>Les données sont ensuite traitée par le &laquo; Space Weather Prediction Center &raquo; qui est un service météorologique situé aux Etats-Unis.<br>Grâce à de savants calculs autour des particules solaires, il est alors possible de prévoir les Aurores, notamment grâce à l'indice Kp."
-        },
-        "kp": {
-          "title": "Kp Index",
-          "message": "L'indice K (K-Index), ou Kp (Planetary K-Index), est l'indice utilisé pour exprimer la magnitude des tempêtes géomagnétiques. C'est un excellent indicateur des perturbations du champ magnétique terrestre, mais il ne prédit pas à 100% la visibibilité d'une Aurore. De plus, la couverture nuageuse est très importante. L'échelle commence à 0 et se termine à 9 :<ul><li><b>Kp 0</b> : Très faible visibilitées dans les ciels du Nord</li><li><b>Kp 1</b> : Faibles et peu dynamiques dans les ciels du Nord</li><li><b>Kp 2</b> : Visibles, un peu plus dynamiques et lumineuses</li><li><b>Kp 3</b> : Visibles au zénith, couleur vert pâle</li><li><b>Kp 4</b> : Brillantes, constantes et dynamiques. De plus en plus de couleurs apparaissent</li><li><b>Kp 5</b> : Tempête mineure. Brillantes et très colorées, rouge et violet peuvent apparaître. Petite probabilitée d'Aurora Corona</li><li><b>Kp 6</b> : Tempête moyenne. Plus intense que le précédent niveau</li><li><b>Kp 7</b> : Tempête puissante. Grande probabilitée d'Aurora Corona</li><li><b>Kp 8</b> : Tempête Tempête intense. Possibilité d'en voir à une latitude de 50°</li><li><b>Kp 9</b> : Tempête extrême. Possibilité d'en voir à une latitude de 40°. Les aurores sont rouges. Rare car nécessite une puissante éjections de masse coronale.</li></ul>"
-        }
-      },
-      "help": {
-        "title": "How Aurora Chasers works ?",
-        "message": "It's very easy ! <ol><li>First of all, you have to learn how works the Northern Lights</li><li>Then, choose a location in the settings tab. Otherwise, you will be geolocated.</li><li>Finally, take a look at the Aurora tab and check both the solar wind and the cloud cover.</li></ol>"
-      }
-    },
-    "map": {
-      "title": "Auroras map",
-      "select": "Preset locations",
-      "another": "Try another location"
     }
   },
   "cgu": {

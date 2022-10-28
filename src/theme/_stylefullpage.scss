@@ -22,17 +22,17 @@ ion-content {
   z-index: 450;
 }
 
-app-instant-forecast {
+app-instant-auroral-activity {
   min-height: 80vh !important;
   overflow: hidden;
 }
 
-app-aurora-data-forecast {
+app-forecast-auroral-activity {
   height: 80vh;
   overflow-y: auto;
 }
-app-instant-forecast,
-app-aurora-data-forecast {
+app-instant-auroral-activity,
+app-forecast-auroral-activity {
   width: 100%;
   margin-top: 10px;
 }

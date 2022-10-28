@@ -6,11 +6,11 @@ import { MeasureUnits } from '../../models/weather';
 import { AuroraEnumColours, Bt, Bz, Density, SolarWind, Speed } from '../../models/aurorav3';
 
 @Component({
-  selector: 'app-instant-forecast',
-  templateUrl: './instant-forecast.component.html',
-  styleUrls: ['./instant-forecast.component.scss'],
+  selector: 'app-instant-auroral-activity',
+  templateUrl: './instant-auroral-activity.component.html',
+  styleUrls: ['./instant-auroral-activity.component.scss'],
 })
-export class InstantForecastComponent implements OnInit, OnChanges {
+export class InstantAuroralActivityComponent implements OnInit, OnChanges {
   kpCurrent: KpCurrent;
 
   density: Density;

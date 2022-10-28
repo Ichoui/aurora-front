@@ -21,11 +21,11 @@ const numberMaxNextHours = 10;
 Chart.register(...registerables);
 
 @Component({
-  selector: 'app-aurora-data-forecast',
-  templateUrl: './aurora-data-forecast.component.html',
-  styleUrls: ['./aurora-data-forecast.component.scss'],
+  selector: 'app-forecast-auroral-activity',
+  templateUrl: './forecast-auroral-activity.component.html',
+  styleUrls: ['./forecast-auroral-activity.component.scss'],
 })
-export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWillEnter {
+export class ForecastAuroralActivityComponent implements OnChanges, OnInit, OnViewWillEnter {
   @Input() kpForecast: KpForecast[];
   @Input() kpForecast27: Kp27day[];
   @Input() solarWind: SolarWind[];
@@ -321,25 +321,25 @@ export class AuroraDataForecastComponent implements OnChanges, OnInit, OnViewWil
     }
 
     if (firstChange) {
-      this.chartKpDensity = AuroraDataForecastComponent._chartSolarWind(
+      this.chartKpDensity = ForecastAuroralActivityComponent._chartSolarWind(
         'density',
         solarWindDate,
         densityForecast.value,
         densityForecast.color,
       );
-      this.chartKpSpeed = AuroraDataForecastComponent._chartSolarWind(
+      this.chartKpSpeed = ForecastAuroralActivityComponent._chartSolarWind(
         'speed',
         solarWindDate,
         speedForecast.value,
         speedForecast.color,
       );
-      this.chartKpBz = AuroraDataForecastComponent._chartSolarWind(
+      this.chartKpBz = ForecastAuroralActivityComponent._chartSolarWind(
         'bz',
         solarWindDate,
         bzForecast.value,
         bzForecast.color,
       );
-      this.chartKpBt = AuroraDataForecastComponent._chartSolarWind(
+      this.chartKpBt = ForecastAuroralActivityComponent._chartSolarWind(
         'bt',
         solarWindDate,
         btForecast.value,

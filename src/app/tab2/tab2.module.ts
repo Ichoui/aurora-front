@@ -9,8 +9,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { BrokenPageModule } from '../shared/broken/broken.module';
 import { SwiperModule } from 'swiper/angular';
-import { AuroraDataForecastModule } from './aurora-data-forecast/aurora-data-forecast.module';
-import { InstantForecastModule } from './instant-forecast/instant-forecast.module';
+import { InstantAuroralActivityModule } from './instant-auroral-activity/instant-auroral-activity.module';
+import { ForecastAuroralActivityModule } from './forecast-auroral-activity/forecast-auroral-activity.module';
 
 @NgModule({
   imports: [
@@ -20,8 +20,8 @@ import { InstantForecastModule } from './instant-forecast/instant-forecast.modul
     TranslateModule,
     RouterModule.forChild([{ path: '', component: Tab2Page }]),
     HeaderPageModule,
-    InstantForecastModule,
-    AuroraDataForecastModule,
+    InstantAuroralActivityModule,
+      ForecastAuroralActivityModule,
     BrokenPageModule,
     SwiperModule,
   ],

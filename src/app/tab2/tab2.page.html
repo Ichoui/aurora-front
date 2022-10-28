@@ -15,21 +15,21 @@
 
     <swiper [config]="configSwiper">
       <ng-template swiperSlide>
-        <app-instant-forecast
+        <app-instant-auroral-activity
           [exDataSolarWind]="moduleACE"
           [solarWind]="solarWindInstant"
           [unit]="unit"
-        ></app-instant-forecast>
+        ></app-instant-auroral-activity>
       </ng-template>
       <ng-template swiperSlide>
-        <app-aurora-data-forecast
+        <app-forecast-auroral-activity
           [kpForecast27]="kpForecast27days"
           [kpForecast]="kpForecast"
           [solarWind]="solarWind"
           [solarCycle]="solarCycle"
           [measure]="unit"
           [locale]="locale"
-        ></app-aurora-data-forecast>
+        ></app-forecast-auroral-activity>
       </ng-template>
     </swiper>
   </ng-container>

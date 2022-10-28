@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuroraDataForecastComponent } from './aurora-data-forecast.component';
+import { ForecastAuroralActivityComponent } from './forecast-auroral-activity.component';
 import { ModalModule } from '../../shared/modal/modal.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { LottieAnimationViewModule } from 'ng-lottie';
@@ -9,9 +9,9 @@ import { RouterModule } from '@angular/router';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 @NgModule({
-  declarations: [AuroraDataForecastComponent],
+  declarations: [ForecastAuroralActivityComponent],
   imports: [CommonModule, ModalModule, TranslateModule, LottieAnimationViewModule.forRoot(), IonicModule, RouterModule],
-  exports: [AuroraDataForecastComponent],
+  exports: [ForecastAuroralActivityComponent],
   providers: [Geolocation],
 })
-export class AuroraDataForecastModule {}
+export class ForecastAuroralActivityModule {}

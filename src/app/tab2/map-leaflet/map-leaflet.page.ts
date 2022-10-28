@@ -63,7 +63,7 @@ export class MapLeafletPage implements OnInit, OnDestroy {
    * @param choice {any} Lorsque le Select est modifié, rentre dans la condition pour modifier la valeur de localisation
    * @param position {LatLng} Lorsqu'on ajoute un point sur la carte
    * Permet de pré-remplir le select avec la valeur disponible en storage si elle existe.
-   * Met également la valeur en storage pour traitement tab3
+   * Met également la valeur en storage pour traitement tab2
    * */
   selectedLoc(choice?: any, position?: LatLng): void {
     if (choice) {
@@ -340,7 +340,7 @@ export class MapLeafletPage implements OnInit, OnDestroy {
     if (lat && lng) {
       message = `<b>${infoWindow}</b> <br /> Lat: ${lat} <br/> Long: ${lng}`;
     } else {
-      message = `<b>${infoWindow}</b><br /> ${this._translate.instant('tab3.map.another')} `;
+      message = `<b>${infoWindow}</b><br /> ${this._translate.instant('tab2.map.another')} `;
     }
     popup.setLatLng({ lat, lng }).setContent(message).addTo(this._map).openOn(this._map);
     document.querySelector('.leaflet-popup-close-button').removeAttribute('href'); // href on marker tooltip reload page if not this line...

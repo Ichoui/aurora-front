@@ -4,7 +4,8 @@
     "loading": "Ta localisation est en cours de chargement ...",
     "back": "Retour",
     "cancel": "Annuler",
-    "uselesstemplate": "My text {{val}} {'path.to | translate: {val: condition}}"},
+    "uselesstemplate": "My text {{val}} {'path.to | translate: {val: condition}}"
+  },
   "tab1": {
     "title": "Météo",
     "weather": {
@@ -19,7 +20,7 @@
         "windspeed": "Vitesse du vent",
         "humidity": "Humidité",
         "winddeg": "Rose des vents",
-        "uvindex":"Index UV"
+        "uvindex": "Index UV"
       }
     }
   },
@@ -55,8 +56,11 @@
       "bt.sub": "Champ Magnétique Interplanétaire (CMI)",
       "cycle.title": "Cycle Solaire",
       "cycle.sub": "Période moy. de 11 ans",
-      "aurora-map": "Carte des Aurores",
-      "sub-aurora-map": "Touche pour visualiser les Aurores en temps réel et choisir ta localisation"
+      "aurora-map": "Carte aurorale",
+      "sub-aurora-map": "Touche pour visualiser l'ovale auroral en temps réel et choisir ta localisation",
+      "title": "Carte aurorale",
+      "select": "Localisation prédéfinie",
+      "another": "Essaye un autre endroit"
     }
   },
   "tab3": {
@@ -101,24 +105,32 @@
       },
       "firstblock": {
         "header": "Une Aurore Boréale ?",
+        "perception": {
+          "title": "Perception à l'oeil nu",
+          "message": "Avant tout, il faut savoir qu'une Aurore Boréale ne ressemble pas à l'idée que l'on se fait d'elle à travers de magnifiques clichés photographiques. Elles sont majoritairement <b>blanches pâles</b> à l'oeil  nu, quand il n'y a de grande activité aurorale.<br>Cela peut être décevant à première... vue ! En réalité, les couleurs ne sont que très légèrement perceptible par nos yeux, qui ont du mal à faire le contraste avec l'obscurité.<br>Pour voir de belles aurores bien colorées, il faut donc les prendre en photo !<br>Heureusement, lors de tempêtes géomagnétique, il est possible de voir des courants d'airs rapides pâles vaguement colorés dans le ciel, et cela reste tout de même sublime pour toutes personnes sachant les apprécier ! "
+        },
         "how": {
           "title": "Mécanisme ?",
-          "message": "Une Aurore Boréale est un phénomène naturel qui a pour origine le <b>Soleil</b>.<br>Elles apparaissent lorsque des <b>particules solaires</b>, propulsées par des vents solaires, entrent dans le champ magnétique terrestre. Elles se produisent à proximité des pôles magnétiques, dans la <b>zone aurorale</b> (située entre 65 et 75° de latitude), où elles interagissent avec les couches supérieures de l'atmosphère : ozone, oxygène, hydrogène et autres gaz. De l'énergie se créé alors et devient visible sous forme de lumières dansantes.<br>Ce phénomène se produit à une altitude de 100 km, au niveau de la ligne de Karman (ligne qui sépare l'atmosphère de l'espace), c'est à dire dans la Thermosphère (85 - 690 km).<br><br>Pour plus d'informations techniques et scientifiques, je te propose les sites suivants :<ul><li><a href='https://tinyurl.com/y3ptbsab'>visitnorway.fr</a></li><li><a href='https://tinyurl.com/yxslqesx'>bastienfoucher.com</a></li></ul>"
+          "message": "Une Aurore Boréale est un phénomène naturel qui a pour origine le <b>Soleil</b>.<br>Elles apparaissent lorsque des <b>particules solaires</b>, propulsées par des vents solaires, entrent dans le champ magnétique terrestre. Elles se produisent à proximité des pôles magnétiques, dans la <b>zone aurorale</b> (située entre 65 et 75° de latitude), où elles interagissent avec les couches supérieures de l'atmosphère : ozone, oxygène, hydrogène et autres gaz. De l'énergie se créé alors et devient visible sous forme de lumières dansantes.<br>Ce phénomène se produit à une altitude de 100 km, au niveau de la ligne de Karman (ligne qui sépare l'atmosphère de l'espace), c'est à dire dans la Thermosphère (85 - 690 km).<br><br>Pour plus d'informations techniques et scientifiques, je te propose les sites suivants :<ul><li><a href='https://tinyurl.com/y3ptbsab'>visitnorway.fr</a></li><li><a href='https://tinyurl.com/mrxhyth5'>bastienfoucher.com</a></li></ul>"
         },
-        "solarwind": {
-          "title": "Le vent solaire",
-          "message": "Le vent solaire est un <b>plasma</b> (un gaz constitué principalement d'électrons, d'ions et de protons). Il existe 2 type de vents solaires :<ul><li>le lent (environ 300 km/s)</li><li>le rapide (entre 500 et 800 km/s)</li></ul> C'est le second qui a un impact direct sur la Terre, et qui est soumis à l'activité et aux cycles solaires.<br>Le vent solaire est émis continuellement, mais son émission peut dépendre de certains phénomènes, comme les trous coronaux ou encore les éruptions solaires, qui peuvent amplifier sa <b>vitesse</b> et sa <b>densité</b>.<br>Plus ces caractéristiques seront élevées, et plus les Aurores Boréales seront intenses.<br>"
+        "forecast": {
+          "title": "Comment peut-on prévoir ce phénomène ?",
+          "message": "Grâce à un satellite nommé ACE (Advanced Composition Explorer) appartenant à la NASA, qui a pour mission d'étudier les particules solaires.<br>Les données sont ensuite traitée par le &laquo; Space Weather Prediction Center &raquo; qui est un service météorologique situé aux Etats-Unis.<br>Grâce au croisement de plusieurs données (comme le Bz, le KP, la Densité des particules ou encore la vitesse du vent solaire), on peut alors prévoir leur visibilité."
+        },
+        "capricious": {
+          "title": "Les prévisions sont-elles précises ?",
+          "message": "Non.<br>Les données scientifiques ne peuvent garantir leur visibilité (sans même parler des nuages / pollution lumineuse). Le mieux reste toujours de sortir dehors vérifier qu'elles sont bien là. On parle beaucoup en probabilité quand on veut assister à ce phénomène."
         },
         "colors": {
           "title": "Verte, violette ou rose",
-          "message": "La couleur d'Aurores Boréales dépend de l'altitude à laquelle le plasma des vents solaires entrent en contact avec les gaz contenus dans notre atmosphère. Plus la <b>densité</b> d'un vent solaire est élevé, plus les particules contenues dans le plasma descendront bas dans l'atmosphère.<ul><li><b>Violette / Rouge</b> : entre 200 et 500km d'altitude, les électrons ionisent l'oxygène qui est plutôt rare.</li><li><b>Vert</b> : entre 100 et 200km d'altitude, les électrons ionisent l'oxygène qui est plus dense à cette altitude. C'est le phénomène le plus fréquent</li><li><b>Rose</b> : entre 80 et 100km d'altitude, les électrons ionisent l'hydrogène et l'azote. Plutôt rare car il faut un vent solaire très dense et/ou chargé en énergie</li></ul>"
+          "message": "La couleur d'Aurores Boréales dépend de l'altitude à laquelle le plasma du vent solaire entre en contact avec les gaz contenus dans notre atmosphère. Plus la <b>densité</b> d'un vent solaire est élevé, plus les particules contenues dans le plasma descendront bas dans l'atmosphère.<ul><li><b>Violette / Rouge</b> : entre 200 et 500km d'altitude, les électrons ionisent principalement de l'hélium, et un peu d'oxygène, qui est rare à cette altitude.</li><li><b>Vert</b> : entre 100 et 200km d'altitude, les électrons ionisent l'oxygène qui est plus dense à cette altitude. C'est le phénomène le plus fréquent</li><li><b>Rose</b> : entre 80 et 100km d'altitude, les électrons ionisent l'hydrogène et l'azote. Plutôt rare car il faut un vent solaire très dense et/ou chargé en énergie</li></ul>"
         },
         "where": {
           "title": "Où en voir ?",
           "message": "Plus on se rapproche d'un pôle de la planète, plus les probabilités d'en voir seront élevées.<br>L'Alaska, le Canada du Nord, la Norvège, l'Islande ou encore la Laponie sont des endroits de choix pour en admirer à la tombée de la nuit. Dans l'hémisphère Sud, ce sera surtout en Nouvelle-Zélande, par manque de continents à basse latitude. Bien entendu, cela dépend de l'activité solaire.<br>En été, il est impossible de voir des Aurores Boréales à proximité du pôle Nord à cause du soleil de minuit (le jour ne se couche pas ou très peu). Il faut alors se rapprocher du solstice d'hiver (21 décembre) pour en apercevoir. A l'inverse, en été il est possible d'en voir en se rapprochant du pôle Sud"
         },
         "corona": {
-          "title": "Aurora Corona",
+          "title": "Aurora Coronas",
           "message": "C'est une apparition d'Aurore en forme de couronne au zénith (à 90° au dessus de notre tête). L'aspect de l'Aurore paraît alors circulaire, en forme de spirale. La base de l'Aurore se situe entre 80 et 100km, tandis que son extrémité est bien plus haut dans la Thermosphère. Une impression se créée alors : des rayons lumineux d'Aurores paraissent converger des extrémités vers la base, et cela donne une impression de couronne, d'où le nom.<br>Il est nécessaire d'être à une haute latitude ainsi qu'un Kp5 pour avoir la chance d'en voir."
         },
         "steve": {
@@ -162,36 +174,35 @@
           "title": "Anecdotes",
           "une": "Galilée aurait inventé le terme « Aurora Borealis » en 1619.",
           "deux": "Des Aurores Boréales ont été observées sur Mars, Vénus, Saturne, Jupiter et Uranus. En raison de sa taille et de sa proximité du soleil, Mercure n'a pas d'atmosphère. Par conséquent, les Aurores Boréales ne peuvent pas s'y produire.",
-          "trois": "Dans l'hémisphère nord, l'Aurore Boréale est aussi appelée Aurore Polaire. Elle peut être aperçue depuis la banquise Arctique, l'Amérique du Nord (Alaska, Canada), le Groenland, le nord des pays Scandinave et de l'Ecosse, ou encore en Islande.",
-          "quatre": "Dans l'hémisphère sud, l'Aurore Boréale est appelée Aurore Australe. Elle peut être aperçue depuis l'Antarctique, la Tasmanie, et même à l'extrémité sud de la Nouvelle-Zélande.",
-          "cinq": "Les Aurores Boréales dépendent de l'activité magnétique du Soleil. Il se trouve que l'activité solaire a un cycle de 11 ans. Lors d'un pic haut, les tempêtes magnétiques sont violentes et entraînent de magnifiques Aurores Boréales. Elles peuvent même être un problème pour les instruments magnétiques, comme la boussole et son Nord magnétique. A l'inverse, lors d'un pic bas, les tempêtes magnétiques sont moins intenses et se montrent plutôt rare.<br>En 2019, l'activité est au plus bas car un cycle se termine.",
+          "trois": "Dans l'hémisphère Nord, nous avons des Aurore Boréale. Dans l'hémisphère Sud, nous avons des Aurore Australe. L'Aurora Polaire désigne les aurores des deux pôles.",
+          "quatre": "L'Aurore Australe est assez rare, car il n'y a pas beaucoup de terres à l'approche du Pôle Sud. Elle peut être aperçue depuis l'Antarctique, la Tasmanie, au sud de l'Australie et aussi à l'extrémité sud de la Nouvelle-Zélande.",
+          "cinq": "Les Aurores Boréales dépendent de l'activité magnétique du Soleil. Il se trouve que l'activité solaire a un cycle de 11 ans. Lors d'un pic haut, les tempêtes magnétiques sont violentes et entraînent de magnifiques Aurores Boréales. Elles peuvent même être un problème pour les instruments magnétiques, comme la boussole et son Nord magnétique.",
           "six": "Il existe deux villes situées en Alaska, Fairbanks et Nome, où il est possible d'observer des Aurores Boréales plus de 200 jours par an."
         }
       },
       "secondblock": {
-        "header": "Prévoir une Aurore ?",
-        "forecast": {
-          "title": "Comment peut-on prévoir ce phénomène ?",
-          "message": "Grâce à un satellite nommé ACE (Advanced Composition Explorer) appartenant à la NASA, qui a pour mission d'étudier les particules solaires.<br>Les données sont ensuite traitée par le &laquo; Space Weather Prediction Center &raquo; qui est un service météorologique situé aux Etats-Unis.<br>Grâce au croisement de plusieurs données (comme le Bz, le KP, la Densité des particules ou encore la vitesse du vent solaire), on peut alors prévoir leur visibilité."
-        },
-        "capricious": {
-          "title": "Les prévisions sont-elles précises ?",
-          "message": "Non.<br>Les données scientifiques ne peuvent garantir leur visibilité (sans même parler des nuages / pollution lumineuse). Le mieux reste toujours de sortir dehors vérifier qu'elles sont bien là. On parle beaucoup en probabilité quand on veut assister à ce phénomène."
-        },
+        "header": "Indicateurs d'activité aurorale",
         "kp": {
           "title": "L'indice Kp",
-          "message": "L'indice K (K-Index), ou Kp (Planetary K-Index), est l'indice utilisé pour exprimer la magnitude des tempêtes géomagnétiques. C'est un excellent indicateur des perturbations du champ magnétique terrestre, mais il ne prédit pas à 100% la visibibilité d'une Aurore. De plus, la couverture nuageuse est très importante. L'échelle commence à 0 et se termine à 9 :<ul><li><b>Kp 0</b> : Très faible visibilitées dans les ciels du Nord</li><li><b>Kp 1</b> : Faibles et peu dynamiques dans les ciels du Nord</li><li><b>Kp 2</b> : Visibles, un peu plus dynamiques et lumineuses</li><li><b>Kp 3</b> : Visibles au zénith, couleur vert pâle</li><li><b>Kp 4</b> : Brillantes, constantes et dynamiques. De plus en plus de couleurs apparaissent</li><li><b>Kp 5</b> : Tempête mineure. Brillantes et très colorées, rouge et violet peuvent apparaître. Petite probabilitée d'Aurora Corona</li><li><b>Kp 6</b> : Tempête moyenne. Plus intense que le précédent niveau</li><li><b>Kp 7</b> : Tempête puissante. Grande probabilitée d'Aurora Corona</li><li><b>Kp 8</b> : Tempête Tempête intense. Possibilité d'en voir à une latitude de 50°</li><li><b>Kp 9</b> : Tempête extrême. Possibilité d'en voir à une latitude de 40°. Les aurores sont rouges. Rare car nécessite une puissante éjections de masse coronale.</li></ul>"
+          "message": "L'indice K (K-Index), ou Kp (Planetary K-Index), est l'indice utilisé pour exprimer la magnitude des tempêtes géomagnétiques. C'est un excellent indicateur des perturbations du champ magnétique terrestre, mais il ne prédit pas à 100% la visibilité d'une Aurore. Des relevés sont effectués sur Terre au sol, dans le monde entier, toutes les 3 heures L'échelle commence à 0 et se termine à 9 :<ul><li><b>Kp 0</b> : Très calme, faible visibilités dans les ciels du grand Nord</li><li><b>Kp 1</b> : Très calme dans les ciels du Grand Nord (Yellowknife, Reykjavik, Fairbanks, Whitehorse)</li><li><b>Kp 2</b> : Calme, visible dans le Nord toujours, très légèrement lumineuses (Anchorage, Edmonton, Saskatoon, Winnipeg, Trondheim) </li><li><b>Kp 3</b> : Visibles au zénith, couleur vert pâle (Calgary, Alesund)</li><li><b>Kp 4</b> : Brillantes, constantes et dynamiques. Quelques couleurs apparaissent (Vancouver, Minneapolis, Oslo, Helsinki, Stockholm)</li><li><b>Kp 5</b> : Tempête mineure. Brillantes et très colorées, rouge et violet peuvent apparaître. Petite probabilité d'Aurora Corona (Seattle, Chicago, Toronto, Halifax, Edinburgh)</li><li><b>Kp 6</b> : Tempête moyenne. Plus intense que le précédent niveau (Portland, Indianapolis, Dublin, Manchester, Moscou, Christchurch (NZ))</li><li><b>Kp 7</b> : Tempête puissante. Grande probabilitée d'Aurora Corona (Salt Lake City, Nashville, Londres, Bruxelles, Melbourne, Wellington)</li><li><b>Kp 8</b> : Tempête intense. Possibilité d'en voir à une latitude de 50° (Paris, Munich, San Francisco, Las Vegas, Atlanta)</li><li><b>Kp 9</b> : Tempête extrême. Possibilité d'en voir à une latitude de 40° (Barcelona, Marseille, Roma, Miami). Les aurores sont rouges. Rare car nécessite une puissante éjections de masse coronale.</li></ul>"
+        },
+        "solarWind": {
+          "title": "Le vent solaire",
+          "message": "Le vent solaire est un <b>plasma</b> (un gaz constitué principalement d'électrons, d'ions et de protons). Il existe 2 type de vents solaires :<ul><li>le lent (environ 300 km/s)</li><li>le rapide (entre 500 et 800 km/s)</li></ul> C'est le second qui a un impact direct sur la Terre, et qui est soumis à l'activité et aux cycles solaires.<br>Le vent solaire est émis continuellement, mais son émission peut dépendre de certains phénomènes, comme les trous coronaux ou encore les éruptions solaires, qui peuvent amplifier sa <b><i>vitesse</i></b> et sa <b><i>densité</i></b>.<br>Plus le vent sera rapide, et plus les Aurores pourront danser sur Terre. Plus la densité sera élevée, et plus les Aurores seront puissantes. Mais, le vent solaire ne fonctionne pas seul. Il est directement lié au Champ Magnétique Interplanétaire.<br>"
+        },
+        "cmi": {
+          "title": "Le Champ Magnétique Interplanétaire (CMI)",
+          "message": "C'est grâce à lui qu'on obtient les valeurs suivantes :<br> - le Bt, et les Bx, By, Bz.<br>Ces derniers sont des vecteurs, créant des axes à partir de la terre. Seuls le Bt et Bz sont importants pour l'activité solaire.<ul><li><b>BZ :</b> c'est un axe, qui passe par les pôles Nord et Sud de la terre. Lorsque cet axe est orienté sud (négatif), il se connecte à la <b>magnétosphère terrestre</b>, qui elle, est tout le temps orienté vers le nord. De la sorte, comme 2 aimants qui s'attirent, cela permet aux particules du vent solaire de pénétrer l'atmosphère plus facilement et ainsi de rentrer en collision avec l'oxygène et autre gaz terrestres, qui vont permettre de faire briller les aurores. On peut considérer l'axe du Bz être compris entre -15 et 15.</li><li><b>Bt :</b> Le Bt est une valeur qui représente la puissance du CMI. Plus la valeur est en hausse, plus les conditions pour obtenir une tempête géomagnétique seront présente. On peut estimer que 15nT est une valeur moyenne, 25 une valeur forte.</li></ul>A savoir, lorsque le cycle solaire est au plus bas, le champ magnétique du soleil est équivalent à celui de la Terre, tandis que lorsqu'il est au plus haut, de nombreuses tâches solaires se forment, ce qui rend le champ magnétique autour du soleil très mouvant. <br>C'est le vent solaire qui transporte par la suite ces perturbations magnétiques jusqu'à la Terre."
+        },
+        "solarCycle": {
+          "title": "Cycle solaire",
+          "message": "Le cycle solaire se base sur le nombre de tâches solaire présente à la surface du Soleil. Ces tâches varient de façon périodique, et le maximum de ce cycle est atteint en moyenne tous les 11.2 ans. <br>Ce constat a été réalisé grâce à Galillée au XVIIe siècle, qui a été un pionnier dans l'observation des tâches solaires. Nous avons donc des données sur les cycles solaires qui remontent principalement au XVIIIe siècle, ce qui permet aux scientifiques de déduire les pics haut et bas de ce cycle."
         }
       },
       "help": {
         "title": "Comment marche Aurora Chasers ?",
         "message": "C'est très simple ! <ol><li>Premièrement, comprends comment fonctionne une aurore.</li><li>Ensuite, choisis une localisation, sinon tu seras géolocalisé si tu me l'autorises.</li><li>Tu n'auras plus qu'à consulter l'activité solaire et la couverture nuageuse. Rappel, ces données fournissent des indicateurs pour chasser une aurore boréale. Elles ne t'assureront pas d'en voir ☺</li></ol>"
       }
-    },
-    "map": {
-      "title": "Carte des Aurores",
-      "select": "Localisation prédéfinie",
-      "another": "Essaye un autre endroit"
     }
   },
   "cgu": {
