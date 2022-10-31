@@ -11,7 +11,7 @@ import { Geocoding } from '../../models/geocoding';
 import { AuroraService } from '../../aurora.service';
 import { countryNameFromCode } from '../../models/utils';
 import geojsonvt from 'geojson-vt';
-import { FORECAST_COLOR_GRAY, FORECAST_COLOR_GREEN, FORECAST_COLOR_ORANGE, FORECAST_COLOR_PURPLE, FORECAST_COLOR_RED, FORECAST_COLOR_YELLOW, } from '../../models/colors';
+import { FORECAST_COLOR_GRAY, FORECAST_COLOR_GREEN, FORECAST_COLOR_ORANGE, FORECAST_COLOR_RED, FORECAST_COLOR_YELLOW, } from '../../models/colors';
 // import * as L from 'leaflet';
 // import * as geojson from 'geojson';
 
@@ -105,16 +105,14 @@ export class MapLeafletPage implements OnInit, OnDestroy {
         [-90, -180],
         [90, 180],
       ]);
-
-    const test = tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution:
-        ' <div style="font-size: 12px; text-align:right;">&copy;<a href="https://www.openstreetmap.org/copyright">OSM</a></div>',
+    this._map.attributionControl.remove();
+    const tileLayer1 = tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       className: 'map-filter',
       noWrap: true,
       minZoom: 1,
     });
 
-    this._map.addLayer(test);
+    this._map.addLayer(tileLayer1);
 
     this._addMarker(lat, long);
 
@@ -360,10 +358,8 @@ function mapColor(index: number): string {
     color = FORECAST_COLOR_YELLOW;
   } else if (index >= 35 && index < 50) {
     color = FORECAST_COLOR_ORANGE;
-  } else if (index >= 40 && index < 75) {
+  } else if (index >= 50) {
     color = FORECAST_COLOR_RED;
-  } else if (index >= 75) {
-    color = FORECAST_COLOR_PURPLE;
   }
   return color;
 }

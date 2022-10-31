@@ -178,7 +178,7 @@ export class Tab1Page implements OnViewWillEnter {
         tap({
           next: (res: Geocoding) => {
             this.city = `${res?.name}${res?.state ? ', ' + res.state : ''} -`;
-            this.country = countryNameFromCode(res.country);
+            this.country = countryNameFromCode(res?.country);
             // TODO rajouter le state dans l'interface visible (pour rajouter notion genre québec/alberta/occitanie/michigan)
             // TODO Rajouter également un country code en FR et EN, préférable en JSON pour charger plus vite et pas d'API
             this._getForecast(this.city, this.country);
@@ -218,41 +218,39 @@ export class Tab1Page implements OnViewWillEnter {
    * API OpenWeatherMap
    */
   private _getForecast(city: string, country: string): void {
-    this._auroraService
-      .openWeatherMapForecast$(this.coords.latitude, this.coords.longitude, this.locale)
-      .subscribe(
-        (res: Weather) => {
-          this.dataCurrentWeather = res.current;
-          this.dataHourly = res.hourly;
-          this.dataSevenDay = res.daily;
-          void this._storageService.setData('weather', {
-            dataCurrentWeather: res.current,
-            dataHourly: res.hourly,
-            dataSevenDay: res.daily,
-            city: city,
-            country: country,
-            date: new Date(),
-          });
-          void this._storageService.setData('previousLocation', {
-            lat: this.coords.latitude,
-            long: this.coords.longitude,
-          });
+    this._auroraService.openWeatherMapForecast$(this.coords.latitude, this.coords.longitude, this.locale).subscribe(
+      (res: Weather) => {
+        this.dataCurrentWeather = res.current;
+        this.dataHourly = res.hourly;
+        this.dataSevenDay = res.daily;
+        void this._storageService.setData('weather', {
+          dataCurrentWeather: res.current,
+          dataHourly: res.hourly,
+          dataSevenDay: res.daily,
+          city: city,
+          country: country,
+          date: new Date(),
+        });
+        void this._storageService.setData('previousLocation', {
+          lat: this.coords.latitude,
+          long: this.coords.longitude,
+        });
 
-          // End loading
-          this.loading = false;
-          this._eventRefresh ? this._eventRefresh.target.complete() : '';
-        },
-        (error: HttpErrorResponse) => {
-          console.warn('OpenWeatherMap forecast error', error);
-          this.loading = false;
-          this.dataError = new ErrorTemplate({
-            value: true,
-            status: error.status,
-            message: error.statusText,
-            error,
-          });
-        },
-      );
+        // End loading
+        this.loading = false;
+        this._eventRefresh ? this._eventRefresh.target.complete() : '';
+      },
+      (error: HttpErrorResponse) => {
+        console.warn('OpenWeatherMap forecast error', error);
+        this.loading = false;
+        this.dataError = new ErrorTemplate({
+          value: true,
+          status: error.status,
+          message: error.statusText,
+          error,
+        });
+      },
+    );
   }
 
   /**

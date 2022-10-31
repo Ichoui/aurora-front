@@ -32,9 +32,10 @@ ion-tab-button.tab-selected ion-label {
 .icon-settings {
   font-size: 2.7em;
 }
-
 .icon-aurora {
-  content: url('/assets/icon/aurora.svg');
+  content: url('/assets/img/dd.gif'); // aurora.svg or not ?
+  border-radius: 50%; // with gif for round it
+
   width: 4rem;
   height: 4rem;
   position: absolute;

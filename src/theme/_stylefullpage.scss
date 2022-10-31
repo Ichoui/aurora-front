@@ -86,6 +86,8 @@ app-tab2 {
 }
 
 //@media (prefers-color-scheme: dark) {
+// DARK-MODE !
 .map-filter {
-  filter:var(--map-tiles-filter, none);
+  filter: var(--map-tiles-filter, none);
 }
+

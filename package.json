@@ -5,6 +5,7 @@
   "description": "Ex Aurora - Northern Light app, available on the Play Store only, for Aurora chasers",
   "scripts": {
     "start": "ionic serve",
+    "start:proxy": "cd ../proxy-aurora && node server",
     "build:prod": "ionic build --prod",
     "android:open": "npx cap open android",
     "android:create": "npx cap add android",

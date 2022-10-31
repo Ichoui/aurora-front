@@ -79,13 +79,12 @@ export function addDataChart(chart: Chart<ChartType, string[]>, label: string[],
     console.log(dataset);
     dataset.data = data[index];
     if (colors.length > 1) {
-    dataset.backgroundColor = colors[index];
-    dataset.borderColor = colors[index];
+      dataset.backgroundColor = colors[index];
+      dataset.borderColor = colors[index];
     } else {
-    dataset.backgroundColor = colors;
-    dataset.borderColor = colors;
+      dataset.backgroundColor = colors;
+      dataset.borderColor = colors;
     }
-
   });
   chart.update();
 }

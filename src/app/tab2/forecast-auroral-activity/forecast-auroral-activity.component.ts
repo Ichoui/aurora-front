@@ -146,11 +146,10 @@ export class ForecastAuroralActivityComponent implements OnChanges, OnInit, OnVi
 
     this._map.dragging.disable();
     this._map.zoomControl.remove();
+    this._map.attributionControl.remove();
 
     tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       className: 'map-filter',
-      attribution:
-        ' <div style="font-size: 12px; text-align:right;">&copy;<a href="https://www.openstreetmap.org/copyright">OSM</a></div>',
     }).addTo(this._map);
   }
 

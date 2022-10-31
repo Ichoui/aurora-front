@@ -49,7 +49,6 @@ export class MeteoComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     this._nextHoursChart?.destroy();
     if (changes?.currentWeather?.currentValue !== changes?.currentWeather?.previousValue) {
-      console.log('dddd');
       this._todayForecast(changes.currentWeather.currentValue);
     }
     if (changes?.hourlyWeather?.currentValue !== changes?.hourlyWeather?.previousValue) {
