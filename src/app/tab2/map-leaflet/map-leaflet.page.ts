@@ -109,6 +109,7 @@ export class MapLeafletPage implements OnInit, OnDestroy {
     const test = tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution:
         ' <div style="font-size: 12px; text-align:right;">&copy;<a href="https://www.openstreetmap.org/copyright">OSM</a></div>',
+      className: 'map-filter',
       noWrap: true,
       minZoom: 1,
     });
@@ -183,7 +184,8 @@ export class MapLeafletPage implements OnInit, OnDestroy {
             const auroraPercent = coord[2];
             // On prend les valeurs paires seulement, et on leur rajoute +2 pour compenser les "trous" causés par l'impair
             // On passe ainsi d'environ 7500 à 1900 layers supplémentaire
-            if (auroraPercent >= 5 && long % 2 === 0 && lat % 2 === 0) {
+            if (lat >= 30 || lat <= -30) {
+            if (auroraPercent >= 2 && long % 2 === 0 && lat % 2 === 0) {
               if (long > 180) {
                 // Longitude 180+ dépasse de la map à droite, cela permet de revenir tout à gauche de la carte
                 long = long - 360;
@@ -229,6 +231,7 @@ export class MapLeafletPage implements OnInit, OnDestroy {
               // console.log(layer);
               // }
             }
+          }
           }
           /*
           // WORKING!!
@@ -349,17 +352,17 @@ export class MapLeafletPage implements OnInit, OnDestroy {
 
 function mapColor(index: number): string {
   let color;
-  if (index < 10) {
+  if (index <= 8) {
     color = FORECAST_COLOR_GRAY;
-  } else if (index >= 10 && index < 20) {
+  } else if (index > 8 && index < 20) {
     color = FORECAST_COLOR_GREEN;
-  } else if (index >= 20 && index < 30) {
+  } else if (index >= 20 && index < 35) {
     color = FORECAST_COLOR_YELLOW;
-  } else if (index >= 30 && index < 40) {
+  } else if (index >= 35 && index < 50) {
     color = FORECAST_COLOR_ORANGE;
-  } else if (index >= 40 && index < 60) {
+  } else if (index >= 40 && index < 75) {
     color = FORECAST_COLOR_RED;
-  } else if (index >= 60 && index < 40) {
+  } else if (index >= 75) {
     color = FORECAST_COLOR_PURPLE;
   }
   return color;

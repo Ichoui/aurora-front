@@ -5,6 +5,9 @@
 
 /** Ionic CSS Variables **/
 :root {
+  --map-tiles-filter: brightness(0.6) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) brightness(0.7);
+
+
   --ion-color-primary: #69bfaf;
   --ion-color-primary-rgb: 105, 191, 175;
   --ion-color-primary-contrast: #000000;
@@ -106,3 +109,4 @@ $colors: (
 @import 'icomoon';
 @import 'stylefullpage';
 @import 'loader';
+

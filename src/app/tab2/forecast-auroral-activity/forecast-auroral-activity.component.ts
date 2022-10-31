@@ -15,6 +15,7 @@ import { AuroraEnumColours, Kp27day, KpForecast, SolarCycle, SolarWind } from '.
 import { OnViewWillEnter } from '../../models/ionic';
 import { ELocales } from '../../models/locales';
 import { MeasureUnits } from '../../models/weather';
+import { TranslateService } from '@ngx-translate/core';
 
 const numberMax27Forecast = 14;
 const numberMaxNextHours = 10;
@@ -50,6 +51,7 @@ export class ForecastAuroralActivityComponent implements OnChanges, OnInit, OnVi
     private _modalController: ModalController,
     private _storageService: StorageService,
     private _geoloc: Geolocation,
+    private _translateService: TranslateService,
   ) {}
 
   ngOnInit(): void {
@@ -146,6 +148,7 @@ export class ForecastAuroralActivityComponent implements OnChanges, OnInit, OnVi
     this._map.zoomControl.remove();
 
     tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      className: 'map-filter',
       attribution:
         ' <div style="font-size: 12px; text-align:right;">&copy;<a href="https://www.openstreetmap.org/copyright">OSM</a></div>',
     }).addTo(this._map);
@@ -440,7 +443,7 @@ export class ForecastAuroralActivityComponent implements OnChanges, OnInit, OnVi
         labels: labels,
         datasets: [
           {
-            label: 'Sunspot number',
+            label: this._translateService.instant('tab2.maps.cycle.ssn'), //'Sunspot number',
             data: dataSsn,
             backgroundColor: colorsSsn,
             borderColor: colorsSsn,
@@ -448,7 +451,7 @@ export class ForecastAuroralActivityComponent implements OnChanges, OnInit, OnVi
             pointRadius: 0,
           },
           {
-            label: 'Solar Flux units',
+            label: this._translateService.instant('tab2.maps.cycle.sfu'), //'Solar Flux units',
             data: dataF10,
             backgroundColor: colorsF10,
             borderColor: colorsF10,

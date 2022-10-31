@@ -84,3 +84,8 @@ app-tab2 {
     @include subtitle-header;
   }
 }
+
+//@media (prefers-color-scheme: dark) {
+.map-filter {
+  filter:var(--map-tiles-filter, none);
+}

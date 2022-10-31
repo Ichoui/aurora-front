@@ -56,6 +56,8 @@
       "bt.sub": "Champ Magnétique Interplanétaire (CMI)",
       "cycle.title": "Cycle Solaire",
       "cycle.sub": "Période moy. de 11 ans",
+      "cycle.ssn": "Nb. tâches solaires",
+      "cycle.sfu": "Flux solaire",
       "aurora-map": "Carte aurorale",
       "sub-aurora-map": "Touche pour visualiser l'ovale auroral en temps réel et choisir ta localisation",
       "title": "Carte aurorale",
