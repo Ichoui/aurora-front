@@ -12,6 +12,10 @@ ion-tab-button.tab-selected ion-label {
 
 .main-btn {
   .icon-aurora {
+    content: url('/assets/img/aurora-custom.svg');
+    width: 4rem;
+    height: 4rem;
+
     font-size: 5em;
     letter-spacing: 0;
     position: absolute;
@@ -31,16 +35,6 @@ ion-tab-button.tab-selected ion-label {
 .icon-infos,
 .icon-settings {
   font-size: 2.7em;
-}
-.icon-aurora {
-  content: url('/assets/img/dd.gif'); // aurora.svg or not ?
-  border-radius: 50%; // with gif for round it
-
-  width: 4rem;
-  height: 4rem;
-  position: absolute;
-  transform: translate(-50%, -50%);
-  left: 50%;
 }
 
 .tabs {
