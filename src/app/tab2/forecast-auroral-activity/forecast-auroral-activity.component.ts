@@ -467,6 +467,7 @@ export class ForecastAuroralActivityComponent implements OnChanges, OnInit, OnVi
             labels: {
               usePointStyle: true,
               pointStyle: 'circle',
+              color: MAIN_TEXT_COLOR,
               font: () => ({ family: 'Oswald-Regular' }),
             },
           },
