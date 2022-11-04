@@ -9,10 +9,6 @@
     height: 150px;
   }
 }
-//canvas, .sub, .header {
-//  position: relative;
-//  z-index: 888;
-//}
 
 .container-poles {
   display: flex;
@@ -32,50 +28,5 @@
       font-size: 3em;
       padding-top: 16px;
     }
-  }
-}
-
-.svg-aurora {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  opacity: .3;
-  z-index: -1;
-}
-.star {
-  fill: #fff;
-  animation: star 2s infinite alternate;
-  opacity: 0.8;
-  @for $n from 1 through 11 {
-    &:nth-child(#{$n}) {
-      animation-delay: random(20) * -0.1s;
-    }
-  }
-}
-
-@keyframes star {
-  0% {
-    opacity: 0.2;
-  }
-}
-
-.light {
-  opacity: 0.5;
-  animation: lights 3s infinite alternate;
-  @for $n from 1 through 91 {
-    &:nth-child(#{$n}) {
-      opacity: random(8) * 0.1;
-      transform: scale(random(9) * 0.1+0.5, random(50) * 0.01+0.6);
-      animation-delay: random(8) * -0.5s;
-    }
-  }
-}
-@keyframes lights {
-  0% {
-    opacity: 0;
   }
 }
