@@ -12,6 +12,7 @@ import { AuroraService } from '../../aurora.service';
 import { countryNameFromCode } from '../../models/utils';
 import geojsonvt from 'geojson-vt';
 import { FORECAST_COLOR_GRAY, FORECAST_COLOR_GREEN, FORECAST_COLOR_ORANGE, FORECAST_COLOR_RED, FORECAST_COLOR_YELLOW, } from '../../models/colors';
+import { ELocales } from '../../models/locales';
 // import * as L from 'leaflet';
 // import * as geojson from 'geojson';
 
@@ -24,6 +25,7 @@ export class MapLeafletPage implements OnInit, OnDestroy {
   private _map: Map;
   private _marker: Marker;
   readonly cities = cities;
+  private _locale: ELocales;
   localisation: string;
 
   constructor(
@@ -36,7 +38,8 @@ export class MapLeafletPage implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this._checkStorageLoc();
+    this._checkStorageLocation();
+    this._getStorageLocale();
   }
 
   ngOnDestroy(): void {
@@ -47,7 +50,7 @@ export class MapLeafletPage implements OnInit, OnDestroy {
    * Si storage vide, set valeur à location actuelle ET valeur du select à position actuelle
    * Sinon, set valeur du select à la position indiquée dans storage
    * */
-  private _checkStorageLoc(): void {
+  private _checkStorageLocation(): void {
     this._storageService.getData('location').then(
       (codeLocation: CodeLocation) => {
         if (codeLocation) {
@@ -56,6 +59,13 @@ export class MapLeafletPage implements OnInit, OnDestroy {
         }
       },
       error => console.warn('Il y a un soucis de storage de position', error),
+    );
+  }
+
+  private _getStorageLocale(): void {
+    this._storageService.getData('locale').then(
+      (locale: ELocales) => (this._locale = locale),
+      error => console.warn('Il y a un soucis de storage de locale', error),
     );
   }
 
@@ -183,53 +193,53 @@ export class MapLeafletPage implements OnInit, OnDestroy {
             // On prend les valeurs paires seulement, et on leur rajoute +2 pour compenser les "trous" causés par l'impair
             // On passe ainsi d'environ 7500 à 1900 layers supplémentaire
             if (lat >= 30 || lat <= -30) {
-            if (auroraPercent >= 2 && long % 2 === 0 && lat % 2 === 0) {
-              if (long > 180) {
-                // Longitude 180+ dépasse de la map à droite, cela permet de revenir tout à gauche de la carte
-                long = long - 360;
-              }
-              const corner1 = new LatLng(lat + 2, long + 2),
-                corner2 = new LatLng(lat, long),
-                bounds = new LatLngBounds(corner1, corner2);
-              layer.addLayer(
-                new Rectangle(bounds, {
-                  color: mapColor(auroraPercent),
-                  fill: true,
-                  weight: 0,
-                  opacity: 0,
-                  fillOpacity: 0.6,
-                  stroke: false,
-                  interactive: false,
-                  smoothFactor: 2,
-                } as PathOptions),
-                // https://leafletjs.com/reference.html#path explanations about options
-              );
-              // i++;
-              // --------------------------------------------------------------------------------------------
-              // layer.addData({
-              //   type: 'Feature',
-              //   properties: {
-              //     color: [auroraPercent],
-              //   },
-              //   geometry: {
-              //     type: 'Polygon',
-              //     coordinates: [
-              //       [
-              //         [long, lat],
-              //         [long, lat],
-              //         [long, lat],
-              //         [long, lat],
-              //         [long, lat],
-              //       ],
-              //     ],
-              //   },
-              // } as GeoJSON.Feature);
+              if (auroraPercent >= 2 && long % 2 === 0 && lat % 2 === 0) {
+                if (long > 180) {
+                  // Longitude 180+ dépasse de la map à droite, cela permet de revenir tout à gauche de la carte
+                  long = long - 360;
+                }
+                const corner1 = new LatLng(lat + 2, long + 2),
+                  corner2 = new LatLng(lat, long),
+                  bounds = new LatLngBounds(corner1, corner2);
+                layer.addLayer(
+                  new Rectangle(bounds, {
+                    color: mapColor(auroraPercent),
+                    fill: true,
+                    weight: 0,
+                    opacity: 0,
+                    fillOpacity: 0.6,
+                    stroke: false,
+                    interactive: false,
+                    smoothFactor: 2,
+                  } as PathOptions),
+                  // https://leafletjs.com/reference.html#path explanations about options
+                );
+                // i++;
+                // --------------------------------------------------------------------------------------------
+                // layer.addData({
+                //   type: 'Feature',
+                //   properties: {
+                //     color: [auroraPercent],
+                //   },
+                //   geometry: {
+                //     type: 'Polygon',
+                //     coordinates: [
+                //       [
+                //         [long, lat],
+                //         [long, lat],
+                //         [long, lat],
+                //         [long, lat],
+                //         [long, lat],
+                //       ],
+                //     ],
+                //   },
+                // } as GeoJSON.Feature);
 
-              // if (i === 1) {
-              // console.log(layer);
-              // }
+                // if (i === 1) {
+                // console.log(layer);
+                // }
+              }
             }
-          }
           }
           /*
           // WORKING!!
@@ -310,11 +320,14 @@ export class MapLeafletPage implements OnInit, OnDestroy {
           next: (res: Geocoding) => {
             let infoWindow;
             if (res?.name && res?.country) {
-              infoWindow = `${res?.name}${res?.state ? ', ' + res.state : ''} - ${countryNameFromCode(res.country)}`;
+              infoWindow = `${res?.name}${res?.state ? ', ' + res.state : ''} - ${countryNameFromCode(
+                res.country,
+                this._locale,
+              )}`;
             } else {
               infoWindow = this._translate.instant('global.unknown');
               res?.country
-                ? (infoWindow = countryNameFromCode(res.country))
+                ? (infoWindow = countryNameFromCode(res.country, this._locale))
                 : (infoWindow = this._translate.instant('global.unknown'));
             }
             this._createTooltip(infoWindow, lat, long);

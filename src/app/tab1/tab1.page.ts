@@ -178,7 +178,7 @@ export class Tab1Page implements OnViewWillEnter {
         tap({
           next: (res: Geocoding) => {
             this.city = `${res?.name}${res?.state ? ', ' + res.state : ''} -`;
-            this.country = countryNameFromCode(res?.country);
+            this.country = countryNameFromCode(res?.country, this.locale);
             // TODO rajouter le state dans l'interface visible (pour rajouter notion genre québec/alberta/occitanie/michigan)
             // TODO Rajouter également un country code en FR et EN, préférable en JSON pour charger plus vite et pas d'API
             this._getForecast(this.city, this.country);

@@ -5,6 +5,7 @@ import { AuroraEnumColours } from './aurorav3';
 import * as moment from 'moment/moment';
 import { ELocales } from './locales';
 import { Chart, ChartType } from 'chart.js';
+import { EN_COUNTRY_CODE, FR_COUNTRY_CODE } from './iso2-country-code';
 
 /**
  * @param source objet typé qui doit être converti en HttpParams pour une requete API
@@ -23,8 +24,11 @@ export class UtilsService {
   }
 }
 
-export function countryNameFromCode(code: string): string {
-  return code;
+/*
+* Country code iso2 factory
+* */
+export function countryNameFromCode(code: string, locale: ELocales): string {
+  return locale === ELocales.FR ? FR_COUNTRY_CODE[code] : EN_COUNTRY_CODE[code];
 }
 
 export function convertUnitMeasure(nb: number, unit: MeasureUnits): number {
