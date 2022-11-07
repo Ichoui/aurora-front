@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { ModalComponent } from '../../shared/modal/modal.component';
 import { Chart, ChartType, registerables } from 'chart.js';
@@ -9,10 +9,9 @@ import { MAIN_TEXT_COLOR, WEATHER_NEXT_HOUR_CHART_COLOR } from '../../models/col
 import { CodeLocation, Coords } from '../../models/cities';
 import { StorageService } from '../../storage.service';
 import { Geoposition } from '@ionic-native/geolocation';
-import { icon, Map, Marker, marker, tileLayer, ZoomPanOptions } from 'leaflet';
+import { icon, LatLng, Map, Marker, marker, tileLayer, ZoomPanOptions } from 'leaflet';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { AuroraEnumColours, Kp27day, KpForecast, SolarCycle, SolarWind } from '../../models/aurorav3';
-import { OnViewWillEnter } from '../../models/ionic';
 import { ELocales } from '../../models/locales';
 import { MeasureUnits } from '../../models/weather';
 import { TranslateService } from '@ngx-translate/core';
@@ -26,7 +25,7 @@ Chart.register(...registerables);
   templateUrl: './forecast-auroral-activity.component.html',
   styleUrls: ['./forecast-auroral-activity.component.scss'],
 })
-export class ForecastAuroralActivityComponent implements OnChanges, OnInit, OnViewWillEnter {
+export class ForecastAuroralActivityComponent implements OnChanges {
   @Input() kpForecast: KpForecast[];
   @Input() kpForecast27: Kp27day[];
   @Input() solarWind: SolarWind[];
@@ -54,21 +53,9 @@ export class ForecastAuroralActivityComponent implements OnChanges, OnInit, OnVi
     private _translateService: TranslateService,
   ) {}
 
-  ngOnInit(): void {
-    this.minimapLocation();
-    console.log('ef');
-  }
-
-  /**
-   * Invoqué à chaque retour sur la page
-   * */
-  ionViewWillEnter() {
-    this.minimapLocation();
-    console.log('ef');
-    // TODO on rentre pas ici wtf ça recharge pas le pin de la map !
-  }
-
   ngOnChanges(changes: SimpleChanges) {
+    this.minimapLocation(); // Here to reload map at each change of location
+
     if (changes?.kpForecast?.currentValue !== changes?.kpForecast?.previousValue) {
       const firstChange = changes?.kpForecast?.firstChange;
       this._chartNextHoursForecast(changes.kpForecast.currentValue, firstChange);
@@ -98,6 +85,7 @@ export class ForecastAuroralActivityComponent implements OnChanges, OnInit, OnVi
   minimapLocation() {
     // localisation format json ? {code: 'currentlocation', lat: 41.1, long: 10.41} --> pas besoin de call à chaque fois lat et long comme ça...
     this._storageService.getData('location').then((codeLocation: CodeLocation) => {
+      console.log(codeLocation);
       if (!codeLocation) {
         this._userLocalisation();
       } else {
@@ -132,16 +120,14 @@ export class ForecastAuroralActivityComponent implements OnChanges, OnInit, OnVi
    * Création de la map
    * */
   private _mapInit(lat: any, long: any): void {
-    if (this._map) {
-      this._map.remove();
+    if (!this._map) {
+      this._map = new Map('map_canvas');
     }
     const mapOpt: ZoomPanOptions = {
-      noMoveStart: false,
-      animate: false,
+      animate: true,
     };
 
-    this._map = new Map('map_canvas').setView([lat, long], 4, mapOpt);
-
+    this._map.setView([lat, long], 4, mapOpt);
     this._addMarker(lat, long);
 
     this._map.dragging.disable();
@@ -159,15 +145,16 @@ export class ForecastAuroralActivityComponent implements OnChanges, OnInit, OnVi
    * Création d'un marker sur la map
    * */
   private _addMarker(lat: any, long: any) {
-    if (this._marker) {
-      this._marker.remove();
+    if (!this._marker) {
+      this._marker = marker([lat, long], {
+        icon: icon({
+          iconSize: [25, 25],
+          iconUrl: 'assets/img/marker-icon.png',
+        }),
+      }).addTo(this._map);
+    } else {
+      this._marker.setLatLng(new LatLng(lat, long));
     }
-    this._marker = marker([lat, long], {
-      icon: icon({
-        iconSize: [25, 25],
-        iconUrl: 'assets/img/marker-icon.png',
-      }),
-    }).addTo(this._map);
   }
 
   async showPoles(): Promise<void> {

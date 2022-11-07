@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { cities, CodeLocation } from '../../models/cities';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
@@ -10,20 +10,18 @@ import { map, tap } from 'rxjs/operators';
 import { Geocoding } from '../../models/geocoding';
 import { AuroraService } from '../../aurora.service';
 import { countryNameFromCode } from '../../models/utils';
-import geojsonvt from 'geojson-vt';
 import { FORECAST_COLOR_GRAY, FORECAST_COLOR_GREEN, FORECAST_COLOR_ORANGE, FORECAST_COLOR_RED, FORECAST_COLOR_YELLOW, } from '../../models/colors';
 import { ELocales } from '../../models/locales';
-// import * as L from 'leaflet';
-// import * as geojson from 'geojson';
 
 @Component({
   selector: 'app-map-leaflet',
   templateUrl: './map-leaflet.page.html',
   styleUrls: ['./map-leaflet.page.scss'],
 })
-export class MapLeafletPage implements OnInit, OnDestroy {
+export class MapLeafletPage implements OnInit {
   private _map: Map;
   private _marker: Marker;
+  private _popup: Popup;
   readonly cities = cities;
   private _locale: ELocales;
   localisation: string;
@@ -40,10 +38,6 @@ export class MapLeafletPage implements OnInit, OnDestroy {
   ngOnInit(): void {
     this._checkStorageLocation();
     this._getStorageLocale();
-  }
-
-  ngOnDestroy(): void {
-    this._removeMarker();
   }
 
   /**
@@ -163,20 +157,6 @@ export class MapLeafletPage implements OnInit, OnDestroy {
       features: [],
     };
 
-    // Voir pour mettre ceci en place
-    var tileIndex = geojsonvt(collection, {
-      maxZoom: 14, // max zoom to preserve detail on; can't be higher than 24
-      tolerance: 3, // simplification tolerance (higher means simpler)
-      extent: 4096, // tile extent (both width and height)
-      buffer: 64, // tile buffer on each side
-      debug: 0, // logging level (0 to disable, 1 or 2)
-      lineMetrics: false, // whether to enable line metrics tracking for LineString/MultiLineString features
-      promoteId: null, // name of a feature property to promote to feature.id. Cannot be used with `generateId`
-      generateId: false, // whether to generate feature ids. Cannot be used with `promoteId`
-      indexMaxZoom: 5, // max zoom in the initial tile index
-      indexMaxPoints: 100000, // max number of points per tile in the index
-    });
-
     let layer = new GeoJSON(collection, { style }).addTo(this._map);
 
     this._auroraService
@@ -259,30 +239,22 @@ export class MapLeafletPage implements OnInit, OnDestroy {
 
   /**
    * @param lat {number}
-   * @param long {number}$
+   * @param long {number}
    * Permet de créer un marqueur
    * */
-  private _addMarker(lat, long): void {
-    this._removeMarker();
-
-    this._reverseGeocode(lat, long);
-
-    this._marker = new Marker([lat, long], {
-      draggable: false,
-      icon: new Icon({
-        iconSize: [25, 25],
-        iconUrl: 'assets/img/marker-icon.png',
-      }),
-    }).addTo(this._map);
-  }
-
-  /**
-   * Permet de retirer le marqueur actuel
-   * */
-  private _removeMarker(): void {
-    if (this._marker) {
-      this._marker.remove();
+  private _addMarker(lat: any, long: any) {
+    if (!this._marker) {
+      this._marker = new Marker([lat, long], {
+        draggable: false,
+        icon: new Icon({
+          iconSize: [25, 25],
+          iconUrl: 'assets/img/marker-icon.png',
+        }),
+      }).addTo(this._map);
+    } else {
+      this._marker.setLatLng(new LatLng(lat, long));
     }
+    this._reverseGeocode(lat, long);
   }
 
   /**
@@ -290,7 +262,6 @@ export class MapLeafletPage implements OnInit, OnDestroy {
    * Set en localStorage les coords
    * */
   buttonMyPosition(): void {
-    this._removeMarker();
     this._geoloc
       .getCurrentPosition()
       .then((resp: Geoposition) => {
@@ -349,14 +320,16 @@ export class MapLeafletPage implements OnInit, OnDestroy {
    * Affiche le tooltip
    * */
   private _createTooltip(infoWindow: string, lat?, lng?): void {
-    const popup = new Popup({ closeButton: true, autoClose: true });
+    if (!this._popup) {
+      this._popup = new Popup({ closeButton: true, autoClose: true });
+    }
     let message;
     if (lat && lng) {
       message = `<b>${infoWindow}</b> <br /> Lat: ${lat} <br/> Long: ${lng}`;
     } else {
       message = `<b>${infoWindow}</b><br /> ${this._translate.instant('tab2.map.another')} `;
     }
-    popup.setLatLng({ lat, lng }).setContent(message).addTo(this._map).openOn(this._map);
+    this._popup.setLatLng({ lat, lng }).setContent(message).addTo(this._map).openOn(this._map);
     document.querySelector('.leaflet-popup-close-button').removeAttribute('href'); // href on marker tooltip reload page if not this line...
   }
 }

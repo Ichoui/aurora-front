@@ -80,7 +80,6 @@ export function roundTwoNumbers(nb: number): number {
 export function addDataChart(chart: Chart<ChartType, string[]>, label: string[], data: any, colors: any) {
   chart.data.labels = label;
   chart.data.datasets.forEach((dataset, index) => {
-    console.log(dataset);
     dataset.data = data[index];
     if (colors.length > 1) {
       dataset.backgroundColor = colors[index];
