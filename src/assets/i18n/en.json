@@ -37,7 +37,8 @@
       "bt": "Bt"
     },
     "maps": {
-      "poles": "Poles forecast",
+      "poles": "OVATION Aurora Model",
+      "poles.sub": "Auroral oval intensity",
       "pole.north": "North pole",
       "pole.south": "South pole",
       "poles.explanations": "Provide a 30 to 90 minutes forecast of the location and intensity of the Aurora, along with the last 24h forecast. OVATION model.",
@@ -70,8 +71,8 @@
       "current.position": "Current location",
       "credits": {
         "title": "Crédits",
-        "first": "More informations here :",
-        "first.link": "SWPC",
+        "first": "Aurora forecast powered by ",
+        "first.link": "NOAA",
         "second": "Thanks to JHEY for his ",
         "second.link": "Aurora CSS Project",
         "third": "If you like it, don't forget to ",

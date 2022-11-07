@@ -38,7 +38,8 @@
       "bt": "Bt"
     },
     "maps": {
-      "poles": " Prévisions par pôle",
+      "poles": "Prévisions aurorales OVATION",
+      "poles.sub": "Intensité de l'ovale auroral",
       "pole.north": "Pôle Nord",
       "pole.south": "Pôle Sud",
       "poles.explanations": "Offre 30 à 90 minutes de prévisions pour une Aurore, ainsi que les dernières 24 heures. Modèle OVATION.",
@@ -74,7 +75,7 @@
       "credits": {
         "title": "Crédits",
         "first": "Plus d'infos sur le site de la",
-        "first.link": "SWPC",
+        "first.link": "NOAA",
         "second": "Merci à JHEY pour son ",
         "second.link": "Aurora CSS Project",
         "third": "Si t'aimes, laisse-moi une ",

@@ -1,6 +1,10 @@
 @import '../../../theme/shared';
 
 .card-container {
+  &:last-child {
+    margin-bottom: 15px;
+  }
+
   #map_canvas {
     height: 125px;
     width: 100%;
@@ -8,25 +12,12 @@
   #cycle {
     height: 150px;
   }
-}
-
-.container-poles {
-  display: flex;
-  width: 100%;
-  justify-content: space-evenly;
 
   .poles {
-    display: flex;
-    flex-direction: column;
-
-    span:first-child {
-      font-family: var(--ion-font-semibold);
-    }
-
+    padding-bottom: 15px;
     span.icon-earth {
       color: var(--ion-color-primary);
       font-size: 3em;
-      padding-top: 16px;
     }
   }
 }
