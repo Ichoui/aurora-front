@@ -7,7 +7,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { ErrorTemplate } from '../shared/broken/broken.model';
 import { StorageService } from '../storage.service';
 import { tap } from 'rxjs/operators';
-import { combineLatest } from 'rxjs';
+import { combineLatest, from } from 'rxjs';
 import { MeasureUnits } from '../models/weather';
 import { Kp27day, KpForecast, SolarCycle, SolarWind } from '../models/aurorav3';
 import { determineColorsOfValue, monthSwitcher } from '../models/utils';
@@ -15,9 +15,9 @@ import { OnViewWillEnter } from '../models/ionic';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ELocales } from '../models/locales';
 import SwiperCore, { Navigation, Pagination, SwiperOptions } from 'swiper';
+import * as moment from 'moment/moment';
 
 SwiperCore.use([Pagination, Navigation]);
-// import 'moment/locale/fr';
 
 @Component({
   selector: 'app-tab2',
@@ -37,7 +37,7 @@ export class Tab2Page implements OnViewWillEnter {
   moduleACE: ACEModule;
   kpForecast: KpForecast[] = [];
   kpForecast27days: Kp27day[] = [];
-  unit: MeasureUnits;
+  measure: MeasureUnits;
   locale: ELocales;
   solarWindInstant: SolarWind;
   solarWind: SolarWind[];
@@ -64,27 +64,70 @@ export class Tab2Page implements OnViewWillEnter {
   ) {}
 
   ionViewWillEnter(): void {
+    combineLatest([this._storageService.getData('measure'), this._storageService.getData('locale')])
+      .pipe(
+        tap(([measure, locale]: [MeasureUnits, ELocales]) => {
+          this.measure = measure;
+          this.locale = locale;
+        }),
+      )
+      .subscribe();
+
     // Cheminement en fonction si la localisation est pré-set ou si géoloc
-    this._storageService.getData('location').then(
-      (codeLocation: CodeLocation) => {
-        if (!codeLocation) {
-          this._userLocalisation();
-        } else if (codeLocation.code === 'currentLocation' || codeLocation.code === 'marker') {
-          this._getExistingLocalisation(codeLocation.lat, codeLocation.long);
-        } else {
-          this._chooseExistingCity(codeLocation.code);
-        }
-      },
-      error => {
-        console.warn('Local storage error', error);
-        this.dataError = new ErrorTemplate({
-          value: true,
-          status: error.status,
-          message: error.statusText,
-          error,
-        });
-      },
-    );
+    combineLatest([
+      from(this._storageService.getData('solarCycle')),
+      from(this._storageService.getData('solarWind')),
+      from(this._storageService.getData('kpForecast')),
+      from(this._storageService.getData('kp27day')),
+      from(this._storageService.getData('location')),
+      from(this._storageService.getData('ACEdate')),
+      from(this._storageService.getData('ace')), // to be removed
+    ])
+      .pipe(
+        tap({
+          next: ([solarCycle, solarWind, kpForecast, kp27day, location, ACEdate, ace]: [
+            SolarCycle[],
+            SolarWind[],
+            KpForecast[],
+            string,
+            CodeLocation,
+            Date,
+            ACEModule,
+          ]) => {
+            const auroraDateDifference = moment(new Date()).diff(moment(ACEdate), 'minutes');
+            console.log(auroraDateDifference);
+            if (auroraDateDifference < 5) {
+              this.moduleACE = ace; // to be removed
+              this.solarCycle = solarCycle;
+              this.solarWindInstant = this._getSolarWind(solarWind, true) as SolarWind;
+              this.solarWind = this._getSolarWind(solarWind) as SolarWind[];
+              this.kpForecast = this._getKpForecast(kpForecast);
+              this.kpForecast27days = this._getKpForecast27day(kp27day);
+
+              this.loading = false;
+              return;
+            }
+
+            if (!location) {
+              this._userLocalisation();
+            } else if (location.code === 'currentLocation' || location.code === 'marker') {
+              this._getExistingLocalisation(location.lat, location.long);
+            } else {
+              this._chooseExistingCity(location.code);
+            }
+          },
+          error: error => {
+            console.warn('Local storage error', error);
+            this.dataError = new ErrorTemplate({
+              value: true,
+              status: error.status,
+              message: error.statusText,
+              error,
+            });
+          },
+        }),
+      )
+      .subscribe();
   }
 
   /**
@@ -148,25 +191,20 @@ export class Tab2Page implements OnViewWillEnter {
       this._auroraService.getKpForecast27Days$(),
       this._auroraService.getKpForecast$(),
       this._auroraService.getSolarCycle$(),
-      this._storageService.getData('measure'),
-      this._storageService.getData('locale'),
     ])
       .pipe(
         tap({
-          next: ([solarWind, ace, kp27day, kpForecast, solarCycle, unit, locale]: [
+          next: ([solarWind, ace, kp27day, kpForecast, solarCycle]: [
             SolarWind[],
             ACEModule,
             string,
             KpForecast[],
             SolarCycle[],
-            MeasureUnits,
-            ELocales,
           ]) => {
-            this.loading = false;
             this.moduleACE = ace; // to be removed
+            void this._storageService.setData('ace', ace); // to me remove
+
             this.solarCycle = solarCycle;
-            this.unit = unit;
-            this.locale = locale;
             this.solarWindInstant = this._getSolarWind(solarWind, true) as SolarWind;
             this.solarWind = this._getSolarWind(solarWind) as SolarWind[];
             this.kpForecast = this._getKpForecast(kpForecast);
@@ -175,6 +213,12 @@ export class Tab2Page implements OnViewWillEnter {
             // End loading
             this.loading = false;
             this.eventRefresh ? this.eventRefresh.target.complete() : '';
+
+            void this._storageService.setData('solarCycle', solarCycle);
+            void this._storageService.setData('solarWind', solarWind);
+            void this._storageService.setData('kpForecast', kpForecast);
+            void this._storageService.setData('kp27day', kp27day);
+            void this._storageService.setData('ACEdate', new Date());
           },
           error: (error: HttpErrorResponse) => {
             console.warn('Wind Solar data error', error);
@@ -202,7 +246,7 @@ export class Tab2Page implements OnViewWillEnter {
           if (k !== 'propagated_time_tag' && k !== 'time_tag' && k !== 'temperature') {
             // Transforme certaine valeur en Integer
             // Si value n'existe pas (null), on retourne null (bt bz)
-            val = val ? parseFloat(value[i]) : value[i]
+            val = val ? parseFloat(value[i]) : value[i];
           }
           return { ...o, [k]: val };
         }, {}),

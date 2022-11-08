@@ -1,6 +1,6 @@
 <app-header titre="{{ 'tab1.title' | translate }}"></app-header>
 
-<ion-content fullscreen>
+<ion-content fullscreen="true">
   <ng-container *ngIf="loading">
     <ion-progress-bar type="indeterminate"></ion-progress-bar>
     <p class="text-spinner">{{ 'global.loading' | translate }}</p>
@@ -9,11 +9,11 @@
     </div>
   </ng-container>
 
-  <ng-container *ngIf="!loading && !dataError.value">
-    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" pullMin="160">
-      <div class="refresh whirly-loader"></div>
-    </ion-refresher>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" pullMin="160">
+    <div class="refresh whirly-loader"></div>
+  </ion-refresher>
 
+  <ng-container *ngIf="!loading && !dataError.value">
     <h2 class="ion-text-center">
       <span class="city">
         <span>
@@ -36,5 +36,5 @@
     ></app-meteo>
   </ng-container>
 
-<!--  <app-broken *ngIf="!loading && dataError.value" [dataError]="dataError"></app-broken>-->
+  <app-broken *ngIf="!loading && dataError.value" [dataError]="dataError"></app-broken>
 </ion-content>

@@ -1,5 +1,5 @@
 <app-header [titre]=" 'tab2.title' | translate"></app-header>
-<ion-content fullscreen>
+<ion-content fullscreen="true">
   <ng-container *ngIf="loading">
     <ion-progress-bar type="indeterminate"></ion-progress-bar>
     <p class="text-spinner">{{ 'global.loading' | translate }}</p>
@@ -8,17 +8,17 @@
     </div>
   </ng-container>
 
-  <ng-container *ngIf="!loading && !dataError.value">
-    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" pullMin="140">
-      <div class="refresh whirly-loader"></div>
-    </ion-refresher>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" pullMin="140">
+    <div class="refresh whirly-loader"></div>
+  </ion-refresher>
 
+  <ng-container *ngIf="!loading && !dataError.value">
     <swiper [config]="configSwiper">
       <ng-template swiperSlide>
         <app-instant-auroral-activity
           [exDataSolarWind]="moduleACE"
           [solarWind]="solarWindInstant"
-          [unit]="unit"
+          [unit]="measure"
         ></app-instant-auroral-activity>
       </ng-template>
       <ng-template swiperSlide>
@@ -27,7 +27,7 @@
           [kpForecast]="kpForecast"
           [solarWind]="solarWind"
           [solarCycle]="solarCycle"
-          [measure]="unit"
+          [measure]="measure"
           [locale]="locale"
         ></app-forecast-auroral-activity>
       </ng-template>
