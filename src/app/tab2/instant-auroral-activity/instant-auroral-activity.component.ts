@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { ACEModule, KpCurrent, Nowcast } from '../../models/aurorav2';
+import { ACEModule, KpCurrent } from '../../models/aurorav2';
 import { StorageService } from '../../storage.service';
 import { convertUnitMeasure, determineColorsOfValue } from '../../models/utils';
 import { MeasureUnits } from '../../models/weather';
@@ -12,19 +12,17 @@ import { AuroraEnumColours, Bt, Bz, Density, SolarWind, Speed } from '../../mode
 })
 export class InstantAuroralActivityComponent implements OnInit, OnChanges {
   kpCurrent: KpCurrent;
-
   density: Density;
-  nowcast: Nowcast;
   speed: Speed;
   bz: Bz;
   bt: Bt;
-
-  nowcastVal: number;
   AuroraEnumColours = AuroraEnumColours;
 
-  @Input() unit: MeasureUnits;
-  @Input() exDataSolarWind: ACEModule;
+  // nowcastVal: number; // todo will be removed
+  @Input() exDataSolarWind: ACEModule; // todo will be removed
+  @Input() measureUnit: MeasureUnits;
   @Input() solarWind: SolarWind;
+  @Input() nowcastAurora: number;
 
   constructor(private _storageService: StorageService) {}
 
@@ -36,9 +34,9 @@ export class InstantAuroralActivityComponent implements OnInit, OnChanges {
     if (!changes?.unit?.firstChange && changes?.unit?.currentValue !== changes?.unit?.previousValue) {
       this.speed = {
         ...this.speed,
-        value: convertUnitMeasure(this.speed.value, this.unit),
-        color: determineColorsOfValue('speed', convertUnitMeasure(this.speed.value, this.unit), this.unit),
-        unit: this.unit,
+        value: convertUnitMeasure(this.speed.value, this.measureUnit),
+        color: determineColorsOfValue('speed', convertUnitMeasure(this.speed.value, this.measureUnit), this.measureUnit),
+        unit: this.measureUnit,
       };
     }
 
@@ -47,9 +45,9 @@ export class InstantAuroralActivityComponent implements OnInit, OnChanges {
       const dataSolarWind = changes.exDataSolarWind.currentValue;
 
       this.kpCurrent = dataSolarWind['kp:current'];
-      this.nowcast = dataSolarWind['nowcast:local'];
-      this.nowcastVal = this.nowcast.value;
-      void this._storageService.setData('nowcast', this.nowcast.value);
+      // this.nowcast = dataSolarWind['nowcast:local'];
+      // this.nowcastVal = this.nowcast.value;
+      // void this._storageService.setData('nowcast', this.nowcast.value);
       void this._storageService.setData('current_kp', this.kpCurrent.value);
     }
 
@@ -79,11 +77,11 @@ export class InstantAuroralActivityComponent implements OnInit, OnChanges {
       };
 
       this.speed = {
-        value: convertUnitMeasure(solarWind.speed, this.unit),
+        value: convertUnitMeasure(solarWind.speed, this.measureUnit),
         date: new Date(solarWind.time_tag),
         time_tag: new Date(solarWind.time_tag),
-        color: determineColorsOfValue('speed', convertUnitMeasure(solarWind.speed, this.unit), this.unit),
-        unit: this.unit,
+        color: determineColorsOfValue('speed', convertUnitMeasure(solarWind.speed, this.measureUnit), this.measureUnit),
+        unit: this.measureUnit,
       };
     }
   }

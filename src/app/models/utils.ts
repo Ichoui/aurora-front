@@ -25,8 +25,8 @@ export class UtilsService {
 }
 
 /*
-* Country code iso2 factory
-* */
+ * Country code iso2 factory
+ * */
 export function countryNameFromCode(code: string, locale: ELocales): string {
   return locale === ELocales.FR ? FR_COUNTRY_CODE[code] : EN_COUNTRY_CODE[code];
 }
@@ -77,19 +77,19 @@ export function roundTwoNumbers(nb: number): number {
 }
 
 // https://www.chartjs.org/docs/latest/developers/updates.html
-export function addDataChart(chart: Chart<ChartType, string[]>, label: string[], data: any, colors: any) {
+export function updateDataChart(chart: Chart<ChartType, string[]>, label: string[], data: any, colors: any, test = 0) {
   chart.data.labels = label;
   chart.data.datasets.forEach((dataset, index) => {
     dataset.data = data[index];
-    if (colors.length > 1) {
-      dataset.backgroundColor = colors[index];
-      dataset.borderColor = colors[index];
-    } else {
-      dataset.backgroundColor = colors;
-      dataset.borderColor = colors;
-    }
+    dataset.backgroundColor = colors;
+    dataset.borderColor = colors;
   });
   chart.update();
+}
+
+export function getNowcastAurora(coords: number[] /*[long, lat, aurora]*/, long: number, lat: number): number {
+  // Calculate nowcast only when nowcast does not exist
+  return coords.find(c => (c[0] > 180 ? c[0] - 360 : c[0]) === Math.round(long) && c[1] === Math.round(lat))[2];
 }
 
 // Replace a string color with the correct Application color

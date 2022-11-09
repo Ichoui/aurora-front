@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { cities, CodeLocation } from '../../models/cities';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
@@ -6,24 +6,27 @@ import { GeoJSON, Icon, LatLng, LatLngBounds, Map, Marker, PathOptions, Popup, R
 import { TranslateService } from '@ngx-translate/core';
 import { StorageService } from '../../storage.service';
 import { Geoposition } from '@ionic-native/geolocation';
-import { map, tap } from 'rxjs/operators';
+import { map, takeUntil, tap } from 'rxjs/operators';
 import { Geocoding } from '../../models/geocoding';
 import { AuroraService } from '../../aurora.service';
-import { countryNameFromCode } from '../../models/utils';
+import { countryNameFromCode, getNowcastAurora } from '../../models/utils';
 import { FORECAST_COLOR_GRAY, FORECAST_COLOR_GREEN, FORECAST_COLOR_ORANGE, FORECAST_COLOR_RED, FORECAST_COLOR_YELLOW, } from '../../models/colors';
 import { ELocales } from '../../models/locales';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-map-leaflet',
   templateUrl: './map-leaflet.page.html',
   styleUrls: ['./map-leaflet.page.scss'],
 })
-export class MapLeafletPage implements OnInit {
+export class MapLeafletPage implements OnInit, OnDestroy {
+  private readonly _destroy$ = new Subject<void>();
   private _map: Map;
   private _marker: Marker;
   private _popup: Popup;
   readonly cities = cities;
   private _locale: ELocales;
+  private _coords: number[]; // [long lat nowcast][]
   localisation: string;
 
   constructor(
@@ -38,6 +41,11 @@ export class MapLeafletPage implements OnInit {
   ngOnInit(): void {
     this._checkStorageLocation();
     this._getStorageLocale();
+  }
+
+  ngOnDestroy(): void {
+    this._destroy$.next();
+    this._destroy$.complete();
   }
 
   /**
@@ -124,34 +132,12 @@ export class MapLeafletPage implements OnInit {
       let latLng: LatLng = params['latlng'];
       void this.selectedLoc(null, latLng);
     });
-    // https://github.com/nouhouari/angular-leaflet/blob/master/package.jsonf
+    // https://github.com/nouhouari/angular-leaflet/blob/master/package.json
 
-    this.pocGeoJson();
-
-    // this._auroraService
-    //   .getAuroraMapData$()
-    //   .pipe(
-    //     map(e => e.coordinates),
-    //     tap((coords: number[] /*[long, lat, aurora]*/) => {
-    //       // console.log(coords);
-    //       // for (const coord of coords) {
-    //       // if (auroraPercent >= 5) {
-    //       //   const corner1 = new LatLng(lat + 1, long + 1 - 180),
-    //       //     corner2 = new LatLng(lat, long - 180),
-    //       //     bounds = new LatLngBounds(corner1, corner2);
-    //       // new Rectangle(bounds, { color: this._mapColor(auroraPercent), opacity: 0.7, fill: true, weight: 0 }) //
-    //       //   .addTo(this._map);
-    //       // https://leafletjs.com/reference.html#rectangle
-    //       // Raster map  / layers
-    //       // https://leafletjs.com/plugins.html
-    //       // we remove and add the rectangle layers here, because it throws an error if this happens in the onEachFeature function
-    //       // }
-    //     }),
-    //   )
-    //   .subscribe();
+    this._auroralOval(lat, long);
   }
 
-  pocGeoJson() {
+  private _auroralOval(latCurrent: number, longCurrent: number) {
     const collection: GeoJSON.FeatureCollection = {
       type: 'FeatureCollection',
       features: [],
@@ -162,28 +148,33 @@ export class MapLeafletPage implements OnInit {
     this._auroraService
       .getAuroraMapData$()
       .pipe(
+        takeUntil(this._destroy$),
         map(e => e.coordinates),
         tap((coords: number[] /*[long, lat, aurora]*/) => {
-          console.log(coords);
-          let i = 0;
+          this._coords = coords;
           for (const coord of coords) {
             let long = coord[0];
             const lat = coord[1];
-            const auroraPercent = coord[2];
+            const nowcastAurora = coord[2];
+
+            if (long > 180) {
+              // Longitude 180+ dépasse de la map à droite, cela permet de revenir tout à gauche de la carte
+              long = long - 360;
+            }
+
+            if (long === Math.round(longCurrent) && lat === Math.round(latCurrent)) {
+              void this._storageService.setData('nowcastAurora', nowcastAurora);
+            }
             // On prend les valeurs paires seulement, et on leur rajoute +2 pour compenser les "trous" causés par l'impair
             // On passe ainsi d'environ 7500 à 1900 layers supplémentaire
             if (lat >= 30 || lat <= -30) {
-              if (auroraPercent >= 2 && long % 2 === 0 && lat % 2 === 0) {
-                if (long > 180) {
-                  // Longitude 180+ dépasse de la map à droite, cela permet de revenir tout à gauche de la carte
-                  long = long - 360;
-                }
+              if (nowcastAurora >= 2 && long % 2 === 0 && lat % 2 === 0) {
                 const corner1 = new LatLng(lat + 2, long + 2),
                   corner2 = new LatLng(lat, long),
                   bounds = new LatLngBounds(corner1, corner2);
                 layer.addLayer(
                   new Rectangle(bounds, {
-                    color: mapColor(auroraPercent),
+                    color: mapColor(nowcastAurora),
                     fill: true,
                     weight: 0,
                     opacity: 0,
@@ -286,6 +277,7 @@ export class MapLeafletPage implements OnInit {
     this._auroraService
       .getGeocoding$(lat, long)
       .pipe(
+        takeUntil(this._destroy$),
         map((res: Geocoding[]) => res[0]),
         tap({
           next: (res: Geocoding) => {
@@ -324,11 +316,13 @@ export class MapLeafletPage implements OnInit {
       this._popup = new Popup({ closeButton: true, autoClose: true });
     }
     let message;
+    const nowcast = getNowcastAurora(this._coords, lng, lat);
     if (lat && lng) {
-      message = `<b>${infoWindow}</b> <br /> Lat: ${lat} <br/> Long: ${lng}`;
+      message = `<b>${infoWindow}</b> <br /> Lat: ${lat} <br/> Long: ${lng} <br/> Chance: ${nowcast}%`;
     } else {
       message = `<b>${infoWindow}</b><br /> ${this._translate.instant('tab2.map.another')} `;
     }
+    void this._storageService.setData('nowcastAurora', nowcast);
     this._popup.setLatLng({ lat, lng }).setContent(message).addTo(this._map).openOn(this._map);
     document.querySelector('.leaflet-popup-close-button').removeAttribute('href'); // href on marker tooltip reload page if not this line...
   }

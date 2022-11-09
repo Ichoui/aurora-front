@@ -4,7 +4,7 @@ import { ModalComponent } from '../../shared/modal/modal.component';
 import { Chart, ChartType, registerables } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import * as moment from 'moment';
-import { addDataChart, colorSwitcher, convertUnitMeasure, determineColorsOfValue, manageDates, } from '../../models/utils';
+import { colorSwitcher, convertUnitMeasure, determineColorsOfValue, manageDates, updateDataChart, } from '../../models/utils';
 import { MAIN_TEXT_COLOR, WEATHER_NEXT_HOUR_CHART_COLOR } from '../../models/colors';
 import { CodeLocation, Coords } from '../../models/cities';
 import { StorageService } from '../../storage.service';
@@ -85,7 +85,6 @@ export class ForecastAuroralActivityComponent implements OnChanges {
   minimapLocation() {
     // localisation format json ? {code: 'currentlocation', lat: 41.1, long: 10.41} --> pas besoin de call à chaque fois lat et long comme ça...
     this._storageService.getData('location').then((codeLocation: CodeLocation) => {
-      console.log(codeLocation);
       if (!codeLocation) {
         this._userLocalisation();
       } else {
@@ -186,7 +185,7 @@ export class ForecastAuroralActivityComponent implements OnChanges {
       // 14 values
       this._chartKpForecast = this._chartKp('kpnexthours', nextHoursDate, nextHoursForecast, nextHoursColors);
     } else {
-      addDataChart(this._chartKpForecast, nextHoursDate, [nextHoursForecast], nextHoursColors);
+      updateDataChart(this._chartKpForecast, nextHoursDate, [nextHoursForecast], nextHoursColors);
     }
   }
 
@@ -204,12 +203,11 @@ export class ForecastAuroralActivityComponent implements OnChanges {
         forecastColors.push(colorSwitcher(unit.color));
       }
     }
-
     if (firstChange) {
       // 14 values
       this._chartKpForecast27 = this._chartKp('kpforecast', forecastDate, forecastValue, forecastColors);
     } else {
-      addDataChart(this._chartKpForecast27, forecastDate, [forecastValue], forecastColors);
+      updateDataChart(this._chartKpForecast27, forecastDate, [forecastValue], forecastColors);
     }
   }
 
@@ -335,11 +333,12 @@ export class ForecastAuroralActivityComponent implements OnChanges {
         btForecast.color,
       );
     } else {
+
       // Update data only !
-      addDataChart(this._chartKpDensity, solarWindDate, [densityForecast.value], densityForecast.color);
-      addDataChart(this._chartKpSpeed, solarWindDate, [speedForecast.value], speedForecast.color);
-      addDataChart(this._chartKpBz, solarWindDate, [bzForecast.value], bzForecast.color);
-      addDataChart(this._chartKpBt, solarWindDate, [btForecast.value], btForecast.color);
+      updateDataChart(this._chartKpDensity, solarWindDate, [densityForecast.value], densityForecast.color);
+      updateDataChart(this._chartKpSpeed, solarWindDate, [speedForecast.value], speedForecast.color);
+      updateDataChart(this._chartKpBz, solarWindDate, [bzForecast.value], bzForecast.color);
+      updateDataChart(this._chartKpBt, solarWindDate, [btForecast.value], btForecast.color);
     }
   }
 
@@ -358,7 +357,7 @@ export class ForecastAuroralActivityComponent implements OnChanges {
     if (firstChange) {
       this._chartCycle = this._chartSolarCycle(solarCycleDate, predictedSsn, predictedF10, colorSsn, colorF10);
     } else {
-      addDataChart(this._chartCycle, solarCycleDate, [predictedSsn, predictedF10], [colorSsn, colorF10]);
+      updateDataChart(this._chartCycle, solarCycleDate, [predictedSsn, predictedF10], [colorSsn, colorF10]);
     }
   }
 

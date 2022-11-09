@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NavController, Platform } from '@ionic/angular';
 import { AuroraService } from '../aurora.service';
@@ -7,10 +7,10 @@ import { Currently, Daily, Hourly, MeasureUnits, TemperatureUnits, Weather } fro
 import { ErrorTemplate } from '../shared/broken/broken.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { StorageService } from '../storage.service';
-import { map, tap } from 'rxjs/operators';
+import { map, takeUntil, tap } from 'rxjs/operators';
 import { Geocoding } from '../models/geocoding';
 import { countryNameFromCode, roundTwoNumbers } from '../models/utils';
-import { combineLatest, from } from 'rxjs';
+import { combineLatest, from, Subject } from 'rxjs';
 import { OnViewWillEnter } from '../models/ionic';
 import { ELocales } from '../models/locales';
 import * as moment from 'moment';
@@ -20,13 +20,14 @@ import * as moment from 'moment';
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
 })
-export class Tab1Page implements OnViewWillEnter {
+export class Tab1Page implements OnViewWillEnter, OnDestroy {
   loading = true;
 
   coords: Coords;
   city: string;
   country: string;
 
+  private readonly _destroy$ = new Subject<void>();
   private _eventRefresh: any;
 
   // Data inputs
@@ -47,6 +48,11 @@ export class Tab1Page implements OnViewWillEnter {
     private _auroraService: AuroraService,
   ) {}
 
+  ngOnDestroy(): void {
+    this._destroy$.next();
+    this._destroy$.complete();
+  }
+
   ionViewWillEnter(): void {
     this.loading = true; // buffer constant
 
@@ -60,6 +66,7 @@ export class Tab1Page implements OnViewWillEnter {
       from(this._storageService.getData('locale')),
     ])
       .pipe(
+        takeUntil(this._destroy$),
         tap({
           next: ([location, previousLocation, measure, temperature, weather, locale]: [
             CodeLocation,
@@ -174,6 +181,7 @@ export class Tab1Page implements OnViewWillEnter {
     this._auroraService
       .getGeocoding$(lat, long)
       .pipe(
+        takeUntil(this._destroy$),
         map((res: Geocoding[]) => res[0]),
         tap({
           next: (res: Geocoding) => {
@@ -216,39 +224,42 @@ export class Tab1Page implements OnViewWillEnter {
    * API OpenWeatherMap
    */
   private _getForecast(city: string, country: string): void {
-    this._auroraService.openWeatherMapForecast$(this.coords.latitude, this.coords.longitude, this.locale).subscribe(
-      (res: Weather) => {
-        this.dataCurrentWeather = res.current;
-        this.dataHourly = res.hourly;
-        this.dataSevenDay = res.daily;
-        void this._storageService.setData('weather', {
-          dataCurrentWeather: res.current,
-          dataHourly: res.hourly,
-          dataSevenDay: res.daily,
-          city: city,
-          country: country,
-          date: new Date(),
-        });
-        void this._storageService.setData('previousLocation', {
-          lat: this.coords.latitude,
-          long: this.coords.longitude,
-        });
+    this._auroraService
+      .openWeatherMapForecast$(this.coords.latitude, this.coords.longitude, this.locale)
+      .pipe(takeUntil(this._destroy$))
+      .subscribe(
+        (res: Weather) => {
+          this.dataCurrentWeather = res.current;
+          this.dataHourly = res.hourly;
+          this.dataSevenDay = res.daily;
+          void this._storageService.setData('weather', {
+            dataCurrentWeather: res.current,
+            dataHourly: res.hourly,
+            dataSevenDay: res.daily,
+            city: city,
+            country: country,
+            date: new Date(),
+          });
+          void this._storageService.setData('previousLocation', {
+            lat: this.coords.latitude,
+            long: this.coords.longitude,
+          });
 
-        // End loading
-        this.loading = false;
-        this._eventRefresh ? this._eventRefresh.target.complete() : '';
-      },
-      (error: HttpErrorResponse) => {
-        console.warn('OpenWeatherMap forecast error', error);
-        this.loading = false;
-        this.dataError = new ErrorTemplate({
-          value: true,
-          status: error.status,
-          message: error.statusText,
-          error,
-        });
-      },
-    );
+          // End loading
+          this.loading = false;
+          this._eventRefresh ? this._eventRefresh.target.complete() : '';
+        },
+        (error: HttpErrorResponse) => {
+          console.warn('OpenWeatherMap forecast error', error);
+          this.loading = false;
+          this.dataError = new ErrorTemplate({
+            value: true,
+            status: error.status,
+            message: error.statusText,
+            error,
+          });
+        },
+      );
   }
 
   /**

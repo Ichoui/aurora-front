@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { cities, CodeLocation, Coords } from '../models/cities';
 import { AuroraService } from '../aurora.service';
 import { NavController } from '@ionic/angular';
@@ -6,11 +6,11 @@ import { ACEModule } from '../models/aurorav2';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { ErrorTemplate } from '../shared/broken/broken.model';
 import { StorageService } from '../storage.service';
-import { tap } from 'rxjs/operators';
-import { combineLatest, from } from 'rxjs';
+import { map, takeUntil, tap } from 'rxjs/operators';
+import { combineLatest, from, Subject } from 'rxjs';
 import { MeasureUnits } from '../models/weather';
 import { Kp27day, KpForecast, SolarCycle, SolarWind } from '../models/aurorav3';
-import { determineColorsOfValue, monthSwitcher } from '../models/utils';
+import { determineColorsOfValue, getNowcastAurora, monthSwitcher } from '../models/utils';
 import { OnViewWillEnter } from '../models/ionic';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ELocales } from '../models/locales';
@@ -24,7 +24,7 @@ SwiperCore.use([Pagination, Navigation]);
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss'],
 })
-export class Tab2Page implements OnViewWillEnter {
+export class Tab2Page implements OnViewWillEnter, OnDestroy {
   loading = true;
 
   coords: Coords;
@@ -42,6 +42,7 @@ export class Tab2Page implements OnViewWillEnter {
   solarWindInstant: SolarWind;
   solarWind: SolarWind[];
   solarCycle: SolarCycle[];
+  nowcastAurora: number;
 
   dataError = new ErrorTemplate(null);
   configSwiper: SwiperOptions = {
@@ -56,6 +57,8 @@ export class Tab2Page implements OnViewWillEnter {
     autoHeight: true,
   };
 
+  private readonly _destroy$ = new Subject<void>();
+
   constructor(
     private _geoloc: Geolocation,
     private _storageService: StorageService,
@@ -63,9 +66,15 @@ export class Tab2Page implements OnViewWillEnter {
     private _auroraService: AuroraService,
   ) {}
 
+  ngOnDestroy(): void {
+    this._destroy$.next();
+    this._destroy$.complete();
+  }
+
   ionViewWillEnter(): void {
-    combineLatest([this._storageService.getData('measure'), this._storageService.getData('locale')])
+    combineLatest([from(this._storageService.getData('measure')), from(this._storageService.getData('locale'))])
       .pipe(
+        takeUntil(this._destroy$),
         tap(([measure, locale]: [MeasureUnits, ELocales]) => {
           this.measure = measure;
           this.locale = locale;
@@ -73,41 +82,16 @@ export class Tab2Page implements OnViewWillEnter {
       )
       .subscribe();
 
-    // Cheminement en fonction si la localisation est pré-set ou si géoloc
-    combineLatest([
-      from(this._storageService.getData('solarCycle')),
-      from(this._storageService.getData('solarWind')),
-      from(this._storageService.getData('kpForecast')),
-      from(this._storageService.getData('kp27day')),
-      from(this._storageService.getData('location')),
-      from(this._storageService.getData('ACEdate')),
-      from(this._storageService.getData('ace')), // to be removed
-    ])
+    combineLatest([from(this._storageService.getData('ACEdate')), from(this._storageService.getData('location'))])
       .pipe(
-        tap({
-          next: ([solarCycle, solarWind, kpForecast, kp27day, location, ACEdate, ace]: [
-            SolarCycle[],
-            SolarWind[],
-            KpForecast[],
-            string,
-            CodeLocation,
-            Date,
-            ACEModule,
-          ]) => {
-            const auroraDateDifference = moment(new Date()).diff(moment(ACEdate), 'minutes');
-            console.log(auroraDateDifference);
-            if (auroraDateDifference < 5) {
-              this.moduleACE = ace; // to be removed
-              this.solarCycle = solarCycle;
-              this.solarWindInstant = this._getSolarWind(solarWind, true) as SolarWind;
-              this.solarWind = this._getSolarWind(solarWind) as SolarWind[];
-              this.kpForecast = this._getKpForecast(kpForecast);
-              this.kpForecast27days = this._getKpForecast27day(kp27day);
-
-              this.loading = false;
-              return;
-            }
-
+        takeUntil(this._destroy$),
+        map(([ACEdate, location]: [number, CodeLocation]) => [
+          moment(new Date()).diff(moment(ACEdate), 'minutes') > 5,
+          location,
+        ]),
+        tap(([diff, location]: [boolean, CodeLocation]) => {
+          if (diff) {
+            // Avoid to load the page every time the user access to tab2, waiting 5 mins
             if (!location) {
               this._userLocalisation();
             } else if (location.code === 'currentLocation' || location.code === 'marker') {
@@ -115,6 +99,42 @@ export class Tab2Page implements OnViewWillEnter {
             } else {
               this._chooseExistingCity(location.code);
             }
+          } else {
+            this._getACEDataFromStorage();
+          }
+        }),
+      )
+      .subscribe();
+  }
+
+  private _getACEDataFromStorage() {
+    combineLatest([
+      from(this._storageService.getData('solarCycle')),
+      from(this._storageService.getData('solarWind')),
+      from(this._storageService.getData('kpForecast')),
+      from(this._storageService.getData('kp27day')),
+      from(this._storageService.getData('nowcastAurora')),
+      from(this._storageService.getData('ace')), // to be removed
+    ])
+      .pipe(
+        takeUntil(this._destroy$),
+        tap({
+          next: ([solarCycle, solarWind, kpForecast, kp27day, nowcastAurora, ace]: [
+            SolarCycle[],
+            SolarWind[],
+            KpForecast[],
+            string, // kp27day[] in .txt
+            number,
+            ACEModule, // to be removed
+          ]) => {
+            this.moduleACE = ace; // to be removed
+            this.solarCycle = solarCycle;
+            this.solarWindInstant = this._getSolarWind(solarWind, true) as SolarWind;
+            this.solarWind = this._getSolarWind(solarWind) as SolarWind[];
+            this.kpForecast = this._getKpForecast(kpForecast);
+            this.kpForecast27days = this._getKpForecast27day(kp27day);
+            this.nowcastAurora = nowcastAurora;
+            this.loading = false;
           },
           error: error => {
             console.warn('Local storage error', error);
@@ -191,15 +211,17 @@ export class Tab2Page implements OnViewWillEnter {
       this._auroraService.getKpForecast27Days$(),
       this._auroraService.getKpForecast$(),
       this._auroraService.getSolarCycle$(),
+      this._auroraService.getAuroraMapData$(),
     ])
       .pipe(
         tap({
-          next: ([solarWind, ace, kp27day, kpForecast, solarCycle]: [
+          next: ([solarWind, ace, kp27day, kpForecast, solarCycle, ovationCoords]: [
             SolarWind[],
             ACEModule,
             string,
             KpForecast[],
             SolarCycle[],
+            any,
           ]) => {
             this.moduleACE = ace; // to be removed
             void this._storageService.setData('ace', ace); // to me remove
@@ -209,6 +231,7 @@ export class Tab2Page implements OnViewWillEnter {
             this.solarWind = this._getSolarWind(solarWind) as SolarWind[];
             this.kpForecast = this._getKpForecast(kpForecast);
             this.kpForecast27days = this._getKpForecast27day(kp27day);
+            this.nowcastAurora = getNowcastAurora(ovationCoords.coordinates, this.coords.longitude,  this.coords.longitude);
 
             // End loading
             this.loading = false;
@@ -219,6 +242,7 @@ export class Tab2Page implements OnViewWillEnter {
             void this._storageService.setData('kpForecast', kpForecast);
             void this._storageService.setData('kp27day', kp27day);
             void this._storageService.setData('ACEdate', new Date());
+            void this._storageService.setData('nowcastAurora', this.nowcastAurora);
           },
           error: (error: HttpErrorResponse) => {
             console.warn('Wind Solar data error', error);

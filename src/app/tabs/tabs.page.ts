@@ -20,7 +20,7 @@ export class TabsPage implements OnInit {
   constructor(private _router: Router) {}
 
   ngOnInit(): void {
-    this.interval();
+    this._interval();
     this.lottieConfigWeather = {
       path: `assets/lotties/lottie-partly-cloudy-day.json`,
       renderer: 'svg',
@@ -60,7 +60,7 @@ export class TabsPage implements OnInit {
    * tag <a> est dans shadowRoot et ne se charge pas immédiatement
    * Interval enchaîne les itérations jusqu'à ce qu'il existe et s'arrête
    * */
-  interval(): void {
+  private _interval(): void {
     const inter = setInterval(() => {
       const fuckingA = this.auroraLogo.el.shadowRoot.querySelector('a'); // null
       if (fuckingA !== null) {

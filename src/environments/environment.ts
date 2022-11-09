@@ -16,6 +16,7 @@ import 'zone.js/dist/zone-error'; // Included with Angular CLI.
 export const environment = {
   production: false,
   // cors: 'https://thingproxy.freeboard.io/fetch/',
+  // cors: 'https://aurora-proxy-be7c0.web.app/fetch/',
   cors: 'http://localhost:3945/fetch/',
   api_weather: 'https://api.openweathermap.org/data/2.5/onecall',
   api_reverse_geocode: 'https://api.openweathermap.org/geo/1.0/reverse',
