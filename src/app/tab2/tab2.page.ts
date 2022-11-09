@@ -85,12 +85,13 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
     combineLatest([from(this._storageService.getData('ACEdate')), from(this._storageService.getData('location'))])
       .pipe(
         takeUntil(this._destroy$),
-        map(([ACEdate, location]: [number, CodeLocation]) => [
-          moment(new Date()).diff(moment(ACEdate), 'minutes') > 5,
-          location,
-        ]),
-        tap(([diff, location]: [boolean, CodeLocation]) => {
-          if (diff) {
+        map(([ACEdate, location]: [number, CodeLocation]) =>
+            [
+              ACEdate ? moment(new Date()).diff(moment(ACEdate), 'minutes') > 5 : true,
+              location,
+            ]),
+        tap(([moreThanFiveMinutes, location]: [boolean, CodeLocation]) => {
+          if (moreThanFiveMinutes) {
             // Avoid to load the page every time the user access to tab2, waiting 5 mins
             if (!location) {
               this._userLocalisation();

@@ -9,7 +9,7 @@
     "build:prod": "ionic build --prod",
     "android:open": "npx cap open android",
     "android:create": "npx cap add android",
-    "android": "npm run start:build:prod && npx cap copy",
+    "android": "npm run build:prod && npx cap copy",
     "android:watch": "ionic cap sync --watch --prod",
     "android:copy-files": "npx cap copy",
     "info:ionic": "ionic info",
