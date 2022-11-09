@@ -7,7 +7,7 @@
   <ion-select
     [value]=" localisation"
     interface="action-sheet"
-    (ionChange)="selectedLoc($event)"
+    (ionChange)="selectNewLocation($event)"
     [cancelText]="'global.cancel' | translate"
   >
     <ion-select-option *ngFor="let city of cities" [value]="city.code">

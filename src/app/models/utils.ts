@@ -89,6 +89,9 @@ export function updateDataChart(chart: Chart<ChartType, string[]>, label: string
 
 export function getNowcastAurora(coords: number[] /*[long, lat, aurora]*/, long: number, lat: number): number {
   // Calculate nowcast only when nowcast does not exist
+  if (!coords) {
+    return;
+  }
   return coords.find(c => (c[0] > 180 ? c[0] - 360 : c[0]) === Math.round(long) && c[1] === Math.round(lat))[2];
 }
 

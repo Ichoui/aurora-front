@@ -77,7 +77,7 @@ export class MapLeafletPage implements OnInit, OnDestroy {
    * Permet de pré-remplir le select avec la valeur disponible en storage si elle existe.
    * Met également la valeur en storage pour traitement tab2
    * */
-  selectedLoc(choice?: any, position?: LatLng): void {
+  selectNewLocation(choice?: any, position?: LatLng): void {
     if (choice) {
       this.localisation = choice.detail.value;
       const city = cities.find(res => res.code === choice.detail.value);
@@ -126,11 +126,9 @@ export class MapLeafletPage implements OnInit, OnDestroy {
 
     this._map.addLayer(tileLayer1);
 
-    this._addMarker(lat, long);
-
     this._map.on('click', params => {
       let latLng: LatLng = params['latlng'];
-      void this.selectedLoc(null, latLng);
+      void this.selectNewLocation(null, latLng);
     });
     // https://github.com/nouhouari/angular-leaflet/blob/master/package.json
 
@@ -185,45 +183,11 @@ export class MapLeafletPage implements OnInit, OnDestroy {
                   } as PathOptions),
                   // https://leafletjs.com/reference.html#path explanations about options
                 );
-                // i++;
-                // --------------------------------------------------------------------------------------------
-                // layer.addData({
-                //   type: 'Feature',
-                //   properties: {
-                //     color: [auroraPercent],
-                //   },
-                //   geometry: {
-                //     type: 'Polygon',
-                //     coordinates: [
-                //       [
-                //         [long, lat],
-                //         [long, lat],
-                //         [long, lat],
-                //         [long, lat],
-                //         [long, lat],
-                //       ],
-                //     ],
-                //   },
-                // } as GeoJSON.Feature);
-
-                // if (i === 1) {
-                // console.log(layer);
-                // }
               }
             }
           }
-          /*
-          // WORKING!!
-            layer.addData({
-              type: 'Feature',
-              geometry: {
-                type: 'Polygon',
-                coordinates
-              },
-            } as GeoJSON.Feature);*/
-
-          // console.log(i);
         }),
+        tap(() => this._addMarker(latCurrent, longCurrent)),
       )
       .subscribe();
   }
