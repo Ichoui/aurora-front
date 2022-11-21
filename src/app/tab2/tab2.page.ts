@@ -2,14 +2,13 @@ import { Component, OnDestroy } from '@angular/core';
 import { cities, CodeLocation, Coords } from '../models/cities';
 import { AuroraService } from '../aurora.service';
 import { NavController } from '@ionic/angular';
-import { ACEModule } from '../models/aurorav2';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { ErrorTemplate } from '../shared/broken/broken.model';
 import { StorageService } from '../storage.service';
 import { map, takeUntil, tap } from 'rxjs/operators';
 import { combineLatest, from, Subject } from 'rxjs';
 import { MeasureUnits } from '../models/weather';
-import { Kp27day, KpForecast, SolarCycle, SolarWind } from '../models/aurorav3';
+import { Kp27day, KpCurrent, KpForecast, SolarCycle, SolarWind } from '../models/aurorav3';
 import { determineColorsOfValue, getNowcastAurora, monthSwitcher } from '../models/utils';
 import { OnViewWillEnter } from '../models/ionic';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -34,7 +33,6 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
   eventRefresh: any;
 
   // Data inputs
-  moduleACE: ACEModule;
   kpForecast: KpForecast[] = [];
   kpForecast27days: Kp27day[] = [];
   measure: MeasureUnits;
@@ -42,6 +40,7 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
   solarWindInstant: SolarWind;
   solarWind: SolarWind[];
   solarCycle: SolarCycle[];
+  kpCurrent: KpCurrent;
   nowcastAurora: number;
 
   dataError = new ErrorTemplate(null);
@@ -72,6 +71,8 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
   }
 
   ionViewWillEnter(): void {
+    this._auroraService.test$().subscribe(console.log)
+
     combineLatest([from(this._storageService.getData('measure')), from(this._storageService.getData('locale'))])
       .pipe(
         takeUntil(this._destroy$),
@@ -115,20 +116,20 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
       from(this._storageService.getData('kpForecast')),
       from(this._storageService.getData('kp27day')),
       from(this._storageService.getData('nowcastAurora')),
-      from(this._storageService.getData('ace')), // to be removed
+      from(this._storageService.getData('kpCurrent')),
     ])
       .pipe(
         takeUntil(this._destroy$),
         tap({
-          next: ([solarCycle, solarWind, kpForecast, kp27day, nowcastAurora, ace]: [
+          next: ([solarCycle, solarWind, kpForecast, kp27day, nowcastAurora, kpCurrent]: [
             SolarCycle[],
             SolarWind[],
             KpForecast[],
             string, // kp27day[] in .txt
             number,
-            ACEModule, // to be removed
+            KpCurrent,
           ]) => {
-            this.moduleACE = ace; // to be removed
+            this.kpCurrent = kpCurrent;
             this.solarCycle = solarCycle;
             this.solarWindInstant = this._getSolarWind(solarWind, true) as SolarWind;
             this.solarWind = this._getSolarWind(solarWind) as SolarWind[];
@@ -208,7 +209,7 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
   private _getDataACE(): void {
     combineLatest([
       this._auroraService.getSolarWind$(),
-      this._auroraService.auroraLiveV2$(this.coords.latitude, this.coords.longitude), // To be removed
+      this._auroraService.getCurrentKp$(),
       this._auroraService.getKpForecast27Days$(),
       this._auroraService.getKpForecast$(),
       this._auroraService.getSolarCycle$(),
@@ -216,16 +217,16 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
     ])
       .pipe(
         tap({
-          next: ([solarWind, ace, kp27day, kpForecast, solarCycle, ovationCoords]: [
+          next: ([solarWind, kpCurrent, kp27day, kpForecast, solarCycle, ovationCoords]: [
             SolarWind[],
-            ACEModule,
+            KpCurrent,
             string,
             KpForecast[],
             SolarCycle[],
             any,
           ]) => {
-            this.moduleACE = ace; // to be removed
-            void this._storageService.setData('ace', ace); // to me remove
+            this.kpCurrent = kpCurrent;
+            void this._storageService.setData('kpCurrent', kpCurrent); // to me remove
 
             this.solarCycle = solarCycle;
             this.solarWindInstant = this._getSolarWind(solarWind, true) as SolarWind;

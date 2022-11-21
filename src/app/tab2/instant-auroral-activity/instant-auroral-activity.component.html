@@ -4,7 +4,7 @@
     <div class="whirly-loader"></div>
   </div>
 </ng-template>
-<ng-container *ngIf="solarWind && exDataSolarWind; else load">
+<ng-container *ngIf="solarWind && kpCurrent; else load">
   <div class="nowcast ace-data">
     <div>{{ nowcastAurora }}%</div>
     <p [innerHTML]="'tab2.kp.probability' | translate"></p>
@@ -22,7 +22,7 @@
         }"
       ></span>
     </div>
-    <div class="value">Kp{{ kpCurrent.value | number: '1.0-0' }}</div>
+    <div class="value">{{ kpCurrent.k_index }}</div>
     <div class="label">{{ 'tab2.kp.kpindex' | translate }}</div>
   </div>
 

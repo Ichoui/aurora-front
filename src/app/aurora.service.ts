@@ -2,11 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
-import { AuroraModules } from './models/aurorav2';
 import { ExcludeType, MeasureUnits, Weather } from './models/weather';
 import { Pole } from './shared/modal/modal.component';
 import { Geocoding } from './models/geocoding';
-import { KpForecast, SolarCycle, SolarWind } from './models/aurorav3';
+import { KpCurrent, KpForecast, SolarCycle, SolarWind } from './models/aurorav3';
 import { fromFetch } from 'rxjs/fetch';
 import { switchMap } from 'rxjs/operators';
 import { ELocales } from './models/locales';
@@ -18,29 +17,30 @@ export class AuroraService {
   constructor(private _http: HttpClient) {}
 
   /**
+   * @deprecated should not be used
    * @lat {number} longitude
    * @long {number} latitude
    * get la v2 providé par aurora.live grâce au Space Weather Prediction Center
    * https://v2.api.auroras.live/images/embed/nowcast.png
    */
-  auroraLiveV2$(lat?: number, long?: number): Observable<any> {
-    return this._http.post(`${environment.cors}${environment.aurora_v2_api}`, {
-      modules: [
-        AuroraModules.kpcurrent,
-        AuroraModules.nowcastlocal,
-        // AuroraModules.kpforecast,
-        // AuroraModules.density,
-        // AuroraModules.speed,
-        // AuroraModules.kp27day,
-        // AuroraModules.bz,
-        // AuroraModules.bt,
-      ],
-      common: {
-        lat,
-        long,
-      },
-    });
-  }
+  // auroraLiveV2$(lat?: number, long?: number): Observable<any> {
+  //   return this._http.post(`${environment.cors}${environment.aurora_v2_api}`, {
+  //     modules: [
+  //       AuroraModules.kpcurrent,
+  //       AuroraModules.nowcastlocal,
+  //       // AuroraModules.kpforecast,
+  //       // AuroraModules.density,
+  //       // AuroraModules.speed,
+  //       // AuroraModules.kp27day,
+  //       // AuroraModules.bz,
+  //       // AuroraModules.bt,
+  //     ],
+  //     common: {
+  //       lat,
+  //       long,
+  //     },
+  //   });
+  // }
 
   /**
    * Choix tranché : on envoie le système français (métrique et langues), de sorte à ne récupérer que des valeurs en km/h et des celsius.
@@ -102,6 +102,14 @@ export class AuroraService {
     return this._http.get<KpForecast[]>(`${environment.cors}${environment.swpc.kpForecast}`);
   }
 
+
+  /*
+ * KP Forecast next 3 days
+ * */
+  getCurrentKp$(): Observable<KpCurrent> {
+    return this._http.get<KpCurrent>(`${environment.cors}${environment.swpc.currentKp}`);
+  }
+
   /*
    * Predictions Solar cycle
    * F10.7 Solar Flux Units
@@ -124,6 +132,10 @@ export class AuroraService {
   }
 
   getAuroraMapData$(): Observable<any> {
-    return this._http.get(`${environment.cors}${environment.swpc.auroraMap}`);
+    return this._http.get(`${environment.cors}${environment.swpc.ovationMap}`);
+  }
+
+  test$(): Observable<any> {
+    return this._http.get(`${environment.cors}kp/current`);
   }
 }

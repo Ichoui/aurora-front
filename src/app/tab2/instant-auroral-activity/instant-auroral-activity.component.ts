@@ -1,9 +1,8 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { ACEModule, KpCurrent } from '../../models/aurorav2';
 import { StorageService } from '../../storage.service';
-import { convertUnitMeasure, determineColorsOfValue } from '../../models/utils';
+import { convertUnitMeasure, determineColorsOfValue, roundTwoNumbers } from '../../models/utils';
 import { MeasureUnits } from '../../models/weather';
-import { AuroraEnumColours, Bt, Bz, Density, SolarWind, Speed } from '../../models/aurorav3';
+import { AuroraEnumColours, Bt, Bz, Density, KpCurrent, SolarWind, Speed } from '../../models/aurorav3';
 
 @Component({
   selector: 'app-instant-auroral-activity',
@@ -11,18 +10,16 @@ import { AuroraEnumColours, Bt, Bz, Density, SolarWind, Speed } from '../../mode
   styleUrls: ['./instant-auroral-activity.component.scss'],
 })
 export class InstantAuroralActivityComponent implements OnInit, OnChanges {
-  kpCurrent: KpCurrent;
   density: Density;
   speed: Speed;
   bz: Bz;
   bt: Bt;
   AuroraEnumColours = AuroraEnumColours;
 
-  // nowcastVal: number; // todo will be removed
-  @Input() exDataSolarWind: ACEModule; // todo will be removed
   @Input() measureUnit: MeasureUnits;
   @Input() solarWind: SolarWind;
   @Input() nowcastAurora: number;
+  @Input() kpCurrent: KpCurrent;
 
   constructor(private _storageService: StorageService) {}
 
@@ -35,20 +32,23 @@ export class InstantAuroralActivityComponent implements OnInit, OnChanges {
       this.speed = {
         ...this.speed,
         value: convertUnitMeasure(this.speed.value, this.measureUnit),
-        color: determineColorsOfValue('speed', convertUnitMeasure(this.speed.value, this.measureUnit), this.measureUnit),
+        color: determineColorsOfValue(
+          'speed',
+          convertUnitMeasure(this.speed.value, this.measureUnit),
+          this.measureUnit,
+        ),
         unit: this.measureUnit,
       };
     }
 
-    if (changes?.exDataSolarWind) {
-      // TOdo will be removed
-      const dataSolarWind = changes.exDataSolarWind.currentValue;
+    if (changes?.kpCurrent) {
+      const kpCurrent = changes.kpCurrent.currentValue;
+      this.kpCurrent = {
+          k_index: roundTwoNumbers(kpCurrent.k_index),
+          time_tag: kpCurrent.time_tag,
+          color: determineColorsOfValue('kp', roundTwoNumbers(kpCurrent.k_index))
 
-      this.kpCurrent = dataSolarWind['kp:current'];
-      // this.nowcast = dataSolarWind['nowcast:local'];
-      // this.nowcastVal = this.nowcast.value;
-      // void this._storageService.setData('nowcast', this.nowcast.value);
-      void this._storageService.setData('current_kp', this.kpCurrent.value);
+      }
     }
 
     if (changes?.solarWind) {
@@ -60,9 +60,6 @@ export class InstantAuroralActivityComponent implements OnInit, OnChanges {
         time_tag: new Date(solarWind.time_tag),
         color: determineColorsOfValue('density', solarWind.density),
       };
-
-      console.log('bz ', solarWind.bz);
-      console.log('bt ', solarWind.bt);
       this.bz = {
         value: solarWind?.bz ?? 0,
         date: new Date(solarWind.time_tag),

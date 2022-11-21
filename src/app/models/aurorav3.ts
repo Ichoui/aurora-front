@@ -72,3 +72,10 @@ export interface SolarCycle {
   'high_f10.7': number;
   'low_f10.7': number;
 }
+
+export interface KpCurrent {
+  'time_tag': string; // 2022-11-21T21:30:00 UTC
+  'k_index': number;
+  color?: AuroraEnumColours; // Set in front base on kpIndex value
+
+}

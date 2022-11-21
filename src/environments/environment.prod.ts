@@ -12,10 +12,12 @@ export const environment = {
   swpc: {
     poleNorth: 'https://services.swpc.noaa.gov/products/animations/ovation_north_24h.json',
     poleSouth: 'https://services.swpc.noaa.gov/products/animations/ovation_south_24h.json',
-    auroraMap: 'https://services.swpc.noaa.gov/json/ovation_aurora_latest.json',
     solarWind: 'https://services.swpc.noaa.gov/products/geospace/propagated-solar-wind-1-hour.json',
     kpForecast27Days: 'https://services.swpc.noaa.gov/text/27-day-outlook.txt',
     kpForecast: 'https://services.swpc.noaa.gov/products/noaa-planetary-k-index-forecast.json',
-    solarCycle: 'https://services.swpc.noaa.gov/json/solar-cycle/predicted-solar-cycle.json'
+    solarCycle: 'https://services.swpc.noaa.gov/json/solar-cycle/predicted-solar-cycle.json',
+    ovationMap: 'https://services.swpc.noaa.gov/json/ovation_aurora_latest.json',
+    currentKp: 'kp/current',
+
   }
 };

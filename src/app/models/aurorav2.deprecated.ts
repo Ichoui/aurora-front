@@ -1,14 +1,19 @@
 import { AuroraEnumColours } from './aurorav3';
 
-export interface Aurora {
+/**
+ * @deprecated Interface should not be used
+ */
+interface Aurora {
   modules: AuroraModules[];
   common: {
     lat: number;
     long: number;
   };
 }
-
-export enum AuroraModules {
+/**
+ * @deprecated Interface should not be used
+ */
+enum AuroraModules {
   common = 'common',
   nowcastlocal = 'nowcast:local',
   nowcasthighest = 'nowcast:highest',
@@ -22,16 +27,20 @@ export enum AuroraModules {
   bt = 'bt',
   bz = 'bz',
 }
-
-export interface KpCurrent {
+/**
+ * @deprecated Interface should not be used
+ */
+interface KpCurrent {
   value: number;
   color: AuroraEnumColours;
   date: Date;
   request_date: Date;
 }
 
-
-export interface Nowcast {
+/**
+ * @deprecated Interface should not be used
+ */
+interface Nowcast {
   value: number;
   lat: number;
   long: number;
@@ -39,8 +48,10 @@ export interface Nowcast {
   date: Date;
   request_date: Date;
 }
-
-export interface ACEModule {
+/**
+ * @deprecated Interface should not be used
+ */
+interface ACEModule {
   // bt: Bt;
   // bz: Bz;
   // density: Density;

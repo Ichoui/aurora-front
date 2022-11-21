@@ -16,10 +16,10 @@
     <swiper [config]="configSwiper">
       <ng-template swiperSlide>
         <app-instant-auroral-activity
-          [exDataSolarWind]="moduleACE"
           [solarWind]="solarWindInstant"
           [measureUnit]="measure"
           [nowcastAurora]="nowcastAurora"
+          [kpCurrent]="kpCurrent"
         ></app-instant-auroral-activity>
       </ng-template>
       <ng-template swiperSlide>

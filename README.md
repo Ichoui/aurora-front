@@ -20,7 +20,6 @@ This project is available only on Android.
 
 ### Credits 
 - OpenWeatherMap API for the weather : https://openweathermap.org/api/one-call-api#data 
-- Aurora Live API for the auroras' informations : http://auroraslive.io/#/
 - Thanks to JHEY for his talent, found on Codepen : https://codepen.io/jh3y/pen/JKddVx
 - Various websites for informations & stories about Aurora
 - Me, @Ichoui, for sure ☺

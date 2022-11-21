@@ -1,8 +1,10 @@
 // Données sur le vent solaire
 import { AuroraEnumColours } from './aurorav3';
 
-// FIRST VERSION Aurora.live
-export interface SolarWindv1 {
+/**
+ * @deprecated Interface should not be used
+ */
+interface SolarWindv1 {
   date: string;
   bz: number;
   density: number;
@@ -13,8 +15,10 @@ export interface SolarWindv1 {
   colour: AuroraColours;
   message: string[];
 }
-
-export interface AuroraColours {
+/**
+ * @deprecated Interface should not be used
+ */
+interface AuroraColours {
   bz: string;
   density: string;
   speed: string;
@@ -23,8 +27,10 @@ export interface AuroraColours {
   kp: string;
 }
 
-// Probabilité de voir une aurora au Zénith
-export interface AuroraZenith {
+/**
+ * @deprecated Interface should not be used
+ */
+ interface AuroraZenith {
   date: string;
   calculated: Calculated;
   colour: AuroraEnumColours;
@@ -34,24 +40,31 @@ export interface AuroraZenith {
   message: string[];
 }
 
-export interface Calculated {
+/**
+ * @deprecated Interface should not be used
+ */
+interface Calculated {
   lat: string;
   long: string;
   value: string; // to number
   colour: string;
 }
 
-/*
+/**
+ * @deprecated Interface should not be used
  * Paramètres obligatoire & facultatif
- **/
-export interface ParamsACE {
+ */
+ interface ParamsACE {
   type: string;
   data: DataACE;
   lat?: number;
   long?: number;
 }
 
-export enum DataACE {
+/**
+ * @deprecated Interface should not be used
+ */
+enum DataACE {
   bz = 'bz',
   speed = 'speed',
   density = 'density',
