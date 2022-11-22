@@ -333,7 +333,6 @@ export class ForecastAuroralActivityComponent implements OnChanges {
         btForecast.color,
       );
     } else {
-
       // Update data only !
       updateDataChart(this._chartKpDensity, solarWindDate, [densityForecast.value], densityForecast.color);
       updateDataChart(this._chartKpSpeed, solarWindDate, [speedForecast.value], speedForecast.color);

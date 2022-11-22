@@ -81,9 +81,10 @@ export function updateDataChart(chart: Chart<ChartType, string[]>, label: string
   chart.data.labels = label;
   chart.data.datasets.forEach((dataset, index) => {
     dataset.data = data[index];
-    dataset.backgroundColor = colors;
-    dataset.borderColor = colors;
+    dataset.backgroundColor = colors[index];
+    dataset.borderColor = colors[index];
   });
+
   chart.update();
 }
 
