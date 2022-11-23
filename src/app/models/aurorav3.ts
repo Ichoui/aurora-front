@@ -64,18 +64,14 @@ export interface KpForecast {
 }
 
 export interface SolarCycle {
-  'time-tag': string; // "2022-04"
-  predicted_ssn: number;
-  high_ssn: number;
-  low_ssn: number;
-  'predicted_f10.7': number;
-  'high_f10.7': number;
-  'low_f10.7': number;
+  timeTag: string; // "2022-04"
+  predictedSsn: number;
+  predictedSolarFlux: number;
 }
 
 export interface KpCurrent {
   'time_tag': string; // 2022-11-21T21:30:00 UTC
   'k_index': number;
-  color?: AuroraEnumColours; // Set in front base on kpIndex value
+  color?: AuroraEnumColours; // Set in client side base on kpIndex value
 
 }

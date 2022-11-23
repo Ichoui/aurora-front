@@ -9,7 +9,7 @@ import { map, takeUntil, tap } from 'rxjs/operators';
 import { combineLatest, from, Subject } from 'rxjs';
 import { MeasureUnits } from '../models/weather';
 import { Kp27day, KpCurrent, KpForecast, SolarCycle, SolarWind } from '../models/aurorav3';
-import { determineColorsOfValue, getNowcastAurora, monthSwitcher } from '../models/utils';
+import { determineColorsOfValue, monthSwitcher } from '../models/utils';
 import { OnViewWillEnter } from '../models/ionic';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ELocales } from '../models/locales';
@@ -71,8 +71,6 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
   }
 
   ionViewWillEnter(): void {
-    this._auroraService.test$().subscribe(console.log)
-
     combineLatest([from(this._storageService.getData('measure')), from(this._storageService.getData('locale'))])
       .pipe(
         takeUntil(this._destroy$),
@@ -86,11 +84,10 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
     combineLatest([from(this._storageService.getData('ACEdate')), from(this._storageService.getData('location'))])
       .pipe(
         takeUntil(this._destroy$),
-        map(([ACEdate, location]: [number, CodeLocation]) =>
-            [
-              ACEdate ? moment(new Date()).diff(moment(ACEdate), 'minutes') > 5 : true,
-              location,
-            ]),
+        map(([ACEdate, location]: [number, CodeLocation]) => [
+          ACEdate ? moment(new Date()).diff(moment(ACEdate), 'minutes') > 10 : true,
+          location,
+        ]),
         tap(([moreThanFiveMinutes, location]: [boolean, CodeLocation]) => {
           if (moreThanFiveMinutes) {
             // Avoid to load the page every time the user access to tab2, waiting 5 mins
@@ -129,13 +126,13 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
             number,
             KpCurrent,
           ]) => {
-            this.kpCurrent = kpCurrent;
             this.solarCycle = solarCycle;
             this.solarWindInstant = this._getSolarWind(solarWind, true) as SolarWind;
             this.solarWind = this._getSolarWind(solarWind) as SolarWind[];
             this.kpForecast = this._getKpForecast(kpForecast);
             this.kpForecast27days = this._getKpForecast27day(kp27day);
             this.nowcastAurora = nowcastAurora;
+            this.kpCurrent = kpCurrent;
             this.loading = false;
           },
           error: error => {
@@ -213,27 +210,27 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
       this._auroraService.getKpForecast27Days$(),
       this._auroraService.getKpForecast$(),
       this._auroraService.getSolarCycle$(),
-      this._auroraService.getAuroraMapData$(),
+      this._auroraService.getNowcast$(this.coords.longitude, this.coords.longitude),
+      this._auroraService.getAuroraMapData$(), // not used here, we only need it to load nowcast on server side
     ])
       .pipe(
         tap({
-          next: ([solarWind, kpCurrent, kp27day, kpForecast, solarCycle, ovationCoords]: [
+          next: ([solarWind, kpCurrent, kp27day, kpForecast, solarCycle, nowcast]: [
             SolarWind[],
             KpCurrent,
             string,
             KpForecast[],
             SolarCycle[],
-            any,
+            { nowcast: number },
           ]) => {
             this.kpCurrent = kpCurrent;
             void this._storageService.setData('kpCurrent', kpCurrent); // to me remove
-
             this.solarCycle = solarCycle;
             this.solarWindInstant = this._getSolarWind(solarWind, true) as SolarWind;
             this.solarWind = this._getSolarWind(solarWind) as SolarWind[];
             this.kpForecast = this._getKpForecast(kpForecast);
             this.kpForecast27days = this._getKpForecast27day(kp27day);
-            this.nowcastAurora = getNowcastAurora(ovationCoords.coordinates, this.coords.longitude,  this.coords.longitude);
+            this.nowcastAurora = nowcast.nowcast
 
             // End loading
             this.loading = false;

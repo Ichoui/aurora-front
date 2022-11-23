@@ -35,7 +35,8 @@
       "bz": "Bz",
       "bz.north": "Nord",
       "bz.south": "Sud",
-      "bt": "Bt"
+      "bt": "Bt",
+      "noData": "ACE No data"
     },
     "maps": {
       "poles": "Prévisions aurorales OVATION",

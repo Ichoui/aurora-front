@@ -24,6 +24,12 @@ export const environment = {
   aurora_v2_api: 'https://v2.api.auroras.live',
   apikey: OPENWHEATHER_API_KEY,
   application_name: 'Aurora Chasers',
+  auroraHeaders: {
+    'Access-Control-Allow-Origin': '*',
+    // Accept: 'application/json',
+    // 'Content-Type': 'application/json',
+    Aurora: 'true',
+  },
   swpc: {
     poleNorth: 'https://services.swpc.noaa.gov/products/animations/ovation_north_24h.json',
     poleSouth: 'https://services.swpc.noaa.gov/products/animations/ovation_south_24h.json',
@@ -32,6 +38,12 @@ export const environment = {
     kpForecast: 'https://services.swpc.noaa.gov/products/noaa-planetary-k-index-forecast.json',
     solarCycle: 'https://services.swpc.noaa.gov/json/solar-cycle/predicted-solar-cycle.json',
     ovationMap: 'https://services.swpc.noaa.gov/json/ovation_aurora_latest.json',
-    currentKp: 'kp/current'
-  }
+  },
+  customSwpc: {
+    currentKp: 'instant/kp',
+    solarWind: 'forecast/solarwind',
+    solarCycle: 'forecast/solarcycle',
+    ovationMap: 'map/ovation',
+    nowcast: 'instant/nowcast',
+  },
 };

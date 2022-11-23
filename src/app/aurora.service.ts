@@ -90,7 +90,7 @@ export class AuroraService {
    * file .txt
    * */
   getKpForecast27Days$() {
-    return fromFetch(`${environment.cors}${environment.swpc.kpForecast27Days}`).pipe(
+    return fromFetch(`${environment.cors}${environment.swpc.kpForecast27Days}`, { headers: environment.auroraHeaders }).pipe(
       switchMap((res: Response) => res.text()),
     );
   }
@@ -102,12 +102,11 @@ export class AuroraService {
     return this._http.get<KpForecast[]>(`${environment.cors}${environment.swpc.kpForecast}`);
   }
 
-
   /*
- * KP Forecast next 3 days
- * */
+   * KP Forecast next 3 days
+   * */
   getCurrentKp$(): Observable<KpCurrent> {
-    return this._http.get<KpCurrent>(`${environment.cors}${environment.swpc.currentKp}`);
+    return this._http.get<KpCurrent>(`${environment.cors}${environment.customSwpc.currentKp}`);
   }
 
   /*
@@ -116,7 +115,7 @@ export class AuroraService {
    * Sunspot Number
    * */
   getSolarCycle$(): Observable<SolarCycle[]> {
-    return this._http.get<SolarCycle[]>(`${environment.cors}${environment.swpc.solarCycle}`);
+    return this._http.get<SolarCycle[]>(`${environment.cors}${environment.customSwpc.solarCycle}`);
   }
 
   /**
@@ -132,10 +131,14 @@ export class AuroraService {
   }
 
   getAuroraMapData$(): Observable<any> {
-    return this._http.get(`${environment.cors}${environment.swpc.ovationMap}`);
+    return this._http.get(`${environment.cors}${environment.customSwpc.ovationMap}`);
+  }
+
+  getNowcast$(lat: number, lng: number): Observable<number> {
+    return this._http.post<number>(`${environment.cors}${environment.customSwpc.nowcast}`, { lat, lng });
   }
 
   test$(): Observable<any> {
-    return this._http.get(`${environment.cors}kp/current`);
+    return this._http.get(`${environment.cors}${environment.customSwpc.ovationMap}`);
   }
 }

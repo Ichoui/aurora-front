@@ -43,38 +43,38 @@ export class InstantAuroralActivityComponent implements OnInit, OnChanges {
 
     if (changes?.kpCurrent) {
       const kpCurrent = changes.kpCurrent.currentValue;
+      console.log(!isNaN(kpCurrent.k_index));
+      console.log(roundTwoNumbers(kpCurrent.k_index));
       this.kpCurrent = {
-          k_index: roundTwoNumbers(kpCurrent.k_index),
-          time_tag: kpCurrent.time_tag,
-          color: determineColorsOfValue('kp', roundTwoNumbers(kpCurrent.k_index))
-
-      }
+        k_index: !isNaN(kpCurrent.k_index) ? roundTwoNumbers(kpCurrent.k_index) : null,
+        time_tag: kpCurrent.time_tag,
+        color: determineColorsOfValue('kp', roundTwoNumbers(kpCurrent.k_index)),
+      };
     }
 
     if (changes?.solarWind) {
       const solarWind: SolarWind = changes.solarWind.currentValue;
-
       this.density = {
-        value: solarWind.density,
+        value: !isNaN(solarWind.density) ? solarWind.density : null,
         date: new Date(solarWind.time_tag),
         time_tag: new Date(solarWind.time_tag),
         color: determineColorsOfValue('density', solarWind.density),
       };
       this.bz = {
-        value: solarWind?.bz ?? 0,
+        value: !isNaN(solarWind.bz) ? solarWind.bz : null,
         date: new Date(solarWind.time_tag),
         time_tag: new Date(solarWind.time_tag),
         color: determineColorsOfValue('bz', solarWind.bz),
       };
       this.bt = {
-        value: solarWind?.bt ?? 0,
+        value: !isNaN(solarWind.bt) ? solarWind.bt : null,
         date: new Date(solarWind.time_tag),
         request_date: new Date(solarWind.time_tag),
         color: determineColorsOfValue('bt', solarWind.bt),
       };
 
       this.speed = {
-        value: convertUnitMeasure(solarWind.speed, this.measureUnit),
+        value: !isNaN(solarWind.speed) ? convertUnitMeasure(solarWind.speed, this.measureUnit) : null,
         date: new Date(solarWind.time_tag),
         time_tag: new Date(solarWind.time_tag),
         color: determineColorsOfValue('speed', convertUnitMeasure(solarWind.speed, this.measureUnit), this.measureUnit),
@@ -87,9 +87,9 @@ export class InstantAuroralActivityComponent implements OnInit, OnChanges {
    * Fait scintiller les étoiles en background
    * */
   private _auroraBackground(): void {
-    const reset = function (e) {
+    const reset = e => {
       e.target.className = 'star';
-      setTimeout(function () {
+      setTimeout(() => {
         e.target.className = 'star star--animated';
       }, 0);
     };

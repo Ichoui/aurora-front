@@ -34,7 +34,9 @@
       "bz": "Bz",
       "bz.north": "North",
       "bz.south": "South",
-      "bt": "Bt"
+      "bt": "Bt",
+      "noData": "ACE No data"
+
     },
     "maps": {
       "poles": "OVATION Aurora Model",

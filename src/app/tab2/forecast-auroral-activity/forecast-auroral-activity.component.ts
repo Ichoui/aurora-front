@@ -254,7 +254,7 @@ export class ForecastAuroralActivityComponent implements OnChanges {
             ticks: {
               maxRotation: 90, // No rotation of label for each tick of X axe
               color: MAIN_TEXT_COLOR,
-              font: (ctx, options) => ({ family: 'Oswald-SemiBold' }),
+              font: () => ({ family: 'Oswald-SemiBold' }),
             },
           },
           y: {
@@ -349,9 +349,9 @@ export class ForecastAuroralActivityComponent implements OnChanges {
     const colorF10 = colorSwitcher(AuroraEnumColours.green);
 
     for (const cycle of solarCycles) {
-      predictedF10.push(cycle['predicted_f10.7']);
-      predictedSsn.push(cycle.predicted_ssn);
-      solarCycleDate.push(cycle['time-tag']);
+      predictedF10.push(cycle.predictedSolarFlux);
+      predictedSsn.push(cycle.predictedSsn);
+      solarCycleDate.push(cycle.timeTag);
     }
     if (firstChange) {
       this._chartCycle = this._chartSolarCycle(solarCycleDate, predictedSsn, predictedF10, colorSsn, colorF10);
@@ -397,7 +397,7 @@ export class ForecastAuroralActivityComponent implements OnChanges {
               autoSkipPadding: 25, // more padding between each tick of X axe
               maxRotation: 0, // No rotation of label for each tick of X axe
               color: MAIN_TEXT_COLOR,
-              font: (ctx, options) => ({ family: 'Oswald-Regular' }),
+              font: () => ({ family: 'Oswald-Regular' }),
             },
           },
           y: {
@@ -406,7 +406,7 @@ export class ForecastAuroralActivityComponent implements OnChanges {
             },
             ticks: {
               color: MAIN_TEXT_COLOR,
-              font: (ctx, options) => ({ family: 'Oswald-Regular' }),
+              font: () => ({ family: 'Oswald-Regular' }),
             },
           },
         },
@@ -466,7 +466,7 @@ export class ForecastAuroralActivityComponent implements OnChanges {
               autoSkipPadding: 15, // more padding between each tick of X axe
               maxRotation: 90, // No rotation of label for each tick of X axe
               color: MAIN_TEXT_COLOR,
-              font: (ctx, options) => ({ family: 'Oswald-Regular' }),
+              font: () => ({ family: 'Oswald-Regular' }),
             },
           },
           y: {
@@ -475,7 +475,7 @@ export class ForecastAuroralActivityComponent implements OnChanges {
             },
             ticks: {
               color: MAIN_TEXT_COLOR,
-              font: (ctx, options) => ({ family: 'Oswald-Regular', size: 12 }),
+              font: () => ({ family: 'Oswald-Regular', size: 12 }),
             },
           },
         },

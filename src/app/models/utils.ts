@@ -88,13 +88,15 @@ export function updateDataChart(chart: Chart<ChartType, string[]>, label: string
   chart.update();
 }
 
-export function getNowcastAurora(coords: number[] /*[long, lat, aurora]*/, long: number, lat: number): number {
-  // Calculate nowcast only when nowcast does not exist
-  if (!coords) {
-    return;
-  }
-  return coords.find(c => (c[0] > 180 ? c[0] - 360 : c[0]) === Math.round(long) && c[1] === Math.round(lat))[2];
-}
+// export function getNowcastAurora(coords: number[] /*[long, lat, aurora]*/, long: number, lat: number): number {
+//   // Calculate nowcast only when nowcast does not exist
+//   console.log(coords);
+//   if (!coords) {
+//     return;
+//   }
+//   console.log(coords);
+//   return coords.find(c => c[0] === Math.round(long) && c[1] === Math.round(lat))[2];
+// }
 
 // Replace a string color with the correct Application color
 export function colorSwitcher(c: AuroraEnumColours): string {

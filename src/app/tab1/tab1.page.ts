@@ -128,7 +128,7 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
       roundTwoNumbers(location?.lat) !== roundTwoNumbers(previousLocation?.lat) ||
       roundTwoNumbers(location?.long) !== roundTwoNumbers(previousLocation?.long) ||
       !weather ||
-      weatherDateDifference > 5
+      weatherDateDifference > 10
     ) {
       bool = true;
     }
@@ -140,6 +140,7 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
     if (!codeLocation) {
       this._userLocalisation();
     } else if (codeLocation.code === 'currentLocation' || codeLocation.code === 'marker') {
+      console.log(codeLocation);
       this._reverseGeoloc(codeLocation.lat, codeLocation.long);
     } else {
       this._chooseExistingCity(codeLocation.code);
@@ -177,7 +178,6 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
       latitude: lat,
       longitude: long,
     };
-
     this._auroraService
       .getGeocoding$(lat, long)
       .pipe(
@@ -185,8 +185,8 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
         map((res: Geocoding[]) => res[0]),
         tap({
           next: (res: Geocoding) => {
-            this.city = `${res?.name}${res?.state ? ', ' + res.state : ''} -`;
-            this.country = countryNameFromCode(res?.country, this.locale);
+            this.city = res ? `${res.name}${res?.state ? ', ' + res.state : ''} -` : null;
+            this.country = res ? countryNameFromCode(res.country, this.locale) : null;
             this._getForecast(this.city, this.country);
           },
           error: (error: HttpErrorResponse) => {
