@@ -43,8 +43,6 @@ export class InstantAuroralActivityComponent implements OnInit, OnChanges {
 
     if (changes?.kpCurrent) {
       const kpCurrent = changes.kpCurrent.currentValue;
-      console.log(!isNaN(kpCurrent.k_index));
-      console.log(roundTwoNumbers(kpCurrent.k_index));
       this.kpCurrent = {
         k_index: !isNaN(kpCurrent.k_index) ? roundTwoNumbers(kpCurrent.k_index) : null,
         time_tag: kpCurrent.time_tag,
