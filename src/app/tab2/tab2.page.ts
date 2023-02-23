@@ -108,6 +108,7 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
 
   private _getACEDataFromStorage() {
     combineLatest([
+      from(this._storageService.getData('location')),
       from(this._storageService.getData('solarCycle')),
       from(this._storageService.getData('solarWind')),
       from(this._storageService.getData('kpForecast')),
@@ -118,7 +119,8 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
       .pipe(
         takeUntil(this._destroy$),
         tap({
-          next: ([solarCycle, solarWind, kpForecast, kp27day, nowcastAurora, kpCurrent]: [
+          next: ([location, solarCycle, solarWind, kpForecast, kp27day, nowcastAurora, kpCurrent]: [
+            CodeLocation,
             SolarCycle[],
             SolarWind[],
             KpForecast[],
@@ -126,6 +128,7 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
             number,
             KpCurrent,
           ]) => {
+            this.coords = {...this.coords, latitude: location.lat, longitude: location.long};
             this.solarCycle = solarCycle;
             this.solarWindInstant = this._getSolarWind(solarWind, true) as SolarWind;
             this.solarWind = this._getSolarWind(solarWind) as SolarWind[];
@@ -156,9 +159,7 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
   private _userLocalisation() {
     this._geoloc
       .getCurrentPosition()
-      .then(resp => {
-        this._getExistingLocalisation(resp.coords.latitude, resp.coords.longitude);
-      })
+      .then(resp => this._getExistingLocalisation(resp.coords.latitude, resp.coords.longitude))
       .catch(error => {
         console.warn('Geolocalisation error', error);
         this.loading = false;
@@ -204,6 +205,7 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
    * Récupère les données ACE de vent solaire, nowcast et kp
    * */
   private _getDataACE(): void {
+    console.log(this.coords);
     combineLatest([
       this._auroraService.getSolarWind$(),
       this._auroraService.getCurrentKp$(),
@@ -230,7 +232,7 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
             this.solarWind = this._getSolarWind(solarWind) as SolarWind[];
             this.kpForecast = this._getKpForecast(kpForecast);
             this.kpForecast27days = this._getKpForecast27day(kp27day);
-            this.nowcastAurora = nowcast.nowcast
+            this.nowcastAurora = nowcast.nowcast;
 
             // End loading
             this.loading = false;
