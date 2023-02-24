@@ -4,6 +4,7 @@
   </div>
   <p>Status : {{ dataError?.status }}</p>
   <p>
-    {{ dataError?.message }}
+    <strong>{{ dataError?.message }}</strong> |
+    {{ dataError?.error?.error?.message }}
   </p>
 </div>

@@ -2,10 +2,10 @@
   "name": "aurora-v2",
   "version": "0.0.1",
   "author": "Morgan N aka Ichoui",
-  "description": "Ex Aurora - Northern Light app, available on the Play Store only, for Aurora chasers",
+  "description": "Ex Aurora - Northern Light app, available on the Play Store only, for Aurora Borealis",
   "scripts": {
-    "start": "ionic serve",
-    "start:proxy": "cd ../proxy-aurora && node server",
+    "start:front": "ionic serve",
+    "start:back": "cd ../aurora-proxy-nest && npm start",
     "build:prod": "ionic build --prod",
     "android:open": "npx cap open android",
     "android:create": "npx cap add android",

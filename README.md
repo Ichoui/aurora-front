@@ -1,15 +1,15 @@
-# Aurora Chasers Project (ex Northern Lights Project)
+# Aurora Borealis Project (ex Northern Lights Project)
 
 ### Installation
 `npm i` for dependencies
-<br> Create a typescript file here `src/environments/keep.ts` and then :
+<br> Create a typescript file here `src/environments/.env` and then :
 - export a const named `OPENWHEATHER_API_KEY`
 
 You will need an OpenWeatherMap free account.
 
 
 ### About 
-Aurora Chasers
+Aurora Borealis
 <br>
 Mobile App (IONIC - Capacitor Angular 14).
 This project is available only on Android. 

@@ -63,7 +63,9 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
     private _storageService: StorageService,
     private _navCtrl: NavController,
     private _auroraService: AuroraService,
-  ) {}
+  ) {
+    _auroraService.test$().subscribe()
+  }
 
   ngOnDestroy(): void {
     this._destroy$.next();
