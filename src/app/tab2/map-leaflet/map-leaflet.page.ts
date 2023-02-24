@@ -26,7 +26,6 @@ export class MapLeafletPage implements OnInit, OnDestroy {
   private _popup: Popup;
   readonly cities = cities;
   private _locale: ELocales;
-  private _coords: number[]; // [long lat nowcast][]
   localisation: string;
 
   constructor(
@@ -151,6 +150,7 @@ export class MapLeafletPage implements OnInit, OnDestroy {
         // map(e => e.coordinates),
         tap((coords: number[] /*[long, lat, aurora]*/) => {
           // this._coords = coords;
+          console.log(coords); // on a mis en cache l'api 3rd
           for (const coord of coords) {
             let long = coord[0];
             const lat = coord[1];
@@ -161,8 +161,12 @@ export class MapLeafletPage implements OnInit, OnDestroy {
             //   long = long - 360;
             // }
 
+            console.log('juste before init nowcast');
+            console.log(long);
+            console.log(lat);
             if (long === Math.round(longCurrent) && lat === Math.round(latCurrent)) {
               void this._storageService.setData('nowcastAurora', nowcastAurora);
+              console.log(nowcastAurora);
             }
             // On prend les valeurs paires seulement, et on leur rajoute +2 pour compenser les "trous" causés par l'impair
             // On passe ainsi d'environ 7500 à 1900 layers supplémentaire
@@ -307,6 +311,7 @@ export class MapLeafletPage implements OnInit, OnDestroy {
   private _createTooltip(infoWindow, nowcast?, lat?, lng?) {
     let message;
     if (lat && lng) {
+      console.log(nowcast);
       message = `<b>${infoWindow}</b> <br /> Lat: ${lat} <br/> Long: ${lng} <br/> Chances: ${nowcast}%`;
     } else {
       message = `<b>${infoWindow}</b><br /> ${this._translate.instant('tab2.map.another')} `;

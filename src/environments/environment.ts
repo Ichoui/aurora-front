@@ -32,7 +32,7 @@ export const environment = {
     // solarCycle: 'https://services.swpc.noaa.gov/json/solar-cycle/predicted-solar-cycle.json',
     // ovationMap: 'https://services.swpc.noaa.gov/json/ovation_aurora_latest.json',
   },
-  // cors: 'https://us-central1-aurora-proxy-be7c0.cloudfunctions.net/aurora/',
+  // host: 'https://us-central1-aurora-proxy-be7c0.cloudfunctions.net/aurora/',
   host: 'http://localhost:5000/aurora-proxy-be7c0/us-central1/aurora/',
   apikey: OPENWHEATHER_API_KEY,
   application_name: 'Aurora Borealis',
