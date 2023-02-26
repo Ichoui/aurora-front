@@ -147,31 +147,19 @@ export class MapLeafletPage implements OnInit, OnDestroy {
       .getAuroraMapData$()
       .pipe(
         takeUntil(this._destroy$),
-        // map(e => e.coordinates),
         tap((coords: number[] /*[long, lat, aurora]*/) => {
-          // this._coords = coords;
-          console.log(coords); // on a mis en cache l'api 3rd
-          for (const coord of coords) {
-            let long = coord[0];
-            const lat = coord[1];
-            const nowcastAurora = coord[2];
-
-            // if (long > 180) {
-            //   // Longitude 180+ dépasse de la map à droite, cela permet de revenir tout à gauche de la carte
-            //   long = long - 360;
-            // }
+          let length = coords.length;
+          while (--length) {
+            let long = coords[length][0];
+            const lat = coords[length][1];
+            const nowcastAurora = coords[length][2];
 
             console.log('juste before init nowcast');
             console.log(long);
             console.log(lat);
             if (long === Math.round(longCurrent) && lat === Math.round(latCurrent)) {
               void this._storageService.setData('nowcastAurora', nowcastAurora);
-              console.log(nowcastAurora);
             }
-            // On prend les valeurs paires seulement, et on leur rajoute +2 pour compenser les "trous" causés par l'impair
-            // On passe ainsi d'environ 7500 à 1900 layers supplémentaire
-            // if (lat >= 30 || lat <= -30) {
-            //   if (nowcastAurora >= 2 && long % 2 === 0 && lat % 2 === 0) {
             const corner1 = new LatLng(lat + 2, long + 2),
               corner2 = new LatLng(lat, long),
               bounds = new LatLngBounds(corner1, corner2);
