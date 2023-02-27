@@ -227,3 +227,15 @@ export function determineColorsOfValue(
       break;
   }
 }
+
+/**
+ * return a shallow copy of an object without any falsy values (null, undefined, '', 0, false, NaN)
+ */
+export function deleteFalsy(obj: any): any {
+  if (!obj) {
+    return null;
+  }
+  return Object.keys(obj)
+      .filter(key => obj[key])
+      .reduce((keptFields, key) => ({ ...keptFields, [key]: obj[key] }), {});
+}

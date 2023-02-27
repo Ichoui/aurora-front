@@ -9,6 +9,7 @@ import { KpCurrent, KpForecast, SolarCycle, SolarWind } from './models/aurorav3'
 import { fromFetch } from 'rxjs/fetch';
 import { switchMap } from 'rxjs/operators';
 import { ELocales } from './models/locales';
+import { deleteFalsy } from './models/utils';
 
 @Injectable({
   providedIn: 'root',
@@ -105,7 +106,8 @@ export class AuroraService {
   }
 
   getAuroraMapData$(lat?: number, long?: number): Observable<any> {
-    return this._http.get(`${environment.host}${environment.swpc.ovationMap}`, { params: { lat, long } });
+    const params = deleteFalsy({lat, long})
+    return this._http.get(`${environment.host}${environment.swpc.ovationMap}`, { params });
   }
 
   getNowcast$(lat: number, lng: number): Observable<{ nowcast: number }> {
