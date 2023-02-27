@@ -16,8 +16,8 @@ import { STATUS_BAR_COLOR } from './models/colors';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  selectedKp: number;
-  currentKp: number;
+  // selectedKp: number;
+  // currentKp: number;
 
   //private splashScreen: SplashScreen // TODO
   constructor(
@@ -47,7 +47,7 @@ export class AppComponent {
     });
   }
 
-  private _isNotifsActive(): void {
+  // private _isNotifsActive(): void {
     // this.storageService.get('notifications_active').then(notifs => {
     //     if (notifs) {
     //         // console.log(this.selectedKp);
@@ -59,12 +59,12 @@ export class AppComponent {
     //         }
     //     }
     // });
-  }
+  // }
 
-  private _getKp(): void {
+  // private _getKp(): void {
     // this.storage.get('kp_notif').then(kp => (this.selectedKp = kp));
     // this.storage.get('current_kp').then(kp => (this.currentKp = kp));
-  }
+  // }
 
   private _getLocale(): void {
     this._storageService.getData('locale').then(

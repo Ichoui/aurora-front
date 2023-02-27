@@ -140,7 +140,6 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
     if (!codeLocation) {
       this._userLocalisation();
     } else if (codeLocation.code === 'currentLocation' || codeLocation.code === 'marker') {
-      console.log(codeLocation);
       this._reverseGeoloc(codeLocation.lat, codeLocation.long);
     } else {
       this._chooseExistingCity(codeLocation.code);
