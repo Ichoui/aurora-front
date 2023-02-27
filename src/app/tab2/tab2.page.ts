@@ -259,27 +259,10 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
   }
 
   private _getSolarWind(dataSolarWind: SolarWind[], instant = false): SolarWind[] | SolarWind {
-    const keyFromFirstIndexValue = Object.values(dataSolarWind[0]);
-    let solarWind: SolarWind[] = [];
-    for (const value of Object.values(dataSolarWind)) {
-      // Associe un tableau de clef à un tableau de valeurs à chaque itération et l'ajoute à un tableau
-      solarWind.push(
-        keyFromFirstIndexValue.reduce((acc, key, index) => {
-          let val = value[index];
-          if (key !== 'propagated_time_tag' && key !== 'time_tag' && key !== 'temperature') {
-            // Transforme certaine valeur en Integer
-            // Si value n'existe pas (null), on retourne null (bt bz)
-            val = val ? parseFloat(value[index]) : value[index];
-          }
-          return { ...acc, [key]: val };
-        }, {}),
-      );
-    }
     if (instant) {
-      return solarWind[solarWind.length - 1];
+      return dataSolarWind[dataSolarWind.length - 1];
     }
-    solarWind.shift(); // Removing first index with keys
-    return solarWind;
+    return dataSolarWind;
   }
 
   private _getKpForecast(kpForecast: KpForecast[]): KpForecast[] {
