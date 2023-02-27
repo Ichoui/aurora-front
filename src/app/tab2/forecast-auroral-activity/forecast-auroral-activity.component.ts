@@ -203,6 +203,7 @@ export class ForecastAuroralActivityComponent implements OnChanges {
         forecastColors.push(colorSwitcher(unit.color));
       }
     }
+
     if (firstChange) {
       // 14 values
       this._chartKpForecast27 = this._chartKp('kpforecast', forecastDate, forecastValue, forecastColors);
