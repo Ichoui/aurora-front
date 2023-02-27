@@ -17,32 +17,6 @@ export class AuroraService {
   constructor(private _http: HttpClient) {}
 
   /**
-   * @deprecated should not be used
-   * @lat {number} longitude
-   * @long {number} latitude
-   * get la v2 providé par aurora.live grâce au Space Weather Prediction Center
-   * https://v2.api.auroras.live/images/embed/nowcast.png
-   */
-  // auroraLiveV2$(lat?: number, long?: number): Observable<any> {
-  //   return this._http.post(`${environment.cors}${environment.aurora_v2_api}`, {
-  //     modules: [
-  //       AuroraModules.kpcurrent,
-  //       AuroraModules.nowcastlocal,
-  //       // AuroraModules.kpforecast,
-  //       // AuroraModules.density,
-  //       // AuroraModules.speed,
-  //       // AuroraModules.kp27day,
-  //       // AuroraModules.bz,
-  //       // AuroraModules.bt,
-  //     ],
-  //     common: {
-  //       lat,
-  //       long,
-  //     },
-  //   });
-  // }
-
-  /**
    * Choix tranché : on envoie le système français (métrique et langues), de sorte à ne récupérer que des valeurs en km/h et des celsius.
    * Il faut obligatoirement les remplacer à la main via du code
    * @lat {number} latitude
@@ -90,9 +64,9 @@ export class AuroraService {
    * file .txt
    * */
   getKpForecast27Days$(): Observable<string> {
-    return fromFetch(`${environment.host}${environment.swpc.kpForecast27Days}`, { headers: environment.auroraHeaders }).pipe(
-      switchMap((res: Response) => res.text()),
-    );
+    return fromFetch(`${environment.host}${environment.swpc.kpForecast27Days}`, {
+      headers: environment.auroraHeaders,
+    }).pipe(switchMap((res: Response) => res.text()));
   }
 
   /*
@@ -130,12 +104,12 @@ export class AuroraService {
     );
   }
 
-  getAuroraMapData$(): Observable<any> {
-    return this._http.get(`${environment.host}${environment.swpc.ovationMap}`);
+  getAuroraMapData$(lat?: number, long?: number): Observable<any> {
+    return this._http.get(`${environment.host}${environment.swpc.ovationMap}`, { params: { lat, long } });
   }
 
-  getNowcast$(lat: number, lng: number): Observable<number> {
-    return this._http.post<number>(`${environment.host}${environment.swpc.nowcast}`, { lat, lng });
+  getNowcast$(lat: number, lng: number): Observable<{ nowcast: number }> {
+    return this._http.post<{ nowcast: number }>(`${environment.host}${environment.swpc.nowcast}`, { lat, lng });
   }
 
   test$(): Observable<any> {

@@ -30,7 +30,7 @@
       "density": " Particles density",
       "density.unit": "(p/cc)",
       "speed": " Solar wind",
-      "probability": "Probabilities from your location to observe the Auroras",
+      "probability": "Probabilities from your location to observe Northern Lights",
       "bz": "Bz",
       "bz.north": "North",
       "bz.south": "South",
@@ -62,7 +62,8 @@
       "sub-aurora-map": "Tap to watch live Auroral oval and to choose your location",
       "title": "Auroral oval map",
       "select": "Preset locations",
-      "another": "Try another location"
+      "another": "Try another location",
+      "unknown": "Unknown"
     }
   },
   "tab3": {

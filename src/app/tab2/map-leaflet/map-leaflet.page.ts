@@ -2,7 +2,19 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { cities, CodeLocation } from '../../models/cities';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { GeoJSON, Icon, LatLng, LatLngBounds, Map, Marker, PathOptions, Popup, Rectangle, tileLayer, ZoomPanOptions, } from 'leaflet';
+import {
+  GeoJSON,
+  Icon,
+  LatLng,
+  LatLngBounds,
+  Map,
+  Marker,
+  PathOptions,
+  Popup,
+  Rectangle,
+  tileLayer,
+  ZoomPanOptions,
+} from 'leaflet';
 import { TranslateService } from '@ngx-translate/core';
 import { StorageService } from '../../storage.service';
 import { Geoposition } from '@ionic-native/geolocation';
@@ -10,9 +22,16 @@ import { first, map, takeUntil, tap } from 'rxjs/operators';
 import { Geocoding } from '../../models/geocoding';
 import { AuroraService } from '../../aurora.service';
 import { countryNameFromCode } from '../../models/utils';
-import { FORECAST_COLOR_GRAY, FORECAST_COLOR_GREEN, FORECAST_COLOR_ORANGE, FORECAST_COLOR_RED, FORECAST_COLOR_YELLOW, } from '../../models/colors';
+import {
+  FORECAST_COLOR_GRAY,
+  FORECAST_COLOR_GREEN,
+  FORECAST_COLOR_ORANGE,
+  FORECAST_COLOR_RED,
+  FORECAST_COLOR_YELLOW,
+} from '../../models/colors';
 import { ELocales } from '../../models/locales';
 import { Subject } from 'rxjs';
+import { fromPromise } from 'rxjs/internal-compatibility';
 
 @Component({
   selector: 'app-map-leaflet',
@@ -145,21 +164,17 @@ export class MapLeafletPage implements OnInit, OnDestroy {
 
     this._auroraService
       .getAuroraMapData$()
-      .pipe(
+        .pipe(
         takeUntil(this._destroy$),
         tap((coords: number[] /*[long, lat, aurora]*/) => {
           let length = coords.length;
+            // if (long === Math.round(longCurrent) && lat === Math.round(latCurrent)) {
+            //   void this._storageService.setData('nowcastAurora', nowcastAurora);
+            // }
           while (--length) {
             let long = coords[length][0];
             const lat = coords[length][1];
             const nowcastAurora = coords[length][2];
-
-            console.log('juste before init nowcast');
-            console.log(long);
-            console.log(lat);
-            if (long === Math.round(longCurrent) && lat === Math.round(latCurrent)) {
-              void this._storageService.setData('nowcastAurora', nowcastAurora);
-            }
             const corner1 = new LatLng(lat + 2, long + 2),
               corner2 = new LatLng(lat, long),
               bounds = new LatLngBounds(corner1, corner2);
@@ -176,11 +191,9 @@ export class MapLeafletPage implements OnInit, OnDestroy {
               } as PathOptions),
               // https://leafletjs.com/reference.html#path explanations about options
             );
-            //   }
-            // }
           }
         }),
-        tap(() => this._addMarker(latCurrent, longCurrent, true)),
+        tap(() => this._addMarker(latCurrent, longCurrent)),
       )
       .subscribe();
   }
@@ -188,10 +201,9 @@ export class MapLeafletPage implements OnInit, OnDestroy {
   /**
    * @param lat {number}
    * @param long {number}
-   * @param nowcastSetOnInit {boolean}
    * Permet de créer un marqueur
    * */
-  private _addMarker(lat: any, long: any, nowcastSetOnInit = false) {
+  private _addMarker(lat: any, long: any) {
     if (!this._marker) {
       this._marker = new Marker([lat, long], {
         draggable: false,
@@ -203,7 +215,7 @@ export class MapLeafletPage implements OnInit, OnDestroy {
     } else {
       this._marker.setLatLng(new LatLng(lat, long));
     }
-    this._reverseGeocode(lat, long, nowcastSetOnInit);
+    this._reverseGeocode(lat, long);
   }
 
   /**
@@ -221,18 +233,15 @@ export class MapLeafletPage implements OnInit, OnDestroy {
           long: resp.coords.longitude,
         });
       })
-      .catch(error => {
-        console.warn('Error getting current location', error);
-      });
+      .catch(error => console.warn('Error getting current location', error));
   }
 
   /**
    * @param lat {number}
    * @param long {number}
-   * @param nowcastSetOnInit {boolean}
    * Afficher dans le tooltip l'emplacement du clic
    * */
-  private _reverseGeocode(lat: number, long: number, nowcastSetOnInit: boolean): void {
+  private _reverseGeocode(lat: number, long: number): void {
     this._auroraService
       .getGeocoding$(lat, long)
       .pipe(
@@ -252,7 +261,7 @@ export class MapLeafletPage implements OnInit, OnDestroy {
                 ? (infoWindow = countryNameFromCode(res.country, this._locale))
                 : (infoWindow = this._translate.instant('global.unknown'));
             }
-            this._prepareTooltip(infoWindow, lat, long, nowcastSetOnInit);
+            this._prepareTooltip(infoWindow, lat, long);
           },
           error: error => {
             console.error('Reverse geocode error ==> ', error);
@@ -268,30 +277,22 @@ export class MapLeafletPage implements OnInit, OnDestroy {
    * @param infoWindow {string}
    * @param lat {number}
    * @param lng
-   * @param nowcastSetOnInit
    * Affiche le tooltip
    * */
-  private _prepareTooltip(infoWindow: string, lat?: number, lng?: number, nowcastSetOnInit?: boolean): void {
+  private _prepareTooltip(infoWindow: string, lat?: number, lng?: number): void {
     if (!this._popup) {
       this._popup = new Popup({ closeButton: true, autoClose: true });
     }
     if (lat && lng) {
-      // Quand on ouvre la carte, permet de pas faire un appel inutile pour récupérer le nowcast
-      // Légèrement long ...
-      if (!nowcastSetOnInit) {
-        this._auroraService
-          .getNowcast$(lat, lng)
-          .pipe(
-            first(),
-            tap(e => this._createTooltip(infoWindow, e['nowcast'], lat, lng)),
-          )
-          .subscribe();
-      } else {
-        void this._storageService.getData('nowcastAurora').then((nowcast: number) => {
-          this._createTooltip(infoWindow, nowcast, lat, lng);
-        });
-      }
+      this._auroraService
+        .getNowcast$(lat, lng)
+        .pipe(
+          first(),
+          tap(e => this._createTooltip(infoWindow, e['nowcast'], lat, lng)),
+        )
+        .subscribe();
     } else {
+      // Empty tooltip because no lat & long
       this._createTooltip(infoWindow);
     }
   }
@@ -299,10 +300,11 @@ export class MapLeafletPage implements OnInit, OnDestroy {
   private _createTooltip(infoWindow, nowcast?, lat?, lng?) {
     let message;
     if (lat && lng) {
-      console.log(nowcast);
-      message = `<b>${infoWindow}</b> <br /> Lat: ${lat} <br/> Long: ${lng} <br/> Chances: ${nowcast}%`;
+      message = `<b>${infoWindow}</b> <br /> Lat: ${lat} <br/> Long: ${lng} <br/> Chances: ${
+        typeof nowcast === 'number' ? nowcast + '%' : this._translate.instant('tab2.maps.unknown')
+      }`;
     } else {
-      message = `<b>${infoWindow}</b><br /> ${this._translate.instant('tab2.map.another')} `;
+      message = `<b>${infoWindow}</b><br /> ${this._translate.instant('tab2.maps.another')} `;
     }
     this._popup.setLatLng({ lat, lng }).setContent(message).addTo(this._map).openOn(this._map);
     void this._storageService.setData('nowcastAurora', nowcast);

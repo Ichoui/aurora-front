@@ -63,9 +63,7 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
     private _storageService: StorageService,
     private _navCtrl: NavController,
     private _auroraService: AuroraService,
-  ) {
-    _auroraService.test$().subscribe()
-  }
+  ) {}
 
   ngOnDestroy(): void {
     this._destroy$.next();
@@ -130,7 +128,7 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
             number,
             KpCurrent,
           ]) => {
-            this.coords = {...this.coords, latitude: location.lat, longitude: location.long};
+            this.coords = { ...this.coords, latitude: location.lat, longitude: location.long };
             this.solarCycle = solarCycle;
             this.solarWindInstant = this._getSolarWind(solarWind, true) as SolarWind;
             this.solarWind = this._getSolarWind(solarWind) as SolarWind[];
@@ -207,19 +205,17 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
    * Récupère les données ACE de vent solaire, nowcast et kp
    * */
   private _getDataACE(): void {
-    console.log(this.coords);
     combineLatest([
       this._auroraService.getSolarWind$(),
       this._auroraService.getCurrentKp$(),
       this._auroraService.getKpForecast27Days$(),
       this._auroraService.getKpForecast$(),
       this._auroraService.getSolarCycle$(),
-      this._auroraService.getNowcast$(this.coords.longitude, this.coords.longitude),
-      this._auroraService.getAuroraMapData$(), // not used here, we only need it to load nowcast on server side
+      this._auroraService.getAuroraMapData$(this.coords.latitude, this.coords.longitude),
     ])
       .pipe(
         tap({
-          next: ([solarWind, kpCurrent, kp27day, kpForecast, solarCycle, nowcast]: [
+          next: ([solarWind, kpCurrent, kp27day, kpForecast, solarCycle, nc]: [
             SolarWind[],
             KpCurrent,
             string,
@@ -234,7 +230,7 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
             this.solarWind = this._getSolarWind(solarWind) as SolarWind[];
             this.kpForecast = this._getKpForecast(kpForecast);
             this.kpForecast27days = this._getKpForecast27day(kp27day);
-            this.nowcastAurora = nowcast.nowcast;
+            this.nowcastAurora = nc.nowcast
 
             // End loading
             this.loading = false;
@@ -245,7 +241,7 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
             void this._storageService.setData('kpForecast', kpForecast);
             void this._storageService.setData('kp27day', kp27day);
             void this._storageService.setData('ACEdate', new Date());
-            void this._storageService.setData('nowcastAurora', this.nowcastAurora);
+            void this._storageService.setData('nowcastAurora', nc.nowcast);
           },
           error: (error: HttpErrorResponse) => {
             console.warn('Wind Solar data error', error);
@@ -268,14 +264,14 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
     for (const value of Object.values(dataSolarWind)) {
       // Associe un tableau de clef à un tableau de valeurs à chaque itération et l'ajoute à un tableau
       solarWind.push(
-        keyFromFirstIndexValue.reduce((o, k, i) => {
-          let val = value[i];
-          if (k !== 'propagated_time_tag' && k !== 'time_tag' && k !== 'temperature') {
+        keyFromFirstIndexValue.reduce((acc, key, index) => {
+          let val = value[index];
+          if (key !== 'propagated_time_tag' && key !== 'time_tag' && key !== 'temperature') {
             // Transforme certaine valeur en Integer
             // Si value n'existe pas (null), on retourne null (bt bz)
-            val = val ? parseFloat(value[i]) : value[i];
+            val = val ? parseFloat(value[index]) : value[index];
           }
-          return { ...o, [k]: val };
+          return { ...acc, [key]: val };
         }, {}),
       );
     }

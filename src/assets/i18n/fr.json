@@ -64,7 +64,8 @@
       "sub-aurora-map": "Touche pour visualiser l'ovale auroral en temps réel et choisir ta localisation",
       "title": "Carte aurorale",
       "select": "Localisation prédéfinie",
-      "another": "Essaye un autre endroit"
+      "another": "Essaye un autre endroit",
+      "unknown": "Inconnue"
     }
   },
   "tab3": {
