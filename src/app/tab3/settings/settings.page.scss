@@ -3,11 +3,12 @@
 .card-container {
   &.credits {
     color: white;
-    background-image: url('/assets/img/artwork-auroras.jpg');
+    background-image: url('/assets/img/banner.png');
     background-size: cover;
     padding-bottom: 10px;
     margin-bottom: 25px;
-    
+    -webkit-filter: brightness(0.85);
+    filter: brightness(0.85);
     :nth-child(2) {
       margin-top: 15px;
     }

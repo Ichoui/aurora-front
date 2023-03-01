@@ -2,14 +2,28 @@ ion-header {
   .toolbar {
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
     height: 68px;
 
-    img {
-      width: 120px;
+    .logo {
+      display: flex;
+      align-self: center;
+      div {
+        margin-left: 5px;
+        font-size: 1.5em;
+        justify-content: center;
+        text-align: center;
+        font-family: var(--ion-font-light);
+      }
+      img {
+        border: 2px solid var(--ion-color-primary);
+        border-radius: 50%;
+        width: 55px;
+        height: 55px;
+      }
     }
 
     span {
+      align-self: flex-end;
       text-align: right;
       font-family: var(--ion-font-bold);
       font-weight: bold;
