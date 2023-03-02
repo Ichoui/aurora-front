@@ -23,14 +23,16 @@
 > - npx cap update
     >   > Note that **--watch** arg recompile code each time you save, but will not execute again copy/update
 
-## Method to on Android Studio
+## Methods to run app on Android Studio
 
 ```
 // IF ANDROID FOLDER EXISTS
 Terminal :
-ionic cap sync --prod --watch (1 time)
-npx cap copy (each recompile)
-*OR*
+[test mode]
+ionic cap sync --prod --watch (first time only)
+npx cap copy (each recompile with ctrl+s)
+
+[prod mode]
 ionic build --prod
 npx cap copy
 
@@ -40,11 +42,12 @@ npx cap open android (if Android Studio is not launched)
 
 
 Android Studio :
-// Choice depending on if app is already launch or not
-Run App / Apply change and restart Activity (arrow with A)
+// Choice 1 or 2, depending on if app is already launch or not
+1 : Run App
+2 : Apply change and restart Activity (circular arrow with A)
 ```
 
-A rajouter quand npx cap add android :
+Add the following when use commande `npx cap add android` (create the ./android folder) 
 
 ```
 In androidManifest.XML :
@@ -58,3 +61,5 @@ In androidManifest.XML :
 https://stackoverflow.com/questions/70903567/pairing-new-device-on-android-studio-bumblebee-over-wifi
 
 Was working on java19 (change env path)
+
+Update date : 02/03/2023
