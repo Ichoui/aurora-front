@@ -80,9 +80,11 @@
     <div class="header credits">{{ 'tab3.settings.credits.title' | translate }}</div>
     <span *ngFor="let c of credits">
       {{ 'tab3.settings.credits.' + c.label | translate }}
-      <a href="#" (click)="openUrl(c.url)">
-        {{ 'tab3.settings.credits.' + c.labelLink | translate }}
-      </a>
+      <a href="#" (click)="openUrl(c.url)">{{ 'tab3.settings.credits.' + c.labelLink | translate }}</a>
+      <ng-container *ngIf="c?.bis">
+        {{ 'tab3.settings.credits.' + c.bis.label | translate }}
+        <a href="#" (click)="openUrl(c.bis.url)">{{ 'tab3.settings.credits.' + c.bis.labelLink | translate }}</a>
+      </ng-container>
     </span>
     <span>
       <ion-button class="legal" color="primary" size="small" (click)="CGU()">
@@ -100,20 +102,17 @@
     <ion-fab-button color="secondary" (click)="openUrl('https://www.linkedin.com/in/morgan-nicol-1b019b104/')">
       <ion-icon name="logo-linkedin" color="dark"></ion-icon>
     </ion-fab-button>
-    <ion-fab-button color="secondary" (click)="openUrl('https://twitter.com/Ichoui')">
-      <ion-icon name="logo-twitter" color="dark"></ion-icon>
-    </ion-fab-button>
     <ion-fab-button color="secondary" (click)="openUrl('https://github.com/Ichoui')">
       <ion-icon name="logo-github" color="dark"></ion-icon>
     </ion-fab-button>
     <ion-fab-button color="secondary" (click)="openUrl('https://gitlab.com/Ichoui')">
       <ion-icon name="logo-gitlab" color="dark"></ion-icon>
     </ion-fab-button>
-    <ion-fab-button color="secondary" (click)="openUrl('https://www.paypal.me/ichoui/1')">
-      <span class="icon icon-paypal"></span>
-    </ion-fab-button>
     <ion-fab-button color="secondary" href="mailto:morganichoui@gmail.com">
       <ion-icon name="at" color="dark"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button color="secondary" (click)="openUrl('https://www.paypal.me/ichoui/1')">
+      <ion-icon name="cafe" color="dark"></ion-icon>
     </ion-fab-button>
   </ion-fab-list>
 </ion-fab>

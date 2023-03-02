@@ -86,7 +86,9 @@
         "second": "Weather data powered by  ",
         "second.link": "OpenWeather",
         "third": "If you like it, don't forget to ",
-        "third.link": "rate me!"
+        "third.link": "note me1",
+        "third.bis": " or buy me a ",
+        "third.bis.link": "coffee !"
       },
       "cgu": "Terms of Use",
       "languages": "Language",
