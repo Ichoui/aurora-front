@@ -37,7 +37,7 @@ export class SettingsPage implements OnViewWillEnter {
     {
       label: 'second',
       labelLink: 'second.link',
-      url: 'https://codepen.io/jh3y/pen/JKddVx',
+      url: 'https://openweathermap.org/',
     },
     {
       label: 'third',

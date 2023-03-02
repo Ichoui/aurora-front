@@ -85,8 +85,8 @@
         "title": "Crédits",
         "first": "Prévisions aurorales fournies par la ",
         "first.link": "NOAA",
-        "second": "Merci à JHEY pour son ",
-        "second.link": "Aurora CSS Project",
+        "second": "Données météo par ",
+        "second.link": "OpenWeather",
         "third": "Si t'aimes, laisse-moi une ",
         "third.link": "note !"
       },
