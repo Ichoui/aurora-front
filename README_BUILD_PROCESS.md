@@ -28,7 +28,7 @@
 ```
 // IF ANDROID FOLDER EXISTS
 Terminal :
-npx cap sync --prod --watch (1 time)
+ionic cap sync --prod --watch (1 time)
 npx cap copy (each recompile)
 *OR*
 ionic build --prod

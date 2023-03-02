@@ -14,6 +14,7 @@ import { combineLatest, from, Subject } from 'rxjs';
 import { OnViewWillEnter } from '../models/ionic';
 import { ELocales } from '../models/locales';
 import * as moment from 'moment';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-tab1',
@@ -46,6 +47,7 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
     private _navCtrl: NavController,
     private _platform: Platform,
     private _auroraService: AuroraService,
+    private _translate: TranslateService,
   ) {}
 
   ngOnDestroy(): void {
@@ -97,11 +99,11 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
             }
           },
           error: (error: HttpErrorResponse) => {
-            console.warn('Local storage error', error);
+            console.warn('Local storage error', error.message);
             this.dataError = new ErrorTemplate({
               value: true,
               status: error.status,
-              message: error.statusText,
+              message: this._translate.instant('global.error.storage'),
               error,
             });
           },
@@ -155,12 +157,13 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
       .getCurrentPosition()
       .then(resp => this._reverseGeoloc(resp.coords.latitude, resp.coords.longitude))
       .catch((error: HttpErrorResponse) => {
-        console.warn('Geolocalisation error', error);
+        console.warn('Geolocalisation error', error.error);
         this.loading = false;
+        this._eventRefresh?.target?.complete();
         this.dataError = new ErrorTemplate({
           value: true,
           status: error.status,
-          message: error.statusText,
+          message: this._translate.instant('global.error.geoloc'),
           error,
         });
       });
@@ -189,12 +192,13 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
             this._getForecast(this.city, this.country);
           },
           error: (error: HttpErrorResponse) => {
-            console.warn('Reverse geocode error ==> ', error);
+            console.warn('Reverse geocode error ==> ', error.error);
             this.loading = false;
+            this._eventRefresh?.target?.complete();
             this.dataError = new ErrorTemplate({
               value: false,
               status: error.status,
-              message: error.statusText,
+              message: this._translate.instant('global.error.reversegeo'),
               error,
             });
           },
@@ -249,12 +253,13 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
           this._eventRefresh ? this._eventRefresh.target.complete() : '';
         },
         (error: HttpErrorResponse) => {
-          console.warn('OpenWeatherMap forecast error', error);
+          console.warn('OpenWeatherMap forecast error', error.error);
           this.loading = false;
+          this._eventRefresh?.target?.complete();
           this.dataError = new ErrorTemplate({
             value: true,
             status: error.status,
-            message: error.statusText,
+            message: this._translate.instant('global.error.weatherForecast'),
             error,
           });
         },

@@ -4,7 +4,14 @@
     "loading": "Ta localisation est en cours de chargement ...",
     "back": "Retour",
     "cancel": "Annuler",
-    "uselesstemplate": "My text {{val}} {'path.to | translate: {val: condition}}"
+    "uselesstemplate": "My text {{val}} {'path.to | translate: {val: condition}}",
+    "error": {
+      "solarwind": "Erreur de réseau ou du module SWPC",
+      "geoloc": "Erreur de réseau ou du module de géolocalisation",
+      "storage": "Erreur de stockage local",
+      "weatherForecast": "Erreur de réseau ou du module météo",
+      "reversegeo": "Erreur de réseau ou du module de géolocalisation renversée"
+    }
   },
   "tab1": {
     "title": "Météo",

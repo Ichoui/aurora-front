@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import { cities, CodeLocation, Coords } from '../models/cities';
 import { AuroraService } from '../aurora.service';
 import { NavController } from '@ionic/angular';
@@ -15,6 +15,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ELocales } from '../models/locales';
 import SwiperCore, { Navigation, Pagination, SwiperOptions } from 'swiper';
 import * as moment from 'moment/moment';
+import { TranslateService } from '@ngx-translate/core';
 
 SwiperCore.use([Pagination, Navigation]);
 
@@ -30,7 +31,6 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
   city: string;
   country: string;
 
-  eventRefresh: any;
 
   // Data inputs
   kpForecast: KpForecast[] = [];
@@ -57,12 +57,14 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
   };
 
   private readonly _destroy$ = new Subject<void>();
+  private _eventRefresh: any;
 
   constructor(
     private _geoloc: Geolocation,
     private _storageService: StorageService,
     private _navCtrl: NavController,
     private _auroraService: AuroraService,
+    private _translate: TranslateService,
   ) {}
 
   ngOnDestroy(): void {
@@ -139,11 +141,11 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
             this.loading = false;
           },
           error: error => {
-            console.warn('Local storage error', error);
+            console.warn('Local storage error', error.error);
             this.dataError = new ErrorTemplate({
               value: true,
               status: error.status,
-              message: error.statusText,
+              message: this._translate.instant('global.error.storage'),
               error,
             });
           },
@@ -161,12 +163,13 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
       .getCurrentPosition()
       .then(resp => this._getExistingLocalisation(resp.coords.latitude, resp.coords.longitude))
       .catch(error => {
-        console.warn('Geolocalisation error', error);
+        console.warn('Geolocalisation error', error.message);
         this.loading = false;
+        this._eventRefresh?.target?.complete();
         this.dataError = new ErrorTemplate({
           value: true,
           status: error.status,
-          message: error.statusText,
+          message: this._translate.instant('global.error.geoloc'),
           error,
         });
       });
@@ -230,11 +233,11 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
             this.solarWind = this._getSolarWind(solarWind) as SolarWind[];
             this.kpForecast = this._getKpForecast(kpForecast);
             this.kpForecast27days = this._getKpForecast27day(kp27day);
-            this.nowcastAurora = nc.nowcast
+            this.nowcastAurora = nc.nowcast;
 
             // End loading
             this.loading = false;
-            this.eventRefresh ? this.eventRefresh.target.complete() : '';
+            this._eventRefresh?.target?.complete();
 
             void this._storageService.setData('solarCycle', solarCycle);
             void this._storageService.setData('solarWind', solarWind);
@@ -244,12 +247,14 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
             void this._storageService.setData('nowcastAurora', nc.nowcast);
           },
           error: (error: HttpErrorResponse) => {
-            console.warn('Wind Solar data error', error);
+            console.warn('Solar Wind data error', error.message);
+            console.log(this._translate.instant('global.error.solarwind'));
             this.loading = false;
+            this._eventRefresh?.target?.complete();
             this.dataError = new ErrorTemplate({
               value: true,
               status: error.status,
-              message: error.statusText,
+              message: this._translate.instant('global.error.solarwind'),
               error,
             });
           },
@@ -297,7 +302,7 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
    * Attends les retours des résultats d'API pour retirer l'animation visuelle
    * */
   doRefresh(event) {
-    this.eventRefresh = event;
+    this._eventRefresh = event;
     this._getDataACE();
   }
 }

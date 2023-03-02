@@ -3,7 +3,14 @@
     "unknown": "Unknown location",
     "loading": "Current location loading...",
     "back": "Back",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "error": {
+      "solarwind": "Network or SWPC module error",
+      "geoloc": "Network or geolocalisation module error",
+      "storage": "Local storage error",
+      "weatherForecast": "Network or weather module error",
+      "reversegeo": "Network or reverse geocode module error"
+    }
   },
   "tab1": {
     "title": "Weather",
