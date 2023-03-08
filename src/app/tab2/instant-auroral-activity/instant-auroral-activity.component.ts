@@ -32,11 +32,7 @@ export class InstantAuroralActivityComponent implements OnInit, OnChanges {
       this.speed = {
         ...this.speed,
         value: convertUnitMeasure(this.speed.value, this.measureUnit),
-        color: determineColorsOfValue(
-          'speed',
-          convertUnitMeasure(this.speed.value, this.measureUnit),
-          this.measureUnit,
-        ),
+        color: determineColorsOfValue('speed', convertUnitMeasure(this.speed.value, this.measureUnit), this.measureUnit),
         unit: this.measureUnit,
       };
     }

@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Coords } from '../../models/cities';
 import * as moment from 'moment';
-import { Cloudy, Currently, Daily, DailyTemp, Hourly, IconsOWM, LottiesValues, MeasureUnits, TemperatureUnits, } from '../../models/weather';
+import { Cloudy, Currently, Daily, DailyTemp, Hourly, IconsOWM, LottiesValues, MeasureUnits, TemperatureUnits } from '../../models/weather';
 import { Chart, registerables } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { AnimationOptions } from 'ngx-lottie';
@@ -65,18 +65,8 @@ export class MeteoComponent implements OnChanges {
       temp: convertUnitTemperature(currentWeather.temp, this.temperature),
       feels_like: convertUnitTemperature(currentWeather.feels_like, this.temperature),
     };
-    this.sunset = manageDates(
-      currentWeather.sunset,
-      this.locale === ELocales.EN ? 'hh:mm A' : 'HH[h]mm',
-      this.locale,
-      true,
-    );
-    this.sunrise = manageDates(
-      currentWeather.sunrise,
-      this.locale === ELocales.EN ? 'hh:mm A' : 'HH[h]mm',
-      this.locale,
-      true,
-    );
+    this.sunset = manageDates(currentWeather.sunset, this.locale === ELocales.EN ? 'hh:mm A' : 'HH[h]mm', this.locale, true);
+    this.sunrise = manageDates(currentWeather.sunrise, this.locale === ELocales.EN ? 'hh:mm A' : 'HH[h]mm', this.locale, true);
     this._lotties(this._calculateWeaterIcons(currentWeather));
     this.currentDatetime = manageDates(
       moment().unix(),

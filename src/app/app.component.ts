@@ -48,22 +48,22 @@ export class AppComponent {
   }
 
   // private _isNotifsActive(): void {
-    // this.storageService.get('notifications_active').then(notifs => {
-    //     if (notifs) {
-    //         // console.log(this.selectedKp);
-    //         // console.log(this.currentKp);
-    //         if (this.selectedKp === this.currentKp && this.selectedKp !== undefined) {
-    //             // console.log('Cool');
-    //         } else {
-    //             // console.log('PAS Cool');
-    //         }
-    //     }
-    // });
+  // this.storageService.get('notifications_active').then(notifs => {
+  //     if (notifs) {
+  //         // console.log(this.selectedKp);
+  //         // console.log(this.currentKp);
+  //         if (this.selectedKp === this.currentKp && this.selectedKp !== undefined) {
+  //             // console.log('Cool');
+  //         } else {
+  //             // console.log('PAS Cool');
+  //         }
+  //     }
+  // });
   // }
 
   // private _getKp(): void {
-    // this.storage.get('kp_notif').then(kp => (this.selectedKp = kp));
-    // this.storage.get('current_kp').then(kp => (this.currentKp = kp));
+  // this.storage.get('kp_notif').then(kp => (this.selectedKp = kp));
+  // this.storage.get('current_kp').then(kp => (this.currentKp = kp));
   // }
 
   private _getLocale(): void {
@@ -95,7 +95,7 @@ export class AppComponent {
         if (measure) {
           void this._storageService.setData('measure', measure);
         } else {
-          if (this._translateService.getBrowserLang() ===  ELocales.FR) {
+          if (this._translateService.getBrowserLang() === ELocales.FR) {
             void this._storageService.setData('measure', 'metric');
           } else {
             void this._storageService.setData('measure', 'imperial');
@@ -111,21 +111,21 @@ export class AppComponent {
 
   private _getTempUnit(): void {
     this._storageService.getData('temperature').then(
-        (measure: TemperatureUnits) => {
-          if (measure) {
-            void this._storageService.setData('temperature', measure);
+      (measure: TemperatureUnits) => {
+        if (measure) {
+          void this._storageService.setData('temperature', measure);
+        } else {
+          if (this._translateService.getBrowserLang() === ELocales.FR) {
+            void this._storageService.setData('temperature', 'celsius');
           } else {
-            if (this._translateService.getBrowserLang() === ELocales.FR) {
-              void this._storageService.setData('temperature', 'celsius');
-            } else {
-              void this._storageService.setData('temperature', 'fahrenheit');
-            }
+            void this._storageService.setData('temperature', 'fahrenheit');
           }
-        },
-        noValue => {
-          void this._storageService.setData('measure', 'metric');
-          console.warn('novalue of measure unit', noValue);
-        },
+        }
+      },
+      noValue => {
+        void this._storageService.setData('measure', 'metric');
+        console.warn('novalue of measure unit', noValue);
+      },
     );
   }
 }

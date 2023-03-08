@@ -29,15 +29,8 @@
     <div class="header">{{ 'tab3.settings.languages' | translate }}</div>
     <div class="sub">{{ 'tab3.settings.sublanguages' | translate }}</div>
     <ion-item>
-      <ion-select
-        value="{{ locale }}"
-        interface="action-sheet"
-        (ionChange)="setLocale($event)"
-        cancelText="{{ 'global.cancel' | translate }}"
-      >
-        <ion-select-option *ngFor="let locale of locales" value="{{ locale.slug }}">
-          {{ locale.label | translate }}
-        </ion-select-option>
+      <ion-select value="{{ locale }}" interface="action-sheet" (ionChange)="setLocale($event)" cancelText="{{ 'global.cancel' | translate }}">
+        <ion-select-option *ngFor="let locale of locales" value="{{ locale.slug }}">{{ locale.label | translate }}</ion-select-option>
       </ion-select>
     </ion-item>
   </div>
@@ -46,12 +39,7 @@
     <div class="header">{{ 'tab3.settings.measure' | translate }}</div>
     <div class="sub">{{ 'tab3.settings.submeasure' | translate }}</div>
     <ion-item>
-      <ion-select
-        [value]="measureUnits"
-        interface="action-sheet"
-        (ionChange)="setMeasureUnit($event)"
-        [cancelText]="'global.cancel' | translate"
-      >
+      <ion-select [value]="measureUnits" interface="action-sheet" (ionChange)="setMeasureUnit($event)" [cancelText]="'global.cancel' | translate">
         <ion-select-option *ngFor="let u of measure" [value]="u.slug">
           <span>{{ u.label | translate }}</span>
         </ion-select-option>
@@ -87,9 +75,7 @@
       </ng-container>
     </span>
     <span>
-      <ion-button class="legal" color="primary" size="small" (click)="CGU()">
-        {{ 'tab3.settings.cgu' | translate }}
-      </ion-button>
+      <ion-button class="legal" color="primary" size="small" (click)="CGU()">{{ 'tab3.settings.cgu' | translate }}</ion-button>
     </span>
   </div>
 </ion-content>

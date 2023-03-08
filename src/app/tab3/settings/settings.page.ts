@@ -47,7 +47,7 @@ export class SettingsPage implements OnViewWillEnter {
         label: 'third.bis',
         labelLink: 'third.bis.link',
         url: 'https://www.paypal.me/ichoui/1',
-      }
+      },
     },
   ];
 
@@ -111,11 +111,11 @@ export class SettingsPage implements OnViewWillEnter {
   }
 
   private _getMeasureUnit(): void {
-    this._storageService.getData('measure').then((measure: MeasureUnits) => this.measureUnits = measure);
+    this._storageService.getData('measure').then((measure: MeasureUnits) => (this.measureUnits = measure));
   }
 
   private _getTemperatureUnit(): void {
-    this._storageService.getData('temperature').then((temp: TemperatureUnits) => this.temperatureUnits = temp);
+    this._storageService.getData('temperature').then((temp: TemperatureUnits) => (this.temperatureUnits = temp));
   }
 
   /**

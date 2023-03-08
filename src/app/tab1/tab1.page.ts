@@ -118,11 +118,7 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
    * No weather in store
    * Date stored is passed from more than 5mn
    * */
-  private _shouldRecallWeatherAPI(
-    weather: Weather,
-    location: CodeLocation,
-    previousLocation: { lat: number; long: number },
-  ): boolean {
+  private _shouldRecallWeatherAPI(weather: Weather, location: CodeLocation, previousLocation: { lat: number; long: number }): boolean {
     const weatherDateDifference = weather?.date ? moment(new Date()).diff(moment(weather['date']), 'minutes') : null;
     let bool = false;
 

@@ -2,19 +2,7 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { cities, CodeLocation } from '../../models/cities';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import {
-  GeoJSON,
-  Icon,
-  LatLng,
-  LatLngBounds,
-  Map,
-  Marker,
-  PathOptions,
-  Popup,
-  Rectangle,
-  tileLayer,
-  ZoomPanOptions,
-} from 'leaflet';
+import { GeoJSON, Icon, LatLng, LatLngBounds, Map, Marker, PathOptions, Popup, Rectangle, tileLayer, ZoomPanOptions } from 'leaflet';
 import { TranslateService } from '@ngx-translate/core';
 import { StorageService } from '../../storage.service';
 import { Geoposition } from '@ionic-native/geolocation';
@@ -22,16 +10,9 @@ import { first, map, takeUntil, tap } from 'rxjs/operators';
 import { Geocoding } from '../../models/geocoding';
 import { AuroraService } from '../../aurora.service';
 import { countryNameFromCode } from '../../models/utils';
-import {
-  FORECAST_COLOR_GRAY,
-  FORECAST_COLOR_GREEN,
-  FORECAST_COLOR_ORANGE,
-  FORECAST_COLOR_RED,
-  FORECAST_COLOR_YELLOW,
-} from '../../models/colors';
+import { FORECAST_COLOR_GRAY, FORECAST_COLOR_GREEN, FORECAST_COLOR_ORANGE, FORECAST_COLOR_RED, FORECAST_COLOR_YELLOW } from '../../models/colors';
 import { ELocales } from '../../models/locales';
 import { Subject } from 'rxjs';
-import { fromPromise } from 'rxjs/internal-compatibility';
 
 @Component({
   selector: 'app-map-leaflet',
@@ -164,13 +145,13 @@ export class MapLeafletPage implements OnInit, OnDestroy {
 
     this._auroraService
       .getAuroraMapData$()
-        .pipe(
+      .pipe(
         takeUntil(this._destroy$),
         tap((coords: number[] /*[long, lat, aurora]*/) => {
           let length = coords.length;
-            // if (long === Math.round(longCurrent) && lat === Math.round(latCurrent)) {
-            //   void this._storageService.setData('nowcastAurora', nowcastAurora);
-            // }
+          // if (long === Math.round(longCurrent) && lat === Math.round(latCurrent)) {
+          //   void this._storageService.setData('nowcastAurora', nowcastAurora);
+          // }
           while (--length) {
             let long = coords[length][0];
             const lat = coords[length][1];
@@ -251,15 +232,10 @@ export class MapLeafletPage implements OnInit, OnDestroy {
           next: (res: Geocoding) => {
             let infoWindow;
             if (res?.name && res?.country) {
-              infoWindow = `${res?.name}${res?.state ? ', ' + res.state : ''} - ${countryNameFromCode(
-                res.country,
-                this._locale,
-              )}`;
+              infoWindow = `${res?.name}${res?.state ? ', ' + res.state : ''} - ${countryNameFromCode(res.country, this._locale)}`;
             } else {
               infoWindow = this._translate.instant('global.unknown');
-              res?.country
-                ? (infoWindow = countryNameFromCode(res.country, this._locale))
-                : (infoWindow = this._translate.instant('global.unknown'));
+              res?.country ? (infoWindow = countryNameFromCode(res.country, this._locale)) : (infoWindow = this._translate.instant('global.unknown'));
             }
             this._prepareTooltip(infoWindow, lat, long);
           },

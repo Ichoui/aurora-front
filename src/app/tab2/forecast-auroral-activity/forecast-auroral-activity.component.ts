@@ -4,7 +4,7 @@ import { ModalComponent } from '../../shared/modal/modal.component';
 import { Chart, ChartType, registerables } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import * as moment from 'moment';
-import { colorSwitcher, convertUnitMeasure, determineColorsOfValue, manageDates, updateDataChart, } from '../../models/utils';
+import { colorSwitcher, convertUnitMeasure, determineColorsOfValue, manageDates, updateDataChart } from '../../models/utils';
 import { MAIN_TEXT_COLOR, WEATHER_NEXT_HOUR_CHART_COLOR } from '../../models/colors';
 import { CodeLocation, Coords } from '../../models/cities';
 import { StorageService } from '../../storage.service';
@@ -212,12 +212,7 @@ export class ForecastAuroralActivityComponent implements OnChanges {
     }
   }
 
-  private _chartKp(
-    type: 'kpforecast' | 'kpnexthours',
-    labels: string[],
-    data: string[],
-    colors: string[],
-  ): Chart<ChartType, string[]> {
+  private _chartKp(type: 'kpforecast' | 'kpnexthours', labels: string[], data: string[], colors: string[]): Chart<ChartType, string[]> {
     return new Chart(type, {
       type: 'bar',
       plugins: [ChartDataLabels],
@@ -309,30 +304,10 @@ export class ForecastAuroralActivityComponent implements OnChanges {
     }
 
     if (firstChange) {
-      this._chartKpDensity = ForecastAuroralActivityComponent._chartSolarWind(
-        'density',
-        solarWindDate,
-        densityForecast.value,
-        densityForecast.color,
-      );
-      this._chartKpSpeed = ForecastAuroralActivityComponent._chartSolarWind(
-        'speed',
-        solarWindDate,
-        speedForecast.value,
-        speedForecast.color,
-      );
-      this._chartKpBz = ForecastAuroralActivityComponent._chartSolarWind(
-        'bz',
-        solarWindDate,
-        bzForecast.value,
-        bzForecast.color,
-      );
-      this._chartKpBt = ForecastAuroralActivityComponent._chartSolarWind(
-        'bt',
-        solarWindDate,
-        btForecast.value,
-        btForecast.color,
-      );
+      this._chartKpDensity = ForecastAuroralActivityComponent._chartSolarWind('density', solarWindDate, densityForecast.value, densityForecast.color);
+      this._chartKpSpeed = ForecastAuroralActivityComponent._chartSolarWind('speed', solarWindDate, speedForecast.value, speedForecast.color);
+      this._chartKpBz = ForecastAuroralActivityComponent._chartSolarWind('bz', solarWindDate, bzForecast.value, bzForecast.color);
+      this._chartKpBt = ForecastAuroralActivityComponent._chartSolarWind('bt', solarWindDate, btForecast.value, btForecast.color);
     } else {
       // Update data only !
       updateDataChart(this._chartKpDensity, solarWindDate, [densityForecast.value], densityForecast.color);
@@ -415,13 +390,7 @@ export class ForecastAuroralActivityComponent implements OnChanges {
     });
   }
 
-  private _chartSolarCycle(
-    labels: string[],
-    dataSsn: string[],
-    dataF10: string[],
-    colorsSsn: string,
-    colorsF10: string,
-  ): Chart<ChartType, string[]> {
+  private _chartSolarCycle(labels: string[], dataSsn: string[], dataF10: string[], colorsSsn: string, colorsF10: string): Chart<ChartType, string[]> {
     return new Chart('cycle', {
       type: 'line',
       data: {

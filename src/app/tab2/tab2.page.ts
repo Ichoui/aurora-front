@@ -31,7 +31,6 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
   city: string;
   country: string;
 
-
   // Data inputs
   kpForecast: KpForecast[] = [];
   kpForecast27days: Kp27day[] = [];
@@ -86,10 +85,7 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
     combineLatest([from(this._storageService.getData('ACEdate')), from(this._storageService.getData('location'))])
       .pipe(
         takeUntil(this._destroy$),
-        map(([ACEdate, location]: [number, CodeLocation]) => [
-          ACEdate ? moment(new Date()).diff(moment(ACEdate), 'minutes') > 10 : true,
-          location,
-        ]),
+        map(([ACEdate, location]: [number, CodeLocation]) => [ACEdate ? moment(new Date()).diff(moment(ACEdate), 'minutes') > 10 : true, location]),
         tap(([moreThanFiveMinutes, location]: [boolean, CodeLocation]) => {
           if (moreThanFiveMinutes) {
             // Avoid to load the page every time the user access to tab2, waiting 5 mins
@@ -208,43 +204,30 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
    * Récupère les données ACE de vent solaire, nowcast et kp
    * */
   private _getDataACE(): void {
-    combineLatest([
-      this._auroraService.getSolarWind$(),
-      this._auroraService.getCurrentKp$(),
-      this._auroraService.getKpForecast27Days$(),
-      this._auroraService.getKpForecast$(),
-      this._auroraService.getSolarCycle$(),
-      this._auroraService.getAuroraMapData$(this.coords.latitude, this.coords.longitude),
-    ])
+    this._auroraService
+      .getAllSwpcDatas$(this.coords.latitude, this.coords.longitude)
       .pipe(
         tap({
-          next: ([solarWind, kpCurrent, kp27day, kpForecast, solarCycle, nc]: [
-            SolarWind[],
-            KpCurrent,
-            string,
-            KpForecast[],
-            SolarCycle[],
-            { nowcast: number },
-          ]) => {
-            this.kpCurrent = kpCurrent;
-            void this._storageService.setData('kpCurrent', kpCurrent); // to me remove
-            this.solarCycle = solarCycle;
-            this.solarWindInstant = this._getSolarWind(solarWind, true) as SolarWind;
-            this.solarWind = this._getSolarWind(solarWind) as SolarWind[];
-            this.kpForecast = this._getKpForecast(kpForecast);
-            this.kpForecast27days = this._getKpForecast27day(kp27day);
-            this.nowcastAurora = nc.nowcast;
+          next: value => {
+            this.kpCurrent = value.instantKp;
+            void this._storageService.setData('kpCurrent', value.instantKp);
+            this.solarCycle = value.forecastSolarCycle;
+            this.solarWindInstant = this._getSolarWind(value.forecastSolarWind, true) as SolarWind;
+            this.solarWind = this._getSolarWind(value.forecastSolarWind) as SolarWind[];
+            this.kpForecast = this._getKpForecast(value.forecastKp);
+            this.kpForecast27days = this._getKpForecast27day(value.forecastTwentySevenDays);
+            this.nowcastAurora = value.nowcast;
 
             // End loading
             this.loading = false;
             this._eventRefresh?.target?.complete();
 
-            void this._storageService.setData('solarCycle', solarCycle);
-            void this._storageService.setData('solarWind', solarWind);
-            void this._storageService.setData('kpForecast', kpForecast);
-            void this._storageService.setData('kp27day', kp27day);
+            void this._storageService.setData('solarCycle', value.forecastSolarCycle);
+            void this._storageService.setData('solarWind', value.forecastSolarWind);
+            void this._storageService.setData('kpForecast', value.forecastKp);
+            void this._storageService.setData('kp27day', value.forecastTwentySevenDays);
             void this._storageService.setData('ACEdate', new Date());
-            void this._storageService.setData('nowcastAurora', nc.nowcast);
+            void this._storageService.setData('nowcastAurora', value.nowcast);
           },
           error: (error: HttpErrorResponse) => {
             console.warn('Solar Wind data error', error.message);

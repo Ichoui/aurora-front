@@ -70,8 +70,16 @@ export interface SolarCycle {
 }
 
 export interface KpCurrent {
-  'time_tag': string; // 2022-11-21T21:30:00 UTC
-  'k_index': number;
+  time_tag: string; // 2022-11-21T21:30:00 UTC
+  k_index: number;
   color?: AuroraEnumColours; // Set in client side base on kpIndex value
+}
 
+export interface SwpcData {
+  forecastSolarCycle: SolarCycle[],
+  forecastSolarWind: SolarWind[],
+  forecastKp: KpForecast[],
+  forecastTwentySevenDays: string,
+  instantKp: KpCurrent,
+  nowcast: number;
 }

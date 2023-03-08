@@ -60,12 +60,7 @@ export function convertUnitTemperature(nb: number, unit: TemperatureUnits): numb
  * @param locale ELocale
  * @param unix {boolean} Permet de convertir une date au format UNIX (Unix Timestamp) ou DATE lambda
  * */
-export function manageDates(
-  date: number | string,
-  format: string,
-  locale?: ELocales,
-  unix = false,
-): string | moment.Moment {
+export function manageDates(date: number | string, format: string, locale?: ELocales, unix = false): string | moment.Moment {
   const offset = moment().utcOffset();
   const d = unix ? moment.unix(date as number).locale(locale) : moment.utc(date);
   return d.utcOffset(offset).format(format);
@@ -140,11 +135,7 @@ export function monthSwitcher(
 }
 
 // http://auroraslive.io/#/api/v1/introduction
-export function determineColorsOfValue(
-  data: 'bz' | 'density' | 'speed' | 'bt' | 'kp',
-  value: number,
-  unit?: MeasureUnits,
-): AuroraEnumColours {
+export function determineColorsOfValue(data: 'bz' | 'density' | 'speed' | 'bt' | 'kp', value: number, unit?: MeasureUnits): AuroraEnumColours {
   switch (data) {
     case 'density':
       if (value >= 15) {

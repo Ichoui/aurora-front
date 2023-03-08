@@ -21,7 +21,7 @@ import { ForecastAuroralActivityModule } from './forecast-auroral-activity/forec
     RouterModule.forChild([{ path: '', component: Tab2Page }]),
     HeaderPageModule,
     InstantAuroralActivityModule,
-      ForecastAuroralActivityModule,
+    ForecastAuroralActivityModule,
     BrokenPageModule,
     SwiperModule,
   ],

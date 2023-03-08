@@ -12,7 +12,7 @@ export interface Weather {
   minutely: Minutely[];
   hourly: Hourly[];
   daily: Daily[];
-  date?: string
+  date?: string;
 }
 
 export interface Currently {
@@ -163,7 +163,7 @@ export const measureUnits: SelectContents[] = [
   {
     slug: 'imperial',
     label: 'tab3.settings.imperial',
-  }
+  },
 ];
 
 export const temperatureUnits: SelectContents[] = [
