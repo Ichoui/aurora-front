@@ -231,7 +231,6 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
           },
           error: (error: HttpErrorResponse) => {
             console.warn('Solar Wind data error', error.message);
-            console.log(this._translate.instant('global.error.solarwind'));
             this.loading = false;
             this._eventRefresh?.target?.complete();
             this.dataError = new ErrorTemplate({
