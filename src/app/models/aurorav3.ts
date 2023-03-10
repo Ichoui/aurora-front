@@ -7,12 +7,6 @@ export interface SolarWind {
   bz?: number;
   bt?: number;
   propagated_time_tag?: string;
-  temperature?: number; // not used
-  bx?: number; // Not used
-  by?: number; // Not used
-  vx?: number; // Not used
-  vy?: number; // Not used
-  vz?: number; // Not used
 }
 
 export enum AuroraEnumColours {
