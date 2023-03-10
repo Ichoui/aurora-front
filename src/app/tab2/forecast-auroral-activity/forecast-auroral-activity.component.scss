@@ -1,6 +1,13 @@
 @import '../../../theme/shared';
 
 .card-container {
+  overflow-x: scroll ;
+  .chart-wrapper {
+    width: 800px !important;
+    overflow-x: scroll;
+    overflow-y: hidden;
+  }
+
   &:last-child {
     margin-bottom: 15px;
   }

@@ -194,16 +194,19 @@ export class ForecastAuroralActivityComponent implements OnChanges {
     const forecastDate = [];
     const forecastColors = [];
     for (const [i, unit] of forecast.entries()) {
-      if (forecastValue.length < numberMax27Forecast && i % 2 === 0) {
+      console.log(unit);
+      // if (forecastValue.length < numberMax27Forecast && i % 2 === 0) {
         forecastDate.push(moment(unit.date).format('DD/MM'));
         forecastValue.push(unit.value);
         if (unit.value >= 6) {
           unit.color = AuroraEnumColours.red;
         }
         forecastColors.push(colorSwitcher(unit.color));
-      }
+      // }
     }
 
+    console.log(forecastDate);
+    console.log(forecastValue);
     if (firstChange) {
       // 14 values
       this._chartKpForecast27 = this._chartKp('kpforecast', forecastDate, forecastValue, forecastColors);
