@@ -40,8 +40,8 @@ export class InstantAuroralActivityComponent implements OnInit, OnChanges {
     if (changes?.kpCurrent) {
       const kpCurrent = changes.kpCurrent.currentValue;
       this.kpCurrent = {
-        k_index: !isNaN(kpCurrent.k_index) ? roundTwoNumbers(kpCurrent.k_index) : null,
-        time_tag: kpCurrent.time_tag,
+        kpIndex: !isNaN(kpCurrent.k_index) ? roundTwoNumbers(kpCurrent.k_index) : null,
+        timeTag: kpCurrent.time_tag,
         color: determineColorsOfValue('kp', roundTwoNumbers(kpCurrent.k_index)),
       };
     }

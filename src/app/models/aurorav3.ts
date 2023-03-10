@@ -51,10 +51,9 @@ export interface Kp27day {
 }
 
 export interface KpForecast {
-  value: number;
-  color: AuroraEnumColours;
-  date: Date;
-  predicted: 'predicted' | 'estimated' | 'observed';
+  kpIndex: number;
+  timeTag: Date;
+  color?: AuroraEnumColours; // Set in client side base on kpIndex value
 }
 
 export interface SolarCycle {
@@ -64,8 +63,8 @@ export interface SolarCycle {
 }
 
 export interface KpCurrent {
-  time_tag: string; // 2022-11-21T21:30:00 UTC
-  k_index: number;
+  timeTag: string; // 2022-11-21T21:30:00 UTC
+  kpIndex: number;
   color?: AuroraEnumColours; // Set in client side base on kpIndex value
 }
 

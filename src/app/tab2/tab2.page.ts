@@ -255,12 +255,10 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
   private _getKpForecast(kpForecast: KpForecast[]): KpForecast[] {
     return kpForecast
       .map(kp => ({
-        color: determineColorsOfValue('kp', parseInt(kp[1])),
-        value: parseInt(kp[1]),
-        predicted: kp[2],
-        date: new Date(kp[0]),
+        color: determineColorsOfValue('kp', kp.kpIndex),
+        kpIndex: kp.kpIndex,
+        timeTag: new Date(kp.timeTag),
       }))
-      .filter(kp => kp.predicted === 'predicted');
   }
 
   private _getKpForecast27day(file: string): Kp27day[] {

@@ -173,9 +173,9 @@ export class ForecastAuroralActivityComponent implements OnChanges {
     const nextHoursColors = [];
     for (const unit of forecast) {
       if (nextHoursForecast.length < numberMaxNextHours) {
-        nextHoursDate.push(moment(unit.date).format('HH') + 'h');
-        nextHoursForecast.push(unit.value);
-        if (unit.value >= 6) {
+        nextHoursDate.push(moment(unit.timeTag).format('HH') + 'h');
+        nextHoursForecast.push(unit.kpIndex);
+        if (unit.kpIndex >= 6) {
           unit.color = AuroraEnumColours.red;
         }
         nextHoursColors.push(colorSwitcher(unit.color));

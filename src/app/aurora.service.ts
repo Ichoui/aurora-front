@@ -5,9 +5,7 @@ import { environment } from '../environments/environment';
 import { ExcludeType, MeasureUnits, Weather } from './models/weather';
 import { Pole } from './shared/modal/modal.component';
 import { Geocoding } from './models/geocoding';
-import { KpCurrent, KpForecast, SolarCycle, SolarWind, SwpcData } from './models/aurorav3';
-import { fromFetch } from 'rxjs/fetch';
-import { switchMap } from 'rxjs/operators';
+import { SwpcData } from './models/aurorav3';
 import { ELocales } from './models/locales';
 import { deleteFalsy } from './models/utils';
 
@@ -79,42 +77,42 @@ export class AuroraService {
    * time_tag is UTC formaty
    * https://www.swpc.noaa.gov/products/real-time-solar-wind --> Other API here, who confirms that I use the correct one API
    * */
-  getSolarWind$(): Observable<SolarWind[]> {
-    return this._http.get<SolarWind[]>(`${environment.host}${environment.swpc.solarWind}`);
-  }
+  // getSolarWind$(): Observable<SolarWind[]> {
+  //   return this._http.get<SolarWind[]>(`${environment.host}${environment.swpc.solarWind}`);
+  // }
 
   /*
    * KP Forecast 27 days
    * file .txt
    * */
-  getKpForecast27Days$(): Observable<string> {
-    return fromFetch(`${environment.host}${environment.swpc.kpForecast27Days}`, {
-      headers: environment.auroraHeaders,
-    }).pipe(switchMap((res: Response) => res.text()));
-  }
+  // getKpForecast27Days$(): Observable<string> {
+  //   return fromFetch(`${environment.host}${environment.swpc.kpForecast27Days}`, {
+  //     headers: environment.auroraHeaders,
+  //   }).pipe(switchMap((res: Response) => res.text()));
+  // }
 
   /*
    * KP Forecast next 3 days
    * */
-  getCurrentKp$(): Observable<KpCurrent> {
-    return this._http.get<KpCurrent>(`${environment.host}${environment.swpc.currentKp}`);
-  }
+  // getCurrentKp$(): Observable<KpCurrent> {
+  //   return this._http.get<KpCurrent>(`${environment.host}${environment.swpc.currentKp}`);
+  // }
 
   /*
    * KP Forecast next 3 days
    * */
-  getKpForecast$(): Observable<KpForecast[]> {
-    return this._http.get<KpForecast[]>(`${environment.host}${environment.swpc.kpForecast}`);
-  }
+  // getKpForecast$(): Observable<KpForecast[]> {
+  //   return this._http.get<KpForecast[]>(`${environment.host}${environment.swpc.kpForecast}`);
+  // }
 
   /*
    * Predictions Solar cycle
    * F10.7 Solar Flux Units
    * Sunspot Number
    * */
-  getSolarCycle$(): Observable<SolarCycle[]> {
-    return this._http.get<SolarCycle[]>(`${environment.host}${environment.swpc.solarCycle}`);
-  }
+  // getSolarCycle$(): Observable<SolarCycle[]> {
+  //   return this._http.get<SolarCycle[]>(`${environment.host}${environment.swpc.solarCycle}`);
+  // }
 
   test$(): Observable<any> {
     return this._http.get(`${environment.host}${environment.swpc.solarWind}`);
