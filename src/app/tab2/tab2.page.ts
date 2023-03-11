@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { cities, CodeLocation, Coords } from '../models/cities';
 import { AuroraService } from '../aurora.service';
 import { NavController } from '@ionic/angular';
@@ -9,7 +9,7 @@ import { map, takeUntil, tap } from 'rxjs/operators';
 import { combineLatest, from, Subject } from 'rxjs';
 import { MeasureUnits } from '../models/weather';
 import { Kp27day, KpCurrent, KpForecast, SolarCycle, SolarWind } from '../models/aurorav3';
-import { determineColorsOfValue, monthSwitcher } from '../models/utils';
+import { determineColorsOfValue } from '../models/utils';
 import { OnViewWillEnter } from '../models/ionic';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ELocales } from '../models/locales';
@@ -266,10 +266,14 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
     for (const [index, line] of file.split(/[\r\n]+/).entries()) {
       const hashRegex = /#(\w*)/; // Ligne ne commençant pas par un commentaire #
       if (index >= 11 && !hashRegex.exec(line)) {
+        // lineArray type : [Year, Month, Day, SolarF10.7, A-index, Largest KpIndex]
         const lineArray = line.split(' ').filter(e => !!e);
+        if (!lineArray.length) {
+          break;
+        }
         lineObject.push({
-          date: new Date(parseInt(lineArray[0]), monthSwitcher(lineArray[1]?.toLowerCase()), parseInt(lineArray[2])),
-          value: parseInt(lineArray[lineArray.length - 1]),
+          timeTag: moment(`${lineArray[2]} ${lineArray[1]} ${lineArray[0]}`, 'DD MMM').format('DD/MM'),
+          kpIndex: parseInt(lineArray[lineArray.length - 1]),
           color: determineColorsOfValue('kp', parseInt(lineArray[lineArray.length - 1])),
         });
       }

@@ -1,11 +1,15 @@
 @import '../../../theme/shared';
 
 .card-container {
-  overflow-x: scroll ;
   .chart-wrapper {
-    width: 800px !important;
-    overflow-x: scroll;
     overflow-y: hidden;
+    overflow-x: scroll;
+    width: 100%;
+    max-width: 700px;
+    .chart-wrapper-body {
+      //height: 200px;
+      width: 600px;
+    }
   }
 
   &:last-child {

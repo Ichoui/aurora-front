@@ -1,4 +1,6 @@
 import { MeasureUnits } from './weather';
+import * as moment from 'moment/moment';
+import { Moment } from 'moment';
 
 export interface SolarWind {
   time_tag?: string;
@@ -45,9 +47,9 @@ export interface Bt {
 }
 
 export interface Kp27day {
-  value: number;
+  kpIndex: number;
+  timeTag: any ; // moment date
   color: AuroraEnumColours;
-  date: Date;
 }
 
 export interface KpForecast {
