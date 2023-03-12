@@ -2,6 +2,28 @@
   //position: relative;
   //width: 100%;
   //height: 100%;
+
+  @keyframes pulse {
+    0% {
+      box-shadow: rgb(52 199 123) 0px 0px 0px 0px;
+    }
+    70% {
+      box-shadow: rgb(52 199 123 / 0%) 0px 0px 0px 7px;
+    }
+    100% {
+      box-shadow: rgb(52 199 123 / 0%) 0px 0px 0px 0px;
+    }
+  }
+
+  .live {
+    width: 10px;
+    height: 10px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    margin-right: 12px;
+    background: rgb(52, 199, 123);
+    animation: 3s ease 0s infinite normal none running pulse;
+  }
 }
 
 .ace-data {
