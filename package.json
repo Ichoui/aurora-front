@@ -12,6 +12,7 @@
     "android": "npm run build:prod && npx cap copy",
     "android:watch": "ionic cap sync --watch --prod",
     "android:copy-files": "npx cap copy",
+    "android:update-files": "npx cap update",
     "info:ionic": "ionic info",
     "prettier": "prettier --write \"**/*.{js,ts,css,scss,html}\"",
     "prettier:check": "prettier --check \"**/*.{js,ts,css,scss,html}\"",

@@ -17,7 +17,7 @@ import { MeasureUnits } from '../../models/weather';
 import { TranslateService } from '@ngx-translate/core';
 
 const numberMax27Forecast = 14;
-const numberMaxNextHours = 10;
+const numberMaxNextHours = 12;
 Chart.register(...registerables);
 
 @Component({
@@ -397,7 +397,7 @@ export class ForecastAuroralActivityComponent implements OnChanges {
         labels: labels,
         datasets: [
           {
-            label: this._translateService.instant('tab2.maps.cycle.ssn'), //'Sunspot number',
+            label: this._translateService.instant('tab2.forecast.cycle.ssn'), //'Sunspot number',
             data: dataSsn,
             backgroundColor: colorsSsn,
             borderColor: colorsSsn,
@@ -405,7 +405,7 @@ export class ForecastAuroralActivityComponent implements OnChanges {
             pointRadius: 0,
           },
           {
-            label: this._translateService.instant('tab2.maps.cycle.sfu'), //'Solar Flux units',
+            label: this._translateService.instant('tab2.forecast.cycle.sfu'), //'Solar Flux units',
             data: dataF10,
             backgroundColor: colorsF10,
             borderColor: colorsF10,

@@ -7,7 +7,13 @@
 <ng-container *ngIf="solarWind && kpCurrent; else load">
   <div class="nowcast ace-data">
     <div>{{ nowcastAurora }}%</div>
-    <p [innerHTML]="'tab2.kp.probability' | translate"></p>
+    <p [innerHTML]="'tab2.instant.probability' | translate"></p>
+  </div>
+
+  <div class="live ace-data">
+    <!--    https://opensea.io/collection/armins-all-access  here is pulsing live-->
+    <div class="pulse"></div>
+    <span>{{ 'tab2.instant.live' | translate }}</span>
   </div>
 
   <div class="kp ace-data">
@@ -23,8 +29,8 @@
       ></span>
     </div>
     <div class="value" *ngIf="kpCurrent.kpIndex">{{ kpCurrent.kpIndex }}</div>
-    <div class="value no-data" *ngIf="!kpCurrent.kpIndex">{{ 'tab2.kp.noData' | translate }}</div>
-    <div class="label">{{ 'tab2.kp.kpindex' | translate }}</div>
+    <div class="value no-data" *ngIf="!kpCurrent.kpIndex">{{ 'tab2.instant.noData' | translate }}</div>
+    <div class="label">{{ 'tab2.instant.kpindex' | translate }}</div>
   </div>
 
   <div class="density ace-data">
@@ -40,10 +46,10 @@
       ></span>
     </div>
     <div class="value" *ngIf="density.value">{{ density.value }}</div>
-    <div class="value no-data" *ngIf="!density.value">{{ 'tab2.kp.noData' | translate }}</div>
+    <div class="value no-data" *ngIf="!density.value">{{ 'tab2.instant.noData' | translate }}</div>
     <div class="label">
-      {{ 'tab2.kp.density' | translate }}
-      <div class="unit">{{ 'tab2.kp.density.unit' | translate }}</div>
+      {{ 'tab2.instant.density' | translate }}
+      <div class="unit">{{ 'tab2.instant.density.unit' | translate }}</div>
     </div>
   </div>
 
@@ -60,9 +66,9 @@
       ></span>
     </div>
     <div class="value" *ngIf="speed.value">{{ speed.value }}</div>
-    <div class="value no-data" *ngIf="!speed.value">{{ 'tab2.kp.noData' | translate }}</div>
+    <div class="value no-data" *ngIf="!speed.value">{{ 'tab2.instant.noData' | translate }}</div>
     <div class="label">
-      {{ 'tab2.kp.speed' | translate }}
+      {{ 'tab2.instant.speed' | translate }}
       <div class="unit">{{ speed.unit === 'imperial' ? '(mps)' : '(km/s)' }}</div>
     </div>
   </div>
@@ -80,10 +86,10 @@
       ></span>
     </div>
     <div class="value" *ngIf="bz.value">{{ bz.value }}</div>
-    <div class="value no-data" *ngIf="!bz.value">{{ 'tab2.kp.noData' | translate }}</div>
+    <div class="value no-data" *ngIf="!bz.value">{{ 'tab2.instant.noData' | translate }}</div>
     <div class="label">
-      {{ 'tab2.kp.bz' | translate }}
-      <div class="unit">{{ bz.value > 0 ? ('tab2.kp.bz.north' | translate) : ('tab2.kp.bz.south' | translate) }}</div>
+      {{ 'tab2.instant.bz' | translate }}
+      <div class="unit">{{ bz.value > 0 ? ('tab2.instant.bz.north' | translate) : ('tab2.instant.bz.south' | translate) }}</div>
     </div>
   </div>
 
@@ -100,13 +106,8 @@
       ></span>
     </div>
     <div class="value" *ngIf="bt.value">{{ bt.value }}</div>
-    <div class="value no-data" *ngIf="!bt.value">{{ 'tab2.kp.noData' | translate }}</div>
-    <div class="label">{{ 'tab2.kp.bt' | translate }}</div>
-  </div>
-
-  <div class="ace-data">
-<!--    https://opensea.io/collection/armins-all-access  here is pulsing live-->
-    <div class="live"></div>
+    <div class="value no-data" *ngIf="!bt.value">{{ 'tab2.instant.noData' | translate }}</div>
+    <div class="label">{{ 'tab2.instant.bt' | translate }}</div>
   </div>
 </ng-container>
 

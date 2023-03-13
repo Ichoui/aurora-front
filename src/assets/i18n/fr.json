@@ -33,7 +33,7 @@
   },
   "tab2": {
     "title": "Aurores",
-    "kp": {
+    "instant": {
       "kpindex": "Kp Index",
       "density": " Densitée des particules",
       "density.unit": "(p/cc)",
@@ -43,9 +43,10 @@
       "bz.north": "Nord",
       "bz.south": "Sud",
       "bt": "Bt",
-      "noData": "ACE No data"
+      "noData": "ACE No data",
+      "live": "Données SWPC en temps réel"
     },
-    "maps": {
+    "forecast": {
       "poles": "Prévisions aurorales OVATION",
       "poles.sub": "Intensité de l'ovale auroral",
       "pole.north": "Pôle Nord",
@@ -115,13 +116,13 @@
       "title": "Informations",
       "welcome": {
         "title": "Aurora Borealis",
-        "message": "Cette application est destinée au phénomène des Aurores Boréales.<br>Que tu vives dans un pays lointain du phénomène, ou que tu sois un chasseur d'aurores assidu, cette application te permettra de t'informer quant à la probabilité de voir une Aurore Boréale, grâce aux données du <i>Space Weather Prediction Center</i>.<br> Une section météo est également intégrée à l'application, pour optimiser vos recherches !"
+        "message": "Cette application est destinée au phénomène des Aurores Boréales.<br>Que tu vives dans un pays lointain du phénomène, ou que tu sois un chasseur d'aurores assidu, cette application te permettra de t'informer quant à la probabilité de voir une Aurore Boréale, grâce aux données fournies par le <i>Space Weather Prediction Center</i>.<br> Une section météo est également intégrée à l'application, pour optimiser vos recherches !"
       },
       "firstblock": {
         "header": "Une Aurore Boréale ?",
         "perception": {
           "title": "Perception à l'oeil nu",
-          "message": "Avant tout, il faut savoir qu'une Aurore Boréale ne ressemble pas à l'idée que l'on se fait d'elle à travers de magnifiques clichés photographiques. Elles sont majoritairement <b>blanches pâles</b> à l'oeil  nu, quand il n'y a de grande activité aurorale.<br>Cela peut être décevant à première... vue ! En réalité, les couleurs ne sont que très légèrement perceptible par nos yeux, qui ont du mal à faire le contraste avec l'obscurité.<br>Pour voir de belles aurores bien colorées, il faut donc les prendre en photo !<br>Heureusement, lors de tempêtes géomagnétique, il est possible de voir des courants d'airs rapides pâles vaguement colorés dans le ciel, et cela reste tout de même sublime pour toutes personnes sachant les apprécier ! "
+          "message": "Avant tout, il faut savoir qu'une Aurore Boréale ne ressemble pas à l'idée que l'on se fait d'elles, souvent mis en avant au travers de magnifiques clichés. Il faut savoir qu'elles sont principalement de couleur <b>blanches pâles</b> à l'oeil  nu, quand il n'y a pas une grande activité aurorale.<br>Cela peut être décevant à première... vue ! En réalité, les couleurs ne sont que très légèrement perceptible par nos yeux, qui ont du mal à faire le contraste avec l'obscurité.<br>Pour voir de belles aurores bien colorées, il faut donc les prendre en photo, le capteur des appareils étant bien meilleurs que nous !<br>Lors de tempêtes géomagnétique, il est possible de voir comme des courants d'airs, rapides, pâles et vaguement colorés dans le ciel. Pour toutes personnes sachant apprécier une aurore boréale, ça reste sublime !"
         },
         "how": {
           "title": "Mécanisme ?",
@@ -129,11 +130,11 @@
         },
         "forecast": {
           "title": "Comment peut-on prévoir ce phénomène ?",
-          "message": "Grâce à un satellite nommé ACE (Advanced Composition Explorer) appartenant à la NASA, qui a pour mission d'étudier les particules solaires.<br>Les données sont ensuite traitée par le &laquo; Space Weather Prediction Center &raquo; qui est un service météorologique situé aux Etats-Unis.<br>Grâce au croisement de plusieurs données (comme le Bz, le KP, la Densité des particules ou encore la vitesse du vent solaire), on peut alors prévoir leur visibilité."
+          "message": "Grâce à un satellite nommé ACE (Advanced Composition Explorer) appartenant à la NASA, qui a pour mission d'étudier les particules solaires.<br>Les données sont ensuite traitée par le &laquo; Space Weather Prediction Center &raquo; qui est un service météorologique situé aux Etats-Unis.<br>Grâce au croisement de plusieurs données (comme par exemple le Bz, le KP, la Densité des particules ou encore la vitesse du vent solaire, mais aussi la couverture nuaugeuse), on peut alors prévoir leur visibilité."
         },
         "capricious": {
           "title": "Les prévisions sont-elles précises ?",
-          "message": "Non.<br>Les données scientifiques ne peuvent garantir leur visibilité (sans même parler des nuages / pollution lumineuse). Le mieux reste toujours de sortir dehors vérifier qu'elles sont bien là. On parle beaucoup en probabilité quand on veut assister à ce phénomène."
+          "message": "Non.<br>Les données scientifiques ne peuvent garantir leur visibilité à 100%. On parle surtout en probabilité, mais apprendre à les lire permet de mieux comprendre le phénomène. Il y a également les facteurs couverture nuageuse et pollution lumineuse qui entrent en compte. <br>Le mieux reste toujours de sortir dehors vérifier qu'elles sont bien là."
         },
         "colors": {
           "title": "Verte, violette ou rose",

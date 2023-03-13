@@ -247,18 +247,17 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
 
   private _getSolarWind(dataSolarWind: SolarWind[], instant = false): SolarWind[] | SolarWind {
     if (instant) {
-      return dataSolarWind[dataSolarWind.length - 1];
+      return dataSolarWind.filter(wind => wind.bz !== null && wind.bt !== null).slice(-1)[0];
     }
     return dataSolarWind;
   }
 
   private _getKpForecast(kpForecast: KpForecast[]): KpForecast[] {
-    return kpForecast
-      .map(kp => ({
-        color: determineColorsOfValue('kp', kp.kpIndex),
-        kpIndex: kp.kpIndex,
-        timeTag: new Date(kp.timeTag),
-      }))
+    return kpForecast.map(kp => ({
+      color: determineColorsOfValue('kp', kp.kpIndex),
+      kpIndex: kp.kpIndex,
+      timeTag: new Date(kp.timeTag),
+    }));
   }
 
   private _getKpForecast27day(file: string): Kp27day[] {

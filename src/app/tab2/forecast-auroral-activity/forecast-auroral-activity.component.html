@@ -1,59 +1,55 @@
 <div class="container">
   <div class="card-container" [routerLink]="['..', 'tab2', 'map']">
-    <div class="header">{{ 'tab2.maps.aurora-map' | translate }}</div>
-    <div class="sub">{{ 'tab2.maps.sub-aurora-map' | translate }}</div>
+    <div class="header">{{ 'tab2.forecast.aurora-map' | translate }}</div>
+    <div class="sub">{{ 'tab2.forecast.sub-aurora-map' | translate }}</div>
     <div id="map_canvas"></div>
   </div>
 
   <div class="card-container">
-    <div class="header">{{ 'tab2.maps.nexthours.title' | translate }}</div>
-    <div class="sub">{{ 'tab2.maps.nexthours.sub' | translate }}</div>
+    <div class="header">{{ 'tab2.forecast.nexthours.title' | translate }}</div>
+    <div class="sub">{{ 'tab2.forecast.nexthours.sub' | translate }}</div>
     <canvas id="kpnexthours"></canvas>
   </div>
 
   <div class="card-container">
-    <div class="header">{{ 'tab2.maps.longterm.title' | translate }}</div>
-    <div class="sub">{{ 'tab2.maps.longterm.sub' | translate }}</div>
-    <div class="chart-wrapper">
-      <div class="chart-wrapper-body">
-        <canvas id="kpforecast"></canvas>
-      </div>
-    </div>
+    <div class="header">{{ 'tab2.forecast.longterm.title' | translate }}</div>
+    <div class="sub">{{ 'tab2.forecast.longterm.sub' | translate }}</div>
+    <canvas id="kpforecast"></canvas>
   </div>
 
   <div class="card-container">
-    <div class="header">{{ 'tab2.maps.density.title' | translate }}</div>
-    <div class="sub">{{ 'tab2.maps.density.sub' | translate }}</div>
+    <div class="header">{{ 'tab2.forecast.density.title' | translate }}</div>
+    <div class="sub">{{ 'tab2.forecast.density.sub' | translate }}</div>
     <canvas id="density"></canvas>
   </div>
 
   <div class="card-container">
-    <div class="header">{{ 'tab2.maps.speed.title' | translate }}</div>
-    <div class="sub">{{ 'tab2.maps.speed.sub' | translate }}</div>
+    <div class="header">{{ 'tab2.forecast.speed.title' | translate }}</div>
+    <div class="sub">{{ 'tab2.forecast.speed.sub' | translate }}</div>
     <canvas id="speed"></canvas>
   </div>
 
   <div class="card-container">
-    <div class="header">{{ 'tab2.maps.bz.title' | translate }}</div>
-    <div class="sub">{{ 'tab2.maps.bz.sub' | translate }}</div>
+    <div class="header">{{ 'tab2.forecast.bz.title' | translate }}</div>
+    <div class="sub">{{ 'tab2.forecast.bz.sub' | translate }}</div>
     <canvas id="bz"></canvas>
   </div>
 
   <div class="card-container">
-    <div class="header">{{ 'tab2.maps.bt.title' | translate }}</div>
-    <div class="sub">{{ 'tab2.maps.bt.sub' | translate }}</div>
+    <div class="header">{{ 'tab2.forecast.bt.title' | translate }}</div>
+    <div class="sub">{{ 'tab2.forecast.bt.sub' | translate }}</div>
     <canvas id="bt"></canvas>
   </div>
 
   <div class="card-container">
-    <div class="header">{{ 'tab2.maps.cycle.title' | translate }}</div>
-    <div class="sub">{{ 'tab2.maps.cycle.sub' | translate }}</div>
+    <div class="header">{{ 'tab2.forecast.cycle.title' | translate }}</div>
+    <div class="sub">{{ 'tab2.forecast.cycle.sub' | translate }}</div>
     <canvas id="cycle"></canvas>
   </div>
 
   <div class="card-container">
-    <div class="header">{{ 'tab2.maps.poles' | translate }}</div>
-    <div class="sub">{{ 'tab2.maps.poles.sub' | translate }}</div>
+    <div class="header">{{ 'tab2.forecast.poles' | translate }}</div>
+    <div class="sub">{{ 'tab2.forecast.poles.sub' | translate }}</div>
     <div (click)="showPoles()" class="poles">
       <span class="icon icon-earth"></span>
     </div>

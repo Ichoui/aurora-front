@@ -32,7 +32,7 @@
   },
   "tab2": {
     "title": "Auroras",
-    "kp": {
+    "instant": {
       "kpindex": "Kp Index",
       "density": " Particles density",
       "density.unit": "(p/cc)",
@@ -42,10 +42,11 @@
       "bz.north": "North",
       "bz.south": "South",
       "bt": "Bt",
-      "noData": "ACE No data"
+      "noData": "ACE No data",
+      "live": "Live SWPC data"
 
     },
-    "maps": {
+    "forecast": {
       "poles": "OVATION Aurora Model",
       "poles.sub": "Auroral oval intensity",
       "pole.north": "North pole",
