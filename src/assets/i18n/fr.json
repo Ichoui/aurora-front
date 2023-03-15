@@ -44,7 +44,7 @@
       "bz.south": "Sud",
       "bt": "Bt",
       "noData": "ACE No data",
-      "live": "Données SWPC en temps réel"
+      "live": "Données NOAA SWPC en temps réel"
     },
     "forecast": {
       "poles": "Prévisions aurorales OVATION",
@@ -57,13 +57,13 @@
       "longterm.title": "Kp Index",
       "longterm.sub": "Prévisions 27 jours",
       "density.title": "Densitée des particules",
-      "density.sub": "Vent solaire",
+      "density.sub": "Vent solaire (km/s)",
       "speed.title": "Vitesse",
-      "speed.sub": "Vent solaire",
+      "speed.sub": "Vent solaire (km/s)",
       "bz.title": "Bz",
-      "bz.sub": "Champ Magnétique Interplanétaire (CMI)",
+      "bz.sub": "Champ Magnétique Interplanétaire (nT)",
       "bt.title": "Bt",
-      "bt.sub": "Champ Magnétique Interplanétaire (CMI)",
+      "bt.sub": "Champ Magnétique Interplanétaire (nT)",
       "cycle.title": "Cycle Solaire",
       "cycle.sub": "Période moy. de 11 ans",
       "cycle.ssn": "Nb. tâches solaires",

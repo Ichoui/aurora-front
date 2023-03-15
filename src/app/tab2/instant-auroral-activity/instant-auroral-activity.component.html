@@ -33,26 +33,6 @@
     <div class="label">{{ 'tab2.instant.kpindex' | translate }}</div>
   </div>
 
-  <div class="density ace-data">
-    <div class="colored">
-      <span
-        *ngFor="let i of [1, 2, 3, 4]"
-        [ngClass]="{
-          green: density.color === AuroraEnumColours.green,
-          yellow: density.color === AuroraEnumColours.yellow,
-          orange: density.color === AuroraEnumColours.orange,
-          red: density.color === AuroraEnumColours.red
-        }"
-      ></span>
-    </div>
-    <div class="value" *ngIf="density.value">{{ density.value }}</div>
-    <div class="value no-data" *ngIf="!density.value">{{ 'tab2.instant.noData' | translate }}</div>
-    <div class="label">
-      {{ 'tab2.instant.density' | translate }}
-      <div class="unit">{{ 'tab2.instant.density.unit' | translate }}</div>
-    </div>
-  </div>
-
   <div class="speed ace-data">
     <div class="colored">
       <span
@@ -70,6 +50,26 @@
     <div class="label">
       {{ 'tab2.instant.speed' | translate }}
       <div class="unit">{{ speed.unit === 'imperial' ? '(mps)' : '(km/s)' }}</div>
+    </div>
+  </div>
+
+  <div class="density ace-data">
+    <div class="colored">
+      <span
+              *ngFor="let i of [1, 2, 3, 4]"
+              [ngClass]="{
+          green: density.color === AuroraEnumColours.green,
+          yellow: density.color === AuroraEnumColours.yellow,
+          orange: density.color === AuroraEnumColours.orange,
+          red: density.color === AuroraEnumColours.red
+        }"
+      ></span>
+    </div>
+    <div class="value" *ngIf="density.value">{{ density.value }}</div>
+    <div class="value no-data" *ngIf="!density.value">{{ 'tab2.instant.noData' | translate }}</div>
+    <div class="label">
+      {{ 'tab2.instant.density' | translate }}
+      <div class="unit">{{ 'tab2.instant.density.unit' | translate }}</div>
     </div>
   </div>
 

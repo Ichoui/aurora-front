@@ -5,7 +5,7 @@
     "back": "Back",
     "cancel": "Cancel",
     "error": {
-      "solarwind": "Network or SWPC module error",
+      "solarwind": "Network or NOAA SWPC module error",
       "geoloc": "Network or geolocalisation module error",
       "storage": "Local storage error",
       "weatherForecast": "Network or weather module error",
@@ -43,7 +43,7 @@
       "bz.south": "South",
       "bt": "Bt",
       "noData": "ACE No data",
-      "live": "Live SWPC data"
+      "live": "Live NOAA SWPC data"
 
     },
     "forecast": {
@@ -57,13 +57,13 @@
       "longterm.title": "Long term forecast",
       "longterm.sub": "Kp maximum",
       "density.title": "Density",
-      "density.sub": "Solar wind",
+      "density.sub": "Solar wind (mph/s)",
       "speed.title": "Speed",
-      "speed.sub": "Solar wind",
+      "speed.sub": "Solar wind (mph/s)",
       "bz.title": "Bz",
-      "bz.sub": "Interplanetary Magnetic Field (IMF)",
+      "bz.sub": "IMF - Interplanetary Magnetic Field (nT)",
       "bt.title": "Bt",
-      "bt.sub": "Interplanetary Magnetic Field (IMF)",
+      "bt.sub": "IMF - Interplanetary Magnetic Field (nT)",
       "cycle.title": "Solar cycle",
       "cycle.sub": "Avg. duration of 11 year",
       "aurora-map": "Auroral oval map",

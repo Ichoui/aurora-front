@@ -72,7 +72,7 @@ export function roundTwoNumbers(nb: number): number {
 }
 
 // https://www.chartjs.org/docs/latest/developers/updates.html
-export function updateDataChart(chart: Chart<ChartType, string[]>, label: string[], data: any, colors: any, test = 0) {
+export function updateDataChart(chart: Chart<ChartType, string[]>, label: string[], data: any, colors?: any, test = 0) {
   chart.data.labels = label;
   chart.data.datasets.forEach((dataset, index) => {
     dataset.data = data[index];
@@ -81,6 +81,152 @@ export function updateDataChart(chart: Chart<ChartType, string[]>, label: string
   });
 
   chart.update();
+}
+
+export function determineChartGradient(gradient: any, type: 'bt' | 'bz' | 'speed' | 'density', data: number[], measure?: MeasureUnits): any {
+  let max = Math.max(...data);
+  let min = Math.min(...data);
+
+  if (type === 'speed') {
+    if (measure === MeasureUnits.METRIC) {
+      // red >= 700 // orange 700 500 // yellow 500 350 // green < 350
+      if (min < 350) {
+        gradient.addColorStop(0, FORECAST_COLOR_GREEN + 30);
+      } else if (min >= 350 && min < 500) {
+        gradient.addColorStop(0, FORECAST_COLOR_YELLOW + 30);
+      } else if (min >= 500 && min < 700) {
+        gradient.addColorStop(0, FORECAST_COLOR_ORANGE + 30);
+      } else if (min >= 700) {
+        gradient.addColorStop(0, FORECAST_COLOR_RED + 30);
+      }
+
+      if (max < 350) {
+        gradient.addColorStop(1, FORECAST_COLOR_GREEN);
+      } else if (max < 500) {
+        gradient.addColorStop(1, FORECAST_COLOR_YELLOW);
+      } else if (max < 700) {
+        if (min < 350) {
+          gradient.addColorStop(0.5, FORECAST_COLOR_YELLOW + 70);
+        }
+        gradient.addColorStop(1, FORECAST_COLOR_ORANGE);
+      } else if (max >= 700) {
+        if (min < 350) {
+          gradient.addColorStop(0.35, FORECAST_COLOR_YELLOW + 50);
+          gradient.addColorStop(0.7, FORECAST_COLOR_ORANGE + 70);
+        }
+        gradient.addColorStop(1, FORECAST_COLOR_RED);
+      }
+    }
+
+    if (measure === MeasureUnits.IMPERIAL) {
+      // red >= 435 // orange 435 310 // yellow 310 217 // green < 217
+      if (min < 217) {
+        gradient.addColorStop(0, FORECAST_COLOR_GREEN + 30);
+      } else if (min >= 217 && min < 310) {
+        gradient.addColorStop(0, FORECAST_COLOR_YELLOW + 30);
+      } else if (min >= 310 && min < 435) {
+        gradient.addColorStop(0, FORECAST_COLOR_ORANGE + 30);
+      } else if (min >= 435) {
+        gradient.addColorStop(0, FORECAST_COLOR_RED + 30);
+      }
+
+      if (max < 217) {
+        gradient.addColorStop(1, FORECAST_COLOR_GREEN);
+      } else if (max < 310) {
+        gradient.addColorStop(1, FORECAST_COLOR_YELLOW);
+      } else if (max < 435) {
+        if (min < 217) {
+          gradient.addColorStop(0.5, FORECAST_COLOR_YELLOW + 70);
+        }
+        gradient.addColorStop(1, FORECAST_COLOR_ORANGE);
+      } else if (max >= 435) {
+        if (min < 217) {
+          gradient.addColorStop(0.35, FORECAST_COLOR_YELLOW + 50);
+          gradient.addColorStop(0.7, FORECAST_COLOR_ORANGE + 70);
+        }
+        gradient.addColorStop(1, FORECAST_COLOR_RED);
+      }
+    }
+    return gradient;
+  }
+
+  if (type === 'density') {
+    // red > 15 // orange 15 10 // yellow 10 4 // green <= 4
+    // First determine the floor color
+    if (min < 4) {
+      gradient.addColorStop(0, FORECAST_COLOR_GREEN + 30);
+    } else if (min >= 4 && min < 10) {
+      gradient.addColorStop(0, FORECAST_COLOR_YELLOW + 30);
+    } else if (min >= 10 && min < 15) {
+      gradient.addColorStop(0, FORECAST_COLOR_ORANGE + 30);
+    } else if (min >= 15) {
+      gradient.addColorStop(0, FORECAST_COLOR_RED + 30);
+    }
+
+    // Then determine the max color ;
+    // for cases where the min is not in the "category" below (ex : below category of red is orange), we add the other colors
+    if (max < 4) {
+      gradient.addColorStop(1, FORECAST_COLOR_GREEN);
+    } else if (max < 10) {
+      gradient.addColorStop(1, FORECAST_COLOR_YELLOW);
+    } else if (max < 15) {
+      if (min < 4) {
+        gradient.addColorStop(0.5, FORECAST_COLOR_YELLOW + 70);
+      }
+      gradient.addColorStop(1, FORECAST_COLOR_ORANGE);
+    } else if (max >= 15) {
+      if (min < 4) {
+        gradient.addColorStop(0.35, FORECAST_COLOR_YELLOW + 50);
+        gradient.addColorStop(0.7, FORECAST_COLOR_ORANGE + 70);
+      }
+      gradient.addColorStop(1, FORECAST_COLOR_RED);
+    }
+    return gradient;
+  }
+
+  if (type === 'bz') {
+    gradient.addColorStop(0, FORECAST_COLOR_RED);
+    gradient.addColorStop(0.25, FORECAST_COLOR_ORANGE + 70);
+    gradient.addColorStop(0.49, FORECAST_COLOR_YELLOW + 70);
+    gradient.addColorStop(.5, FORECAST_COLOR_GREEN + 50);
+    gradient.addColorStop(1, FORECAST_COLOR_GREEN + 30);
+  }
+
+  if (type === 'bt') {
+    // red > 30 // orange 30 20 // yellow 20 10 // green <= 10
+    // First determine the floor color
+    if (min < 10) {
+      gradient.addColorStop(0, FORECAST_COLOR_GREEN + 30);
+    } else if (min >= 10 && min < 20) {
+      gradient.addColorStop(0, FORECAST_COLOR_YELLOW + 30);
+    } else if (min >= 20 && min < 30) {
+      gradient.addColorStop(0, FORECAST_COLOR_ORANGE + 30);
+    } else if (min >= 30) {
+      gradient.addColorStop(0, FORECAST_COLOR_RED + 30);
+    }
+
+    // Then determine the max color ;
+    // for cases where the min is not in the "category" below (ex : below category of red is orange), we add the other colors
+    if (max < 10) {
+      gradient.addColorStop(1, FORECAST_COLOR_GREEN);
+    } else if (max < 20) {
+      gradient.addColorStop(1, FORECAST_COLOR_YELLOW);
+    } else if (max < 30) {
+      if (min < 10) {
+        gradient.addColorStop(0.5, FORECAST_COLOR_YELLOW + 70);
+      }
+      gradient.addColorStop(1, FORECAST_COLOR_ORANGE);
+    } else if (max >= 30) {
+      if (min < 10) {
+        gradient.addColorStop(0.35, FORECAST_COLOR_YELLOW + 50);
+        gradient.addColorStop(0.7, FORECAST_COLOR_ORANGE + 70);
+      }
+      gradient.addColorStop(1, FORECAST_COLOR_RED);
+    }
+    return gradient;
+  }
+
+  return gradient;
 }
 
 // Replace a string color with the correct Application color
@@ -106,17 +252,6 @@ export function colorSwitcher(c: AuroraEnumColours): string {
 // http://auroraslive.io/#/api/v1/introduction
 export function determineColorsOfValue(data: 'bz' | 'density' | 'speed' | 'bt' | 'kp', value: number, unit?: MeasureUnits): AuroraEnumColours {
   switch (data) {
-    case 'density':
-      if (value >= 15) {
-        return AuroraEnumColours.red;
-      } else if (value >= 10 && value < 15) {
-        return AuroraEnumColours.orange;
-      } else if (value >= 4 && value < 10) {
-        return AuroraEnumColours.yellow;
-      } else if (value < 4) {
-        return AuroraEnumColours.green;
-      }
-      break;
     case 'speed':
       if (unit === MeasureUnits.METRIC) {
         if (value >= 700) {
@@ -139,6 +274,17 @@ export function determineColorsOfValue(data: 'bz' | 'density' | 'speed' | 'bt' |
         } else if (value < 217) {
           return AuroraEnumColours.green;
         }
+      }
+      break;
+    case 'density':
+      if (value >= 15) {
+        return AuroraEnumColours.red;
+      } else if (value >= 10 && value < 15) {
+        return AuroraEnumColours.orange;
+      } else if (value >= 4 && value < 10) {
+        return AuroraEnumColours.yellow;
+      } else if (value < 4) {
+        return AuroraEnumColours.green;
       }
       break;
     case 'bz':

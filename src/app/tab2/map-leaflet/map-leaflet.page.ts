@@ -277,10 +277,10 @@ export class MapLeafletPage implements OnInit, OnDestroy {
     let message;
     if (lat && lng) {
       message = `<b>${infoWindow}</b> <br /> Lat: ${lat} <br/> Long: ${lng} <br/> Chances: ${
-        typeof nowcast === 'number' ? nowcast + '%' : this._translate.instant('tab2.maps.unknown')
+        typeof nowcast === 'number' ? nowcast + '%' : this._translate.instant('tab2.forecast.unknown')
       }`;
     } else {
-      message = `<b>${infoWindow}</b><br /> ${this._translate.instant('tab2.maps.another')} `;
+      message = `<b>${infoWindow}</b><br /> ${this._translate.instant('tab2.forecast.another')} `;
     }
     this._popup.setLatLng({ lat, lng }).setContent(message).addTo(this._map).openOn(this._map);
     void this._storageService.setData('nowcastAurora', nowcast);

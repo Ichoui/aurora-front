@@ -4,8 +4,16 @@ import { ModalComponent } from '../../shared/modal/modal.component';
 import { Chart, ChartType, registerables } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import * as moment from 'moment';
-import { colorSwitcher, convertUnitMeasure, determineColorsOfValue, manageDates, updateDataChart } from '../../models/utils';
-import { MAIN_TEXT_COLOR, WEATHER_NEXT_HOUR_CHART_COLOR } from '../../models/colors';
+import { colorSwitcher, convertUnitMeasure, determineChartGradient, determineColorsOfValue, manageDates, updateDataChart } from '../../models/utils';
+import {
+  FORECAST_COLOR_GREEN,
+  FORECAST_COLOR_ORANGE,
+  FORECAST_COLOR_RED,
+  FORECAST_COLOR_YELLOW,
+  MAIN_TEXT_COLOR,
+  PRIMARY_COLOR,
+  WEATHER_NEXT_HOUR_CHART_COLOR,
+} from '../../models/colors';
 import { CodeLocation, Coords } from '../../models/cities';
 import { StorageService } from '../../storage.service';
 import { Geoposition } from '@ionic-native/geolocation';
@@ -271,49 +279,53 @@ export class ForecastAuroralActivityComponent implements OnChanges {
   private _calculateDataForChartSolarWind(forecast: SolarWind[], firstChange: boolean): void {
     const bzForecast = {
       value: [],
-      color: [],
+      // color: [],
     };
     const btForecast = {
       value: [],
-      color: [],
+      // color: [],
     };
     const densityForecast = {
       value: [],
-      color: [],
+      // color: [],
     };
     const speedForecast = {
       value: [],
-      color: [],
+      // color: [],
     };
     const solarWindDate = [];
 
     for (const unit of forecast) {
       solarWindDate.push(manageDates(unit.time_tag, this.locale === ELocales.FR ? 'HH[h]mm' : 'hh:mm A'));
       densityForecast.value.push(unit.density);
-      densityForecast.color.push(colorSwitcher(determineColorsOfValue('density', unit.density)));
+      // densityForecast.color.push(colorSwitcher(determineColorsOfValue('density', unit.density)));
 
       bzForecast.value.push(unit.bz);
-      bzForecast.color.push(colorSwitcher(determineColorsOfValue('bz', unit.bz)));
+      // bzForecast.color.push(colorSwitcher(determineColorsOfValue('bz', unit.bz)));
 
       btForecast.value.push(unit.bt);
-      btForecast.color.push(colorSwitcher(determineColorsOfValue('bt', unit.bt)));
+      // btForecast.color.push(colorSwitcher(determineColorsOfValue('bt', unit.bt)));
 
       const speed = convertUnitMeasure(unit.speed, this.measure);
       speedForecast.value.push(speed);
-      speedForecast.color.push(colorSwitcher(determineColorsOfValue('speed', speed, this.measure)));
+      // speedForecast.color.push(colorSwitcher(determineColorsOfValue('speed', speed, this.measure)));
     }
 
     if (firstChange) {
-      this._chartKpDensity = ForecastAuroralActivityComponent._chartSolarWind('density', solarWindDate, densityForecast.value, densityForecast.color);
-      this._chartKpSpeed = ForecastAuroralActivityComponent._chartSolarWind('speed', solarWindDate, speedForecast.value, speedForecast.color);
-      this._chartKpBz = ForecastAuroralActivityComponent._chartSolarWind('bz', solarWindDate, bzForecast.value, bzForecast.color);
-      this._chartKpBt = ForecastAuroralActivityComponent._chartSolarWind('bt', solarWindDate, btForecast.value, btForecast.color);
+      // bzForecast.value = [-15, -12, -8, -6, -4, -2, 1, 0, 2, 4, 6, 8, 9, 7, 5, -4, 0, 5, 10, 12, 14, 15];
+      this._chartKpDensity = ForecastAuroralActivityComponent._chartSolarWind('density', solarWindDate, densityForecast.value, {
+        bottom: 0,
+        top: null,
+      });
+      this._chartKpSpeed = ForecastAuroralActivityComponent._chartSolarWind('speed', solarWindDate, speedForecast.value, null, this.measure);
+      this._chartKpBz = ForecastAuroralActivityComponent._chartSolarWind('bz', solarWindDate, bzForecast.value, { bottom: -15, top: 15 });
+      this._chartKpBt = ForecastAuroralActivityComponent._chartSolarWind('bt', solarWindDate, btForecast.value, { bottom: 0, top: null });
     } else {
       // Update data only !
-      updateDataChart(this._chartKpDensity, solarWindDate, [densityForecast.value], densityForecast.color);
-      updateDataChart(this._chartKpSpeed, solarWindDate, [speedForecast.value], speedForecast.color);
-      updateDataChart(this._chartKpBz, solarWindDate, [bzForecast.value], bzForecast.color);
-      updateDataChart(this._chartKpBt, solarWindDate, [btForecast.value], btForecast.color);
+      updateDataChart(this._chartKpDensity, solarWindDate, [densityForecast.value]);
+      updateDataChart(this._chartKpSpeed, solarWindDate, [speedForecast.value]);
+      updateDataChart(this._chartKpBz, solarWindDate, [bzForecast.value]);
+      updateDataChart(this._chartKpBt, solarWindDate, [btForecast.value]);
     }
   }
 
@@ -340,8 +352,10 @@ export class ForecastAuroralActivityComponent implements OnChanges {
   private static _chartSolarWind(
     type: 'bz' | 'bt' | 'speed' | 'density',
     labels: string[],
-    data: string[],
-    colors: string[],
+    data: number[],
+    dataRange?: { bottom: number; top: number },
+    measure?: MeasureUnits,
+    // colors: string[],
   ): Chart<ChartType, string[]> {
     return new Chart(type, {
       type: 'line',
@@ -349,13 +363,40 @@ export class ForecastAuroralActivityComponent implements OnChanges {
         labels: labels,
         datasets: [
           {
-            data: data,
-            backgroundColor: colors,
-            borderColor: colors,
+            data: data as any[],
+            backgroundColor: context => {
+              let gradient, width, height;
+              function getGradient(ctx, chartArea) {
+                const chartWidth = chartArea.right - chartArea.left;
+                const chartHeight = chartArea.bottom - chartArea.top;
+                if (!gradient || width !== chartWidth || height !== chartHeight) {
+                  // Create the gradient because this is either the first render
+                  // or the size of the chart has changed
+                  width = chartWidth;
+                  height = chartHeight;
+                  gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
+                  gradient = determineChartGradient(gradient, type, data, measure);
+                }
+                return gradient;
+              }
+
+              const chart = context.chart;
+              const { ctx, chartArea } = chart;
+
+              if (!chartArea) {
+                // This case happens on initial chart load
+                return;
+              }
+
+              return getGradient(ctx, chartArea);
+            },
+            borderColor: PRIMARY_COLOR,
             borderWidth: 1,
-            pointRadius: 0,
-            tension: 30,
-            stepped: true,
+            pointBorderColor: context => determineColorsOfValue(type, data[context.dataIndex], measure),
+            pointRadius: 1.5,
+            fill: 'origin',
+            tension: 0.2,
+            // stepped: true,
           },
         ],
       },
@@ -363,6 +404,9 @@ export class ForecastAuroralActivityComponent implements OnChanges {
         responsive: true,
         plugins: {
           legend: { display: false },
+          filler: {
+            propagate: true,
+          },
         },
         scales: {
           x: {
@@ -377,8 +421,13 @@ export class ForecastAuroralActivityComponent implements OnChanges {
             },
           },
           y: {
+            // suggestedMin: dataRange?.bottom ?? undefined,
+            // suggestedMax: dataRange?.top ?? undefined,
+            min: type === 'bz' ? -15 : undefined,
+            max: type === 'bz' ? 15 : undefined,
             grid: {
-              display: false,
+              display: true,
+              color: '#f3f3f333',
             },
             ticks: {
               color: MAIN_TEXT_COLOR,

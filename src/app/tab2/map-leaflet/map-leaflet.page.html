@@ -1,9 +1,9 @@
-<app-header [titre]="'tab2.maps.title' | translate"></app-header>
+<app-header [titre]="'tab2.forecast.title' | translate"></app-header>
 <div [routerLink]="['','tabs','tab2']" class="back">
   <span class="icon icon-back1"></span>
 </div>
 <ion-item>
-  <ion-label>{{ 'tab2.maps.select' | translate }}</ion-label>
+  <ion-label>{{ 'tab2.forecast.select' | translate }}</ion-label>
   <ion-select [value]=" localisation" interface="action-sheet" (ionChange)="selectNewLocation($event)" [cancelText]="'global.cancel' | translate">
     <ion-select-option *ngFor="let city of cities" [value]="city.code">{{ city.ville }} - {{ city.codePays }}</ion-select-option>
   </ion-select>

@@ -49,26 +49,26 @@ export class InstantAuroralActivityComponent implements OnInit, OnChanges {
     if (changes?.solarWind) {
       const solarWind: SolarWind = changes.solarWind.currentValue;
       this.density = {
-        value: !isNaN(solarWind.density) ? solarWind.density : null,
+        value: solarWind.density,
         date: new Date(solarWind.time_tag),
         time_tag: new Date(solarWind.time_tag),
         color: determineColorsOfValue('density', solarWind.density),
       };
       this.bz = {
-        value: !isNaN(solarWind.bz) ? solarWind.bz : null,
+        value: solarWind.bz,
         date: new Date(solarWind.time_tag),
         time_tag: new Date(solarWind.time_tag),
         color: determineColorsOfValue('bz', solarWind.bz),
       };
       this.bt = {
-        value: !isNaN(solarWind.bt) ? solarWind.bt : null,
+        value: solarWind.bt,
         date: new Date(solarWind.time_tag),
         request_date: new Date(solarWind.time_tag),
         color: determineColorsOfValue('bt', solarWind.bt),
       };
 
       this.speed = {
-        value: !isNaN(solarWind.speed) ? convertUnitMeasure(solarWind.speed, this.measureUnit) : null,
+        value: convertUnitMeasure(solarWind.speed, this.measureUnit),
         date: new Date(solarWind.time_tag),
         time_tag: new Date(solarWind.time_tag),
         color: determineColorsOfValue('speed', convertUnitMeasure(solarWind.speed, this.measureUnit), this.measureUnit),
