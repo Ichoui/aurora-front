@@ -1,7 +1,7 @@
 import { HttpParams } from '@angular/common/http';
 import { MeasureUnits, TemperatureUnits } from './weather';
 import { FORECAST_COLOR_GREEN, FORECAST_COLOR_ORANGE, FORECAST_COLOR_RED, FORECAST_COLOR_YELLOW } from './colors';
-import { AuroraEnumColours } from './aurorav3';
+import { AuroraEnumColours, SolarWindTypes } from './aurorav3';
 import * as moment from 'moment/moment';
 import { ELocales } from './locales';
 import { Chart, ChartType } from 'chart.js';
@@ -71,23 +71,49 @@ export function roundTwoNumbers(nb: number): number {
   return Math.round(nb * 100) / 100;
 }
 
+export function updateGradientBackgroundChart(context, type: SolarWindTypes, data: number[], measure?: MeasureUnits) {
+  const chart = context.chart;
+  const { ctx, chartArea } = chart;
+  if (!chartArea) {
+    // This case happens on initial chart load
+    return;
+  }
+
+  let gradient, width, height;
+  function getGradient(ctx, chartArea) {
+    const chartWidth = chartArea.right - chartArea.left;
+    const chartHeight = chartArea.bottom - chartArea.top;
+    if (!gradient || width !== chartWidth || height !== chartHeight) {
+      // Create the gradient because this is either the first render
+      // or the size of the chart has changed
+      width = chartWidth;
+      height = chartHeight;
+      gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
+      gradient = determineLineChartGradient(gradient, type, data, measure);
+    }
+    return gradient;
+  }
+
+  return getGradient(ctx, chartArea);
+}
+
 // https://www.chartjs.org/docs/latest/developers/updates.html
 export function updateDataChart(chart: Chart<ChartType, string[]>, label: string[], data: any, colors?: any, test = 0) {
   chart.data.labels = label;
+  console.log(colors);
   chart.data.datasets.forEach((dataset, index) => {
     dataset.data = data[index];
     dataset.backgroundColor = colors;
-    dataset.borderColor = colors;
   });
 
   chart.update();
 }
 
-export function determineChartGradient(gradient: any, type: 'bt' | 'bz' | 'speed' | 'density', data: number[], measure?: MeasureUnits): any {
+export function determineLineChartGradient(gradient: any, type: SolarWindTypes, data: number[], measure?: MeasureUnits): any {
   let max = Math.max(...data);
   let min = Math.min(...data);
 
-  if (type === 'speed') {
+  if (type === SolarWindTypes.SPEED) {
     if (measure === MeasureUnits.METRIC) {
       // red >= 700 // orange 700 500 // yellow 500 350 // green < 350
       if (min < 350) {
@@ -150,7 +176,7 @@ export function determineChartGradient(gradient: any, type: 'bt' | 'bz' | 'speed
     return gradient;
   }
 
-  if (type === 'density') {
+  if (type === SolarWindTypes.DENSITY) {
     // red > 15 // orange 15 10 // yellow 10 4 // green <= 4
     // First determine the floor color
     if (min < 4) {
@@ -184,15 +210,15 @@ export function determineChartGradient(gradient: any, type: 'bt' | 'bz' | 'speed
     return gradient;
   }
 
-  if (type === 'bz') {
+  if (type === SolarWindTypes.BZ) {
     gradient.addColorStop(0, FORECAST_COLOR_RED);
     gradient.addColorStop(0.25, FORECAST_COLOR_ORANGE + 70);
     gradient.addColorStop(0.49, FORECAST_COLOR_YELLOW + 70);
-    gradient.addColorStop(.5, FORECAST_COLOR_GREEN + 50);
+    gradient.addColorStop(0.5, FORECAST_COLOR_GREEN + 50);
     gradient.addColorStop(1, FORECAST_COLOR_GREEN + 30);
   }
 
-  if (type === 'bt') {
+  if (type === SolarWindTypes.BT) {
     // red > 30 // orange 30 20 // yellow 20 10 // green <= 10
     // First determine the floor color
     if (min < 10) {
@@ -250,9 +276,9 @@ export function colorSwitcher(c: AuroraEnumColours): string {
 }
 
 // http://auroraslive.io/#/api/v1/introduction
-export function determineColorsOfValue(data: 'bz' | 'density' | 'speed' | 'bt' | 'kp', value: number, unit?: MeasureUnits): AuroraEnumColours {
-  switch (data) {
-    case 'speed':
+export function determineColorsOfValue(type: SolarWindTypes | 'kp', value: number, unit?: MeasureUnits): AuroraEnumColours {
+  switch (type) {
+    case SolarWindTypes.SPEED:
       if (unit === MeasureUnits.METRIC) {
         if (value >= 700) {
           return AuroraEnumColours.red;
@@ -276,7 +302,7 @@ export function determineColorsOfValue(data: 'bz' | 'density' | 'speed' | 'bt' |
         }
       }
       break;
-    case 'density':
+    case SolarWindTypes.DENSITY:
       if (value >= 15) {
         return AuroraEnumColours.red;
       } else if (value >= 10 && value < 15) {
@@ -287,7 +313,7 @@ export function determineColorsOfValue(data: 'bz' | 'density' | 'speed' | 'bt' |
         return AuroraEnumColours.green;
       }
       break;
-    case 'bz':
+    case SolarWindTypes.BZ:
       if (value <= -15) {
         // -20 par exemple
         return AuroraEnumColours.red;
@@ -299,7 +325,7 @@ export function determineColorsOfValue(data: 'bz' | 'density' | 'speed' | 'bt' |
         return AuroraEnumColours.green;
       }
       break;
-    case 'bt':
+    case SolarWindTypes.BT:
       if (value > 30) {
         return AuroraEnumColours.red;
       } else if (value < 30 && value >= 20) {

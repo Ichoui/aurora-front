@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import { StorageService } from '../../storage.service';
 import { convertUnitMeasure, determineColorsOfValue, roundTwoNumbers } from '../../models/utils';
 import { MeasureUnits } from '../../models/weather';
-import { AuroraEnumColours, Bt, Bz, Density, KpCurrent, SolarWind, Speed } from '../../models/aurorav3';
+import { AuroraEnumColours, Bt, Bz, Density, KpCurrent, SolarWind, SolarWindTypes, Speed } from '../../models/aurorav3';
 
 @Component({
   selector: 'app-instant-auroral-activity',
@@ -32,7 +32,7 @@ export class InstantAuroralActivityComponent implements OnInit, OnChanges {
       this.speed = {
         ...this.speed,
         value: convertUnitMeasure(this.speed.value, this.measureUnit),
-        color: determineColorsOfValue('speed', convertUnitMeasure(this.speed.value, this.measureUnit), this.measureUnit),
+        color: determineColorsOfValue(SolarWindTypes.SPEED, convertUnitMeasure(this.speed.value, this.measureUnit), this.measureUnit),
         unit: this.measureUnit,
       };
     }
@@ -52,26 +52,26 @@ export class InstantAuroralActivityComponent implements OnInit, OnChanges {
         value: solarWind.density,
         date: new Date(solarWind.time_tag),
         time_tag: new Date(solarWind.time_tag),
-        color: determineColorsOfValue('density', solarWind.density),
+        color: determineColorsOfValue(SolarWindTypes.DENSITY, solarWind.density),
       };
       this.bz = {
         value: solarWind.bz,
         date: new Date(solarWind.time_tag),
         time_tag: new Date(solarWind.time_tag),
-        color: determineColorsOfValue('bz', solarWind.bz),
+        color: determineColorsOfValue(SolarWindTypes.BZ, solarWind.bz),
       };
       this.bt = {
         value: solarWind.bt,
         date: new Date(solarWind.time_tag),
         request_date: new Date(solarWind.time_tag),
-        color: determineColorsOfValue('bt', solarWind.bt),
+        color: determineColorsOfValue(SolarWindTypes.BT, solarWind.bt),
       };
 
       this.speed = {
         value: convertUnitMeasure(solarWind.speed, this.measureUnit),
         date: new Date(solarWind.time_tag),
         time_tag: new Date(solarWind.time_tag),
-        color: determineColorsOfValue('speed', convertUnitMeasure(solarWind.speed, this.measureUnit), this.measureUnit),
+        color: determineColorsOfValue(SolarWindTypes.SPEED, convertUnitMeasure(solarWind.speed, this.measureUnit), this.measureUnit),
         unit: this.measureUnit,
       };
     }

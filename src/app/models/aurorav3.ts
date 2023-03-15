@@ -48,7 +48,7 @@ export interface Bt {
 
 export interface Kp27day {
   kpIndex: number;
-  timeTag: any ; // moment date
+  timeTag: any; // moment date
   color: AuroraEnumColours;
 }
 
@@ -71,10 +71,17 @@ export interface KpCurrent {
 }
 
 export interface SwpcData {
-  forecastSolarCycle: SolarCycle[],
-  forecastSolarWind: SolarWind[],
-  forecastKp: KpForecast[],
-  forecastTwentySevenDays: string,
-  instantKp: KpCurrent,
+  forecastSolarCycle: SolarCycle[];
+  forecastSolarWind: SolarWind[];
+  forecastKp: KpForecast[];
+  forecastTwentySevenDays: string;
+  instantKp: KpCurrent;
   nowcast: number;
+}
+
+export enum SolarWindTypes {
+  BT = 'bt',
+  BZ = 'bz',
+  SPEED = 'speed',
+  DENSITY = 'density',
 }
