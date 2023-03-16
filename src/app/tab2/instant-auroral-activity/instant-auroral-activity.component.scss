@@ -3,8 +3,8 @@
     display: flex;
     align-items: center;
     .pulse {
-      width: 15px;
-      height: 15px;
+      width: 10px;
+      height: 10px;
       flex-shrink: 0;
       border-radius: 50%;
       margin-right: 12px;
@@ -14,7 +14,7 @@
 
     span {
       font-style: italic;
-      font-size: .8em;
+      font-size: 10px;
     }
   }
 }
@@ -24,7 +24,7 @@
     box-shadow: rgb(52 199 123) 0 0 0 0;
   }
   70% {
-    box-shadow: rgb(52 199 123 / 0%) 0 0 0 10px;
+    box-shadow: rgb(52 199 123 / 0%) 0 0 0 7px;
   }
   100% {
     box-shadow: rgb(52 199 123 / 0%) 0 0 0 0;
@@ -140,15 +140,16 @@
 
   &.nowcast {
     display: flex;
-    flex-direction: column;
-    font-size: 15px;
+    align-items: center;
+    font-size: 13px;
 
     div:first-child {
       font-size: 25px;
       font-weight: bold;
     }
     p {
-      margin: 0 0 10px 0;
+
+      width: 50%;
     }
   }
 
