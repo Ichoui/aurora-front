@@ -59,7 +59,7 @@
       "density.title": "Densitée des particules",
       "density.sub": "Vent solaire (p/cc)",
       "speed.title": "Vitesse",
-      "speed.sub": "Vent solaire (km/s)",
+      "speed.sub": "Vent solaire ({{unit}})",
       "bz.title": "Bz",
       "bz.sub": "Champ Magnétique Interplanétaire (nT)",
       "bt.title": "Bt",

@@ -19,7 +19,7 @@
 
   <div class="card-container">
     <div class="header">{{ 'tab2.forecast.speed.title' | translate }}</div>
-    <div class="sub">{{ 'tab2.forecast.speed.sub' | translate }}</div>
+    <div class="sub">{{ 'tab2.forecast.speed.sub' | translate: {unit: measure === 'metric' ? 'km/s' : 'mph/s'} }}</div>
     <canvas id="speed"></canvas>
   </div>
 

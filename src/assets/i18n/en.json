@@ -59,7 +59,7 @@
       "density.title": "Density",
       "density.sub": "Solar wind (p/cc)",
       "speed.title": "Speed",
-      "speed.sub": "Solar wind (mph/s)",
+      "speed.sub": "Solar wind ({{unit}})",
       "bz.title": "Bz",
       "bz.sub": "IMF - Interplanetary Magnetic Field (nT)",
       "bt.title": "Bt",
