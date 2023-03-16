@@ -57,7 +57,7 @@
       "longterm.title": "Long term forecast",
       "longterm.sub": "Kp maximum",
       "density.title": "Density",
-      "density.sub": "Solar wind (mph/s)",
+      "density.sub": "Solar wind (p/cc)",
       "speed.title": "Speed",
       "speed.sub": "Solar wind (mph/s)",
       "bz.title": "Bz",

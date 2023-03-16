@@ -57,7 +57,7 @@
       "longterm.title": "Kp Index",
       "longterm.sub": "Prévisions 27 jours",
       "density.title": "Densitée des particules",
-      "density.sub": "Vent solaire (km/s)",
+      "density.sub": "Vent solaire (p/cc)",
       "speed.title": "Vitesse",
       "speed.sub": "Vent solaire (km/s)",
       "bz.title": "Bz",

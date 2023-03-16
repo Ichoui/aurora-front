@@ -100,7 +100,6 @@ export function updateGradientBackgroundChart(context, type: SolarWindTypes, dat
 // https://www.chartjs.org/docs/latest/developers/updates.html
 export function updateDataChart(chart: Chart<ChartType, string[]>, label: string[], data: any, colors?: any, test = 0) {
   chart.data.labels = label;
-  console.log(colors);
   chart.data.datasets.forEach((dataset, index) => {
     dataset.data = data[index];
     dataset.backgroundColor = colors;

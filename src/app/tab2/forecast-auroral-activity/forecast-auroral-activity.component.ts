@@ -4,8 +4,15 @@ import { ModalComponent } from '../../shared/modal/modal.component';
 import { Chart, ChartType, registerables } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import * as moment from 'moment';
-import { colorSwitcher, convertUnitMeasure, determineColorsOfValue, manageDates, updateDataChart, updateGradientBackgroundChart } from '../../models/utils';
-import { MAIN_TEXT_COLOR, PRIMARY_COLOR, WEATHER_NEXT_HOUR_CHART_COLOR, } from '../../models/colors';
+import {
+  colorSwitcher,
+  convertUnitMeasure,
+  determineColorsOfValue,
+  manageDates,
+  updateDataChart,
+  updateGradientBackgroundChart,
+} from '../../models/utils';
+import { MAIN_TEXT_COLOR, PRIMARY_COLOR, WEATHER_NEXT_HOUR_CHART_COLOR } from '../../models/colors';
 import { CodeLocation, Coords } from '../../models/cities';
 import { StorageService } from '../../storage.service';
 import { Geoposition } from '@ionic-native/geolocation';
@@ -71,8 +78,7 @@ export class ForecastAuroralActivityComponent implements OnChanges {
     }
 
     if (changes?.solarCycle?.currentValue !== changes?.solarCycle?.previousValue) {
-      const firstChange = changes?.solarCycle?.firstChange;
-      this._calculateDataForChartSolarCycle(changes.solarCycle.currentValue, firstChange);
+      this._calculateDataForChartSolarCycle(changes.solarCycle.currentValue);
     }
   }
 
@@ -236,7 +242,7 @@ export class ForecastAuroralActivityComponent implements OnChanges {
             color: WEATHER_NEXT_HOUR_CHART_COLOR,
             font: {
               family: 'Oswald-SemiBold',
-              size: 15,
+              size: 13,
             },
           },
         },
@@ -282,17 +288,17 @@ export class ForecastAuroralActivityComponent implements OnChanges {
       speedForecast.push(convertUnitMeasure(unit.speed, this.measure));
     }
 
-      this._chartKpDensity?.destroy();
-      this._chartKpSpeed?.destroy();
-      this._chartKpBz?.destroy();
-      this._chartKpBt?.destroy();
-      this._chartKpDensity = ForecastAuroralActivityComponent._chartSolarWind(SolarWindTypes.DENSITY, solarWindDate, densityForecast);
-      this._chartKpSpeed = ForecastAuroralActivityComponent._chartSolarWind(SolarWindTypes.SPEED, solarWindDate, speedForecast, this.measure);
-      this._chartKpBz = ForecastAuroralActivityComponent._chartSolarWind(SolarWindTypes.BZ, solarWindDate, bzForecast);
-      this._chartKpBt = ForecastAuroralActivityComponent._chartSolarWind(SolarWindTypes.BT, solarWindDate, btForecast);
+    this._chartKpDensity?.destroy();
+    this._chartKpSpeed?.destroy();
+    this._chartKpBz?.destroy();
+    this._chartKpBt?.destroy();
+    this._chartKpDensity = ForecastAuroralActivityComponent._chartSolarWind(SolarWindTypes.DENSITY, solarWindDate, densityForecast);
+    this._chartKpSpeed = ForecastAuroralActivityComponent._chartSolarWind(SolarWindTypes.SPEED, solarWindDate, speedForecast, this.measure);
+    this._chartKpBz = ForecastAuroralActivityComponent._chartSolarWind(SolarWindTypes.BZ, solarWindDate, bzForecast);
+    this._chartKpBt = ForecastAuroralActivityComponent._chartSolarWind(SolarWindTypes.BT, solarWindDate, btForecast);
   }
 
-  private _calculateDataForChartSolarCycle(solarCycles: SolarCycle[], firstChange = false): void {
+  private _calculateDataForChartSolarCycle(solarCycles: SolarCycle[]): void {
     const solarCycleDate = [];
     const predictedF10 = [];
     const predictedSsn = [];
@@ -304,20 +310,12 @@ export class ForecastAuroralActivityComponent implements OnChanges {
       predictedSsn.push(cycle.predictedSsn);
       solarCycleDate.push(cycle.timeTag);
     }
-    if (firstChange) {
-      this._chartCycle = this._chartSolarCycle(solarCycleDate, predictedSsn, predictedF10, colorSsn, colorF10);
-    } else {
-      updateDataChart(this._chartCycle, solarCycleDate, [predictedSsn, predictedF10], [colorSsn, colorF10]);
-    }
+    this._chartCycle?.destroy();
+    this._chartCycle = this._chartSolarCycle(solarCycleDate, predictedSsn, predictedF10, colorSsn, colorF10);
   }
 
   // https://www.chartjs.org/docs/latest/charts/line.html#point-styling
-  private static _chartSolarWind(
-    type: SolarWindTypes,
-    labels: string[],
-    data: number[],
-    measure?: MeasureUnits,
-  ): Chart<ChartType, string[]> {
+  private static _chartSolarWind(type: SolarWindTypes, labels: string[], data: number[], measure?: MeasureUnits): Chart<ChartType, string[]> {
     return new Chart(type, {
       type: 'line',
       data: {
@@ -327,11 +325,11 @@ export class ForecastAuroralActivityComponent implements OnChanges {
             data: data as any[],
             backgroundColor: context => updateGradientBackgroundChart(context, type, data, measure),
             pointBackgroundColor: context => determineColorsOfValue(type, data[context.dataIndex], measure),
-            borderColor: PRIMARY_COLOR,
+            borderColor: colorSwitcher(determineColorsOfValue(type, Math.max(...data), measure)),
             borderWidth: 1,
             pointRadius: 1.5,
             fill: 'origin',
-            tension: 0.2,
+            tension: 0.4,
           },
         ],
       },
