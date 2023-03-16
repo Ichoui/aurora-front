@@ -1,7 +1,7 @@
-import { Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
-import { ModalController } from '@ionic/angular';
-import { ModalComponent } from '../../shared/modal/modal.component';
-import { Chart, ChartType, registerables } from 'chart.js';
+import {Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild} from '@angular/core';
+import {ModalController} from '@ionic/angular';
+import {ModalComponent} from '../../shared/modal/modal.component';
+import {Chart, ChartType, registerables} from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import * as moment from 'moment';
 import {
@@ -12,16 +12,16 @@ import {
   updateDataChart,
   updateGradientBackgroundChart,
 } from '../../models/utils';
-import { MAIN_TEXT_COLOR, PRIMARY_COLOR, WEATHER_NEXT_HOUR_CHART_COLOR } from '../../models/colors';
-import { CodeLocation, Coords } from '../../models/cities';
-import { StorageService } from '../../storage.service';
-import { Geoposition } from '@ionic-native/geolocation';
-import { icon, LatLng, Map, Marker, marker, tileLayer, ZoomPanOptions } from 'leaflet';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { AuroraEnumColours, Kp27day, KpForecast, SolarCycle, SolarWind, SolarWindTypes } from '../../models/aurorav3';
-import { ELocales } from '../../models/locales';
-import { MeasureUnits } from '../../models/weather';
-import { TranslateService } from '@ngx-translate/core';
+import {MAIN_TEXT_COLOR, WEATHER_NEXT_HOUR_CHART_COLOR} from '../../models/colors';
+import {CodeLocation, Coords} from '../../models/cities';
+import {StorageService} from '../../storage.service';
+import {Geoposition} from '@ionic-native/geolocation';
+import {icon, LatLng, Map, Marker, marker, tileLayer, ZoomPanOptions} from 'leaflet';
+import {Geolocation} from '@ionic-native/geolocation/ngx';
+import {AuroraEnumColours, Kp27day, KpForecast, SolarCycle, SolarWind, SolarWindTypes} from '../../models/aurorav3';
+import {ELocales} from '../../models/locales';
+import {MeasureUnits} from '../../models/weather';
+import {TranslateService} from '@ngx-translate/core';
 
 const numberMax27Forecast = 14;
 const numberMaxNextHours = 12;
