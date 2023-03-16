@@ -37,7 +37,7 @@
       "density": " Particles density",
       "density.unit": "(p/cc)",
       "speed": " Solar wind",
-      "probability": "Probabilities from your location to observe Northern Lights",
+      "probability": "Probability from your location to observe Northern Lights",
       "bz": "Bz",
       "bz.north": "North",
       "bz.south": "South",

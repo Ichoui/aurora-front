@@ -1,11 +1,11 @@
-import { HttpParams } from '@angular/common/http';
-import { MeasureUnits, TemperatureUnits } from './weather';
-import { FORECAST_COLOR_GREEN, FORECAST_COLOR_ORANGE, FORECAST_COLOR_RED, FORECAST_COLOR_YELLOW } from './colors';
-import { AuroraEnumColours, SolarWindTypes } from './aurorav3';
+import {HttpParams} from '@angular/common/http';
+import {MeasureUnits, TemperatureUnits} from './weather';
+import {FORECAST_COLOR_GREEN, FORECAST_COLOR_ORANGE, FORECAST_COLOR_RED, FORECAST_COLOR_YELLOW} from './colors';
+import {AuroraEnumColours, SolarWindTypes} from './aurorav3';
 import * as moment from 'moment/moment';
-import { ELocales } from './locales';
-import { Chart, ChartType } from 'chart.js';
-import { EN_COUNTRY_CODE, FR_COUNTRY_CODE } from './iso2-country-code';
+import {ELocales} from './locales';
+import {Chart, ChartType} from 'chart.js';
+import {EN_COUNTRY_CODE, FR_COUNTRY_CODE} from './iso2-country-code';
 
 /**
  * @param source objet typé qui doit être converti en HttpParams pour une requete API
@@ -69,6 +69,20 @@ export function manageDates(date: number | string, format: string, locale?: ELoc
 // Arrondir à 2 chiffres
 export function roundTwoNumbers(nb: number): number {
   return Math.round(nb * 100) / 100;
+}
+
+/**
+ * Time betweeen ACE satelite and earth, depending on solar wind speed
+ * */
+export function timeACEtoEarth(speed: number, measure: MeasureUnits): number {
+
+  if (measure === MeasureUnits.METRIC) {
+    return 1500000 / (60 * speed)
+
+  }
+  if (measure === MeasureUnits.IMPERIAL) {
+    return 1000000 / (60 * speed)
+  }
 }
 
 export function updateGradientBackgroundChart(context, type: SolarWindTypes, data: number[], measure?: MeasureUnits) {
