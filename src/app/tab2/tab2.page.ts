@@ -247,7 +247,10 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
 
   private _getSolarWind(dataSolarWind: SolarWind[], instant = false): SolarWind[] | SolarWind {
     if (instant) {
-      return dataSolarWind.filter(wind => wind.bz !== null && wind.bt !== null).slice(-1)[0];
+      return dataSolarWind.reduce((a, b) => {
+        const aDiff = moment.utc(a.propagated_time_tag).diff(moment.utc(new Date()));
+        return aDiff > 0 && aDiff < moment.utc(b.propagated_time_tag).diff(moment.utc(new Date())) ? a : b;
+      });
     }
     return dataSolarWind;
   }

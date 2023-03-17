@@ -48,7 +48,7 @@
       "live": "Données NOAA SWPC en temps réel"
     },
     "forecast": {
-      "poles": "Prévisions aurorales OVATION",
+      "poles": "Modèle OVATION",
       "poles.sub": "Intensité de l'ovale auroral",
       "pole.north": "Pôle Nord",
       "pole.south": "Pôle Sud",
@@ -131,7 +131,7 @@
         },
         "forecast": {
           "title": "Comment peut-on prévoir ce phénomène ?",
-          "message": "Grâce à un satellite nommé ACE (Advanced Composition Explorer) appartenant à la NASA, qui a pour mission d'étudier les particules solaires.<br>Les données sont ensuite traitée par le &laquo; Space Weather Prediction Center &raquo; qui est un service météorologique situé aux Etats-Unis.<br>Grâce au croisement de plusieurs données (comme par exemple le Bz, le KP, la Densité des particules ou encore la vitesse du vent solaire, mais aussi la couverture nuaugeuse), on peut alors prévoir leur visibilité."
+          "message": "Grâce à un satellite nommé ACE (Advanced Composition Explorer) appartenant à la NASA, qui a pour mission d'étudier les particules solaires. Ce satellite est positionné en position Lagrange 1 entre la Terre et le Soleil, à environ 1.500.000km de distance.<br>Les données sont ensuite traitée par le &laquo; Space Weather Prediction Center &raquo; qui est un service météorologique situé aux Etats-Unis.<br>Grâce au croisement de plusieurs données (comme par exemple le Bz, le KP, la Densité des particules ou encore la vitesse du vent solaire, mais aussi la couverture nuaugeuse), on peut alors prévoir leur visibilité."
         },
         "capricious": {
           "title": "Les prévisions sont-elles précises ?",
@@ -208,7 +208,7 @@
         },
         "cmi": {
           "title": "Le Champ Magnétique Interplanétaire (CMI)",
-          "message": "C'est grâce à lui qu'on obtient les valeurs suivantes :<br> - le Bt, et les Bx, By, Bz.<br>Ces derniers sont des vecteurs, créant des axes à partir de la terre. Seuls le Bt et Bz sont importants pour l'activité solaire.<ul><li><b>BZ :</b> c'est un axe, qui passe par les pôles Nord et Sud de la terre. Lorsque cet axe est orienté sud (négatif), il se connecte à la <b>magnétosphère terrestre</b>, qui elle, est tout le temps orienté vers le nord. De la sorte, comme 2 aimants qui s'attirent, cela permet aux particules du vent solaire de pénétrer l'atmosphère plus facilement et ainsi de rentrer en collision avec l'oxygène et autre gaz terrestres, qui vont permettre de faire briller les aurores. On peut considérer l'axe du Bz être compris entre -15 et 15.</li><li><b>Bt :</b> Le Bt est une valeur qui représente la puissance du CMI. Plus la valeur est en hausse, plus les conditions pour obtenir une tempête géomagnétique seront présente. On peut estimer que 15nT est une valeur moyenne, 25 une valeur forte.</li></ul>A savoir, lorsque le cycle solaire est au plus bas, le champ magnétique du soleil est équivalent à celui de la Terre, tandis que lorsqu'il est au plus haut, de nombreuses tâches solaires se forment, ce qui rend le champ magnétique autour du soleil très mouvant. <br>C'est le vent solaire qui transporte par la suite ces perturbations magnétiques jusqu'à la Terre."
+          "message": "C'est grâce à lui qu'on obtient les valeurs suivantes :<br> - le Bt, et les Bx, By, Bz.<br>Ces derniers sont des vecteurs, créant des axes à partir de la terre. Seuls le Bt et Bz sont importants pour l'activité solaire.<ul><li><b>BZ :</b> c'est un axe, qui passe par les pôles Nord et Sud de la terre. Lorsque cet axe est orienté sud (négatif), il se connecte à la <b>magnétosphère terrestre</b>, qui elle, est tout le temps orienté vers le nord. De la sorte, comme 2 aimants qui s'attirent, cela permet aux particules du vent solaire de pénétrer l'atmosphère plus facilement et ainsi de rentrer en collision avec l'oxygène et autre gaz terrestres, qui vont permettre de faire briller les aurores. On considère que l'axe du Bz est compris entre -15 et 15.</li><li><b>Bt :</b> Le Bt est une valeur qui représente la puissance du CMI. Plus la valeur est en hausse, plus les conditions pour obtenir une tempête géomagnétique seront présente. On peut estimer que 15nT est une valeur moyenne, 25 une valeur forte.</li></ul>A savoir, lorsque le cycle solaire est au plus bas, le champ magnétique du soleil est équivalent à celui de la Terre, tandis que lorsqu'il est au plus haut, de nombreuses tâches solaires se forment, ce qui rend le champ magnétique autour du soleil très mouvant. <br>C'est le vent solaire qui transporte par la suite ces perturbations magnétiques jusqu'à la Terre."
         },
         "solarCycle": {
           "title": "Cycle solaire",

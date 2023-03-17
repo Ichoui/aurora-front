@@ -1,34 +1,4 @@
 :host {
-  .live {
-    display: flex;
-    align-items: center;
-    .pulse {
-      width: 10px;
-      height: 10px;
-      flex-shrink: 0;
-      border-radius: 50%;
-      margin-right: 12px;
-      background: var(--ion-color-primary);
-      animation: 3s ease 0s infinite normal none running pulse;
-    }
-
-    span {
-      font-style: italic;
-      font-size: 10px;
-    }
-  }
-}
-
-@keyframes pulse {
-  0% {
-    box-shadow: rgb(52 199 123) 0 0 0 0;
-  }
-  70% {
-    box-shadow: rgb(52 199 123 / 0%) 0 0 0 7px;
-  }
-  100% {
-    box-shadow: rgb(52 199 123 / 0%) 0 0 0 0;
-  }
 }
 
 .ace-data {
@@ -36,6 +6,11 @@
   display: flex;
   justify-content: center;
   z-index: 88;
+  min-height: 50px;
+
+  &:first-child {
+    margin-top: 5vh;
+  }
 
   p {
     padding: 0 12px;
@@ -138,7 +113,7 @@
     }
   }
 
-  &.nowcast {
+  &.infos {
     display: flex;
     align-items: center;
     font-size: 13px;
@@ -148,8 +123,39 @@
       font-weight: bold;
     }
     p {
-
       width: 50%;
+    }
+  }
+
+  &.live {
+    display: flex;
+    align-items: center;
+    .pulse {
+      width: 10px;
+      height: 10px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      margin-right: 12px;
+      background: var(--ion-color-primary);
+      animation: 3s ease 0s infinite normal none running pulse;
+    }
+
+    span {
+      font-family: var(--ion-font-light);
+      font-style: italic;
+      font-size: 10px;
+    }
+
+    @keyframes pulse {
+      0% {
+        box-shadow: rgb(52 199 123) 0 0 0 0;
+      }
+      70% {
+        box-shadow: rgb(52 199 123 / 0%) 0 0 0 7px;
+      }
+      100% {
+        box-shadow: rgb(52 199 123 / 0%) 0 0 0 0;
+      }
     }
   }
 
@@ -162,6 +168,10 @@
   &.speed {
   }
 }
+
+/////////
+/////////
+/////////
 
 .night-sky {
   position: absolute;

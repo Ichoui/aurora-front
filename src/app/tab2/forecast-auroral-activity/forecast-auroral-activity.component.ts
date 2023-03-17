@@ -280,7 +280,7 @@ export class ForecastAuroralActivityComponent implements OnChanges {
       solarWindDate = [];
 
     for (const unit of forecast) {
-      solarWindDate.push(manageDates(unit.time_tag, this.locale === ELocales.FR ? 'HH[h]mm' : 'hh:mm A'));
+      solarWindDate.push(manageDates(unit.propagated_time_tag, this.locale === ELocales.FR ? 'HH[h]mm' : 'hh:mm A'));
 
       densityForecast.push(unit.density);
       bzForecast.push(unit.bz);

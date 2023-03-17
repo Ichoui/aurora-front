@@ -5,12 +5,6 @@
   </div>
 </ng-template>
 <ng-container *ngIf="solarWind && kpCurrent; else load">
-  <div class="live ace-data">
-    <!--    https://opensea.io/collection/armins-all-access  here is pulsing live-->
-    <div class="pulse"></div>
-    <span>{{ 'tab2.instant.live' | translate }}</span>
-  </div>
-
   <div class="kp ace-data">
     <div class="colored">
       <span
@@ -105,15 +99,22 @@
     <div class="label">{{ 'tab2.instant.bt' | translate }}</div>
   </div>
 
-  <div class="nowcast ace-data">
+  <div class="infos nowcast ace-data">
     <div>{{ nowcastAurora }}%</div>
     <p [innerHTML]="'tab2.instant.probability' | translate"></p>
   </div>
 
-  <div class="nowcast ace-data">
+  <div class="infos acetoearth ace-data">
     <div>{{ speed.value | aceToEarth: measureUnit }}mn</div>
     <p [innerHTML]="'tab2.instant.aceToEarth' | translate"></p>
   </div>
+
+  <div class="live ace-data">
+    <!--    https://opensea.io/collection/armins-all-access  here is pulsing live-->
+    <div class="pulse"></div>
+    <span>{{ 'tab2.instant.live' | translate }}</span>
+  </div>
+
 </ng-container>
 
 <div class="night-sky">
