@@ -46,7 +46,7 @@
       "bt": "Bt",
       "noData": "ACE No data",
       "live": "Infos",
-      "live.tooltip": "Les données ci-dessus proviennent du NOAA's Space Weather Prediction Center et sont en temps réel.<br> Elles sont informatives et ne garantissent pas l'apparition d'une Aurore Boréale ✨️"
+      "live.tooltip": "Les données ci-dessus proviennent du NOAA's Space Weather Prediction Center et sont en temps réel.<br>Elles sont informatives et ne garantissent pas l'apparition d'une Aurore Boréale ✨️"
     },
     "forecast": {
       "poles": "Modèle OVATION",
