@@ -135,15 +135,15 @@
       height: 10px;
       flex-shrink: 0;
       border-radius: 50%;
-      margin-right: 12px;
+      margin-right: 7px;
       background: var(--ion-color-primary);
       animation: 3s ease 0s infinite normal none running pulse;
     }
 
     span {
       font-family: var(--ion-font-light);
-      font-style: italic;
-      font-size: 10px;
+      //font-style: italic;
+      font-size: 14px;
     }
 
     @keyframes pulse {

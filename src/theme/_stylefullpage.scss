@@ -89,3 +89,11 @@ app-tab2 {
 .map-filter {
   filter: var(--map-tiles-filter, none);
 }
+
+ion-popover {
+  //max-width: 80px;
+  div {
+    margin: 8px;
+    font-family: var(--ion-font-regular);
+  }
+}

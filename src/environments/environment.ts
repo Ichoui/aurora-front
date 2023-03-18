@@ -30,7 +30,7 @@ export const environment = {
     weather: 'weather',
   },
   swpc: {
-    all: "swpc",
+    all: 'swpc',
     currentKp: 'instant/kp',
     solarWind: 'forecast/solarwind',
     solarCycle: 'forecast/solarcycle',

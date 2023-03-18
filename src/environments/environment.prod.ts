@@ -3,7 +3,7 @@ import { OPENWHEATHER_API_KEY } from './keep';
 export const environment = {
   production: true,
   apikey: OPENWHEATHER_API_KEY,
-  application_name: 'Aurora Borealis',
+  application_name: 'Aurora Northern Lights',
   auroraHeaders: {
     'Access-Control-Allow-Origin': '*',
     Accept: 'application/json',

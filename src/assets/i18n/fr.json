@@ -39,13 +39,14 @@
       "density.unit": "(p/cc)",
       "speed": "Vitesse du vent",
       "probability": "Probabilité depuis ta localisation d'observer une Aurore Boréale",
-      "aceToEarth": "Temps de propagation du vent solaire entre ACE et la Terre",
+      "aceToEarth": "Temps de propagation estimé du vent solaire entre ACE et la Terre",
       "bz": "Bz",
       "bz.north": "Nord",
       "bz.south": "Sud",
       "bt": "Bt",
       "noData": "ACE No data",
-      "live": "Données NOAA SWPC en temps réel"
+      "live": "Infos",
+      "live.tooltip": "Les données ci-dessus proviennent du NOAA's Space Weather Prediction Center et sont en temps réel.<br> Elles sont informatives et ne garantissent pas l'apparition d'une Aurore Boréale ✨️"
     },
     "forecast": {
       "poles": "Modèle OVATION",
@@ -116,7 +117,7 @@
     "infos": {
       "title": "Informations",
       "welcome": {
-        "title": "Aurora Borealis",
+        "title": "Aurora Northern Lights",
         "message": "Cette application est destinée au phénomène des Aurores Boréales.<br>Que tu vives dans un pays lointain du phénomène, ou que tu sois un chasseur d'aurores assidu, cette application te permettra de t'informer quant à la probabilité de voir une Aurore Boréale, grâce aux données fournies par le <i>Space Weather Prediction Center</i>.<br> Une section météo est également intégrée à l'application, pour optimiser vos recherches !"
       },
       "firstblock": {
@@ -216,8 +217,8 @@
         }
       },
       "help": {
-        "title": "Comment marche Aurora Borealis ?",
-        "message": "C'est très simple ! <ol><li>Premièrement, comprends comment fonctionne une aurore.</li><li>Ensuite, choisis une localisation, sinon tu seras géolocalisé si tu me l'autorises.</li><li>Tu n'auras plus qu'à consulter l'activité solaire et la couverture nuageuse. Rappel, ces données fournissent des indicateurs pour chasser une aurore boréale. Elles ne t'assureront pas d'en voir ☺</li></ol>"
+        "title": "Comment marche Aurora Northern Lights ?",
+        "message": "C'est très simple ! <ol><li>Premièrement, il faut comprendre comment fonctione les aurores boréales. Tu peux t'aider de ma documentation, ou d'internet</li><li>Ensuite, choisis ta localisation, sinon tu seras géolocalisé si tu me l'autorises.</li><li>Tu n'auras plus qu'à consulter l'activité solaire et la couverture nuageuse. Rappel, ces données fournissent des indicateurs pour chasser les aurores boréale. Elles ne t'assureront pas d'en voir à 100% ☺</li></ol>"
       }
     }
   },

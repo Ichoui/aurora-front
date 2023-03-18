@@ -44,7 +44,8 @@
       "bz.south": "South",
       "bt": "Bt",
       "noData": "ACE No data",
-      "live": "Live NOAA SWPC data"
+      "live": "Infos",
+      "live.tooltip": "The above data is provided by the NOAA's Space Weather Prediction Center.<br> This is only provided for information and do not guarantee Northern Lights ✨"
 
     },
     "forecast": {

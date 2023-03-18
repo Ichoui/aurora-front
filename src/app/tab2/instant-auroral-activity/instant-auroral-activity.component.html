@@ -105,16 +105,20 @@
   </div>
 
   <div class="infos acetoearth ace-data">
-    <div>{{ speed.value | aceToEarth: measureUnit }}mn</div>
+    <div>{{ speed.value | aceToEarth : measureUnit }}mn</div>
     <p [innerHTML]="'tab2.instant.aceToEarth' | translate"></p>
   </div>
 
   <div class="live ace-data">
     <!--    https://opensea.io/collection/armins-all-access  here is pulsing live-->
     <div class="pulse"></div>
-    <span>{{ 'tab2.instant.live' | translate }}</span>
+    <span id="live">{{ 'tab2.instant.live' | translate }}</span>
+    <ion-popover trigger="live" triggerAction="click" alignment="center">
+      <ng-template>
+        <div [innerHTML]="'tab2.instant.live.tooltip' | translate"></div>
+      </ng-template>
+    </ion-popover>
   </div>
-
 </ng-container>
 
 <div class="night-sky">
@@ -227,4 +231,9 @@
     <div class="campfire__flame"></div>
     <div class="campfire__logs"></div>
   </div>
+  <!--  <div id="live" class="live">-->
+  <!--    &lt;!&ndash;    https://opensea.io/collection/armins-all-access  here is pulsing live&ndash;&gt;-->
+  <!--    <div class="pulse"></div>-->
+  <!--    <span>{{ 'tab2.instant.live' | translate }}</span>-->
+  <!--  </div>-->
 </div>

@@ -1,0 +1,23 @@
+platforms:
+  android:
+    versionName: 3.0.0
+    incrementVersionCode: true
+    manifest:
+      - file: AndroidManifest.xml
+        target: manifest
+        inject: |
+          <!-- Added with Trapeze! -->
+          <!-- https://capacitorjs.com/docs/apis/geolocation -->
+          <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+      - file: AndroidManifest.xml
+        target: manifest
+        inject: |
+          <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+      - file: AndroidManifest.xml
+        target: manifest
+        inject: |
+          <uses-feature android:name="android.hardware.location.gps" />
+
+#    copy:
+#    - src: ../firebase/google-services.json
+#      dest: app/google-services.json
