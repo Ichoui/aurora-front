@@ -75,7 +75,18 @@
       "title": "Carte aurorale",
       "select": "Localisation prédéfinie",
       "another": "Essaye un autre endroit",
-      "unknown": "Inconnue"
+      "unknown": "Inconnue",
+      "tooltip": {
+        "map": "",
+        "kp-next-hours": "",
+        "kp-next-days": "",
+        "wind-speed": "",
+        "wind-density": "",
+        "wind-bz": "",
+        "wind-bt": "",
+        "solar-cycle": "",
+        "poles": ""
+      }
     }
   },
   "tab3": {

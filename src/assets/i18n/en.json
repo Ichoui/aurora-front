@@ -73,7 +73,18 @@
       "title": "Auroral oval map",
       "select": "Preset locations",
       "another": "Try another location",
-      "unknown": "Unknown"
+      "unknown": "Unknown",
+      "tooltip": {
+        "map": "",
+        "kp-next-hours": "",
+        "kp-next-days": "",
+        "wind-speed": "",
+        "wind-density": "",
+        "wind-bz": "",
+        "wind-bt": "",
+        "solar-cycle": "",
+        "poles": ""
+      }
     }
   },
   "tab3": {
