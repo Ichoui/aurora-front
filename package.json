@@ -13,7 +13,7 @@
     "android:build:prod": "ionic build --prod",
     "android:create": "npx cap add android",
     "android:trapeze": "npx trapeze run config.yaml --android-project android",
-    "android:generate-logos-assets": "npx capacitor-assets generate --android --iconBackgroundColor '#013147' --iconBackgroundColorDark '#013147' --splashBackgroundColor '#013147' --splashBackgroundColorDark '#013147' --assetPath 'src/assets'",
+    "android:generate-logos-assets": "npx capacitor-assets generate --android --iconBackgroundColor '#001e49' --iconBackgroundColorDark '#001e49' --splashBackgroundColor '#001e49' --splashBackgroundColorDark '#001e49' --assetPath 'src/assets'",
     "info:ionic": "ionic info",
     "prettier": "prettier --write \"**/*.{js,ts,css,scss,html}\"",
     "prettier:check": "prettier --check \"**/*.{js,ts,css,scss,html}\"",
