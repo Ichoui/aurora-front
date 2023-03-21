@@ -71,21 +71,21 @@
       "cycle.ssn": "Nb. tâches solaires",
       "cycle.sfu": "Flux solaire",
       "aurora-map": "Carte aurorale",
-      "sub-aurora-map": "Touche pour visualiser l'ovale auroral en temps réel et choisir ta localisation",
+      "sub-aurora-map": "Touche pour visualiser l'ovale auroral en temps réel",
       "title": "Carte aurorale",
       "select": "Localisation prédéfinie",
       "another": "Essaye un autre endroit",
       "unknown": "Inconnue",
       "tooltip": {
-        "map": "",
-        "kp-next-hours": "",
-        "kp-next-days": "",
-        "wind-speed": "",
-        "wind-density": "",
-        "wind-bz": "",
-        "wind-bt": "",
-        "solar-cycle": "",
-        "poles": ""
+        "map": "Permet de choisir une localisation personnalisée, ou une localisation prédéfinie. <br>De plus, tu peux visualiser l'ovale auroral en temps réel.",
+        "kp-next-hours": "KP Index maximum par tranches de 3 heures.<br> Plus l'indice est haut, et au mieux les conditions géomagnétique seront réunies pour observer une aurore boréale. Tempête géomatgnétique à partir de Kp5.",
+        "kp-next-days": "KP Index maximum sur les 27 prochains jours.<br> Plus l'indice est haut, et au mieux les conditions géomagnétique seront réunies pour observer une aurore boréale. Tempête géomatgnétique à partir de Kp5.",
+        "wind-speed": "Vitesse à laquelle le vent solaire se dirige vers la terre. <br>Plus la vitesse est élevée, et plus les aurores seront dansates. Au delà de 500, le vent est considéré comme rapide.",
+        "wind-density": "Densité des particules par mètre cube.<br> Plus les particules sont nombreuses, et plus les aurores seront visibles.",
+        "wind-bz": "Champs Magnétique Interplanétaire<br> Un BZ négatif permet l'apparition des aurores dans l'hémisphère Nord, et inversement pour l'hémisphère Sud. Valeurs comprises entre -15 et 15.",
+        "wind-bt": "Champs Magnétique Interplanétaire<br>Plus le BT est élevé, plus les aurores seront puissantes. ",
+        "solar-cycle": "Un cycle solaire dure 11 ans en moyenne. Son maximum est prévu aux alentours de 2025 avant de commencer à décroître.",
+        "poles": "Historique de l'ovale auroral, et prédiction de la prochaine heure."
       }
     }
   },
@@ -98,7 +98,7 @@
       "credits": {
         "title": "Crédits",
         "first": "Prévisions aurorales fournies par la ",
-        "first.link": "NOAA",
+        "first.link": "NOAA's SWPC",
         "second": "Données météo par ",
         "second.link": "OpenWeather",
         "third": "Si t'aimes, laisse-moi une ",
