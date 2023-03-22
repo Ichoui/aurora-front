@@ -47,7 +47,7 @@
       <ion-icon id="wind-speed" name="information-circle"></ion-icon>
       <ion-popover trigger="wind-speed" triggerAction="click" alignment="center">
         <ng-template>
-          <div [innerHTML]="'tab2.forecast.tooltip.wind-speed' | translate"></div>
+          <div [innerHTML]="'tab2.forecast.tooltip.wind-speed' | translate: { unit: measure === 'metric' ? '500km/s' : '350mph/s' }"></div>
         </ng-template>
       </ion-popover>
     </div>

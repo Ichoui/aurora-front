@@ -77,12 +77,12 @@
       "another": "Essaye un autre endroit",
       "unknown": "Inconnue",
       "tooltip": {
-        "map": "Permet de choisir une localisation personnalisée, ou une localisation prédéfinie. <br>De plus, tu peux visualiser l'ovale auroral en temps réel.",
-        "kp-next-hours": "KP Index maximum par tranches de 3 heures.<br> Plus l'indice est haut, et au mieux les conditions géomagnétique seront réunies pour observer une aurore boréale. Tempête géomatgnétique à partir de Kp5.",
-        "kp-next-days": "KP Index maximum sur les 27 prochains jours.<br> Plus l'indice est haut, et au mieux les conditions géomagnétique seront réunies pour observer une aurore boréale. Tempête géomatgnétique à partir de Kp5.",
-        "wind-speed": "Vitesse à laquelle le vent solaire se dirige vers la terre. <br>Plus la vitesse est élevée, et plus les aurores seront dansates. Au delà de 500, le vent est considéré comme rapide.",
-        "wind-density": "Densité des particules par mètre cube.<br> Plus les particules sont nombreuses, et plus les aurores seront visibles.",
-        "wind-bz": "Champs Magnétique Interplanétaire<br> Un BZ négatif permet l'apparition des aurores dans l'hémisphère Nord, et inversement pour l'hémisphère Sud. Valeurs comprises entre -15 et 15.",
+        "map": "Permet de choisir une localisation personnalisée, ou une localisation prédéfinie. <br>De plus, tu peux visualiser l'Ovale Auroral en temps réel.",
+        "kp-next-hours": "KP Index maximum par tranches de 3 heures.<br> Plus l'indice est haut, et au mieux les conditions géomagnétique seront réunies pour observer une Aurore Boréale. Tempête géomatgnétique à partir de Kp5.",
+        "kp-next-days": "KP Index maximum sur les 27 prochains jours.<br> Plus l'indice est haut, et au mieux les conditions géomagnétique seront réunies pour observer une Aurore Boréale. Tempête géomatgnétique à partir de Kp5.",
+        "wind-speed": "Vitesse à laquelle le vent solaire se dirige vers la terre. <br>Plus la vitesse du vent est élevée, et plus les Aurores Boréales vont danser dans le ciel. Au delà de {{measure}}, le vent est considéré comme rapide.",
+        "wind-density": "Densité des particules par mètre cube.<br> Plus les particules sont nombreuses, et plus les Aurores Boréales seront brillantes.",
+        "wind-bz": "Champs Magnétique Interplanétaire<br> Un BZ négatif rend l'observation d'Aurores plus propices et laisse pénetrer le vent solaire dans la magnétosphère. Un BZ positif, à l'inverse, va bloquer le vent solaire hors de la magnétosphère. Valeurs comprises entre -15 et 15.",
         "wind-bt": "Champs Magnétique Interplanétaire<br>Plus le BT est élevé, plus les aurores seront puissantes. ",
         "solar-cycle": "Un cycle solaire dure 11 ans en moyenne. Son maximum est prévu aux alentours de 2025 avant de commencer à décroître.",
         "poles": "Historique de l'ovale auroral, et prédiction de la prochaine heure."
@@ -110,7 +110,7 @@
       "cgu": "Conditions Générales d'Utilisation",
       "languages": "Langue",
       "sublanguages": "Choisis ta langue préférée",
-      "temperature": "Temperature",
+      "temperature": "Température",
       "subtemperature": "Choisis ton unité de température",
       "infos": "Aurores boréales",
       "subinfos": "Explications techniques, mécanismes et annecdotes",
@@ -220,7 +220,7 @@
         },
         "cmi": {
           "title": "Le Champ Magnétique Interplanétaire (CMI)",
-          "message": "C'est grâce à lui qu'on obtient les valeurs suivantes :<br> - le Bt, et les Bx, By, Bz.<br>Ces derniers sont des vecteurs, créant des axes à partir de la terre. Seuls le Bt et Bz sont importants pour l'activité solaire.<ul><li><b>BZ :</b> c'est un axe, qui passe par les pôles Nord et Sud de la terre. Lorsque cet axe est orienté sud (négatif), il se connecte à la <b>magnétosphère terrestre</b>, qui elle, est tout le temps orienté vers le nord. De la sorte, comme 2 aimants qui s'attirent, cela permet aux particules du vent solaire de pénétrer l'atmosphère plus facilement et ainsi de rentrer en collision avec l'oxygène et autre gaz terrestres, qui vont permettre de faire briller les aurores. On considère que l'axe du Bz est compris entre -15 et 15.</li><li><b>Bt :</b> Le Bt est une valeur qui représente la puissance du CMI. Plus la valeur est en hausse, plus les conditions pour obtenir une tempête géomagnétique seront présente. On peut estimer que 15nT est une valeur moyenne, 25 une valeur forte.</li></ul>A savoir, lorsque le cycle solaire est au plus bas, le champ magnétique du soleil est équivalent à celui de la Terre, tandis que lorsqu'il est au plus haut, de nombreuses tâches solaires se forment, ce qui rend le champ magnétique autour du soleil très mouvant. <br>C'est le vent solaire qui transporte par la suite ces perturbations magnétiques jusqu'à la Terre."
+          "message": "C'est grâce à lui qu'on obtient les valeurs suivantes :<br> - le Bt, et les Bx, By, Bz.<br>Ces derniers sont des vecteurs, créant des axes à partir de la terre. Seuls le Bt et Bz sont importants pour l'activité solaire.<ul><li><b>BZ :</b> c'est un axe, qui passe par les pôles Nord et Sud de la terre. Lorsque cet axe est orienté sud (négatif), il se met en phase avec la <b>magnétosphère terrestre</b>, qui elle, est tout le temps orienté vers le nord. De la sorte, comme 2 aimants qui s'attirent, cela permet aux particules du vent solaire de pénétrer l'atmosphère plus facilement et ainsi de rentrer en collision avec l'oxygène et autre gaz terrestres, qui vont permettre de faire briller les aurores. On considère que l'axe du Bz est compris entre -15 et 15.</li><li><b>Bt :</b> Le Bt est une valeur qui représente la puissance du CMI. Plus la valeur est en hausse, plus les conditions pour obtenir une tempête géomagnétique seront présente. On peut estimer que 15nT est une valeur moyenne, 25 une valeur forte.</li></ul>A savoir, lorsque le cycle solaire est au plus bas, le champ magnétique du soleil est équivalent à celui de la Terre, tandis que lorsqu'il est au plus haut, de nombreuses tâches solaires se forment, ce qui rend le champ magnétique autour du soleil très mouvant. <br>C'est le vent solaire qui transporte par la suite ces perturbations magnétiques jusqu'à la Terre."
         },
         "solarCycle": {
           "title": "Cycle solaire",

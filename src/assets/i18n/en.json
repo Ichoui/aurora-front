@@ -71,19 +71,19 @@
       "aurora-map": "Auroral oval map",
       "sub-aurora-map": "Tap to watch live Auroral oval",
       "title": "Auroral oval map",
-      "select": "Preset locations",
+      "select": "Pre-selected locations",
       "another": "Try another location",
       "unknown": "Unknown",
       "tooltip": {
         "map": "Allows to choose a custom location, or to select a predifined one.<br>Moreover, you can observe the auroral oval map.",
         "kp-next-hours": "Maximum KP Index per 3 hours.<br>The higher the index, the better the geomagnetic conditions to observe the Northern Lights. Geomagnetic storm starts at Kp5",
         "kp-next-days": "Maximum KP Index for the next 27 days.<br> The higher the index, the better the geomagnetic conditions to observe the Northern Lights. Geomagnetic storm starts at Kp5",
-        "wind-speed": "Vitesse à laquelle le vent solaire se dirige vers la terre. <br>Plus la vitesse est élevée, et plus les aurores seront dansates. Au delà de 500, le vent est considéré comme rapide.",
-        "wind-density": "Densité des particules par mètre cube.<br> Plus les particules sont nombreuses, et plus les aurores seront visibles.",
-        "wind-bz": "Champs Magnétique Interplanétaire<br> Un BZ négatif permet l'apparition des aurores dans l'hémisphère Nord, et inversement pour l'hémisphère Sud. Valeurs comprises entre -15 et 15.",
-        "wind-bt": "Champs Magnétique Interplanétaire<br>Plus le BT est élevé, plus les aurores seront puissantes. ",
-        "solar-cycle": "Un cycle solaire dure 11 ans en moyenne. Son maximum est prévu aux alentours de 2025 avant de commencer à décroître.",
-        "poles": "Historique de l'ovale auroral, et prédiction de la prochaine heure."
+        "wind-speed": "Solar wind speed from sun to earth in {{measure}}.<br>The higher the speed, the more the Northern Lights will dance. Above {{measure}} we consider that the wind is fast.",
+        "wind-density": "Particle density per cubic centimeter.<br>The more the particles, the brighter the Northern Lights",
+        "wind-bz": "Interplanetary Magnetic Field<br>A negative BZ makes it easier to observe Northern Lights and let the solar wind enters earth's magnetosphere. Conversely, a positive BZ will block solar wind out of the magnetosphere. Values between -15 and 15.",
+        "wind-bt": "Interplanetary Magnetic Field<br>The higher the BT value, the more powerfull the Northern Lights.",
+        "solar-cycle": "A solar cycle lasts 11 years on average. Its maximum is expected around 2025, then it will decrease.",
+        "poles": "History of the aurora oval, and prediction for the next hour."
       }
     }
   },
@@ -94,7 +94,7 @@
       "kp": "KP Index",
       "current.position": "Current location",
       "credits": {
-        "title": "Crédits",
+        "title": "Credits",
         "first": "Northern Lights forecast powered by ",
         "first.link": "NOAA",
         "second": "Weather data powered by  ",
