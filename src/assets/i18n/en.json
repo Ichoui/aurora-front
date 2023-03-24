@@ -44,9 +44,8 @@
       "bz.south": "South",
       "bt": "Bt",
       "noData": "ACE No data",
-      "live": "Infos",
+      "live": "Live",
       "live.tooltip": "The above real-time data is provided by the NOAA's Space Weather Prediction Center.<br>They are for information only and do not guarantee Northern Lights ✨"
-
     },
     "forecast": {
       "poles": "OVATION Aurora Model",
@@ -84,7 +83,7 @@
         "wind-density": "Particle density per cubic centimeter.<br>The more the particles are, the brighter the Northern Lights are.",
         "wind-bz": "Interplanetary Magnetic Field<br>A negative BZ makes it easier to observe Northern Lights and let the solar wind enters earth's magnetosphere. Conversely, a positive BZ will block solar wind out of the magnetosphere.<br>Values between -15 and 15.",
         "wind-bt": "Interplanetary Magnetic Field<br>The higher the BT value is, the more powerful the Northern Lights are.",
-        "solar-cycle": "A solar cycle lasts 11 years on average. The following values may change.<br><u>Sunspot:</u> The more sunspots they are, the more important the activity solar will be.<br><u>Solar Flux:</u> Solar radio flux at 10.7 cm (2800 MHz) is an excellent indicator of solar activity.",
+        "solar-cycle": "A solar cycle lasts 11 years on average. The following values may change.<br><u>Sunspots:</u> The more sunspots they are, the more important the activity solar will be.<br><u>Solar Flux:</u> Solar radio flux at 10.7 cm (2800 MHz) is an excellent indicator of solar activity.",
         "poles": "History of the aurora oval, and prediction for the next hour."
       }
     }
