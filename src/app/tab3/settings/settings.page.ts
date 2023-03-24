@@ -42,7 +42,7 @@ export class SettingsPage implements OnViewWillEnter {
     {
       label: 'third',
       labelLink: 'third.link',
-      url: 'https://play.google.com/store/apps/details?id=io.aurora.start',
+      url: 'https://play.google.com/store/apps/details?id=io.aurora.v2',
       bis: {
         label: 'third.bis',
         labelLink: 'third.bis.link',
