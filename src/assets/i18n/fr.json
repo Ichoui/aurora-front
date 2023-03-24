@@ -46,7 +46,7 @@
       "bt": "Bt",
       "noData": "ACE No data",
       "live": "Infos",
-      "live.tooltip": "Les données ci-dessus proviennent du NOAA's Space Weather Prediction Center et sont en temps réel.<br>Elles sont informatives et ne garantissent pas l'apparition d'une Aurore Boréale ✨️"
+      "live.tooltip": "Les données ci-dessous proviennent du NOAA's Space Weather Prediction Center et sont en temps réel.<br>Elles sont informatives et ne garantissent en rien l'apparition d'Aurores Boréales ✨️"
     },
     "forecast": {
       "poles": "Modèle OVATION",
@@ -80,7 +80,7 @@
         "map": "Permet de choisir une localisation personnalisée, ou une localisation prédéfinie. <br>De plus, tu peux visualiser l'Ovale Auroral en temps réel.",
         "kp-next-hours": "KP Index maximum par tranches de 3 heures.<br> Plus l'indice est haut, et meilleures sont les conditions géomagnétique pour observer une Aurore Boréale.<br>Tempête géomatgnétique à partir de Kp5.",
         "kp-next-days": "KP Index maximum sur les 27 prochains jours.<br> Plus l'indice est haut, et au mieux les conditions géomagnétique seront réunies pour observer une Aurore Boréale.<br>Tempête géomatgnétique à partir de Kp5.",
-        "wind-speed": "Vitesse à laquelle le vent solaire se dirige vers la terre. <br>Plus la vitesse du vent est élevée, et plus les Aurores Boréales vont danser dans le ciel.<br>Au delà de {{measure}}, le vent est considéré comme rapide.",
+        "wind-speed": "Vitesse à laquelle le vent solaire se dirige vers la terre. <br>Plus la vitesse du vent est élevée, et plus les Aurores Boréales vont danser dans le ciel.<br>Au delà de {{unit}}, le vent est considéré comme rapide.",
         "wind-density": "Densité des particules par mètre cube.<br> Plus les particules sont nombreuses, et plus les Aurores Boréales sont brillantes.",
         "wind-bz": "Champs Magnétique Interplanétaire<br> Un BZ négatif rend l'observation d'Aurores plus propices et laisse pénetrer le vent solaire dans la magnétosphère. Un BZ positif, à l'inverse, va bloquer le vent solaire hors de la magnétosphère.<br>Valeurs comprises entre -15 et 15.",
         "wind-bt": "Champs Magnétique Interplanétaire<br>Plus le BT est élevé, plus les aurores sont puissantes. ",
