@@ -235,7 +235,7 @@
         },
         "suggest": {
           "title": "Suggestions / problèmes",
-          "message": "Si vous avez des suggestions, ou rencontrez des problèmes, n'hésitez pas à me contacter sur mon mail, je ferai de mon mieux pour vous répondre. En effet, je suis un développeur indépendant, et je suis seul à m'occuper de cette application.<br><strong>morganichoui@gmail.com</strong>"
+          "message": "Si vous avez des suggestions, ou rencontrez des problèmes, n'hésitez pas à me contacter sur mon mail, je ferai de mon mieux pour vous répondre. En effet, je suis un développeur indépendant, et je suis seul à m'occuper de cette application.<br><a href='mailto:morganichoui@gmail.com'>morganichoui@gmail.com</a>"
         }
       }
     }
@@ -244,7 +244,7 @@
     "title": "CGU",
     "art1": {
       "title": "Article 1 : Mentions légales",
-      "text": "L’édition de l’application est assurée par Mr Morgan NICOL, développeur indépendant et créatif. <br>L’application est à but non-lucratif, et est proposée dans l'unique but de renseigner un utilisateur sur des faits météorologique.<br>L'application est hébergée sur le Play Store / Apple Store, en fonction de ton smartphone.<br>Adresse de contact : <a href='mailto:morganichoui@gmail.com'>morganichoui@gmail.com</a><br>"
+      "text": "L’édition de l’application est assurée par Mr Morgan NICOL, développeur indépendant et créatif. <br>L’application est à but non-lucratif, et est proposée dans l'unique but de renseigner un utilisateur sur des faits météorologique.<br>L'application est hébergée sur le Play Store / Apple Store, en fonction de ton smartphone.<br>Adresse de contact : <a href='mailto:morganichoui@gmail.com'>morganichoui@gmail.com</a>"
     },
     "art2": {
       "title": "Article 2 : Accès et utilisation du site ",

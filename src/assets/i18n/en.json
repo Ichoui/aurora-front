@@ -233,7 +233,7 @@
         },
         "suggest": {
           "title": "Suggestions / Problems",
-          "message": "If you have any suggestions, or encounter any problems, don't hesitate to contact me on my mail, I will do my best to answer you. Indeed, I'm a freelance developer, and I'm the only one to work on this application.<br><strong>morganichoui@gmail.com</strong>"
+          "message": "If you have any suggestions, or encounter any problems, don't hesitate to contact me on my mail, I will do my best to answer you. Indeed, I'm a freelance developer, and I'm the only one to work on this application.<br><a href='mailto:morganichoui@gmail.com'>morganichoui@gmail.com</a>"
         }
       }
     }
