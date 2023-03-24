@@ -5,7 +5,8 @@
 <br> Create a typescript file here `src/environments/.env` and then :
 - export a const named `OPENWHEATHER_API_KEY`
 
-You will need an OpenWeatherMap free account.
+You will need an OpenWeatherMap account.
+Moreover, the NESTJS back-end must be run.
 
 
 ### About 
