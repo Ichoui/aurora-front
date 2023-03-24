@@ -37,7 +37,7 @@
       "density": " Particles density",
       "density.unit": "(p/cc)",
       "speed": " Solar wind",
-      "probability": "Probability from your location <br>to observe Northern Lights",
+      "probability": "Probability to observe Northern Lights<br>from your location",
       "aceToEarth": "Solar wind propagation delay between ACE satellite and Earth",
       "bz": "Bz",
       "bz.north": "North",
@@ -45,7 +45,7 @@
       "bt": "Bt",
       "noData": "ACE No data",
       "live": "Infos",
-      "live.tooltip": "The above real-time data is provided by the NOAA's Space Weather Prediction Center.<br>They are informative and do not guarantee Northern Lights ✨"
+      "live.tooltip": "The above real-time data is provided by the NOAA's Space Weather Prediction Center.<br>They are for information only and do not guarantee Northern Lights ✨"
 
     },
     "forecast": {
@@ -75,10 +75,10 @@
       "another": "Try another location",
       "unknown": "Unknown",
       "tooltip": {
-        "map": "Allows to choose a custom location, or to select a predifined one.<br>Moreover, you can observe the auroral oval map.",
+        "map": "Allows to choose a custom location, or to select a predifined one.<br>At the same time, you can observe the auroral oval's map.",
         "kp-next-hours": "Maximum KP Index per 3 hours.<br>The higher the index, the better the geomagnetic conditions to observe the Northern Lights. Geomagnetic storm starts at Kp5",
         "kp-next-days": "Maximum KP Index for the next 27 days.<br> The higher the index, the better the geomagnetic conditions to observe the Northern Lights. Geomagnetic storm starts at Kp5",
-        "wind-speed": "Solar wind speed from sun to earth in {{measure}}.<br>The higher the speed, the more the Northern Lights will dance. Above {{measure}} we consider that the wind is fast.",
+        "wind-speed": "Solar wind speed from sun to earth in {{measure}}.<br>The higher the speed, the more the Northern Lights will dance. We consider that the wind is fast above {{measure}}.",
         "wind-density": "Particle density per cubic centimeter.<br>The more the particles, the brighter the Northern Lights",
         "wind-bz": "Interplanetary Magnetic Field<br>A negative BZ makes it easier to observe Northern Lights and let the solar wind enters earth's magnetosphere. Conversely, a positive BZ will block solar wind out of the magnetosphere.<br>Values between -15 and 15.",
         "wind-bt": "Interplanetary Magnetic Field<br>The higher the BT value, the more powerfull the Northern Lights.",
@@ -110,7 +110,7 @@
       "temperature": "Temperature",
       "subtemperature": "Pick your favorite unit",
       "infos": "Auroras",
-      "subinfos": "Technical explanations and anecdotes (only in French)",
+      "subinfos": "Technical explanations and anecdotes (in french only)",
       "infos.text": "Want to know more...",
       "measure": "Unit of measurement",
       "submeasure": "Pick your favorite unit",
