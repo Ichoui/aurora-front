@@ -53,14 +53,14 @@ ion-card {
     .countries span {
       padding: 3px 0;
       font-weight: bold;
-      color: var(--ion-color-tertiary);
+      color: var(--ion-color-primary);
       font-style: italic;
     }
 
     .annecdotes:before {
       content: '•';
       padding-right: 5px;
-      color: var(--ion-color-tertiary);
+      color: var(--ion-color-primary);
     }
   }
 }
