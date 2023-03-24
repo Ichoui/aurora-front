@@ -1,6 +1,6 @@
 {
   "name": "aurora-v2",
-  "version": "0.0.1",
+  "version": "2.0.0",
   "author": "Morgan N aka Ichoui",
   "description": "Aurora Northern Lights, available on the Play Store only, for Northern Lights Chasers",
   "scripts": {
@@ -12,7 +12,7 @@
     "android:update-files": "npx cap update",
     "android:build:prod": "ionic build --prod",
     "android:create": "npx cap add android",
-    "android:trapeze": "npx trapeze run config.yaml --android-project android",
+    "android:trapeze": "npx trapeze run trapeze-config.yaml --android-project android",
     "android:generate-logos-assets": "npx capacitor-assets generate --android --iconBackgroundColor '#001e49' --iconBackgroundColorDark '#001e49' --splashBackgroundColor '#001e49' --splashBackgroundColorDark '#001e49' --assetPath 'src/assets'",
     "info:ionic": "ionic info",
     "prettier": "prettier --write \"**/*.{js,ts,css,scss,html}\"",

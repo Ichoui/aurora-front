@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.aurora.v2',
-  appName: 'Aurora Northern Lights',
+  // appId: 'io.aurora.v2', // override by trapeze-config.yaml
+  // appName: 'Northern Lights', // Official application name on smartphone ; override by trapeze-config.yaml
   webDir: 'www',
   bundledWebRuntime: false,
 };

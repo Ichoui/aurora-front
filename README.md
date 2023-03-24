@@ -12,10 +12,10 @@ You will need an OpenWeatherMap free account.
 Aurora Northern Lights
 <br>
 Mobile App (IONIC - Capacitor Angular 14).
-This project is available only on Android. 
+This project is available only on Android devices
 <br>
 1st Release date : mi-december 2019.
-2nd release, after 2 years of no maintenability (CORS problems, weather problems, Android compilation problems)
+2nd release, after 2 years of no maintenability (CORS problems, weather problems, Android compilation problems, no time...)
 
 
 ### Credits 

@@ -4,7 +4,7 @@
     <div class="row">
       <ng-lottie *ngIf="lottieConfig" [options]="lottieConfig" [width]="widthCurrent + 'px'" [height]="heightCurrent + 'px'"></ng-lottie>
       <div class="temperature">
-        {{ currentWeather.temp | number: '1.0-0' }}
+        {{ currentWeather.temp | number : '1.0-0' }}
         <sup *ngIf="temperature === temperatureUnits.CELSIUS">°C</sup>
         <sup *ngIf="temperature === temperatureUnits.FAHRENHEIT">°F</sup>
         <sup *ngIf="temperature === temperatureUnits.KELVIN">°K</sup>
@@ -14,9 +14,9 @@
     </div>
     <div class="row feels">
       <div>
-        {{ todayTemp?.max | number: '1.0-0' }}° / {{ todayTemp?.min | number: '1.0-0' }}°&nbsp;
+        {{ todayTemp?.max | number : '1.0-0' }}° / {{ todayTemp?.min | number : '1.0-0' }}°&nbsp;
         <span class="tiret">—</span>
-        &nbsp;{{ 'tab1.weather.feelslike' | translate }}&nbsp;{{ currentWeather.feels_like | number: '1.0-0' }}°&nbsp;
+        &nbsp;{{ 'tab1.weather.feelslike' | translate }}&nbsp;{{ currentWeather.feels_like | number : '1.0-0' }}°&nbsp;
         <span class="tiret">—</span>
         &nbsp;
         <span class="description">{{ currentWeather.weather[0].description }}</span>
@@ -25,7 +25,11 @@
   </div>
 
   <div class="card-container">
-    <div class="header">{{ 'tab1.weather.next.hours' | translate }}</div>
+    <div class="header">
+      <span>
+        {{ 'tab1.weather.next.hours' | translate }}
+      </span>
+    </div>
     <div class="sub"></div>
     <div class="next-hours">
       <canvas id="next-hours"></canvas>
@@ -35,7 +39,7 @@
             <img src="assets/img/meteoOWM/{{ hourly.weather[0].icon }}@2x.png" alt="{{ hourly.weather[0].description }}" />
             <div class="rain">
               <span class="icon icon-drop"></span>
-              <div class="percent">{{ hourly.pop ? (hourly.pop | percent: '1.0-0') : '0%' }}</div>
+              <div class="percent">{{ hourly.pop ? (hourly.pop | percent : '1.0-0') : '0%' }}</div>
             </div>
           </div>
         </ng-container>
@@ -44,28 +48,36 @@
   </div>
 
   <div class="card-container">
-    <div class="header">{{ 'tab1.weather.seven.days' | translate }}</div>
+    <div class="header">
+      <span>
+        {{ 'tab1.weather.seven.days' | translate }}
+      </span>
+    </div>
     <div class="sub"></div>
     <div class="previsions">
       <div *ngFor="let day of days; let i = index" class="next-days">
         <span class="day">{{ day.date }}</span>
         <div class="rain">
           <span class="icon icon-drop"></span>
-          <div class="percent">{{ day.pop ? (day.pop | percent: '1.0-0') : '0%' }}</div>
+          <div class="percent">{{ day.pop ? (day.pop | percent : '1.0-0') : '0%' }}</div>
         </div>
         <span class="icon">
           <img src="assets/img/meteoOWM/{{ day.weather[0].icon }}@2x.png" alt="{{ day.weather[0].description }}" />
         </span>
         <div class="temps">
-          <span class="temp-max">{{ day.temp.max | number: '1.0-0' }}°</span>
-          <span class="temp-min">{{ day.temp.min | number: '1.0-0' }}°</span>
+          <span class="temp-max">{{ day.temp.max | number : '1.0-0' }}°</span>
+          <span class="temp-min">{{ day.temp.min | number : '1.0-0' }}°</span>
         </div>
       </div>
     </div>
   </div>
 
   <div class="card-container">
-    <div class="header">{{ 'tab1.weather.cover.clouds' | translate }}</div>
+    <div class="header">
+      <span>
+        {{ 'tab1.weather.cover.clouds' | translate }}
+      </span>
+    </div>
     <div class="sub"></div>
     <div class="cloudy-rate">
       <div *ngFor="let c of cloudy" class="cloudy">
@@ -77,7 +89,9 @@
   </div>
 
   <div class="card-container" *ngIf="currentWeather">
-    <div class="header">{{ 'tab1.weather.details' | translate }}</div>
+    <div class="header">
+      <span>{{ 'tab1.weather.details' | translate }}</span>
+    </div>
     <div class="sub"></div>
     <div class="data-details">
       <div class="sun">
@@ -101,8 +115,8 @@
           <span class="icon icon-wind-cloud"></span>
         </div>
         <div class="label">{{ 'tab1.weather.details.data.windspeed' | translate }}</div>
-        <div class="value" *ngIf="measure === measureUnits.METRIC">{{ currentWeather.wind_speed * 3.2 | number: '1.0-0' }} km/h</div>
-        <div class="value" *ngIf="measure === measureUnits.IMPERIAL">{{ currentWeather.wind_speed | number: '1.0-0' }} mph</div>
+        <div class="value" *ngIf="measure === measureUnits.METRIC">{{ currentWeather.wind_speed * 3.2 | number : '1.0-0' }} km/h</div>
+        <div class="value" *ngIf="measure === measureUnits.IMPERIAL">{{ currentWeather.wind_speed | number : '1.0-0' }} mph</div>
       </div>
       <div class="feels-like">
         <div class="icon" [style.transform]="'rotate(' + currentWeather.wind_deg + 'deg)'">
@@ -118,7 +132,7 @@
           <span class="icon icon-uv-index"></span>
         </div>
         <div class="label">{{ 'tab1.weather.details.data.uvindex' | translate }}</div>
-        <div class="value">{{ calculateUV(currentWeather.uvi) }} ({{ currentWeather.uvi | number: '1.0-0' }})</div>
+        <div class="value">{{ calculateUV(currentWeather.uvi) }} ({{ currentWeather.uvi | number : '1.0-0' }})</div>
       </div>
       <div class="feels-like">
         <div class="icon">

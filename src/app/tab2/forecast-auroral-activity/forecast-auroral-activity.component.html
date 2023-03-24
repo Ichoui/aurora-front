@@ -1,8 +1,10 @@
 <div class="container">
   <div class="card-container">
     <div class="header">
-      {{ 'tab2.forecast.aurora-map' | translate }}
-      <span id="aurora-map" class="icon icon-infos"></span>
+      <span>
+        {{ 'tab2.forecast.aurora-map' | translate }}
+      </span>
+      <ion-icon id="aurora-map" name="information-circle"></ion-icon>
       <ion-popover trigger="aurora-map" triggerAction="click" alignment="center">
         <ng-template>
           <div [innerHTML]="'tab2.forecast.tooltip.map' | translate"></div>
@@ -15,7 +17,9 @@
 
   <div class="card-container">
     <div class="header">
-      {{ 'tab2.forecast.nexthours.title' | translate }}
+      <span>
+        {{ 'tab2.forecast.nexthours.title' | translate }}
+      </span>
       <ion-icon id="kp-next-hours" name="information-circle"></ion-icon>
       <ion-popover trigger="kp-next-hours" triggerAction="click" alignment="center">
         <ng-template>
@@ -29,7 +33,9 @@
 
   <div class="card-container">
     <div class="header">
-      {{ 'tab2.forecast.longterm.title' | translate }}
+      <span>
+        {{ 'tab2.forecast.longterm.title' | translate }}
+      </span>
       <ion-icon id="kp-next-days" name="information-circle"></ion-icon>
       <ion-popover trigger="kp-next-days" triggerAction="click" alignment="center">
         <ng-template>
@@ -43,21 +49,25 @@
 
   <div class="card-container">
     <div class="header">
-      {{ 'tab2.forecast.speed.title' | translate }}
+      <span>
+        {{ 'tab2.forecast.speed.title' | translate }}
+      </span>
       <ion-icon id="wind-speed" name="information-circle"></ion-icon>
       <ion-popover trigger="wind-speed" triggerAction="click" alignment="center">
         <ng-template>
-          <div [innerHTML]="'tab2.forecast.tooltip.wind-speed' | translate: { unit: measure === 'metric' ? '500km/s' : '350mph/s' }"></div>
+          <div [innerHTML]="'tab2.forecast.tooltip.wind-speed' | translate : { unit: measure === 'metric' ? '500km/s' : '350mph/s' }"></div>
         </ng-template>
       </ion-popover>
     </div>
-    <div class="sub">{{ 'tab2.forecast.speed.sub' | translate: { unit: measure === 'metric' ? 'km/s' : 'mph/s' } }}</div>
+    <div class="sub">{{ 'tab2.forecast.speed.sub' | translate : { unit: measure === 'metric' ? 'km/s' : 'mph/s' } }}</div>
     <canvas id="speed"></canvas>
   </div>
 
   <div class="card-container">
     <div class="header">
-      {{ 'tab2.forecast.density.title' | translate }}
+      <span>
+        {{ 'tab2.forecast.density.title' | translate }}
+      </span>
       <ion-icon id="wind-density" name="information-circle"></ion-icon>
       <ion-popover trigger="wind-density" triggerAction="click" alignment="center">
         <ng-template>
@@ -71,9 +81,11 @@
 
   <div class="card-container">
     <div class="header">
-      {{ 'tab2.forecast.bz.title' | translate }}
+      <span>
+        {{ 'tab2.forecast.bz.title' | translate }}
+      </span>
       <ion-icon id="wind-bz" name="information-circle"></ion-icon>
-      <ion-popover trigger="wind-speed" triggerAction="click" alignment="center">
+      <ion-popover trigger="wind-bz" triggerAction="click" alignment="center">
         <ng-template>
           <div [innerHTML]="'tab2.forecast.tooltip.wind-bz' | translate"></div>
         </ng-template>
@@ -85,7 +97,9 @@
 
   <div class="card-container">
     <div class="header">
-      {{ 'tab2.forecast.bt.title' | translate }}
+      <span>
+        {{ 'tab2.forecast.bt.title' | translate }}
+      </span>
       <ion-icon id="wind-bt" name="information-circle"></ion-icon>
       <ion-popover trigger="wind-bt" triggerAction="click" alignment="center">
         <ng-template>
@@ -99,7 +113,9 @@
 
   <div class="card-container">
     <div class="header">
-      {{ 'tab2.forecast.cycle.title' | translate }}
+      <span>
+        {{ 'tab2.forecast.cycle.title' | translate }}
+      </span>
       <ion-icon id="solar-cycle" name="information-circle"></ion-icon>
       <ion-popover trigger="solar-cycle" triggerAction="click" alignment="center">
         <ng-template>
@@ -113,7 +129,9 @@
 
   <div class="card-container">
     <div class="header">
-      {{ 'tab2.forecast.poles' | translate }}
+      <span>
+        {{ 'tab2.forecast.poles' | translate }}
+      </span>
       <ion-icon id="poles" name="information-circle"></ion-icon>
       <ion-popover trigger="poles" triggerAction="click" alignment="center">
         <ng-template>

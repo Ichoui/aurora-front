@@ -2,7 +2,9 @@
 
 <ion-content>
   <div class="card-container">
-    <div class="header">{{ 'tab3.settings.infos' | translate }}</div>
+    <div class="header">
+      <span>{{ 'tab3.settings.infos' | translate }}</span>
+    </div>
     <div class="sub">{{ 'tab3.settings.subinfos' | translate }}</div>
     <ion-item [routerLink]="['..', 'infos']">
       <span>{{ 'tab3.settings.infos.text' | translate }}</span>
@@ -26,7 +28,9 @@
   <!--    <ion-img src="/assets/img/aurora-tab3.jpg"></ion-img>-->
 
   <div class="card-container">
-    <div class="header">{{ 'tab3.settings.languages' | translate }}</div>
+    <div class="header">
+      <span>{{ 'tab3.settings.languages' | translate }}</span>
+    </div>
     <div class="sub">{{ 'tab3.settings.sublanguages' | translate }}</div>
     <ion-item>
       <ion-select value="{{ locale }}" interface="action-sheet" (ionChange)="setLocale($event)" cancelText="{{ 'global.cancel' | translate }}">
@@ -36,7 +40,9 @@
   </div>
 
   <div class="card-container">
-    <div class="header">{{ 'tab3.settings.measure' | translate }}</div>
+    <div class="header">
+      <span>{{ 'tab3.settings.measure' | translate }}</span>
+    </div>
     <div class="sub">{{ 'tab3.settings.submeasure' | translate }}</div>
     <ion-item>
       <ion-select [value]="measureUnits" interface="action-sheet" (ionChange)="setMeasureUnit($event)" [cancelText]="'global.cancel' | translate">
@@ -48,7 +54,9 @@
   </div>
 
   <div class="card-container">
-    <div class="header">{{ 'tab3.settings.temperature' | translate }}</div>
+    <div class="header">
+      <span>{{ 'tab3.settings.temperature' | translate }}</span>
+    </div>
     <div class="sub">{{ 'tab3.settings.subtemperature' | translate }}</div>
     <ion-item>
       <ion-select

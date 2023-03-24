@@ -9,7 +9,7 @@
     <ion-card-content class="dont-touch" [innerHtml]="'tab3.infos.welcome.message' | translate"></ion-card-content>
   </ion-card>
   <ion-card class="card-container">
-    <ion-card-header class="header">{{ 'tab3.infos.firstblock.header' | translate }}</ion-card-header>
+    <ion-card-header class="header"><span>{{ 'tab3.infos.firstblock.header' | translate }}</span></ion-card-header>
     <app-card (click)="visibility($event, 1)" [block]="'firstblock'" [value]="'perception'"></app-card>
     <app-card (click)="visibility($event, 2)" [block]="'firstblock'" [value]="'how'"></app-card>
     <app-card (click)="visibility($event, 3)" [block]="'firstblock'" [value]="'forecast'"></app-card>
@@ -36,7 +36,7 @@
   </ion-card>
 
   <ion-card class="card-container">
-    <ion-card-header class="header">{{ 'tab3.infos.secondblock.header' | translate }}</ion-card-header>
+    <ion-card-header class="header"><span>{{ 'tab3.infos.secondblock.header' | translate }}</span></ion-card-header>
     <app-card (click)="visibility($event, 11)" [block]="'secondblock'" [value]="'kp'"></app-card>
     <app-card (click)="visibility($event, 12)" [block]="'secondblock'" [value]="'solarWind'"></app-card>
     <app-card (click)="visibility($event, 13)" [block]="'secondblock'" [value]="'cmi'"></app-card>

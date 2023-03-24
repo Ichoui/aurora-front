@@ -9,7 +9,7 @@
   min-height: 50px;
 
   &:first-child {
-    margin-top: 5vh;
+    //margin-top: 5vh;
   }
 
   p {
@@ -130,6 +130,7 @@
   &.live {
     display: flex;
     align-items: center;
+    min-height: 30px;
     .pulse {
       width: 10px;
       height: 10px;
