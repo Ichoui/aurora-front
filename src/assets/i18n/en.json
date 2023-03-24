@@ -76,13 +76,13 @@
       "unknown": "Unknown",
       "tooltip": {
         "map": "Allows to choose a custom location, or to select a predifined one.<br>At the same time, you can observe the auroral oval's map.",
-        "kp-next-hours": "Maximum KP Index per 3 hours.<br>The higher the index, the better the geomagnetic conditions to observe the Northern Lights. Geomagnetic storm starts at Kp5",
-        "kp-next-days": "Maximum KP Index for the next 27 days.<br> The higher the index, the better the geomagnetic conditions to observe the Northern Lights. Geomagnetic storm starts at Kp5",
-        "wind-speed": "Solar wind speed from sun to earth.<br>The higher the speed, the more the Northern Lights dance. We consider that the wind is fast below {{unit}}.",
-        "wind-density": "Particle density per cubic centimeter.<br>The more the particles, the brighter the Northern Lights",
+        "kp-next-hours": "Maximum KP Index per 3 hours.<br>The higher the index is, the better the geomagnetic conditions are to observe the Northern Lights. Geomagnetic storm starts at Kp5.",
+        "kp-next-days": "Maximum KP Index for the next 27 days.<br> The higher the index is, the better the geomagnetic conditions are to observe the Northern Lights. Geomagnetic storm starts at Kp5.",
+        "wind-speed": "Solar wind speed from sun to earth.<br>The higher the speed is, the more the Northern Lights dance. We consider that the wind is fast below {{unit}}.",
+        "wind-density": "Particle density per cubic centimeter.<br>The more the particles are, the brighter the Northern Lights are.",
         "wind-bz": "Interplanetary Magnetic Field<br>A negative BZ makes it easier to observe Northern Lights and let the solar wind enters earth's magnetosphere. Conversely, a positive BZ will block solar wind out of the magnetosphere.<br>Values between -15 and 15.",
-        "wind-bt": "Interplanetary Magnetic Field<br>The higher the BT value, the more powerfull the Northern Lights.",
-        "solar-cycle": "A solar cycle lasts 11 years on average. Its maximum is expected around 2025, then it will decrease.",
+        "wind-bt": "Interplanetary Magnetic Field<br>The higher the BT value is, the more powerful the Northern Lights are.",
+        "solar-cycle": "A solar cycle lasts 11 years on average. The following values may change.<br><u>Sunspot:</u> The more sunspots they are, the more important the activity solar will be.<br><u>Solar Flux:</u> Solar radio flux at 10.7 cm (2800 MHz) is an excellent indicator of solar activity.",
         "poles": "History of the aurora oval, and prediction for the next hour."
       }
     }

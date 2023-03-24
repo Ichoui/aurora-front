@@ -84,7 +84,7 @@
         "wind-density": "Densité des particules par mètre cube.<br> Plus les particules sont nombreuses, et plus les Aurores Boréales sont brillantes.",
         "wind-bz": "Champs Magnétique Interplanétaire<br> Un BZ négatif rend l'observation d'Aurores plus propices et laisse pénetrer le vent solaire dans la magnétosphère. Un BZ positif, à l'inverse, va bloquer le vent solaire hors de la magnétosphère.<br>Valeurs comprises entre -15 et 15.",
         "wind-bt": "Champs Magnétique Interplanétaire<br>Plus le BT est élevé, plus les aurores sont puissantes. ",
-        "solar-cycle": "Un cycle solaire dure 11 ans en moyenne. Son maximum est prévu aux alentours de 2025 avant de commencer à décroître.",
+        "solar-cycle": "Un cycle solaire dure environ 11 ans. Les valeurs sont sujettes à changement.<br><u>Tâches solaires:</u> Plus elles sont nombreuses, et plus l'activité solaire sera importante, favorisant les Aurores Boréales.<br><u>Flux solaire:</u> Le flux solaire radio à 10.7 cm (2800 MHz) est un excellent indicateur de l'activité solaire.",
         "poles": "Historique de l'ovale auroral, et prédiction sur la prochaine heure."
       }
     }
@@ -224,7 +224,7 @@
         },
         "solarCycle": {
           "title": "Cycle solaire",
-          "message": "Le cycle solaire se base sur le nombre de tâches solaire présente à la surface du Soleil. Ces tâches varient de façon périodique, et le maximum de ce cycle est atteint en moyenne tous les 11.2 ans. <br>Ce constat a été réalisé grâce à Galillée au XVIIe siècle, qui a été un pionnier dans l'observation des tâches solaires. Nous avons donc des données sur les cycles solaires qui remontent principalement au XVIIIe siècle, ce qui permet aux scientifiques de déduire les pics haut et bas de ce cycle."
+          "message": "Le cycle solaire se base sur le nombre de tâches solaire présente à la surface du Soleil. Les tâches sont des zones plus sombres et plus froide que le reste de la surface de l'étoile, et sont la base des éruptions et tempêtes solaires qui convergent ensuite vers la Terre. Le maximum du cycle est atteint en moyenne tous les 11.2 ans.<br>Ce constat a été réalisé grâce à Galillée au XVIIe siècle, qui a été un pionnier dans l'observation des tâches solaires. Nous avons donc des données sur les cycles solaires qui remontent principalement au XVIIIe siècle, ce qui permet aux scientifiques de déduire les pics haut et bas de ce cycle.<br>On peut également mesurer l'activité solaire grâce au Flux Solaire à 10.7cm, un indice beaucoup plus précis, qui fonctionne à l'aide d'un système radar fonctionnant à une fréquence de 2800MHz, soit une longueur d'onde de 10.7cm. "
         }
       },
       "help": {
