@@ -126,10 +126,10 @@
       "en": "English"
     },
     "infos": {
-      "title": "Informations",
+      "title": "Aurores",
       "welcome": {
-        "title": "Aurora Northern Lights",
-        "message": "Cette application est destinée au phénomène des Aurores Boréales.<br>Que tu vives dans un pays lointain du phénomène, ou que tu sois un chasseur d'aurores assidu, cette application te permettra de t'informer quant à la probabilité de voir une Aurore Boréale, grâce aux données fournies par le <i>Space Weather Prediction Center</i>.<br> Une section météo est également intégrée à l'application, pour optimiser vos recherches !"
+        "title": "Aurora - Northern Lights",
+        "message": "Auroras - Northern Lights est une application moderne, sexy et colorée, développée pour chasser les Aurores Boréales.<br>Si tu t'intéresses à l'activité des Aurores Boréales, que tu sois touriste ou chasseur d'Aurores, cette application est faites pour toi !"
       },
       "firstblock": {
         "header": "Une Aurore Boréale ?",
