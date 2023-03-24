@@ -23,6 +23,9 @@
       display: block;
       margin-left: 15px;
     }
+    a {
+      color:var(--ion-color-secondary);
+    }
     ion-button.legal {
       margin-top: 10px;
       font-size: 12px;

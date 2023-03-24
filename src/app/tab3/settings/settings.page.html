@@ -73,7 +73,7 @@
   </div>
 
   <div class="card-container credits">
-    <div class="header credits">{{ 'tab3.settings.credits.title' | translate }}</div>
+    <div class="header credits"><span>{{ 'tab3.settings.credits.title' | translate }}</span></div>
     <span *ngFor="let c of credits">
       {{ 'tab3.settings.credits.' + c.label | translate }}
       <a href="#" (click)="openUrl(c.url)">{{ 'tab3.settings.credits.' + c.labelLink | translate }}</a>
