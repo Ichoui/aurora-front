@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
 })
 export class InformationsPage {
   text;
-  tabOpen = [];
+  tabOpen = [0];
 
   visibility(event, index): void {
     if (!event.target.nextElementSibling) {
