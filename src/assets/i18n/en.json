@@ -68,6 +68,8 @@
       "bt.sub": "IMF - Interplanetary Magnetic Field (nT)",
       "cycle.title": "Solar cycle",
       "cycle.sub": "Avg. duration of 11 year",
+      "cycle.ssn": "Sunspots",
+      "cycle.sfu": "Solar flux",
       "aurora-map": "Auroral oval map",
       "sub-aurora-map": "Tap to watch live Auroral oval",
       "title": "Auroral oval map",
