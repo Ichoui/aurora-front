@@ -325,7 +325,7 @@ export class ForecastAuroralActivityComponent implements OnChanges {
             data: data as any[],
             backgroundColor: context => updateGradientBackgroundChart(context, type, data, measure),
             pointBackgroundColor: context => determineColorsOfValue(type, data[context.dataIndex], measure),
-            borderColor: colorSwitcher(determineColorsOfValue(type, Math.max(...data), measure)),
+            borderColor: colorSwitcher(determineColorsOfValue(type, type !== 'bz' ? Math.max(...data) : Math.min(...data), measure)),
             borderWidth: 1,
             pointRadius: 1.5,
             fill: 'origin',
