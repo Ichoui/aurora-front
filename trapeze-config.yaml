@@ -1,9 +1,9 @@
 platforms:
   android:
-    appName: NorthernLights
+    appName: Northern Lights
     packageName: io.aurora.v2
     versionName: 3.0.0
-    incrementVersionCode: true
+    incrementVersaionCode: true
     manifest:
       - file: AndroidManifest.xml
         target: manifest
@@ -19,6 +19,12 @@ platforms:
         target: manifest
         inject: |
           <uses-feature android:name="android.hardware.location.gps" />
+    res:
+      - path: values
+        file: styles.xml
+        source: ./src/styles.xml
+
+
 
 #    copy:
 #    - src: ../firebase/google-services.json

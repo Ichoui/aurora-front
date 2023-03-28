@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 
 import { Platform } from '@ionic/angular';
-// import { SplashScreen } from '@ionic-native/splash-screen';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { StorageService } from './storage.service';
@@ -19,7 +18,6 @@ export class AppComponent {
   // selectedKp: number;
   // currentKp: number;
 
-  //private splashScreen: SplashScreen // TODO
   constructor(
     private _platform: Platform,
     private _router: Router,
