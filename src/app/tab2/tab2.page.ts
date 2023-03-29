@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import { cities, CodeLocation, Coords } from '../models/cities';
 import { AuroraService } from '../aurora.service';
 import { NavController } from '@ionic/angular';
@@ -23,14 +23,15 @@ SwiperCore.use([Pagination, Navigation]);
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Tab2Page implements OnViewWillEnter, OnDestroy {
   loading = true;
+  loadSwiper = false;
 
   coords: Coords;
   city: string;
   country: string;
-
   // Data inputs
   kpForecast: KpForecast[] = [];
   kpForecast27days: Kp27day[] = [];
@@ -64,6 +65,7 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
     private _navCtrl: NavController,
     private _auroraService: AuroraService,
     private _translate: TranslateService,
+    private _cdr: ChangeDetectorRef,
   ) {}
 
   ngOnDestroy(): void {
@@ -72,6 +74,9 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
   }
 
   ionViewWillEnter(): void {
+    this.loadSwiper = true;
+    this._cdr.markForCheck();
+
     combineLatest([from(this._storageService.getData('measure')), from(this._storageService.getData('locale'))])
       .pipe(
         takeUntil(this._destroy$),
@@ -135,6 +140,7 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
             this.nowcastAurora = nowcastAurora;
             this.kpCurrent = kpCurrent;
             this.loading = false;
+            this._cdr.markForCheck();
           },
           error: error => {
             console.warn('Local storage error', error.error);
@@ -161,6 +167,7 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
       .catch(error => {
         console.warn('Geolocalisation error', error.message);
         this.loading = false;
+        this._cdr.markForCheck();
         this._eventRefresh?.target?.complete();
         this.dataError = new ErrorTemplate({
           value: true,
@@ -220,6 +227,7 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
 
             // End loading
             this.loading = false;
+            this._cdr.markForCheck();
             this._eventRefresh?.target?.complete();
 
             void this._storageService.setData('solarCycle', value.forecastSolarCycle);
@@ -231,7 +239,8 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
           },
           error: (error: HttpErrorResponse) => {
             console.warn('Solar Wind data error', error.message);
-            this.loading = false;
+            // this.loading = false;
+            // this._cdr.markForCheck(); // TODO a remetre
             this._eventRefresh?.target?.complete();
             this.dataError = new ErrorTemplate({
               value: true,

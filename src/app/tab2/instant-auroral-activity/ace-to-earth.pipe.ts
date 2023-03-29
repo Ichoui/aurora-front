@@ -7,6 +7,7 @@ import { MeasureUnits } from '../../models/weather';
 })
 export class AceToEarthPipe implements PipeTransform {
   transform(speed: number, measure: MeasureUnits): number {
-    return Math.round(timeACEtoEarth(speed, measure));
+    const time = Math.round(timeACEtoEarth(speed, measure));
+    return !isNaN(time) ? time : null;
   }
 }

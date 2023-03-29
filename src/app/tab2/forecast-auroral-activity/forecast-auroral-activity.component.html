@@ -28,7 +28,8 @@
       </ion-popover>
     </div>
     <div class="sub">{{ 'tab2.forecast.nexthours.sub' | translate }}</div>
-    <canvas id="kpnexthours"></canvas>
+    <canvas id="kpnexthours" [style.display]="loading ? 'none' : 'block'"></canvas>
+    <ng-container *ngTemplateOutlet="loading ? isLoading : null"></ng-container>
   </div>
 
   <div class="card-container">
@@ -44,7 +45,8 @@
       </ion-popover>
     </div>
     <div class="sub">{{ 'tab2.forecast.longterm.sub' | translate }}</div>
-    <canvas id="kpforecast"></canvas>
+    <canvas id="kpforecast" [style.display]="loading ? 'none' : 'block'"></canvas>
+    <ng-container *ngTemplateOutlet="loading ? isLoading : null"></ng-container>
   </div>
 
   <div class="card-container">
@@ -60,7 +62,8 @@
       </ion-popover>
     </div>
     <div class="sub">{{ 'tab2.forecast.speed.sub' | translate : { unit: measure === 'metric' ? 'km/s' : 'mph/s' } }}</div>
-    <canvas id="speed"></canvas>
+    <canvas id="speed" [style.display]="loading ? 'none' : 'block'"></canvas>
+    <ng-container *ngTemplateOutlet="loading ? isLoading : null"></ng-container>
   </div>
 
   <div class="card-container">
@@ -76,7 +79,8 @@
       </ion-popover>
     </div>
     <div class="sub">{{ 'tab2.forecast.density.sub' | translate }}</div>
-    <canvas id="density"></canvas>
+    <canvas id="density" [style.display]="loading ? 'none' : 'block'"></canvas>
+    <ng-container *ngTemplateOutlet="loading ? isLoading : null"></ng-container>
   </div>
 
   <div class="card-container">
@@ -92,7 +96,8 @@
       </ion-popover>
     </div>
     <div class="sub">{{ 'tab2.forecast.bz.sub' | translate }}</div>
-    <canvas id="bz"></canvas>
+    <canvas id="bz" [style.display]="loading ? 'none' : 'block'"></canvas>
+    <ng-container *ngTemplateOutlet="loading ? isLoading : null"></ng-container>
   </div>
 
   <div class="card-container">
@@ -108,7 +113,8 @@
       </ion-popover>
     </div>
     <div class="sub">{{ 'tab2.forecast.bt.sub' | translate }}</div>
-    <canvas id="bt"></canvas>
+    <canvas id="bt" [style.display]="loading ? 'none' : 'block'"></canvas>
+    <ng-container *ngTemplateOutlet="loading ? isLoading : null"></ng-container>
   </div>
 
   <div class="card-container">
@@ -124,7 +130,8 @@
       </ion-popover>
     </div>
     <div class="sub">{{ 'tab2.forecast.cycle.sub' | translate }}</div>
-    <canvas id="cycle"></canvas>
+    <canvas id="cycle" [style.display]="loading ? 'none' : 'block'"></canvas>
+    <ng-container *ngTemplateOutlet="loading ? isLoading : null"></ng-container>
   </div>
 
   <div class="card-container">
@@ -144,4 +151,10 @@
       <span class="icon icon-earth"></span>
     </div>
   </div>
+
+  <ng-template #isLoading>
+    <div class="isLoading">
+    COUCOU
+    </div>
+  </ng-template>
 </div>

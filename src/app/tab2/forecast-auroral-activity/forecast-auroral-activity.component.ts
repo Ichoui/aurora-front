@@ -1,17 +1,10 @@
-import { Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { ModalComponent } from '../../shared/modal/modal.component';
 import { Chart, ChartType, registerables } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import * as moment from 'moment';
-import {
-  colorSwitcher,
-  convertUnitMeasure,
-  determineColorsOfValue,
-  manageDates,
-  updateDataChart,
-  updateGradientBackgroundChart,
-} from '../../models/utils';
+import { colorSwitcher, convertUnitMeasure, determineColorsOfValue, manageDates, updateDataChart, updateGradientBackgroundChart, } from '../../models/utils';
 import { MAIN_TEXT_COLOR, WEATHER_NEXT_HOUR_CHART_COLOR } from '../../models/colors';
 import { CodeLocation, Coords } from '../../models/cities';
 import { StorageService } from '../../storage.service';
@@ -31,6 +24,7 @@ Chart.register(...registerables);
   selector: 'app-forecast-auroral-activity',
   templateUrl: './forecast-auroral-activity.component.html',
   styleUrls: ['./forecast-auroral-activity.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ForecastAuroralActivityComponent implements OnChanges {
   @Input() kpForecast: KpForecast[];
@@ -39,6 +33,7 @@ export class ForecastAuroralActivityComponent implements OnChanges {
   @Input() solarCycle: SolarCycle[];
   @Input() measure: MeasureUnits;
   @Input() locale: ELocales;
+  @Input() loading = false;
 
   private _chartKpForecast: Chart<ChartType, string[]>;
   private _chartKpForecast27: Chart<ChartType, string[]>;
@@ -58,18 +53,22 @@ export class ForecastAuroralActivityComponent implements OnChanges {
     private _storageService: StorageService,
     private _geoloc: Geolocation,
     private _translateService: TranslateService,
+    private _cdr: ChangeDetectorRef
   ) {}
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(changes: SimpleChanges): void {
     this.minimapLocation(); // Here to reload map at each change of location
+    console.log(changes);
 
     if (changes?.kpForecast?.currentValue !== changes?.kpForecast?.previousValue) {
       const firstChange = changes?.kpForecast?.firstChange;
+      console.log(changes?.kpForecast);
+      console.log(firstChange);
       this._chartNextHoursForecast(changes.kpForecast.currentValue, firstChange);
     }
 
     if (changes?.kpForecast27?.currentValue !== changes?.kpForecast27?.previousValue) {
-      const firstChange = changes?.kpForecast27?.firstChange;
+      const firstChange = changes?.kpForecast?.firstChange;
       this._chartForecast27day(changes.kpForecast27.currentValue, firstChange);
     }
 
@@ -80,6 +79,7 @@ export class ForecastAuroralActivityComponent implements OnChanges {
     if (changes?.solarCycle?.currentValue !== changes?.solarCycle?.previousValue) {
       this._calculateDataForChartSolarCycle(changes.solarCycle.currentValue);
     }
+    this._cdr.markForCheck()
   }
 
   /**
@@ -87,7 +87,7 @@ export class ForecastAuroralActivityComponent implements OnChanges {
    *  Sinon si la page a déjà été chargée une fois, on ne fait qu'ajouter un marker à la map
    * Sinon charge la map avec les lat/long envoyée depuis la page popup (Marker et Ville Préselectionnées)
    * */
-  minimapLocation() {
+  minimapLocation(): void {
     // localisation format json ? {code: 'currentlocation', lat: 41.1, long: 10.41} --> pas besoin de call à chaque fois lat et long comme ça...
     this._storageService.getData('location').then((codeLocation: CodeLocation) => {
       if (!codeLocation) {
@@ -101,7 +101,7 @@ export class ForecastAuroralActivityComponent implements OnChanges {
   /**
    * localise l'utilisateur et lance l'affichage de la map
    * */
-  private _userLocalisation() {
+  private _userLocalisation(): void {
     this._geoloc
       .getCurrentPosition()
       .then((resp: Geoposition) => {
@@ -148,7 +148,7 @@ export class ForecastAuroralActivityComponent implements OnChanges {
    * @param long
    * Création d'un marker sur la map
    * */
-  private _addMarker(lat: any, long: any) {
+  private _addMarker(lat: any, long: any): void {
     if (!this._marker) {
       this._marker = marker([lat, long], {
         icon: icon({
@@ -209,6 +209,7 @@ export class ForecastAuroralActivityComponent implements OnChanges {
       // }
     }
 
+    console.log(firstChange);
     if (firstChange) {
       // 14 values
       this._chartKpForecast27 = this._chartKp('kpforecast', forecastDate, forecastValue, forecastColors);

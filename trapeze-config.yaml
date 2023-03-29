@@ -23,9 +23,3 @@ platforms:
       - path: values
         file: styles.xml
         source: ./src/styles.xml
-
-
-
-#    copy:
-#    - src: ../firebase/google-services.json
-#      dest: app/google-services.json

@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { StorageService } from '../../storage.service';
 import { convertUnitMeasure, determineColorsOfValue, roundTwoNumbers } from '../../models/utils';
 import { MeasureUnits } from '../../models/weather';
@@ -8,6 +8,7 @@ import { AuroraEnumColours, Bt, Bz, Density, KpCurrent, SolarWind, SolarWindType
   selector: 'app-instant-auroral-activity',
   templateUrl: './instant-auroral-activity.component.html',
   styleUrls: ['./instant-auroral-activity.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InstantAuroralActivityComponent implements OnInit, OnChanges {
   density: Density;
@@ -16,28 +17,31 @@ export class InstantAuroralActivityComponent implements OnInit, OnChanges {
   bt: Bt;
   AuroraEnumColours = AuroraEnumColours;
 
+  random = () => (Math.floor(Math.random() * 3) + 2) // max is 3, so 0 1 2 3, and add 2 for each
+
   @Input() measureUnit: MeasureUnits;
   @Input() solarWind: SolarWind;
   @Input() nowcastAurora: number;
   @Input() kpCurrent: KpCurrent;
+  @Input() loading = false;
 
-  constructor(private _storageService: StorageService) {}
+  constructor(private _storageService: StorageService, private _cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     this._auroraBackground();
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (!changes?.unit?.firstChange && changes?.unit?.currentValue !== changes?.unit?.previousValue) {
+    if (!changes?.measureUnit?.firstChange && changes?.measureUnit?.currentValue !== changes?.measureUnit?.previousValue) {
       this.speed = {
         ...this.speed,
-        value: convertUnitMeasure(this.speed.value, this.measureUnit),
-        color: determineColorsOfValue(SolarWindTypes.SPEED, convertUnitMeasure(this.speed.value, this.measureUnit), this.measureUnit),
+        value: convertUnitMeasure(this.speed?.value, this.measureUnit),
+        color: determineColorsOfValue(SolarWindTypes.SPEED, convertUnitMeasure(this.speed?.value, this.measureUnit), this.measureUnit),
         unit: this.measureUnit,
       };
     }
 
-    if (changes?.kpCurrent) {
+    if (changes?.kpCurrent?.currentValue) {
       const kpCurrent = changes.kpCurrent.currentValue;
       this.kpCurrent = {
         kpIndex: !isNaN(kpCurrent.k_index) ? roundTwoNumbers(kpCurrent.k_index) : null,
@@ -46,7 +50,7 @@ export class InstantAuroralActivityComponent implements OnInit, OnChanges {
       };
     }
 
-    if (changes?.solarWind) {
+    if (changes?.solarWind?.currentValue) {
       const solarWind: SolarWind = changes.solarWind.currentValue;
       this.density = {
         value: solarWind.density,
@@ -75,6 +79,7 @@ export class InstantAuroralActivityComponent implements OnInit, OnChanges {
         unit: this.measureUnit,
       };
     }
+    this._cdr.markForCheck()
   }
 
   /**

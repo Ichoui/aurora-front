@@ -4,7 +4,7 @@
     <div class="whirly-loader"></div>
   </div>
 </ng-template>
-<ng-container *ngIf="solarWind && kpCurrent; else load">
+<ng-container>
   <div class="live ace-data">
     <!--    https://opensea.io/collection/armins-all-access  here is pulsing live-->
     <div class="pulse"></div>
@@ -21,15 +21,15 @@
       <span
         *ngFor="let i of [1, 2, 3, 4]"
         [ngClass]="{
-          green: kpCurrent.color === AuroraEnumColours.green,
-          yellow: kpCurrent.color === AuroraEnumColours.yellow,
-          orange: kpCurrent.color === AuroraEnumColours.orange,
-          red: kpCurrent.color === AuroraEnumColours.red
+          green: kpCurrent?.color === AuroraEnumColours.green,
+          yellow: kpCurrent?.color === AuroraEnumColours.yellow,
+          orange: kpCurrent?.color === AuroraEnumColours.orange,
+          red: kpCurrent?.color === AuroraEnumColours.red
         }"
       ></span>
     </div>
-    <div class="value" *ngIf="kpCurrent.kpIndex">{{ kpCurrent.kpIndex }}</div>
-    <div class="value no-data" *ngIf="!kpCurrent.kpIndex">{{ 'tab2.instant.noData' | translate }}</div>
+    <div class="value" *ngIf="kpCurrent?.kpIndex">{{ kpCurrent.kpIndex }}</div>
+    <ng-container *ngTemplateOutlet="!kpCurrent?.kpIndex ? isLoadingAceData : null"></ng-container>
     <div class="label">{{ 'tab2.instant.kpindex' | translate }}</div>
   </div>
 
@@ -38,18 +38,18 @@
       <span
         *ngFor="let i of [1, 2, 3, 4]"
         [ngClass]="{
-          green: speed.color === AuroraEnumColours.green,
-          yellow: speed.color === AuroraEnumColours.yellow,
-          orange: speed.color === AuroraEnumColours.orange,
-          red: speed.color === AuroraEnumColours.red
+          green: speed?.color === AuroraEnumColours.green,
+          yellow: speed?.color === AuroraEnumColours.yellow,
+          orange: speed?.color === AuroraEnumColours.orange,
+          red: speed?.color === AuroraEnumColours.red
         }"
       ></span>
     </div>
-    <div class="value" *ngIf="speed.value">{{ speed.value }}</div>
-    <div class="value no-data" *ngIf="!speed.value">{{ 'tab2.instant.noData' | translate }}</div>
+    <div class="value" *ngIf="speed?.value">{{ speed.value }}</div>
+    <ng-container *ngTemplateOutlet="!speed?.value ? isLoadingAceData : null"></ng-container>
     <div class="label">
       {{ 'tab2.instant.speed' | translate }}
-      <div class="unit">{{ speed.unit === 'imperial' ? '(mps)' : '(km/s)' }}</div>
+      <div class="unit">{{ speed?.unit === 'imperial' ? '(mps)' : '(km/s)' }}</div>
     </div>
   </div>
 
@@ -58,15 +58,15 @@
       <span
         *ngFor="let i of [1, 2, 3, 4]"
         [ngClass]="{
-          green: density.color === AuroraEnumColours.green,
-          yellow: density.color === AuroraEnumColours.yellow,
-          orange: density.color === AuroraEnumColours.orange,
-          red: density.color === AuroraEnumColours.red
+          green: density?.color === AuroraEnumColours.green,
+          yellow: density?.color === AuroraEnumColours.yellow,
+          orange: density?.color === AuroraEnumColours.orange,
+          red: density?.color === AuroraEnumColours.red
         }"
       ></span>
     </div>
-    <div class="value" *ngIf="density.value">{{ density.value }}</div>
-    <div class="value no-data" *ngIf="!density.value">{{ 'tab2.instant.noData' | translate }}</div>
+    <div class="value" *ngIf="density?.value">{{ density.value }}</div>
+    <ng-container *ngTemplateOutlet="!density?.value ? isLoadingAceData : null"></ng-container>
     <div class="label">
       {{ 'tab2.instant.density' | translate }}
       <div class="unit">{{ 'tab2.instant.density.unit' | translate }}</div>
@@ -78,18 +78,18 @@
       <span
         *ngFor="let i of [1, 2, 3, 4]"
         [ngClass]="{
-          green: bz.color === AuroraEnumColours.green,
-          yellow: bz.color === AuroraEnumColours.yellow,
-          orange: bz.color === AuroraEnumColours.orange,
-          red: bz.color === AuroraEnumColours.red
+          green: bz?.color === AuroraEnumColours.green,
+          yellow: bz?.color === AuroraEnumColours.yellow,
+          orange: bz?.color === AuroraEnumColours.orange,
+          red: bz?.color === AuroraEnumColours.red
         }"
       ></span>
     </div>
-    <div class="value" *ngIf="bz.value">{{ bz.value }}</div>
-    <div class="value no-data" *ngIf="!bz.value">{{ 'tab2.instant.noData' | translate }}</div>
+    <div class="value" *ngIf="bz?.value">{{ bz.value }}</div>
+    <ng-container *ngTemplateOutlet="!bz?.value ? isLoadingAceData : null"></ng-container>
     <div class="label">
       {{ 'tab2.instant.bz' | translate }}
-      <div class="unit">{{ bz.value > 0 ? ('tab2.instant.bz.north' | translate) : ('tab2.instant.bz.south' | translate) }}</div>
+      <div class="unit">{{ bz?.value > 0 ? ('tab2.instant.bz.north' | translate) : ('tab2.instant.bz.south' | translate) }}</div>
     </div>
   </div>
 
@@ -98,27 +98,42 @@
       <span
         *ngFor="let i of [1, 2, 3, 4]"
         [ngClass]="{
-          green: bt.color === AuroraEnumColours.green,
-          yellow: bt.color === AuroraEnumColours.yellow,
-          orange: bt.color === AuroraEnumColours.orange,
-          red: bt.color === AuroraEnumColours.red
+          green: bt?.color === AuroraEnumColours.green,
+          yellow: bt?.color === AuroraEnumColours.yellow,
+          orange: bt?.color === AuroraEnumColours.orange,
+          red: bt?.color === AuroraEnumColours.red
         }"
       ></span>
     </div>
-    <div class="value" *ngIf="bt.value">{{ bt.value }}</div>
-    <div class="value no-data" *ngIf="!bt.value">{{ 'tab2.instant.noData' | translate }}</div>
+    <div class="value" *ngIf="bt?.value">{{ bt.value }}</div>
+    <ng-container *ngTemplateOutlet="!bt?.value ? isLoadingAceData : null"></ng-container>
     <div class="label">{{ 'tab2.instant.bt' | translate }}</div>
   </div>
 
   <div class="infos nowcast ace-data">
-    <div>{{ nowcastAurora }}%</div>
+    <div *ngIf="nowcastAurora; else isLoadingNumber">{{ nowcastAurora }}%</div>
     <p [innerHTML]="'tab2.instant.probability' | translate"></p>
   </div>
 
   <div class="infos acetoearth ace-data">
-    <div>{{ speed.value | aceToEarth : measureUnit }}mn</div>
+    <div *ngIf="speed?.value; else isLoadingNumber">{{ speed.value | aceToEarth : measureUnit }}mn</div>
     <p [innerHTML]="'tab2.instant.aceToEarth' | translate"></p>
   </div>
+
+  <ng-template #isLoadingAceData>
+    <div class="value no-data">
+      <div class="placeholder-ace-data">
+        <div class="animated-background animated-ace-data" [style.animation-duration]="random() + 's'"></div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #isLoadingNumber>
+    <div>
+      <div class="placeholder-number">
+        <div class="animated-background animated-number" [style.animation-duration]="random() + 's'"></div>
+      </div>
+    </div>
+  </ng-template>
 </ng-container>
 
 <div class="night-sky">

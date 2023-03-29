@@ -1,21 +1,23 @@
 <app-header [titre]=" 'tab2.title' | translate"></app-header>
 <ion-content fullscreen="true">
-  <ng-container *ngIf="loading">
-    <ion-progress-bar type="indeterminate"></ion-progress-bar>
-    <p class="text-spinner">{{ 'global.loading' | translate }}</p>
-    <div class="content-spinner">
-      <div class="whirly-loader"></div>
-    </div>
-  </ng-container>
+  <!--  <ng-container *ngIf="loading">-->
+  <!--    <ion-progress-bar type="indeterminate"></ion-progress-bar>-->
+  <!--    <p class="text-spinner">{{ 'global.loading' | translate }}</p>-->
+  <!--    <div class="content-spinner">-->
+  <!--      <div class="whirly-loader"></div>-->
+  <!--    </div>-->
+  <!--  </ng-container>-->
 
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" pullMin="140">
     <div class="refresh whirly-loader"></div>
   </ion-refresher>
-
-  <ng-container *ngIf="!loading && !dataError.value">
+  <!--  *ngIf="!loading && !dataError.value"-->
+  <ng-container *ngIf="loadSwiper">
     <swiper [config]="configSwiper">
       <ng-template swiperSlide>
+        AAAA
         <app-instant-auroral-activity
+          [loading]="loading"
           [solarWind]="solarWindInstant"
           [measureUnit]="measure"
           [nowcastAurora]="nowcastAurora"
@@ -23,7 +25,9 @@
         ></app-instant-auroral-activity>
       </ng-template>
       <ng-template swiperSlide>
+        <!--                *ngIf="!loading && !dataError.value"-->
         <app-forecast-auroral-activity
+          [loading]="loading"
           [kpForecast27]="kpForecast27days"
           [kpForecast]="kpForecast"
           [solarWind]="solarWind"
