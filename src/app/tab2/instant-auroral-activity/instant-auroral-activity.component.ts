@@ -17,8 +17,6 @@ export class InstantAuroralActivityComponent implements OnInit, OnChanges {
   bt: Bt;
   AuroraEnumColours = AuroraEnumColours;
 
-  random = () => (Math.floor(Math.random() * 3) + 2) // max is 3, so 0 1 2 3, and add 2 for each
-
   @Input() measureUnit: MeasureUnits;
   @Input() solarWind: SolarWind;
   @Input() nowcastAurora: number;
