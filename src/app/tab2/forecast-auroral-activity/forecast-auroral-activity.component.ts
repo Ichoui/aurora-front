@@ -58,12 +58,9 @@ export class ForecastAuroralActivityComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     this.minimapLocation(); // Here to reload map at each change of location
-    console.log(changes);
 
     if (changes?.kpForecast?.currentValue !== changes?.kpForecast?.previousValue) {
       const firstChange = changes?.kpForecast?.firstChange;
-      console.log(changes?.kpForecast);
-      console.log(firstChange);
       this._chartNextHoursForecast(changes.kpForecast.currentValue, firstChange);
     }
 
@@ -209,7 +206,6 @@ export class ForecastAuroralActivityComponent implements OnChanges {
       // }
     }
 
-    console.log(firstChange);
     if (firstChange) {
       // 14 values
       this._chartKpForecast27 = this._chartKp('kpforecast', forecastDate, forecastValue, forecastColors);

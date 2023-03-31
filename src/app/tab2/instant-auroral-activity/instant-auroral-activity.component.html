@@ -29,7 +29,7 @@
       ></span>
     </div>
     <div class="value" *ngIf="kpCurrent?.kpIndex">{{ kpCurrent.kpIndex }}</div>
-    <ng-container *ngTemplateOutlet="!kpCurrent?.kpIndex ? isLoadingAceData : null; context: { index: 1.10 }"></ng-container>
+    <ng-container *ngTemplateOutlet="!kpCurrent?.kpIndex ? isLoadingAceData : null; context: { index: 2.4 }"></ng-container>
     <div class="label">{{ 'tab2.instant.kpindex' | translate }}</div>
   </div>
 
@@ -46,7 +46,7 @@
       ></span>
     </div>
     <div class="value" *ngIf="speed?.value">{{ speed.value }}</div>
-    <ng-container *ngTemplateOutlet="!speed?.value ? isLoadingAceData : null; context: { index: 1.20 }"></ng-container>
+    <ng-container *ngTemplateOutlet="!speed?.value ? isLoadingAceData : null; context: { index: 2.5 }"></ng-container>
     <div class="label">
       {{ 'tab2.instant.speed' | translate }}
       <div class="unit">{{ speed?.unit === 'imperial' ? '(mps)' : '(km/s)' }}</div>
@@ -66,7 +66,7 @@
       ></span>
     </div>
     <div class="value" *ngIf="density?.value">{{ density.value }}</div>
-    <ng-container *ngTemplateOutlet="!density?.value ? isLoadingAceData : null; context: { index: 1.30 }"></ng-container>
+    <ng-container *ngTemplateOutlet="!density?.value ? isLoadingAceData : null; context: { index: 2.6 }"></ng-container>
     <div class="label">
       {{ 'tab2.instant.density' | translate }}
       <div class="unit">{{ 'tab2.instant.density.unit' | translate }}</div>
@@ -86,7 +86,7 @@
       ></span>
     </div>
     <div class="value" *ngIf="bz?.value">{{ bz.value }}</div>
-    <ng-container *ngTemplateOutlet="!bz?.value ? isLoadingAceData : null; context: { index: 1.40 }"></ng-container>
+    <ng-container *ngTemplateOutlet="!bz?.value ? isLoadingAceData : null; context: { index: 2.7 }"></ng-container>
     <div class="label">
       {{ 'tab2.instant.bz' | translate }}
       <div class="unit">{{ bz?.value > 0 ? ('tab2.instant.bz.north' | translate) : ('tab2.instant.bz.south' | translate) }}</div>
@@ -106,12 +106,12 @@
       ></span>
     </div>
     <div class="value" *ngIf="bt?.value">{{ bt.value }}</div>
-    <ng-container *ngTemplateOutlet="!bt?.value ? isLoadingAceData : null; context: { index: 1.5 }"></ng-container>
+    <ng-container *ngTemplateOutlet="!bt?.value ? isLoadingAceData : null; context: { index: 2.8 }"></ng-container>
     <div class="label">{{ 'tab2.instant.bt' | translate }}</div>
   </div>
 
   <div class="infos nowcast ace-data">
-    <div *ngIf="nowcastAurora; else isLoadingNumber">{{ nowcastAurora }}%</div>
+    <div *ngIf="nowcastAurora >= 0; else isLoadingNumber">{{ nowcastAurora }}%</div>
     <p [innerHTML]="'tab2.instant.probability' | translate"></p>
   </div>
 
@@ -120,19 +120,13 @@
     <p [innerHTML]="'tab2.instant.aceToEarth' | translate"></p>
   </div>
 
-  <ng-template #isLoadingAceData let-index='index'>
+  <ng-template #isLoadingAceData let-index="index">
     <div class="value no-data">
-      <div class="placeholder-ace-data">
-        <div class="animated-background animated-ace-data" [style.animation-duration]="index + 's'"></div>
-      </div>
+      <app-placeholder-data [placeholderAce]="true" [index]="index"></app-placeholder-data>
     </div>
   </ng-template>
   <ng-template #isLoadingNumber>
-    <div>
-      <div class="placeholder-number">
-        <div class="animated-background animated-number" [style.animation-duration]="1.1 + 's'"></div>
-      </div>
-    </div>
+    <app-placeholder-data [placeholderNumber]="true" [index]="2.5"></app-placeholder-data>
   </ng-template>
 </ng-container>
 

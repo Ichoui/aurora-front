@@ -1,5 +1,6 @@
 @mixin header-title {
   position: relative;
+  height: 30px;
   margin-left: 15px;
   padding-top: 5px;
   text-align: left;
@@ -20,10 +21,11 @@
 }
 
 @mixin subtitle-header {
+  height: 15px;
   text-align: left;
   margin-left: 15px;
   font-size: 11px;
-  margin-top: 3px;
+  margin-top: 5px;
   font-family: var(--ion-font-light);
   color: var(--ion-text-color);
   margin-bottom: 15px;

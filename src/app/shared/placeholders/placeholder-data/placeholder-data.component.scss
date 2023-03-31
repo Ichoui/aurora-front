@@ -1,0 +1,54 @@
+//////////////////
+/// PLACEHOLDER FOR DATA
+//////////////////
+.placeholder-ace-data {
+  margin: 0 auto;
+  max-width: 80%;
+  height: 30px;
+}
+
+.placeholder-number {
+  margin: 0 auto;
+  width: 35px;
+  height: 30px;
+}
+
+@keyframes placeHolderShimmerAce {
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+}
+
+@keyframes placeHolderShimmerNumber {
+  0% {
+    background-position: -100px 0;
+  }
+  100% {
+    background-position: 100px 0;
+  }
+}
+
+.animated-background {
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  position: relative;
+  border-radius: 5px;
+}
+
+.animated-ace-data {
+  animation-name: placeHolderShimmerAce;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0) 10%, var(--ion-color-primary) 18%, rgba(0, 0, 0, 0) 33%);
+  height: 30px;
+  background-size: 800px 104px;
+}
+
+.animated-number {
+  animation-name: placeHolderShimmerNumber;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0) 1%, var(--ion-color-primary) 7%, rgba(0, 0, 0, 0) 9%);
+  background-size: 300px 20px;
+  height: 30px;
+}

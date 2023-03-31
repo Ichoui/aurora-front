@@ -1,0 +1,42 @@
+:host {
+  position: absolute;
+  display: grid;
+  top: 65px; // total height of title + subtitle
+  width: 100%;
+}
+
+.chart-placeholder-vertical {
+  display: flex;
+  justify-self: center;
+  padding-top: 20px;
+}
+
+@keyframes loading {
+  0% { background-color: var(--ion-color-green); }
+  30% { background-color: var(--ion-color-yellow); }
+  50% { height: 120px; margin-top: 0; }
+  80% { background-color: var(--ion-color-red);  }
+  100% { background-color: var(--ion-color-green); }
+}
+
+@mixin inner() {
+  display: inline-block;
+  height: 10px;
+  width: 30px;
+  margin-top: 110px;
+  animation: loading 3s infinite;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+}
+
+@mixin loading() {
+  @for $i from 1 through 10 {
+    .bar-#{$i} { @include inner(); -webkit-animation-delay: $i/4+s; animation-delay: $i/4+s; }
+  }
+}
+
+.vertical {
+  margin: 0 5px;
+}
+
+.chart-placeholder-vertical { @include loading(); }

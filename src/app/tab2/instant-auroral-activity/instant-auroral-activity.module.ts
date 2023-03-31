@@ -4,10 +4,11 @@ import { InstantAuroralActivityComponent } from './instant-auroral-activity.comp
 import { TranslateModule } from '@ngx-translate/core';
 import { IonicModule } from '@ionic/angular';
 import { AceToEarthPipe } from './ace-to-earth.pipe';
+import { PlaceholderDataModule } from '../../shared/placeholders/placeholder-data/placeholder-data.module';
 
 @NgModule({
   declarations: [InstantAuroralActivityComponent, AceToEarthPipe],
   exports: [InstantAuroralActivityComponent],
-  imports: [CommonModule, TranslateModule, IonicModule],
+    imports: [CommonModule, TranslateModule, IonicModule, PlaceholderDataModule],
 })
 export class InstantAuroralActivityModule {}
