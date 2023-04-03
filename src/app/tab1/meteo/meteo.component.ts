@@ -1,14 +1,24 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { Coords } from '../../models/cities';
+import {ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {Coords} from '../../models/cities';
 import * as moment from 'moment';
-import { Cloudy, Currently, Daily, DailyTemp, Hourly, IconsOWM, LottiesValues, MeasureUnits, TemperatureUnits } from '../../models/weather';
-import { Chart, registerables } from 'chart.js';
+import {
+  Cloudy,
+  Currently,
+  Daily,
+  DailyTemp,
+  Hourly,
+  IconsOWM,
+  LottiesValues,
+  MeasureUnits,
+  TemperatureUnits
+} from '../../models/weather';
+import {Chart, registerables} from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import { AnimationOptions } from 'ngx-lottie';
-import { ELocales } from '../../models/locales';
-import { StorageService } from '../../storage.service';
-import { MAIN_TEXT_COLOR, WEATHER_NEXT_HOUR_CHART_COLOR } from '../../models/colors';
-import { convertUnitTemperature, manageDates } from '../../models/utils';
+import {AnimationOptions} from 'ngx-lottie';
+import {ELocales} from '../../models/locales';
+import {StorageService} from '../../storage.service';
+import {MAIN_TEXT_COLOR, WEATHER_NEXT_HOUR_CHART_COLOR} from '../../models/colors';
+import {convertUnitTemperature, manageDates} from '../../models/utils';
 
 Chart.register(...registerables);
 
@@ -16,6 +26,7 @@ Chart.register(...registerables);
   selector: 'app-meteo',
   templateUrl: './meteo.component.html',
   styleUrls: ['./meteo.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MeteoComponent implements OnChanges {
   @Input() coords: Coords;
@@ -26,6 +37,8 @@ export class MeteoComponent implements OnChanges {
   @Input() locale: ELocales;
   @Input() measure: MeasureUnits;
   @Input() temperature: TemperatureUnits;
+
+  @Input() loading = false;
 
   sunset: string | moment.Moment;
   sunrise: string | moment.Moment;
@@ -38,8 +51,12 @@ export class MeteoComponent implements OnChanges {
   days: Daily[] = [];
 
   todayTemp: DailyTemp;
-  // lotties
-  lottieConfig: AnimationOptions;
+  lottieConfig: AnimationOptions = {
+    path: `assets/lotties/lottie-clear-day.json`,
+    renderer: 'svg',
+    autoplay: true,
+    loop: true,
+  };
   readonly widthCurrent = 110;
   readonly heightCurrent = 110;
 
@@ -265,7 +282,7 @@ export class MeteoComponent implements OnChanges {
     }
   }
 
-  /** 
+  /**
   http://www.toujourspret.com/techniques/orientation/topographie/rose_vents1.gif
     */
   calculateWindDeg(deg: number): string {

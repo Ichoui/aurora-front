@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy} from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NavController, Platform } from '@ionic/angular';
 import { AuroraService } from '../aurora.service';
@@ -20,6 +20,7 @@ import { TranslateService } from '@ngx-translate/core';
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Tab1Page implements OnViewWillEnter, OnDestroy {
   loading = true;
