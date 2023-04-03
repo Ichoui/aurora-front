@@ -126,7 +126,7 @@
     "infos": {
       "title": "Northern<br>Lights",
       "welcome": {
-        "title": "Aurora - Northern Lights",
+        "title": "Auroras - Northern Lights",
         "message": "Auroras - Northern Lights is a modern, sexy and colorful app for both hunters and tourists interested in the Northern Lights activity.<br>Please excuse me for my bad English, I am not a native speaker.<br>If you have any suggestions, you can contact me by email.<br>Thank you for understanding 🌌"
       },
       "firstblock": {
@@ -228,7 +228,7 @@
       "thirdblock": {
         "header": "Help center",
         "help": {
-          "title": "How does the app Aurora - Northern Lights work?",
+          "title": "How does the app Auroras - Northern Lights work?",
           "message": "It's very simple! <ol><li>First, you need to understand how Aurora Northern Lights works. You can help yourself from my documentation, or from the internet</li><li>Then, choose your location, otherwise you will be geotagged if you allow me to.</li><li>You will only have to look at the solar activity and the cloud cover. Remember, these data provide indicators for hunting the aurora borealis. They won't ensure you see 100% of them ☺</li></ol>"
         },
         "suggest": {

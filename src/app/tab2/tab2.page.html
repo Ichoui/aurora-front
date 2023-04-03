@@ -11,11 +11,9 @@
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" pullMin="140">
     <div class="refresh whirly-loader"></div>
   </ion-refresher>
-  <!--  *ngIf="!loading && !dataError.value"-->
   <ng-container *ngIf="loadSwiper">
     <swiper [config]="configSwiper">
       <ng-template swiperSlide>
-        AAAA
         <app-instant-auroral-activity
           [loading]="loading"
           [solarWind]="solarWindInstant"
@@ -25,7 +23,6 @@
         ></app-instant-auroral-activity>
       </ng-template>
       <ng-template swiperSlide>
-        <!--                *ngIf="!loading && !dataError.value"-->
         <app-forecast-auroral-activity
           [loading]="loading"
           [kpForecast27]="kpForecast27days"

@@ -80,7 +80,7 @@
         "map": "Permet de choisir une localisation personnalisée, ou une localisation prédéfinie. <br>De plus, tu peux visualiser l'Ovale Auroral en temps réel.",
         "kp-next-hours": "KP Index maximum par tranches de 3 heures.<br> Plus l'indice est haut, et meilleures sont les conditions géomagnétique pour observer une Aurore Boréale.<br>Tempête géomagnétique à partir de Kp5.",
         "kp-next-days": "KP Index maximum sur les 27 prochains jours.<br> Plus l'indice est haut, et au mieux les conditions géomagnétique seront réunies pour observer une Aurore Boréale.<br>Tempête géomagnétique à partir de Kp5.",
-        "wind-speed": "Vitesse à laquelle le vent solaire se dirige vers la terre. <br>Plus la vitesse du vent est élevée, et plus les Aurores Boréales vont danser dans le ciel.<br>Au delà de {{unit}}, le vent est considéré comme rapide.",
+        "wind-speed": "Vitesse à laquelle le vent solaire se dirige vers la Terre. <br>Plus la vitesse du vent est élevée, et plus les Aurores Boréales vont danser dans le ciel.<br>Au delà de {{unit}}, le vent est considéré comme rapide.",
         "wind-density": "Densité des particules par mètre cube.<br> Plus les particules sont nombreuses, et plus les Aurores Boréales sont brillantes.",
         "wind-bz": "Champs Magnétique Interplanétaire<br> Un BZ négatif rend l'observation d'Aurores plus propices et laisse pénetrer le vent solaire dans la magnétosphère. Un BZ positif, à l'inverse, va bloquer le vent solaire hors de la magnétosphère.<br>Valeurs comprises entre -15 et 15.",
         "wind-bt": "Champs Magnétique Interplanétaire<br>Plus le BT est élevé, plus les aurores sont puissantes. ",
@@ -128,7 +128,7 @@
     "infos": {
       "title": "Aurores",
       "welcome": {
-        "title": "Aurora - Northern Lights",
+        "title": "Auroras - Northern Lights",
         "message": "Auroras - Northern Lights est une application moderne, sexy et colorée, développée pour chasser les Aurores Boréales.<br>Si tu t'intéresses à l'activité des Aurores, que tu sois touriste ou chasseur aguerri, cette application est faites pour toi 🌌"
       },
       "firstblock": {
@@ -178,7 +178,7 @@
           },
           "vikings": {
             "list": "Peuple viking : ",
-            "message": "Elles représentaient pour le peuple Vikings les Valkyries, qui sont connues comme étant les messagères du dieu nordique Odin. Au terme de chaque guerre, Odin sélectionnait les plus valeureux guerriers pouvant rejoindre le Valhaha pour le Ragnarök, et envoyait les Valkyries les récupérer. Les Vikings pensaient que les Aurores étaient le reflet des armures des Valkyries venues sur terre pour accomplir leur mission."
+            "message": "Elles représentaient pour le peuple Vikings les Valkyries, qui sont connues comme étant les messagères du dieu nordique Odin. Au terme de chaque guerre, Odin sélectionnait les plus valeureux guerriers pouvant rejoindre le Valhaha pour le Ragnarök, et envoyait les Valkyries les récupérer. Les Vikings pensaient que les Aurores étaient le reflet des armures des Valkyries venues sur Terre pour accomplir leur mission."
           },
           "sami": {
             "list": "Peuple Sami : ",
@@ -220,7 +220,7 @@
         },
         "cmi": {
           "title": "Le Champ Magnétique Interplanétaire (CMI)",
-          "message": "C'est grâce à lui qu'on obtient les valeurs suivantes :<br> - le Bt, et les Bx, By, Bz.<br>Ces derniers sont des vecteurs, créant des axes à partir de la terre. Seuls le Bt et Bz sont importants pour l'activité solaire.<ul><li><b>BZ :</b> c'est un axe, qui passe par les pôles Nord et Sud de la terre. Lorsque cet axe est orienté sud (négatif), il se met en phase avec la <b>magnétosphère terrestre</b>, qui elle, est tout le temps orienté vers le nord. De la sorte, comme 2 aimants qui s'attirent, cela permet aux particules du vent solaire de pénétrer l'atmosphère plus facilement et ainsi de rentrer en collision avec l'oxygène et autre gaz terrestres, qui vont permettre de faire briller les aurores. On considère que l'axe du Bz est compris entre -15 et 15.</li><li><b>Bt :</b> Le Bt est une valeur qui représente la puissance du CMI. Plus la valeur est en hausse, plus les conditions pour obtenir une tempête géomagnétique seront présente. On peut estimer que 15nT est une valeur moyenne, 25 une valeur forte.</li></ul>A savoir, lorsque le cycle solaire est au plus bas, le champ magnétique du soleil est équivalent à celui de la Terre, tandis que lorsqu'il est au plus haut, de nombreuses tâches solaires se forment, ce qui rend le champ magnétique autour du soleil très mouvant. <br>C'est le vent solaire qui transporte par la suite ces perturbations magnétiques jusqu'à la Terre."
+          "message": "C'est grâce à lui qu'on obtient les valeurs suivantes :<br> - le Bt, et les Bx, By, Bz.<br>Ces derniers sont des vecteurs, créant des axes à partir de la Terre. Seuls le Bt et Bz sont importants pour l'activité solaire.<ul><li><b>BZ :</b> c'est un axe, qui passe par les pôles Nord et Sud de la terre. Lorsque cet axe est orienté sud (négatif), il se met en phase avec la <b>magnétosphère terrestre</b>, qui elle, est tout le temps orienté vers le nord. De la sorte, comme 2 aimants qui s'attirent, cela permet aux particules du vent solaire de pénétrer l'atmosphère plus facilement et ainsi de rentrer en collision avec l'oxygène et autre gaz terrestres, qui vont permettre de faire briller les aurores. On considère que l'axe du Bz est compris entre -15 et 15.</li><li><b>Bt :</b> Le Bt est une valeur qui représente la puissance du CMI. Plus la valeur est en hausse, plus les conditions pour obtenir une tempête géomagnétique seront présente. On peut estimer que 15nT est une valeur moyenne, 25 une valeur forte.</li></ul>A savoir, lorsque le cycle solaire est au plus bas, le champ magnétique du soleil est équivalent à celui de la Terre, tandis que lorsqu'il est au plus haut, de nombreuses tâches solaires se forment, ce qui rend le champ magnétique autour du soleil très mouvant. <br>C'est le vent solaire qui transporte par la suite ces perturbations magnétiques jusqu'à la Terre."
         },
         "solarCycle": {
           "title": "Cycle solaire",
@@ -230,7 +230,7 @@
       "thirdblock": {
         "header": "Centre d'aide",
         "help": {
-          "title": "Comment marche Aurora - Northern Lights ?",
+          "title": "Comment marche Auroras - Northern Lights ?",
           "message": "C'est très simple ! <ol><li>Premièrement, il faut comprendre comment fonctione les aurores boréales. Tu peux t'aider de ma documentation, ou d'internet</li><li>Ensuite, choisis ta localisation, sinon tu seras géolocalisé si tu me l'autorises.</li><li>Tu n'auras plus qu'à consulter l'activité solaire et la couverture nuageuse. Rappel, ces données fournissent des indicateurs pour chasser les aurores boréale. Elles ne t'assureront pas d'en voir à 100% ☺</li></ol>"
         },
         "suggest": {

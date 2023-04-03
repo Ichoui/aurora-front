@@ -18,7 +18,7 @@ export const environment = {
   // host: 'https://us-central1-aurora-proxy-be7c0.cloudfunctions.net/aurora/',
   host: 'http://localhost:5000/aurora-proxy-be7c0/us-central1/aurora/',
   apikey: OPENWHEATHER_API_KEY,
-  application_name: 'Aurora - Northern Lights',
+  application_name: 'Auroras - Northern Lights',
   auroraHeaders: {
     'Access-Control-Allow-Origin': '*',
     Accept: 'application/json',

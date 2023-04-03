@@ -57,11 +57,11 @@
       <ion-icon id="wind-speed" name="information-circle"></ion-icon>
       <ion-popover trigger="wind-speed" triggerAction="click" alignment="center">
         <ng-template>
-          <div [innerHTML]="'tab2.forecast.tooltip.wind-speed' | translate : { unit: measure === 'metric' ? '500km/s' : '350mph/s' }"></div>
+          <div [innerHTML]="'tab2.forecast.tooltip.wind-speed' | translate : { unit: measure === 'metric' ? '500km/s' : '350mps' }"></div>
         </ng-template>
       </ion-popover>
     </div>
-    <div class="sub">{{ 'tab2.forecast.speed.sub' | translate : { unit: measure === 'metric' ? 'km/s' : 'mph/s' } }}</div>
+    <div class="sub">{{ 'tab2.forecast.speed.sub' | translate : { unit: measure === 'metric' ? 'km/s' : 'mpps' } }}</div>
     <canvas id="speed" #canvHeight></canvas>
     <ng-container *ngTemplateOutlet="loading ? isLoading : null; context: { canvHeight: canvHeight?.style.height }"></ng-container>
   </div>
