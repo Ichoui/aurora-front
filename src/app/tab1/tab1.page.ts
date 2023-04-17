@@ -20,7 +20,7 @@ import { TranslateService } from '@ngx-translate/core';
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Tab1Page implements OnViewWillEnter, OnDestroy {
   loading = true;

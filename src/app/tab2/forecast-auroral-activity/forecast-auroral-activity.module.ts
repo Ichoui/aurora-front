@@ -11,7 +11,7 @@ import { PlaceholderChartsModule } from '../../shared/placeholders/placeholder-c
 
 @NgModule({
   declarations: [ForecastAuroralActivityComponent],
-    imports: [CommonModule, ModalModule, TranslateModule, LottieAnimationViewModule.forRoot(), IonicModule, RouterModule, PlaceholderChartsModule],
+  imports: [CommonModule, ModalModule, TranslateModule, LottieAnimationViewModule.forRoot(), IonicModule, RouterModule, PlaceholderChartsModule],
   exports: [ForecastAuroralActivityComponent],
   providers: [Geolocation],
 })

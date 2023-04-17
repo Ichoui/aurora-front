@@ -8,7 +8,7 @@ import { AuroraEnumColours, Bt, Bz, Density, KpCurrent, SolarWind, SolarWindType
   selector: 'app-instant-auroral-activity',
   templateUrl: './instant-auroral-activity.component.html',
   styleUrls: ['./instant-auroral-activity.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InstantAuroralActivityComponent implements OnInit, OnChanges {
   density: Density;
@@ -77,7 +77,7 @@ export class InstantAuroralActivityComponent implements OnInit, OnChanges {
         unit: this.measureUnit,
       };
     }
-    this._cdr.markForCheck()
+    this._cdr.markForCheck();
   }
 
   /**

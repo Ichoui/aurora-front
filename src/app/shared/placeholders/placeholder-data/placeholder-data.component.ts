@@ -8,5 +8,5 @@ import { Component, Input } from '@angular/core';
 export class PlaceholderDataComponent {
   @Input() placeholderNumber: boolean;
   @Input() placeholderAce: boolean;
-  @Input() index: number
+  @Input() index: number;
 }

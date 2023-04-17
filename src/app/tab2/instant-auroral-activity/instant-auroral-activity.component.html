@@ -116,7 +116,7 @@
   </div>
 
   <div class="infos acetoearth ace-data">
-    <div *ngIf="speed?.value; else isLoadingNumber">{{ speed.value | aceToEarth : measureUnit }}mn</div>
+    <div *ngIf="speed?.value; else isLoadingNumber">{{ speed.value | aceToEarth: measureUnit }}mn</div>
     <p [innerHTML]="'tab2.instant.aceToEarth' | translate"></p>
   </div>
 

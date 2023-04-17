@@ -9,6 +9,6 @@ import { PlaceholderDataModule } from '../../shared/placeholders/placeholder-dat
 @NgModule({
   declarations: [InstantAuroralActivityComponent, AceToEarthPipe],
   exports: [InstantAuroralActivityComponent],
-    imports: [CommonModule, TranslateModule, IonicModule, PlaceholderDataModule],
+  imports: [CommonModule, TranslateModule, IonicModule, PlaceholderDataModule],
 })
 export class InstantAuroralActivityModule {}
