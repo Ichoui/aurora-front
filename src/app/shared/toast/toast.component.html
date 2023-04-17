@@ -1,3 +1,2 @@
-<ion-content>
-  <ion-toast [isOpen]="isToastOpen" message="This toast will close in 5 seconds" [duration]="5000" (didDismiss)="setOpen(false)"></ion-toast>
-</ion-content>
+
+<ion-toast [isOpen]="true" message="This toast will close in 5 seconds" [duration]="5000" (didDismiss)="dismiss(false)"></ion-toast>

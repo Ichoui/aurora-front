@@ -11,20 +11,22 @@ import { BrokenPageModule } from '../shared/broken/broken.module';
 import { SwiperModule } from 'swiper/angular';
 import { InstantAuroralActivityModule } from './instant-auroral-activity/instant-auroral-activity.module';
 import { ForecastAuroralActivityModule } from './forecast-auroral-activity/forecast-auroral-activity.module';
+import { ToastModule } from '../shared/toast/toast.module';
 
 @NgModule({
-  imports: [
-    IonicModule,
-    CommonModule,
-    FormsModule,
-    TranslateModule,
-    RouterModule.forChild([{ path: '', component: Tab2Page }]),
-    HeaderPageModule,
-    InstantAuroralActivityModule,
-    ForecastAuroralActivityModule,
-    BrokenPageModule,
-    SwiperModule,
-  ],
+    imports: [
+        IonicModule,
+        CommonModule,
+        FormsModule,
+        TranslateModule,
+        RouterModule.forChild([{path: '', component: Tab2Page}]),
+        HeaderPageModule,
+        InstantAuroralActivityModule,
+        ForecastAuroralActivityModule,
+        BrokenPageModule,
+        SwiperModule,
+        ToastModule,
+    ],
   declarations: [Tab2Page],
   providers: [Geolocation],
 })

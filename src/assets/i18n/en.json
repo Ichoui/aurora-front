@@ -26,7 +26,7 @@
         "windspeed": "Wind speed",
         "humidity": "Humidity",
         "winddeg": "Compass",
-        "uvindex":"UV Index"
+        "uvindex": "UV Index"
       }
     }
   },
@@ -237,7 +237,6 @@
         }
       }
     }
-
   },
   "cgu": {
     "title": "Terms of Use",

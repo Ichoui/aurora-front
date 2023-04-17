@@ -1,11 +1,14 @@
 import { Component, Input } from '@angular/core';
-import { AnimationOptions } from 'ngx-lottie';
 
 @Component({
   selector: 'app-toast',
-  templateUrl: './broken.component.html',
-  styleUrls: ['./broken.component.scss'],
+  templateUrl: './toast.component.html',
+  styleUrls: ['./toast.component.scss'],
 })
 export class ToastComponent {
   @Input() dataError;
+
+  dismiss(b: boolean): void {
+
+  }
 }
