@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Coords } from '../../models/cities';
 import * as moment from 'moment';
 import { Cloudy, Currently, Daily, DailyTemp, Hourly, IconsOWM, LottiesValues, MeasureUnits, TemperatureUnits } from '../../models/weather';
@@ -51,7 +51,7 @@ export class MeteoComponent implements OnChanges {
   readonly heightCurrent = 110;
 
   readonly dataNumbersInChart = 8;
-  constructor(private _storageService: StorageService) {}
+  constructor(private _storageService: StorageService, private _cdr: ChangeDetectorRef) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     this._nextHoursChart?.destroy();
@@ -64,6 +64,7 @@ export class MeteoComponent implements OnChanges {
     if (changes?.sevenDayWeather?.currentValue !== changes?.sevenDayWeather?.previousValue) {
       this._sevenDayForecast(changes.sevenDayWeather.currentValue);
     }
+    this._cdr.markForCheck();
   }
 
   private _todayForecast(currentWeather: Currently) {

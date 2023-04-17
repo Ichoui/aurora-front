@@ -16,13 +16,13 @@
     <div class="subtitle">{{ 'tab2.forecast.pole.north' | translate }}</div>
     <ion-img [src]="tabNorth[valueNorth]"></ion-img>
     <div class="datetime">{{ hourNorth }}{{ dateNorth }}</div>
-    <ion-range [min]="minNorth" [max]="maxNorth - 1" color="primary" (ionChange)="valuePolesChange($event, pole.NORTH)"></ion-range>
+    <ion-range color="primary" aria-label="North Hour" [min]="minNorth" [max]="maxNorth - 1"  (ionChange)="valuePolesChange($event, pole.NORTH)"></ion-range>
   </div>
   <div *ngIf="southPole" class="container-map">
     <div class="subtitle">{{ 'tab2.forecast.pole.south' | translate }}</div>
     <ion-img [src]="tabSouth[valueSouth]"></ion-img>
     <div class="datetime">{{ hourSouth }}{{ dateSouth }}</div>
-    <ion-range [min]="minSouth" [max]="maxSouth - 1" color="primary" (ionChange)="valuePolesChange($event, pole.SOUTH)"></ion-range>
+    <ion-range color="primary" aria-label="South Hour" [min]="minSouth" [max]="maxSouth - 1" (ionChange)="valuePolesChange($event, pole.SOUTH)"></ion-range>
   </div>
 
   <div *ngIf="cgu" id="cgu">

@@ -8,7 +8,5 @@ import { Component, Input } from '@angular/core';
 export class ToastComponent {
   @Input() dataError;
 
-  dismiss(b: boolean): void {
-
-  }
+  dismiss(b: boolean): void {}
 }

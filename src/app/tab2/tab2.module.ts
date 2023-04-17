@@ -14,19 +14,19 @@ import { ForecastAuroralActivityModule } from './forecast-auroral-activity/forec
 import { ToastModule } from '../shared/toast/toast.module';
 
 @NgModule({
-    imports: [
-        IonicModule,
-        CommonModule,
-        FormsModule,
-        TranslateModule,
-        RouterModule.forChild([{path: '', component: Tab2Page}]),
-        HeaderPageModule,
-        InstantAuroralActivityModule,
-        ForecastAuroralActivityModule,
-        BrokenPageModule,
-        SwiperModule,
-        ToastModule,
-    ],
+  imports: [
+    IonicModule,
+    CommonModule,
+    FormsModule,
+    TranslateModule,
+    RouterModule.forChild([{ path: '', component: Tab2Page }]),
+    HeaderPageModule,
+    InstantAuroralActivityModule,
+    ForecastAuroralActivityModule,
+    BrokenPageModule,
+    SwiperModule,
+    ToastModule,
+  ],
   declarations: [Tab2Page],
   providers: [Geolocation],
 })

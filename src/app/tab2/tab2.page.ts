@@ -216,7 +216,6 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
       .pipe(
         tap({
           next: value => {
-            console.log('PUTA');
             this.kpCurrent = value.instantKp;
             void this._storageService.setData('kpCurrent', value.instantKp);
             this.solarCycle = value.forecastSolarCycle;

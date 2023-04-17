@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NavController, Platform } from '@ionic/angular';
 import { AuroraService } from '../aurora.service';
@@ -49,6 +49,7 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
     private _platform: Platform,
     private _auroraService: AuroraService,
     private _translate: TranslateService,
+    private _cdr: ChangeDetectorRef
   ) {}
 
   ngOnDestroy(): void {
@@ -97,6 +98,7 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
                 longitude: location?.long,
               };
               this.loading = false;
+              this._cdr.markForCheck();
             }
           },
           error: (error: HttpErrorResponse) => {
@@ -155,7 +157,7 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
       .then(resp => this._reverseGeoloc(resp.coords.latitude, resp.coords.longitude))
       .catch((error: HttpErrorResponse) => {
         console.warn('Geolocalisation error', error.error);
-        this.loading = false;
+        // this.loading = false;
         this._eventRefresh?.target?.complete();
         // this.dataError = new ErrorTemplate({
         //   value: true,
@@ -190,7 +192,7 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
           },
           error: (error: HttpErrorResponse) => {
             console.warn('Reverse geocode error ==> ', error.error);
-            this.loading = false;
+            // this.loading = false;
             this._eventRefresh?.target?.complete();
             // this.dataError = new ErrorTemplate({
             //   value: false,

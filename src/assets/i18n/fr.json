@@ -1,16 +1,16 @@
 {
   "global": {
+    "uselesstemplate": "My text {{val}} {'path.to | translate: {val: condition}}",
     "unknown": "Lieu inconnu",
     "loading": "Ta localisation est en cours de chargement ...",
     "back": "Retour",
     "cancel": "Annuler",
-    "uselesstemplate": "My text {{val}} {'path.to | translate: {val: condition}}",
     "error": {
-      "solarwind": "Erreur de réseau ou du module SWPC",
-      "geoloc": "Erreur de réseau ou du module de géolocalisation",
+      "solarwind": "Erreur réseau / module NOAA SWPC",
+      "geoloc": "Erreur réseau / module de géolocalisation",
       "storage": "Erreur de stockage local",
-      "weatherForecast": "Erreur de réseau ou du module météo",
-      "reversegeo": "Erreur de réseau ou du module de géolocalisation renversée"
+      "weatherForecast": "Erreur réseau / module météo",
+      "reversegeo": "Erreur réseau / module de géolocalisation inversé"
     }
   },
   "tab1": {
