@@ -38,8 +38,8 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
   measure: MeasureUnits;
   locale: ELocales;
   solarWindInstant: SolarWind;
-  solarWind: SolarWind[];
-  solarCycle: SolarCycle[];
+  solarWind: SolarWind[] = [];
+  solarCycle: SolarCycle[] = [];
   kpCurrent: KpCurrent;
   nowcastAurora: number;
 
@@ -144,12 +144,12 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
           },
           error: error => {
             console.warn('Local storage error', error.error);
-            this.dataError = new ErrorTemplate({
-              value: true,
-              status: error.status,
-              message: this._translate.instant('global.error.storage'),
-              error,
-            });
+            // this.dataError = new ErrorTemplate({
+            //   value: true,
+            //   status: error.status,
+            //   message: this._translate.instant('global.error.storage'),
+            //   error,
+            // });
           },
         }),
       )
@@ -166,15 +166,15 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
       .then(resp => this._getExistingLocalisation(resp.coords.latitude, resp.coords.longitude))
       .catch(error => {
         console.warn('Geolocalisation error', error.message);
-        this.loading = false;
+        // this.loading = false;
         this._cdr.markForCheck();
         this._eventRefresh?.target?.complete();
-        this.dataError = new ErrorTemplate({
-          value: true,
-          status: error.status,
-          message: this._translate.instant('global.error.geoloc'),
-          error,
-        });
+        // this.dataError = new ErrorTemplate({
+        //   value: true,
+        //   status: error.status,
+        //   message: this._translate.instant('global.error.geoloc'),
+        //   error,
+        // });
       });
   }
 
@@ -216,6 +216,7 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
       .pipe(
         tap({
           next: value => {
+            console.log('PUTA');
             this.kpCurrent = value.instantKp;
             void this._storageService.setData('kpCurrent', value.instantKp);
             this.solarCycle = value.forecastSolarCycle;
@@ -240,14 +241,14 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
           error: (error: HttpErrorResponse) => {
             console.warn('Solar Wind data error', error.message);
             // this.loading = false;
-            // this._cdr.markForCheck(); // TODO a remetre
+            this._cdr.markForCheck();
             this._eventRefresh?.target?.complete();
-            this.dataError = new ErrorTemplate({
-              value: true,
-              status: error.status,
-              message: this._translate.instant('global.error.solarwind'),
-              error,
-            });
+            // this.dataError = new ErrorTemplate({
+            //   value: true,
+            //   status: error.status,
+            //   message: this._translate.instant('global.error.solarwind'),
+            //   error,
+            // });
           },
         }),
       )
@@ -261,7 +262,7 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
         return aDiff > 0 && aDiff < moment.utc(b.propagated_time_tag).diff(moment.utc(new Date())) ? a : b;
       });
     }
-    return dataSolarWind;
+    return dataSolarWind ?? [];
   }
 
   private _getKpForecast(kpForecast: KpForecast[]): KpForecast[] {

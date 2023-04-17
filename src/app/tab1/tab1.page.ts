@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnDestroy} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NavController, Platform } from '@ionic/angular';
 import { AuroraService } from '../aurora.service';
@@ -101,12 +101,12 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
           },
           error: (error: HttpErrorResponse) => {
             console.warn('Local storage error', error.message);
-            this.dataError = new ErrorTemplate({
-              value: true,
-              status: error.status,
-              message: this._translate.instant('global.error.storage'),
-              error,
-            });
+            // this.dataError = new ErrorTemplate({
+            //   value: true,
+            //   status: error.status,
+            //   message: this._translate.instant('global.error.storage'),
+            //   error,
+            // });
           },
         }),
       )
@@ -157,12 +157,12 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
         console.warn('Geolocalisation error', error.error);
         this.loading = false;
         this._eventRefresh?.target?.complete();
-        this.dataError = new ErrorTemplate({
-          value: true,
-          status: error.status,
-          message: this._translate.instant('global.error.geoloc'),
-          error,
-        });
+        // this.dataError = new ErrorTemplate({
+        //   value: true,
+        //   status: error.status,
+        //   message: this._translate.instant('global.error.geoloc'),
+        //   error,
+        // });
       });
   }
 
@@ -192,12 +192,12 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
             console.warn('Reverse geocode error ==> ', error.error);
             this.loading = false;
             this._eventRefresh?.target?.complete();
-            this.dataError = new ErrorTemplate({
-              value: false,
-              status: error.status,
-              message: this._translate.instant('global.error.reversegeo'),
-              error,
-            });
+            // this.dataError = new ErrorTemplate({
+            //   value: false,
+            //   status: error.status,
+            //   message: this._translate.instant('global.error.reversegeo'),
+            //   error,
+            // });
           },
         }),
       )
@@ -251,14 +251,14 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
         },
         (error: HttpErrorResponse) => {
           console.warn('OpenWeatherMap forecast error', error.error);
-          this.loading = false;
+          // this.loading = false;
           this._eventRefresh?.target?.complete();
-          this.dataError = new ErrorTemplate({
-            value: true,
-            status: error.status,
-            message: this._translate.instant('global.error.weatherForecast'),
-            error,
-          });
+          // this.dataError = new ErrorTemplate({
+          //   value: true,
+          //   status: error.status,
+          //   message: this._translate.instant('global.error.weatherForecast'),
+          //   error,
+          // });
         },
       );
   }

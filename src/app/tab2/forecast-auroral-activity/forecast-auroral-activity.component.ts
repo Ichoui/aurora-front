@@ -4,7 +4,14 @@ import { ModalComponent } from '../../shared/modal/modal.component';
 import { Chart, ChartType, registerables } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import * as moment from 'moment';
-import { colorSwitcher, convertUnitMeasure, determineColorsOfValue, manageDates, updateDataChart, updateGradientBackgroundChart, } from '../../models/utils';
+import {
+  colorSwitcher,
+  convertUnitMeasure,
+  determineColorsOfValue,
+  manageDates,
+  updateDataChart,
+  updateGradientBackgroundChart,
+} from '../../models/utils';
 import { MAIN_TEXT_COLOR, WEATHER_NEXT_HOUR_CHART_COLOR } from '../../models/colors';
 import { CodeLocation, Coords } from '../../models/cities';
 import { StorageService } from '../../storage.service';
@@ -24,7 +31,7 @@ Chart.register(...registerables);
   selector: 'app-forecast-auroral-activity',
   templateUrl: './forecast-auroral-activity.component.html',
   styleUrls: ['./forecast-auroral-activity.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ForecastAuroralActivityComponent implements OnChanges {
   @Input() kpForecast: KpForecast[];
@@ -53,12 +60,11 @@ export class ForecastAuroralActivityComponent implements OnChanges {
     private _storageService: StorageService,
     private _geoloc: Geolocation,
     private _translateService: TranslateService,
-    private _cdr: ChangeDetectorRef
+    private _cdr: ChangeDetectorRef,
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     this.minimapLocation(); // Here to reload map at each change of location
-
     if (changes?.kpForecast?.currentValue !== changes?.kpForecast?.previousValue) {
       const firstChange = changes?.kpForecast?.firstChange;
       this._chartNextHoursForecast(changes.kpForecast.currentValue, firstChange);
@@ -76,7 +82,7 @@ export class ForecastAuroralActivityComponent implements OnChanges {
     if (changes?.solarCycle?.currentValue !== changes?.solarCycle?.previousValue) {
       this._calculateDataForChartSolarCycle(changes.solarCycle.currentValue);
     }
-    this._cdr.markForCheck()
+    this._cdr.markForCheck();
   }
 
   /**
@@ -185,7 +191,7 @@ export class ForecastAuroralActivityComponent implements OnChanges {
     }
     if (firstChange) {
       // 14 values
-      this._chartKpForecast = this._chartKp('kpnexthours', nextHoursDate, nextHoursForecast, nextHoursColors);
+      this._chartKpForecast = ForecastAuroralActivityComponent._chartKp('kpnexthours', nextHoursDate, nextHoursForecast, nextHoursColors);
     } else {
       updateDataChart(this._chartKpForecast, nextHoursDate, [nextHoursForecast], nextHoursColors);
     }
@@ -195,7 +201,7 @@ export class ForecastAuroralActivityComponent implements OnChanges {
     const forecastValue = [];
     const forecastDate = [];
     const forecastColors = [];
-    for (const [i, unit] of forecast.entries()) {
+    for (const unit of forecast) {
       // if (forecastValue.length < numberMax27Forecast && i % 2 === 0) {
       forecastDate.push(unit.timeTag);
       forecastValue.push(unit.kpIndex);
@@ -205,16 +211,15 @@ export class ForecastAuroralActivityComponent implements OnChanges {
       forecastColors.push(colorSwitcher(unit.color));
       // }
     }
-
     if (firstChange) {
       // 14 values
-      this._chartKpForecast27 = this._chartKp('kpforecast', forecastDate, forecastValue, forecastColors);
+      this._chartKpForecast27 = ForecastAuroralActivityComponent._chartKp('kpforecast', forecastDate, forecastValue, forecastColors);
     } else {
       updateDataChart(this._chartKpForecast27, forecastDate, [forecastValue], forecastColors);
     }
   }
 
-  private _chartKp(type: 'kpforecast' | 'kpnexthours', labels: string[], data: string[], colors: string[]): Chart<ChartType, string[]> {
+  private static _chartKp(type: 'kpforecast' | 'kpnexthours', labels: string[], data: string[], colors: string[]): Chart<ChartType, string[]> {
     return new Chart(type, {
       type: 'bar',
       plugins: [ChartDataLabels],

@@ -1,20 +1,11 @@
-import {Component, HostBinding, Input, OnInit} from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+import { Component, HostBinding, Input } from '@angular/core';
 
 @Component({
   selector: 'app-placeholder-charts',
   templateUrl: './placeholder-charts.component.html',
   styleUrls: ['./placeholder-charts.component.scss'],
 })
-export class PlaceholderChartsComponent implements OnInit{
-  @Input() placeholderVertical: boolean;
-  @Input() placeholderHorizontal: boolean;
-
+export class PlaceholderChartsComponent {
   @HostBinding('style.height') @Input() canvHeight?: number | null;
   @HostBinding('class.no-canvas') @Input() height?: boolean;
-
-  constructor(private _sanitizer: DomSanitizer) {}
-
-  ngOnInit(): void {
-  }
 }

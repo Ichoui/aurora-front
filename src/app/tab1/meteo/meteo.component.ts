@@ -1,24 +1,14 @@
-import {ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges} from '@angular/core';
-import {Coords} from '../../models/cities';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Coords } from '../../models/cities';
 import * as moment from 'moment';
-import {
-  Cloudy,
-  Currently,
-  Daily,
-  DailyTemp,
-  Hourly,
-  IconsOWM,
-  LottiesValues,
-  MeasureUnits,
-  TemperatureUnits
-} from '../../models/weather';
-import {Chart, registerables} from 'chart.js';
+import { Cloudy, Currently, Daily, DailyTemp, Hourly, IconsOWM, LottiesValues, MeasureUnits, TemperatureUnits } from '../../models/weather';
+import { Chart, registerables } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import {AnimationOptions} from 'ngx-lottie';
-import {ELocales} from '../../models/locales';
-import {StorageService} from '../../storage.service';
-import {MAIN_TEXT_COLOR, WEATHER_NEXT_HOUR_CHART_COLOR} from '../../models/colors';
-import {convertUnitTemperature, manageDates} from '../../models/utils';
+import { AnimationOptions } from 'ngx-lottie';
+import { ELocales } from '../../models/locales';
+import { StorageService } from '../../storage.service';
+import { MAIN_TEXT_COLOR, WEATHER_NEXT_HOUR_CHART_COLOR } from '../../models/colors';
+import { convertUnitTemperature, manageDates } from '../../models/utils';
 
 Chart.register(...registerables);
 
@@ -26,7 +16,7 @@ Chart.register(...registerables);
   selector: 'app-meteo',
   templateUrl: './meteo.component.html',
   styleUrls: ['./meteo.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MeteoComponent implements OnChanges {
   @Input() coords: Coords;
