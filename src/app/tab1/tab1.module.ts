@@ -17,7 +17,7 @@ import { ToastModule } from '../shared/toast/toast.module';
     CommonModule,
     FormsModule,
     TranslateModule,
-    RouterModule.forChild([{path: '', component: Tab1Page}]),
+    RouterModule.forChild([{ path: '', component: Tab1Page }]),
     HeaderPageModule,
     MeteoModule,
     BrokenPageModule,

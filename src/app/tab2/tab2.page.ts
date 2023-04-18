@@ -3,7 +3,6 @@ import { cities, CodeLocation, Coords } from '../models/cities';
 import { AuroraService } from '../aurora.service';
 import { NavController } from '@ionic/angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { ErrorTemplate } from '../shared/broken/broken.model';
 import { StorageService } from '../storage.service';
 import { map, takeUntil, tap } from 'rxjs/operators';
 import { combineLatest, from, Subject } from 'rxjs';
@@ -16,6 +15,7 @@ import { ELocales } from '../models/locales';
 import SwiperCore, { Navigation, Pagination, SwiperOptions } from 'swiper';
 import * as moment from 'moment/moment';
 import { TranslateService } from '@ngx-translate/core';
+import { ToastError } from '../shared/toast/toast.component';
 
 SwiperCore.use([Pagination, Navigation]);
 
@@ -43,7 +43,7 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
   kpCurrent: KpCurrent;
   nowcastAurora: number;
 
-  dataError = new ErrorTemplate(null);
+  dataToast: ToastError;
   configSwiper: SwiperOptions = {
     pagination: {
       enabled: true,
@@ -139,17 +139,16 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
             this.kpForecast27days = this._getKpForecast27day(kp27day);
             this.nowcastAurora = nowcastAurora;
             this.kpCurrent = kpCurrent;
+
             this.loading = false;
             this._cdr.markForCheck();
           },
           error: error => {
             console.warn('Local storage error', error.error);
-            // this.dataError = new ErrorTemplate({
-            //   value: true,
-            //   status: error.status,
-            //   message: this._translate.instant('global.error.storage'),
-            //   error,
-            // });
+            this.dataToast = {
+              message: this._translate.instant('global.error.storage'),
+              status: error.status,
+            };
           },
         }),
       )
@@ -166,15 +165,12 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
       .then(resp => this._getExistingLocalisation(resp.coords.latitude, resp.coords.longitude))
       .catch(error => {
         console.warn('Geolocalisation error', error.message);
-        // this.loading = false;
         this._cdr.markForCheck();
         this._eventRefresh?.target?.complete();
-        // this.dataError = new ErrorTemplate({
-        //   value: true,
-        //   status: error.status,
-        //   message: this._translate.instant('global.error.geoloc'),
-        //   error,
-        // });
+        this.dataToast = {
+          message: this._translate.instant('global.error.geoloc'),
+          status: error.status,
+        };
       });
   }
 
@@ -227,8 +223,8 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
 
             // End loading
             this.loading = false;
-            this._cdr.markForCheck();
             this._eventRefresh?.target?.complete();
+            this._cdr.markForCheck();
 
             void this._storageService.setData('solarCycle', value.forecastSolarCycle);
             void this._storageService.setData('solarWind', value.forecastSolarWind);
@@ -239,15 +235,12 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
           },
           error: (error: HttpErrorResponse) => {
             console.warn('Solar Wind data error', error.message);
-            // this.loading = false;
             this._cdr.markForCheck();
             this._eventRefresh?.target?.complete();
-            // this.dataError = new ErrorTemplate({
-            //   value: true,
-            //   status: error.status,
-            //   message: this._translate.instant('global.error.solarwind'),
-            //   error,
-            // });
+            this.dataToast = {
+              message: this._translate.instant('global.error.solarwind'),
+              status: error.status,
+            };
           },
         }),
       )

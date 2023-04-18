@@ -49,8 +49,8 @@ export class MeteoComponent implements OnChanges {
   };
   readonly widthCurrent = 110;
   readonly heightCurrent = 110;
-
   readonly dataNumbersInChart = 8;
+
   constructor(private _storageService: StorageService, private _cdr: ChangeDetectorRef) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -159,7 +159,7 @@ export class MeteoComponent implements OnChanges {
             },
             ticks: {
               color: MAIN_TEXT_COLOR,
-              font: (ctx, options) => ({ family: 'Oswald-SemiBold' }),
+              font: () => ({ family: 'Oswald-SemiBold' }),
             },
           },
           y: {

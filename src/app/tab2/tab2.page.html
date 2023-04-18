@@ -1,16 +1,12 @@
 <app-header [titre]=" 'tab2.title' | translate"></app-header>
 <ion-content fullscreen="true">
-  <!--  <ng-container *ngIf="loading">-->
-  <!--    <ion-progress-bar type="indeterminate"></ion-progress-bar>-->
-  <!--    <p class="text-spinner">{{ 'global.loading' | translate }}</p>-->
-  <!--    <div class="content-spinner">-->
-  <!--      <div class="whirly-loader"></div>-->
-  <!--    </div>-->
-  <!--  </ng-container>-->
-
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" pullMin="140">
-    <div class="refresh whirly-loader"></div>
+    <ion-refresher-content>
+      <div class="refresh whirly-loader"></div>
+    </ion-refresher-content>
+
   </ion-refresher>
+
   <ng-container *ngIf="loadSwiper">
     <swiper [config]="configSwiper">
       <ng-template swiperSlide>
@@ -36,6 +32,5 @@
     </swiper>
   </ng-container>
 
-  <app-toast></app-toast>
-  <!--  <app-broken *ngIf="!loading && dataError.value" [dataError]="dataError"></app-broken>-->
+  <app-toast [toastError]="dataToast"></app-toast>
 </ion-content>

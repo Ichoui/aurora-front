@@ -6,11 +6,11 @@
     "back": "Retour",
     "cancel": "Annuler",
     "error": {
-      "solarwind": "Erreur réseau / module NOAA SWPC",
-      "geoloc": "Erreur réseau / module de géolocalisation",
-      "storage": "Erreur de stockage local",
-      "weatherForecast": "Erreur réseau / module météo",
-      "reversegeo": "Erreur réseau / module de géolocalisation inversé"
+      "solarwind": " - Erreur réseau / module NOAA SWPC",
+      "geoloc": " - Erreur réseau / module de géolocalisation",
+      "storage": " - Erreur de stockage local",
+      "weatherForecast": " - Erreur réseau / module météo",
+      "reversegeo": " - Erreur réseau / module de géolocalisation inversé"
     }
   },
   "tab1": {

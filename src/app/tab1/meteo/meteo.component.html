@@ -58,8 +58,7 @@
     <div class="sub"></div>
     <ng-container *ngTemplateOutlet="loading ? isLoadingChart : null; context: { height: true }"></ng-container>
     <div *ngIf="!loading" class="previsions">
-      <div class="next-days">
-        <ng-container *ngFor="let day of days; let i = index">
+      <div class="next-days" *ngFor="let day of days; let i = index">
           <span class="day">{{ day.date }}</span>
           <div class="rain">
             <span class="icon icon-drop"></span>
@@ -72,7 +71,6 @@
             <span class="temp-max">{{ day.temp.max | number: '1.0-0' }}°</span>
             <span class="temp-min">{{ day.temp.min | number: '1.0-0' }}°</span>
           </div>
-        </ng-container>
       </div>
     </div>
   </div>

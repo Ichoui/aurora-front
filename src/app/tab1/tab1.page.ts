@@ -1,20 +1,20 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { NavController, Platform } from '@ionic/angular';
-import { AuroraService } from '../aurora.service';
-import { cities, CodeLocation, Coords } from '../models/cities';
-import { Currently, Daily, Hourly, MeasureUnits, TemperatureUnits, Weather } from '../models/weather';
-import { ErrorTemplate } from '../shared/broken/broken.model';
-import { HttpErrorResponse } from '@angular/common/http';
-import { StorageService } from '../storage.service';
-import { map, takeUntil, tap } from 'rxjs/operators';
-import { Geocoding } from '../models/geocoding';
-import { countryNameFromCode, roundTwoNumbers } from '../models/utils';
-import { combineLatest, from, Subject } from 'rxjs';
-import { OnViewWillEnter } from '../models/ionic';
-import { ELocales } from '../models/locales';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy} from '@angular/core';
+import {Geolocation} from '@ionic-native/geolocation/ngx';
+import {NavController, Platform} from '@ionic/angular';
+import {AuroraService} from '../aurora.service';
+import {cities, CodeLocation, Coords} from '../models/cities';
+import {Currently, Daily, Hourly, MeasureUnits, TemperatureUnits, Weather} from '../models/weather';
+import {HttpErrorResponse} from '@angular/common/http';
+import {StorageService} from '../storage.service';
+import {map, takeUntil, tap} from 'rxjs/operators';
+import {Geocoding} from '../models/geocoding';
+import {countryNameFromCode, roundTwoNumbers} from '../models/utils';
+import {combineLatest, from, Subject} from 'rxjs';
+import {OnViewWillEnter} from '../models/ionic';
+import {ELocales} from '../models/locales';
 import * as moment from 'moment';
-import { TranslateService } from '@ngx-translate/core';
+import {TranslateService} from '@ngx-translate/core';
+import {ToastError} from '../shared/toast/toast.component';
 
 @Component({
   selector: 'app-tab1',
@@ -39,8 +39,8 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
 
   measureUnits: MeasureUnits;
   temperatureUnits: TemperatureUnits;
-  dataError = new ErrorTemplate(null);
   locale: ELocales;
+  dataToast: ToastError;
 
   constructor(
     private _geoloc: Geolocation,
@@ -49,7 +49,7 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
     private _platform: Platform,
     private _auroraService: AuroraService,
     private _translate: TranslateService,
-    private _cdr: ChangeDetectorRef
+    private _cdr: ChangeDetectorRef,
   ) {}
 
   ngOnDestroy(): void {
@@ -103,12 +103,10 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
           },
           error: (error: HttpErrorResponse) => {
             console.warn('Local storage error', error.message);
-            // this.dataError = new ErrorTemplate({
-            //   value: true,
-            //   status: error.status,
-            //   message: this._translate.instant('global.error.storage'),
-            //   error,
-            // });
+            this.dataToast = {
+              message: this._translate.instant('global.error.storage'),
+              status: error.status,
+            };
           },
         }),
       )
@@ -157,14 +155,11 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
       .then(resp => this._reverseGeoloc(resp.coords.latitude, resp.coords.longitude))
       .catch((error: HttpErrorResponse) => {
         console.warn('Geolocalisation error', error.error);
-        // this.loading = false;
         this._eventRefresh?.target?.complete();
-        // this.dataError = new ErrorTemplate({
-        //   value: true,
-        //   status: error.status,
-        //   message: this._translate.instant('global.error.geoloc'),
-        //   error,
-        // });
+        this.dataToast = {
+          message: this._translate.instant('global.error.geoloc'),
+          status: error.status,
+        };
       });
   }
 
@@ -192,14 +187,11 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
           },
           error: (error: HttpErrorResponse) => {
             console.warn('Reverse geocode error ==> ', error.error);
-            // this.loading = false;
             this._eventRefresh?.target?.complete();
-            // this.dataError = new ErrorTemplate({
-            //   value: false,
-            //   status: error.status,
-            //   message: this._translate.instant('global.error.reversegeo'),
-            //   error,
-            // });
+            this.dataToast = {
+              message: this._translate.instant('global.error.reversegeo'),
+              status: error.status,
+            };
           },
         }),
       )
@@ -228,41 +220,42 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
   private _getForecast(city: string, country: string): void {
     this._auroraService
       .openWeatherMapForecast$(this.coords.latitude, this.coords.longitude, this.locale)
-      .pipe(takeUntil(this._destroy$))
-      .subscribe(
-        (res: Weather) => {
-          this.dataCurrentWeather = res.current;
-          this.dataHourly = res.hourly;
-          this.dataSevenDay = res.daily;
-          void this._storageService.setData('weather', {
-            dataCurrentWeather: res.current,
-            dataHourly: res.hourly,
-            dataSevenDay: res.daily,
-            city: city,
-            country: country,
-            date: new Date(),
-          });
-          void this._storageService.setData('previousLocation', {
-            lat: this.coords.latitude,
-            long: this.coords.longitude,
-          });
+      .pipe(
+        takeUntil(this._destroy$),
+        tap({
+          next: (res: Weather) => {
+            this.dataCurrentWeather = res.current;
+            this.dataHourly = res.hourly;
+            this.dataSevenDay = res.daily;
+            void this._storageService.setData('weather', {
+              dataCurrentWeather: res.current,
+              dataHourly: res.hourly,
+              dataSevenDay: res.daily,
+              city: city,
+              country: country,
+              date: new Date(),
+            });
+            void this._storageService.setData('previousLocation', {
+              lat: this.coords.latitude,
+              long: this.coords.longitude,
+            });
 
-          // End loading
-          this.loading = false;
-          this._eventRefresh ? this._eventRefresh.target.complete() : '';
-        },
-        (error: HttpErrorResponse) => {
-          console.warn('OpenWeatherMap forecast error', error.error);
-          // this.loading = false;
-          this._eventRefresh?.target?.complete();
-          // this.dataError = new ErrorTemplate({
-          //   value: true,
-          //   status: error.status,
-          //   message: this._translate.instant('global.error.weatherForecast'),
-          //   error,
-          // });
-        },
-      );
+            // End loading
+            this._eventRefresh ? this._eventRefresh.target.complete() : '';
+            this.loading = false;
+            this._cdr.markForCheck();
+          },
+          error: (error: HttpErrorResponse) => {
+            console.warn('OpenWeatherMap forecast error', error.error);
+            this._eventRefresh?.target?.complete();
+            this.dataToast = {
+              message: this._translate.instant('global.error.weatherForecast'),
+              status: error.status,
+            };
+          },
+        }),
+      )
+      .subscribe();
   }
 
   /**

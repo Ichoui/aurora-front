@@ -5,11 +5,11 @@
     "back": "Back",
     "cancel": "Cancel",
     "error": {
-      "solarwind": "Network / NOAA SWPC module error",
-      "geoloc": "Network / geolocalisation module error",
-      "storage": "Local storage error",
-      "weatherForecast": "Network / weather module error",
-      "reversegeo": "Network / reverse geocode module error"
+      "solarwind": " - Network / NOAA SWPC module error",
+      "geoloc": " - Network / geolocalisation module error",
+      "storage": " - Local storage error",
+      "weatherForecast": " - Network / weather module error",
+      "reversegeo": " - Network / reverse geocode module error"
     }
   },
   "tab1": {
