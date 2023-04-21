@@ -16,11 +16,9 @@ https://www.npmjs.com/package/@capacitor/assets
 
 An Android folder should exists
 
-
 # Deployment on Play Store
 
 Il est visiblement demandé par Google lors de l'upload de l'APK pour déploiement d'utiliser leur système [Android App Bundler](https://developer.android.com/platform/technology/app-bundle), qui vise à réduire la taille de l'application pour l'utilisateur.
-
 
 Depuis Android Studio :
 
@@ -31,7 +29,7 @@ Depuis Android Studio :
 - Key store password : 6 chiffres bien connus 😬
 - Key alias : alias_aurora (existe déjà, lié au .keystore)
 - Key password : 6 chiffres bien connus 😬
-- Décocher "Export encrypted key..." 
+- Décocher "Export encrypted key..."
 - Sélectionner "release"
 - Le fichier se réceptionne sur le path suivant `android\app\release\app-release.aab`
 
