@@ -8,7 +8,6 @@ import { HeaderPageModule } from '../shared/header/header.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { MeteoModule } from './meteo/meteo.module';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { BrokenPageModule } from '../shared/broken/broken.module';
 import { ToastModule } from '../shared/toast/toast.module';
 
 @NgModule({
@@ -20,7 +19,6 @@ import { ToastModule } from '../shared/toast/toast.module';
     RouterModule.forChild([{ path: '', component: Tab1Page }]),
     HeaderPageModule,
     MeteoModule,
-    BrokenPageModule,
     ToastModule,
   ],
   declarations: [Tab1Page],

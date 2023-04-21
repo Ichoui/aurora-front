@@ -7,7 +7,6 @@ import { Tab2Page } from './tab2.page';
 import { HeaderPageModule } from '../shared/header/header.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { BrokenPageModule } from '../shared/broken/broken.module';
 import { SwiperModule } from 'swiper/angular';
 import { InstantAuroralActivityModule } from './instant-auroral-activity/instant-auroral-activity.module';
 import { ForecastAuroralActivityModule } from './forecast-auroral-activity/forecast-auroral-activity.module';
@@ -23,7 +22,6 @@ import { ToastModule } from '../shared/toast/toast.module';
     HeaderPageModule,
     InstantAuroralActivityModule,
     ForecastAuroralActivityModule,
-    BrokenPageModule,
     SwiperModule,
     ToastModule,
   ],
