@@ -1,9 +1,9 @@
 platforms:
   android:
     appName: Northern Lights
-    packageName: io.aurora.v2
-    versionName: 3.0.0
-    incrementVersaionCode: true
+    packageName: io.aurora.start
+    versionName: 1.0.0
+    incrementVersionCode: true
     manifest:
       - file: AndroidManifest.xml
         target: manifest
