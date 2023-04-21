@@ -2,30 +2,31 @@
 
 <ion-content fullscreen="true">
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" pullMin="160">
-    <div class="refresh whirly-loader"></div>
+    <ion-refresher-content refreshingSpinner="bubbles"></ion-refresher-content>
   </ion-refresher>
 
-    <h2 class="ion-text-center">
-      <span class="city">
-        <span>
-          <ion-icon name="pin"></ion-icon>
-          {{ city ?? '' }}
-        </span>
-      </span>
-      <span class="country">{{ country }}</span>
-      <span *ngIf="!city && !country" class="country">{{ 'global.unknown' | translate }}</span>
-    </h2>
 
-    <app-meteo
-      [loading]="loading"
-      [coords]="coords"
-      [currentWeather]="dataCurrentWeather"
-      [hourlyWeather]="dataHourly"
-      [sevenDayWeather]="dataSevenDay"
-      [measure]="measureUnits"
-      [temperature]="temperatureUnits"
-      [locale]="locale"
-    ></app-meteo>
+  <h2 class="ion-text-center">
+    <span class="city">
+      <span>
+        <ion-icon name="pin"></ion-icon>
+        {{ city ?? '' }}
+      </span>
+    </span>
+    <span class="country">{{ country }}</span>
+    <span *ngIf="!city && !country" class="country">{{ 'global.unknown' | translate }}</span>
+  </h2>
+
+  <app-meteo
+    [loading]="loading"
+    [coords]="coords"
+    [currentWeather]="dataCurrentWeather"
+    [hourlyWeather]="dataHourly"
+    [sevenDayWeather]="dataSevenDay"
+    [measure]="measureUnits"
+    [temperature]="temperatureUnits"
+    [locale]="locale"
+  ></app-meteo>
 
   <app-toast [toastError]="dataToast"></app-toast>
 </ion-content>

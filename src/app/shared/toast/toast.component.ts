@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 export interface ToastError {
   message: string;
@@ -16,15 +16,15 @@ export class ToastComponent implements OnChanges {
 
   toastButtons = [
     {
-      text: 'Dismiss',
+      text: '✔️ OK',
       role: 'cancel',
-    }
+    },
   ];
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log(changes);
     if (changes?.toastError.currentValue) {
-      this.setOpen(true)
+      this.setOpen(true);
     }
   }
 

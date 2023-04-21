@@ -107,3 +107,16 @@ ion-popover {
     text-align: justify;
   }
 }
+
+
+.refresher-native {
+  ion-spinner,
+  .arrow-container ion-icon {
+    color: var(--ion-color-dark) !important;
+  }
+
+  .refresher-pulling-icon,
+  .refresher-refreshing-icon {
+    background-color: var(--ion-color-primary) !important;
+  }
+}

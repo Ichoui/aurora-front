@@ -1,10 +1,7 @@
 <app-header [titre]=" 'tab2.title' | translate"></app-header>
 <ion-content fullscreen="true">
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" pullMin="140">
-    <ion-refresher-content>
-      <div class="refresh whirly-loader"></div>
-    </ion-refresher-content>
-
+    <ion-refresher-content refreshingSpinner="bubbles"></ion-refresher-content>
   </ion-refresher>
 
   <ng-container *ngIf="loadSwiper">

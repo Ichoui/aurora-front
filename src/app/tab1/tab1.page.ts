@@ -1,20 +1,20 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy} from '@angular/core';
-import {Geolocation} from '@ionic-native/geolocation/ngx';
-import {NavController, Platform} from '@ionic/angular';
-import {AuroraService} from '../aurora.service';
-import {cities, CodeLocation, Coords} from '../models/cities';
-import {Currently, Daily, Hourly, MeasureUnits, TemperatureUnits, Weather} from '../models/weather';
-import {HttpErrorResponse} from '@angular/common/http';
-import {StorageService} from '../storage.service';
-import {map, takeUntil, tap} from 'rxjs/operators';
-import {Geocoding} from '../models/geocoding';
-import {countryNameFromCode, roundTwoNumbers} from '../models/utils';
-import {combineLatest, from, Subject} from 'rxjs';
-import {OnViewWillEnter} from '../models/ionic';
-import {ELocales} from '../models/locales';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { NavController, Platform } from '@ionic/angular';
+import { AuroraService } from '../aurora.service';
+import { cities, CodeLocation, Coords } from '../models/cities';
+import { Currently, Daily, Hourly, MeasureUnits, TemperatureUnits, Weather } from '../models/weather';
+import { HttpErrorResponse } from '@angular/common/http';
+import { StorageService } from '../storage.service';
+import { map, takeUntil, tap } from 'rxjs/operators';
+import { Geocoding } from '../models/geocoding';
+import { countryNameFromCode, roundTwoNumbers } from '../models/utils';
+import { combineLatest, from, Subject } from 'rxjs';
+import { OnViewWillEnter } from '../models/ionic';
+import { ELocales } from '../models/locales';
 import * as moment from 'moment';
-import {TranslateService} from '@ngx-translate/core';
-import {ToastError} from '../shared/toast/toast.component';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastError } from '../shared/toast/toast.component';
 
 @Component({
   selector: 'app-tab1',

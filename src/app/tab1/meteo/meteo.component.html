@@ -59,18 +59,18 @@
     <ng-container *ngTemplateOutlet="loading ? isLoadingChart : null; context: { height: true }"></ng-container>
     <div *ngIf="!loading" class="previsions">
       <div class="next-days" *ngFor="let day of days; let i = index">
-          <span class="day">{{ day.date }}</span>
-          <div class="rain">
-            <span class="icon icon-drop"></span>
-            <div class="percent">{{ day.pop ? (day.pop | percent: '1.0-0') : '0%' }}</div>
-          </div>
-          <span class="icon">
-            <img src="assets/img/meteoOWM/{{ day.weather[0].icon }}@2x.png" [alt]="day.weather[0].description" />
-          </span>
-          <div class="temps">
-            <span class="temp-max">{{ day.temp.max | number: '1.0-0' }}°</span>
-            <span class="temp-min">{{ day.temp.min | number: '1.0-0' }}°</span>
-          </div>
+        <span class="day">{{ day.date }}</span>
+        <div class="rain">
+          <span class="icon icon-drop"></span>
+          <div class="percent">{{ day.pop ? (day.pop | percent: '1.0-0') : '0%' }}</div>
+        </div>
+        <span class="icon">
+          <img src="assets/img/meteoOWM/{{ day.weather[0].icon }}@2x.png" [alt]="day.weather[0].description" />
+        </span>
+        <div class="temps">
+          <span class="temp-max">{{ day.temp.max | number: '1.0-0' }}°</span>
+          <span class="temp-min">{{ day.temp.min | number: '1.0-0' }}°</span>
+        </div>
       </div>
     </div>
   </div>

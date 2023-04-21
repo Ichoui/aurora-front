@@ -33,7 +33,13 @@
     </div>
     <div class="sub">{{ 'tab3.settings.sublanguages' | translate }}</div>
     <ion-item>
-      <ion-select [value]="locale" aria-label="locale choice" interface="action-sheet" (ionChange)="setLocale($event)" [cancelText]="'global.cancel' | translate">
+      <ion-select
+        [value]="locale"
+        aria-label="locale choice"
+        interface="action-sheet"
+        (ionChange)="setLocale($event)"
+        [cancelText]="'global.cancel' | translate"
+      >
         <ion-select-option *ngFor="let locale of locales" value="{{ locale.slug }}">{{ locale.label | translate }}</ion-select-option>
       </ion-select>
     </ion-item>
@@ -45,7 +51,13 @@
     </div>
     <div class="sub">{{ 'tab3.settings.submeasure' | translate }}</div>
     <ion-item>
-      <ion-select [value]="measureUnits" aria-label="unit of measure choice" interface="action-sheet" (ionChange)="setMeasureUnit($event)" [cancelText]="'global.cancel' | translate">
+      <ion-select
+        [value]="measureUnits"
+        aria-label="unit of measure choice"
+        interface="action-sheet"
+        (ionChange)="setMeasureUnit($event)"
+        [cancelText]="'global.cancel' | translate"
+      >
         <ion-select-option *ngFor="let u of measure" [value]="u.slug">
           <span>{{ u.label | translate }}</span>
         </ion-select-option>
