@@ -4,10 +4,16 @@ ion-card {
   }
 
   ion-card-header {
+    &.align-caret {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
     color: var(--ion-color-primary);
     text-transform: uppercase;
     font-family: var(--ion-font-semibold);
     padding: 8px !important;
+
 
     &:not(.header) {
       font-style: italic;

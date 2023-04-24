@@ -1,6 +1,4 @@
-import { MeasureUnits } from './weather';
-import * as moment from 'moment/moment';
-import { Moment } from 'moment';
+import {MeasureUnits} from './weather';
 
 export interface SolarWind {
   time_tag?: string;

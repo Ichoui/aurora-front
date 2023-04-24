@@ -22,7 +22,6 @@ export class ToastComponent implements OnChanges {
   ];
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
     if (changes?.toastError.currentValue) {
       this.setOpen(true);
     }

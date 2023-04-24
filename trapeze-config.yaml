@@ -23,3 +23,21 @@ platforms:
       - path: values
         file: styles.xml
         source: ./src/styles.xml
+    gradle:
+      - file: app/build.gradle
+        target:
+          android:
+            buildTypes:
+              release:
+                minifyEnabled:
+        replace:
+          minifyEnabled: true
+
+      - file: variables.gradle
+        target:
+          ext:
+            targetSdkVersion:
+        replace:
+          targetSdkVersion: '33'
+
+

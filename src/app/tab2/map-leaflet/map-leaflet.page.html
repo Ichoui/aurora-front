@@ -1,6 +1,16 @@
 <app-header [titre]="'tab2.forecast.title' | translate"></app-header>
-<div [routerLink]="['','tabs','tab2']" class="back">
-  <span class="icon icon-back1"></span>
+<div class="header-bar">
+  <div [routerLink]="['','tabs','tab2']" class="back">
+    <span class="icon icon-back1"></span>
+  </div>
+  <div class="info">
+    <ion-icon id="info-map" name="information-circle"></ion-icon>
+    <ion-popover trigger="info-map" triggerAction="click" alignment="center">
+      <ng-template>
+        <div [innerHTML]="'tab2.forecast.tooltip.map' | translate"></div>
+      </ng-template>
+    </ion-popover>
+  </div>
 </div>
 <ion-item>
   <ion-label>{{ 'tab2.forecast.select' | translate }}</ion-label>

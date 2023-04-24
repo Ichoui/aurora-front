@@ -1,7 +1,9 @@
 <ion-card>
-  <ion-card-header>
+  <ion-card-header class="align-caret">
     <ion-icon name="caret-forward-outline"></ion-icon>
-    {{ 'tab3.infos.' + block + '.' + value + '.title' | translate }}
+    <div style="width: 100%">
+      {{ 'tab3.infos.' + block + '.' + value + '.title' | translate }}
+    </div>
   </ion-card-header>
   <ion-card-content>
     <div *ngIf="!annecdotes" [innerHTML]="'tab3.infos.' + block + '.' + value + '.message' | translate"></div>

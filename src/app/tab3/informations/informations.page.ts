@@ -9,17 +9,19 @@ export class InformationsPage {
   text;
   tabOpen = [0];
 
-  visibility(event, index): void {
-    if (!event.target.nextElementSibling) {
+  visibility(event, index, title = false): void {
+  const siblingElement = title ? event.target?.nextElementSibling : event.target.offsetParent.nextElementSibling;
+
+    if (!siblingElement) {
       return;
     }
     if (this.tabOpen.includes(index)) {
       const remove = this.tabOpen.indexOf(index);
       this.tabOpen.splice(remove);
-      event.target.nextElementSibling.style.display = 'none';
+      siblingElement.style.display = 'none';
     } else {
       this.tabOpen.push(index);
-      event.target.nextElementSibling.style.display = 'block';
+      siblingElement.style.display = 'block';
     }
   }
 }

@@ -4,9 +4,9 @@
   <div [routerLink]="['','tabs','tab3']" class="back">
     <span class="icon icon-back1"></span>
   </div>
-  <ion-card class="welcome-card" (click)="visibility($event, 0)">
+  <ion-card class="welcome-card" (click)="visibility($event, 0, true)">
     <ion-card-header>{{'tab3.infos.welcome.title' | translate }}</ion-card-header>
-    <ion-card-content style="display: block" [innerHtml]="'tab3.infos.welcome.message' | translate"></ion-card-content>
+    <ion-card-content style="display: block; text-align: justify" [innerHtml]="'tab3.infos.welcome.message' | translate"></ion-card-content>
   </ion-card>
   <ion-card class="card-container">
     <ion-card-header class="header"><span>{{ 'tab3.infos.firstblock.header' | translate }}</span></ion-card-header>
