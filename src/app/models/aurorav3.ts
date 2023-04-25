@@ -1,4 +1,4 @@
-import {MeasureUnits} from './weather';
+import { MeasureUnits } from './weather';
 
 export interface SolarWind {
   time_tag?: string;

@@ -10,7 +10,7 @@ export class InformationsPage {
   tabOpen = [0];
 
   visibility(event, index, title = false): void {
-  const siblingElement = title ? event.target?.nextElementSibling : event.target.offsetParent.nextElementSibling;
+    const siblingElement = title ? event.target?.nextElementSibling : event.target.offsetParent.nextElementSibling;
 
     if (!siblingElement) {
       return;

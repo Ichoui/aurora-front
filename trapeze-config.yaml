@@ -39,5 +39,3 @@ platforms:
             targetSdkVersion:
         replace:
           targetSdkVersion: '33'
-
-
