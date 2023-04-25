@@ -14,7 +14,13 @@
 </div>
 <ion-item>
   <ion-label>{{ 'tab2.forecast.select' | translate }}</ion-label>
-  <ion-select [value]=" localisation" interface="action-sheet" aria-label="cities select" (ionChange)="selectNewLocation($event)" [cancelText]="'global.cancel' | translate">
+  <ion-select
+    [value]=" localisation"
+    interface="action-sheet"
+    aria-label="cities select"
+    (ionChange)="selectNewLocation($event)"
+    [cancelText]="'global.cancel' | translate"
+  >
     <ion-select-option *ngFor="let city of cities" [value]="city.code">{{ city.ville }} - {{ city.codePays }}</ion-select-option>
   </ion-select>
 </ion-item>

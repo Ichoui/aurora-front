@@ -50,7 +50,7 @@ Pour créer une nouvelle version :
 2.  Créer une release
 3.  Ajouter l'artefact .aab précédemment généré (si la version a déjà été upload précédemment, il est possible de la retrouver dans la bibliothèque d'artefacts)
 4.  Faire correspondre le _Nom de la release_ avec la version souhaitée
-6.  Lancer le déploiement en version [de votre choix]
+5.  Lancer le déploiement en version [de votre choix]
 
 Informatif : Une adresse email présente dans une liste de diffusion, par exemple, en version de tests internes, ne peut être utilisée dans une autre version de test. Elle doit être unique. Il faut alors désinscrire l'adresse mail de la liste de diffusion, la publiée et la ré-inscrire.
 
