@@ -128,8 +128,8 @@
     "infos": {
       "title": "Aurores",
       "welcome": {
-        "title": "Auroras - Northern Lights",
-        "message": "Auroras - Northern Lights est une application moderne, sexy et colorée, développée pour chasser les Aurores Boréales.<br>Si tu t'intéresses à l'activité des Aurores, que tu sois touriste ou chasseur aguerri, cette application est faites pour toi 🌌"
+        "title": "Aurorapp - Northern Lights",
+        "message": "Aurorapp - Northern Lights est une application moderne, sexy et colorée, développée pour chasser les Aurores Boréales.<br>Si tu t'intéresses à l'activité des Aurores, que tu sois touriste ou chasseur aguerri, cette application est faites pour toi 🌌"
       },
       "firstblock": {
         "header": "Une Aurore Boréale ?",
@@ -230,7 +230,7 @@
       "thirdblock": {
         "header": "Centre d'aide",
         "help": {
-          "title": "Comment marche Auroras - Northern Lights ?",
+          "title": "Comment marche Aurorapp - Northern Lights ?",
           "message": "C'est très simple ! <ol><li>Premièrement, il faut comprendre comment fonctione les aurores boréales. Tu peux t'aider de ma documentation, ou d'internet</li><li>Ensuite, choisis ta localisation, sinon tu seras géolocalisé si tu me l'autorises.</li><li>Tu n'auras plus qu'à consulter l'activité solaire et la couverture nuageuse. Rappel, ces données fournissent des indicateurs pour chasser les aurores boréale. Elles ne t'assureront pas d'en voir à 100% ☺</li></ol>"
         },
         "suggest": {

@@ -139,7 +139,7 @@ export class MeteoComponent implements OnChanges {
         responsive: true,
         plugins: {
           tooltip: { enabled: false },
-          legend: { display: false },
+          legend: { display: false, labels: { padding: 10} },
           datalabels: {
             align: 'end',
             color: WEATHER_NEXT_HOUR_CHART_COLOR,
