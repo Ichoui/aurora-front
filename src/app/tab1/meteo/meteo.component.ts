@@ -139,8 +139,8 @@ export class MeteoComponent implements OnChanges {
         responsive: true,
         layout: {
           padding: {
-            top: 30
-          }
+            top: 30,
+          },
         },
         plugins: {
           tooltip: { enabled: false },
