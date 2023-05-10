@@ -1,4 +1,4 @@
-# Aurora Northern Lights Project
+# Aurorapp Northern Lights Project
 
 ### Installation
 `npm i` for dependencies
@@ -10,7 +10,7 @@ Moreover, the NESTJS back-end must be run.
 
 
 ### About 
-Aurora Northern Lights
+Aurorapp Northern Lights
 <br>
 Mobile App (IONIC - Capacitor Angular 14).
 This project is available only on Android devices
