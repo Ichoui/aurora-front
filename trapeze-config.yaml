@@ -33,10 +33,21 @@ platforms:
                 minifyEnabled:
         replace:
           minifyEnabled: true
-
       - file: variables.gradle
         target:
           ext:
             targetSdkVersion:
         replace:
           targetSdkVersion: '33'
+      - file: variables.gradle
+        target:
+          ext:
+            compileSdkVersion:
+        replace:
+          compileSdkVersion: '33'
+      - file: variables.gradle
+        target:
+          ext:
+            minSdkVersion:
+        replace:
+          minSdkVersion: '22'
