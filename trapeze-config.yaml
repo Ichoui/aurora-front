@@ -41,14 +41,14 @@ platforms:
                 debugSymbolLevel:
         replace:
           debugSymbolLevel: 'SYMBOL_TABLE'
-#      - file: app/build.gradle
-#        target:
-#          android:
-#            buildTypes:
-#              release:
-#        insertType: 'ndk'
-#        insert:
-#          - debugSymbolLevel: 'SYMBOL_TABLE'
+      #      - file: app/build.gradle
+      #        target:
+      #          android:
+      #            buildTypes:
+      #              release:
+      #        insertType: 'ndk'
+      #        insert:
+      #          - debugSymbolLevel: 'SYMBOL_TABLE'
       - file: variables.gradle
         target:
           ext:

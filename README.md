@@ -2,7 +2,7 @@
 
 ### Installation
 `npm i` for dependencies
-<br> Create a typescript file here `src/environments/.env` and then :
+<br> Create a typescript file here `src/environments/keep.ts` and then :
 - export a const named `OPENWHEATHER_API_KEY`
 
 You will need an OpenWeatherMap account.
