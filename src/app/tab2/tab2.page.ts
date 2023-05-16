@@ -247,32 +247,32 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
       .subscribe();
 
     this._auroraService
-        .getAuroraMapData$(this.coords.latitude, this.coords.longitude)
-        .pipe(
-            tap({
-              next: value => {
-                console.log(value);
-                this.nowcastAurora = value.nowcast;
-                this._cdr.markForCheck();
+      .getAuroraMapData$(this.coords.latitude, this.coords.longitude)
+      .pipe(
+        tap({
+          next: value => {
+            console.log(value);
+            this.nowcastAurora = value.nowcast;
+            this._cdr.markForCheck();
 
-                // End loading
-                // this.loading = false;
-                // this._eventRefresh?.target?.complete();
+            // End loading
+            // this.loading = false;
+            // this._eventRefresh?.target?.complete();
 
-                void this._storageService.setData('nowcastAurora', value.nowcast);
-              },
-              error: (error: HttpErrorResponse) => {
-                console.warn('Solar Wind data error', error.message);
-                this._cdr.markForCheck();
-                this._eventRefresh?.target?.complete();
-                this.dataToast = {
-                  message: this._translate.instant('global.error.solarwind'),
-                  status: error.status,
-                };
-              },
-            }),
-        )
-        .subscribe();
+            void this._storageService.setData('nowcastAurora', value.nowcast);
+          },
+          error: (error: HttpErrorResponse) => {
+            console.warn('Solar Wind data error', error.message);
+            this._cdr.markForCheck();
+            this._eventRefresh?.target?.complete();
+            this.dataToast = {
+              message: this._translate.instant('global.error.solarwind'),
+              status: error.status,
+            };
+          },
+        }),
+      )
+      .subscribe();
   }
 
   private _getSolarWind(dataSolarWind: SolarWind[], instant = false): SolarWind[] | SolarWind {
