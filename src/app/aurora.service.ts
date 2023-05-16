@@ -62,10 +62,15 @@ export class AuroraService {
     return this._http.get(`${environment.host}${pole === Pole.NORTH ? environment.swpc.poleNorth : environment.swpc.poleSouth}`);
   }
 
-  getAuroraMapData$(lat?: number, long?: number): Observable<any> {
+  getAuroraMapData$(lat?: number, long?: number): Observable<any | number> {
     const params = deleteFalsy({ lat, long });
     return this._http.get(`${environment.host}${environment.swpc.ovationMap}`, { params });
   }
+
+  // getAuroraMapNowcast$(lat?: number, long?: number): Observable<number> {
+  //   const params = deleteFalsy({ lat, long });
+  //   return this._http.get<number>(`${environment.host}${environment.swpc.ovationMap}`, { params });
+  // }
 
   getNowcast$(lat: number, lng: number): Observable<{ nowcast: number }> {
     return this._http.post<{ nowcast: number }>(`${environment.host}${environment.swpc.nowcast}`, { lat, lng });

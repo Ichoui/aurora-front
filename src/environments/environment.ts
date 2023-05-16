@@ -41,16 +41,16 @@ export const environment = {
     kpForecast27Days: 'forecast/twentysevendays',
     kpForecast: 'forecast/kp',
   },
-  ex: {
+  // ex: {
     // cors: 'https://thingproxy.freeboard.io/fetch/',
     // cors: 'https://aurora-proxy-be7c0.web.app/fetch/',
     // cors: 'https://aurora-proxy-be7c0.web.app/aurora/',
     // cors: 'http://localhost:3945/aurora/',
-    api_weather: 'https://api.openweathermap.org/data/2.5/onecall',
-    api_reverse_geocode: 'https://api.openweathermap.org/geo/1.0/reverse',
-    aurora_v1_api: 'https://api.auroras.live/v1',
-    aurora_v2_api: 'https://v2.api.auroras.live',
-    exswpc: {
+    // api_weather: 'https://api.openweathermap.org/data/2.5/onecall',
+    // api_reverse_geocode: 'https://api.openweathermap.org/geo/1.0/reverse',
+    // aurora_v1_api: 'https://api.auroras.live/v1',
+    // aurora_v2_api: 'https://v2.api.auroras.live',
+    // exswpc: {
       // poleNorth: 'https://services.swpc.noaa.gov/products/animations/ovation_north_24h.json',
       // poleSouth: 'https://services.swpc.noaa.gov/products/animations/ovation_south_24h.json',
       // kpForecast27Days: 'https://services.swpc.noaa.gov/text/27-day-outlook.txt',
@@ -58,6 +58,6 @@ export const environment = {
       // solarWind: 'https://services.swpc.noaa.gov/products/geospace/propagated-solar-wind-1-hour.json',
       // solarCycle: 'https://services.swpc.noaa.gov/json/solar-cycle/predicted-solar-cycle.json',
       // ovationMap: 'https://services.swpc.noaa.gov/json/ovation_aurora_latest.json',
-    },
-  },
+    // },
+  // },
 };

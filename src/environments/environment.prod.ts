@@ -11,7 +11,6 @@ export const environment = {
     Aurora: 'true',
   },
   host: 'https://us-central1-aurora-proxy-be7c0.cloudfunctions.net/aurora/',
-  // host: 'http://localhost:5000/aurora-proxy-be7c0/us-central1/aurora/',
   openweatherapi: {
     geocode: 'geocode',
     weather: 'weather',
