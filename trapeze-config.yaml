@@ -38,7 +38,8 @@ platforms:
           android:
             buildTypes:
               release:
-                debugSymbolLevel:
+                ndk:
+                  debugSymbolLevel:
         replace:
           debugSymbolLevel: 'SYMBOL_TABLE'
       #      - file: app/build.gradle
