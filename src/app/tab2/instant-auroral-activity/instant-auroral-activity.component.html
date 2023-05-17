@@ -28,8 +28,10 @@
         }"
       ></span>
     </div>
-    <div class="value" *ngIf="kpCurrent?.kpIndex">{{ kpCurrent.kpIndex }}</div>
-    <ng-container *ngTemplateOutlet="!kpCurrent?.kpIndex ? isLoadingAceData : null; context: { index: 2.4 }"></ng-container>
+    <div class="value" *ngIf="kpCurrent?.kpIndex || kpCurrent?.kpIndex === 0">{{ kpCurrent.kpIndex }}</div>
+    <ng-container
+      *ngTemplateOutlet="!kpCurrent?.kpIndex && kpCurrent?.kpIndex !== 0 ? isLoadingAceData : null; context: { index: 2.4 }"
+    ></ng-container>
     <div class="label">{{ 'tab2.instant.kpindex' | translate }}</div>
   </div>
 
