@@ -74,7 +74,6 @@ export interface SwpcData {
   forecastKp: KpForecast[];
   forecastTwentySevenDays: string;
   instantKp: KpCurrent;
-  nowcast: number;
 }
 
 export enum SolarWindTypes {

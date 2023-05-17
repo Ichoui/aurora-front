@@ -7,7 +7,7 @@ import { StorageService } from '../storage.service';
 import { map, takeUntil, tap } from 'rxjs/operators';
 import { combineLatest, from, Subject } from 'rxjs';
 import { MeasureUnits } from '../models/weather';
-import { Kp27day, KpCurrent, KpForecast, SolarCycle, SolarWind } from '../models/aurorav3';
+import {Kp27day, KpCurrent, KpForecast, SolarCycle, SolarWind, SwpcData} from '../models/aurorav3';
 import { determineColorsOfValue } from '../models/utils';
 import { OnViewWillEnter } from '../models/ionic';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -211,7 +211,7 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
       .getAllSwpcDatas$(this.coords.latitude, this.coords.longitude)
       .pipe(
         tap({
-          next: value => {
+          next: (value: SwpcData) => {
             this.kpCurrent = value.instantKp;
             void this._storageService.setData('kpCurrent', value.instantKp);
             this.solarCycle = value.forecastSolarCycle;
@@ -219,8 +219,7 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
             this.solarWind = this._getSolarWind(value.forecastSolarWind) as SolarWind[];
             this.kpForecast = this._getKpForecast(value.forecastKp);
             this.kpForecast27days = this._getKpForecast27day(value.forecastTwentySevenDays);
-            this.nowcastAurora = value.nowcast;
-
+            console.log('ef');
             // End loading
             this.loading = false;
             this._eventRefresh?.target?.complete();
@@ -231,7 +230,6 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
             void this._storageService.setData('kpForecast', value.forecastKp);
             void this._storageService.setData('kp27day', value.forecastTwentySevenDays);
             void this._storageService.setData('ACEdate', new Date());
-            void this._storageService.setData('nowcastAurora', value.nowcast);
           },
           error: (error: HttpErrorResponse) => {
             console.warn('Solar Wind data error', error.message);
@@ -250,19 +248,13 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
       .getAuroraMapData$(this.coords.latitude, this.coords.longitude)
       .pipe(
         tap({
-          next: value => {
-            console.log(value);
-            this.nowcastAurora = value.nowcast;
+          next: (nowcast: number) => {
+            this.nowcastAurora = nowcast;
             this._cdr.markForCheck();
-
-            // End loading
-            // this.loading = false;
-            // this._eventRefresh?.target?.complete();
-
-            void this._storageService.setData('nowcastAurora', value.nowcast);
+            void this._storageService.setData('nowcastAurora', nowcast);
           },
           error: (error: HttpErrorResponse) => {
-            console.warn('Solar Wind data error', error.message);
+            console.warn('Nowcast data error', error.message);
             this._cdr.markForCheck();
             this._eventRefresh?.target?.complete();
             this.dataToast = {
