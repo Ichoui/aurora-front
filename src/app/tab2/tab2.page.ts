@@ -7,7 +7,7 @@ import { StorageService } from '../storage.service';
 import { map, takeUntil, tap } from 'rxjs/operators';
 import { combineLatest, from, Subject } from 'rxjs';
 import { MeasureUnits } from '../models/weather';
-import {Kp27day, KpCurrent, KpForecast, SolarCycle, SolarWind, SwpcData} from '../models/aurorav3';
+import { Kp27day, KpCurrent, KpForecast, SolarCycle, SolarWind, SwpcData } from '../models/aurorav3';
 import { determineColorsOfValue } from '../models/utils';
 import { OnViewWillEnter } from '../models/ionic';
 import { HttpErrorResponse } from '@angular/common/http';

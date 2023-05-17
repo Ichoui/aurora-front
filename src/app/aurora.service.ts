@@ -5,7 +5,7 @@ import { environment } from '../environments/environment';
 import { ExcludeType, MeasureUnits, Weather } from './models/weather';
 import { Pole } from './shared/modal/modal.component';
 import { Geocoding } from './models/geocoding';
-import { SwpcData} from './models/aurorav3';
+import { SwpcData } from './models/aurorav3';
 import { ELocales } from './models/locales';
 import { deleteFalsy } from './models/utils';
 
