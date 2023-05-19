@@ -41,7 +41,7 @@ platforms:
                 ndk:
                   debugSymbolLevel:
         replace:
-          debugSymbolLevel: "'SYMBOL_TABLE'"
+          debugSymbolLevel: "'FULL'"
       - file: variables.gradle
         target:
           ext:
