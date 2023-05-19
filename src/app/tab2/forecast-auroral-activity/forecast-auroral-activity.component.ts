@@ -134,7 +134,7 @@ export class ForecastAuroralActivityComponent implements OnChanges {
       animate: true,
     };
 
-    this._map.setView([lat, long], 4, mapOpt);
+    this._map.setView([lat, long], 3, mapOpt);
     this._addMarker(lat, long);
 
     this._map.dragging.disable();

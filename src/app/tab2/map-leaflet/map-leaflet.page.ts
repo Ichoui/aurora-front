@@ -27,6 +27,7 @@ export class MapLeafletPage implements OnInit, OnDestroy {
   readonly cities = cities;
   private _locale: ELocales;
   localisation: string;
+  loadingNewLocation = false;
 
   constructor(
     private _cdr: ChangeDetectorRef,
@@ -78,6 +79,7 @@ export class MapLeafletPage implements OnInit, OnDestroy {
    * Met également la valeur en storage pour traitement tab2
    * */
   selectNewLocation(choice?: any, position?: LatLng): void {
+    this.loadingNewLocation = true;
     if (choice) {
       this.localisation = choice.detail.value;
       const city = cities.find(res => res.code === choice.detail.value);
@@ -112,7 +114,7 @@ export class MapLeafletPage implements OnInit, OnDestroy {
     };
 
     this._map = new Map('map_canvas_select') //
-      .setView([lat, long], 3, mapOpt) //
+      .setView([lat, long], 2, mapOpt) //
       .setMaxBounds([
         [-90, -180],
         [90, 180],
@@ -204,6 +206,7 @@ export class MapLeafletPage implements OnInit, OnDestroy {
    * Set en localStorage les coords
    * */
   buttonMyPosition(): void {
+    this.loadingNewLocation = true;
     this._geoloc
       .getCurrentPosition()
       .then((resp: Geoposition) => {
@@ -285,6 +288,8 @@ export class MapLeafletPage implements OnInit, OnDestroy {
     this._popup.setLatLng({ lat, lng }).setContent(message).addTo(this._map).openOn(this._map);
     void this._storageService.setData('nowcastAurora', nowcast);
     document.querySelector('.leaflet-popup-close-button').removeAttribute('href'); // href on marker tooltip reload page if not this line...
+    this.loadingNewLocation = false;
+    this._cdr.markForCheck();
   }
 }
 

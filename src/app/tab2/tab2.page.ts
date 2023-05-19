@@ -219,7 +219,6 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
             this.solarWind = this._getSolarWind(value.forecastSolarWind) as SolarWind[];
             this.kpForecast = this._getKpForecast(value.forecastKp);
             this.kpForecast27days = this._getKpForecast27day(value.forecastTwentySevenDays);
-            console.log('ef');
             // End loading
             this.loading = false;
             this._eventRefresh?.target?.complete();

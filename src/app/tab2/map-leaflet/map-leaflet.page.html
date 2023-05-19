@@ -15,18 +15,23 @@
 <ion-item>
   <ion-label>{{ 'tab2.forecast.select' | translate }}</ion-label>
   <ion-select
-    [value]=" localisation"
     interface="action-sheet"
     aria-label="cities select"
-    (ionChange)="selectNewLocation($event)"
+    [value]="localisation"
     [cancelText]="'global.cancel' | translate"
+    (ionChange)="selectNewLocation($event)"
   >
     <ion-select-option *ngFor="let city of cities" [value]="city.code">{{ city.ville }} - {{ city.codePays }}</ion-select-option>
   </ion-select>
 </ion-item>
 
 <div class="map-container">
-  <button type="button" (click)="buttonMyPosition()"><span class="icon icon-map-target"></span></button>
+  <div *ngIf="loadingNewLocation" class="content-spinner">
+    <div class="whirly-loader"></div>
+  </div>
+  <button type="button" class="my-position" (click)="buttonMyPosition()" [disabled]="loadingNewLocation">
+    <span class="icon icon-map-target"></span>
+  </button>
   <div id="map_canvas_select"></div>
   <div class="legende">
     <span>25%</span>
