@@ -18,7 +18,7 @@ Mobile App (IONIC - Capacitor Angular 14).
 This project is available only on Android devices
 <br>
 1st Release date : mi-december 2019.
-2nd release, after 2 years of no maintenability (CORS problems, weather problems, Android compilation problems, no time...)
+2nd release, after 2 years of no maintenability (CORS problems, weather problems, Android compilation problems, love, no time...)
 
 ### Credits
 
