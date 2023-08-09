@@ -10,7 +10,7 @@ export const environment = {
     'Content-Type': 'application/json',
     Aurora: 'true',
   },
-  host: 'https://us-central1-aurora-proxy-be7c0.cloudfunctions.net/aurora/',
+  host: 'https://aurora-p5yvpp3fuq-uc.a.run.app/aurora/',
   openweatherapi: {
     geocode: 'geocode',
     weather: 'weather',
