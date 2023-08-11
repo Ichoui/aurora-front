@@ -1,6 +1,7 @@
 {
   "name": "aurora-v2",
   "version": "2.0.0",
+  "licence":"GPL-3.0-only",
   "author": "Morgan N aka Ichoui",
   "description": "Aurorapp Northern Lights, available on the Play Store only, for Northern Lights Chasers",
   "scripts": {
