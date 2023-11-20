@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { ELocales, Locales, SelectContents } from '../../models/locales';
-import { Router } from '@angular/router';
-import { ModalController, NavController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { ModalComponent } from '../../shared/modal/modal.component';
 import { MeasureUnits, measureUnits, temperatureUnits, TemperatureUnits } from '../../models/weather';
@@ -51,13 +50,7 @@ export class SettingsPage implements OnViewWillEnter {
     },
   ];
 
-  constructor(
-    private _storageService: StorageService,
-    private _router: Router,
-    private _navController: NavController,
-    private _modalController: ModalController,
-    private _translateService: TranslateService,
-  ) {}
+  constructor(private _storageService: StorageService, private _modalController: ModalController, private _translateService: TranslateService) {}
 
   /**
    * Invoqué à chaque retour sur la page
@@ -124,6 +117,11 @@ export class SettingsPage implements OnViewWillEnter {
    **/
   openUrl(url: string): void {
     void Browser.open({ url });
+
+    // deeplinks ?
+    // https://www.youtube.com/watch?v=tAQwllZSQD8
+
+    // https://capacitorjs.com/docs/guides/deep-links
   }
 
   // need backend

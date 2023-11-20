@@ -16,7 +16,8 @@ import 'zone.js/dist/zone-error'; // Included with Angular CLI.
 export const environment = {
   production: false,
   // host: 'https://us-central1-aurora-proxy-be7c0.cloudfunctions.net/aurora/',
-  host: 'http://localhost:5000/aurora-proxy-be7c0/us-central1/aurora/',
+  // host: 'http://localhost:5000/aurora-proxy-be7c0/us-central1/aurora/aurora/',
+  host: 'http://127.0.0.1:5001/aurora-proxy-be7c0/us-central1/aurora/aurora/',
   apikey: OPENWHEATHER_API_KEY,
   application_name: 'Aurorapp - Northern Lights',
   auroraHeaders: {
