@@ -113,8 +113,9 @@
       "temperature": "Température",
       "subtemperature": "Choisis ton unité de température",
       "infos": "Aurores boréales",
-      "subinfos": "Explications techniques, mécanismes et annecdotes",
-      "infos.text": "En savoir plus",
+      "subinfos": "Explications techniques, aide et plus",
+      "infos.text": "En apprendre plus",
+      "infos.helpcenter": "Centre d'aide",
       "measure": "Unité de mesure",
       "submeasure": "Choisis ton unité de mesure",
       "metric": "Métrique",
@@ -227,7 +228,7 @@
           "message": "Le cycle solaire se base sur le nombre de tâches solaires présentes à la surface du Soleil. Les tâches sont des zones plus sombres et plus froide que le reste de la surface de l'étoile, et sont la base des éruptions et tempêtes solaires qui convergent ensuite vers la Terre. Le maximum du cycle est atteint en moyenne tous les 11.2 ans.<br>Ce constat a été réalisé grâce à Galillée au XVIIe siècle, qui a été un pionnier dans l'observation des tâches solaires. Nous avons donc des données sur les cycles solaires qui remontent principalement au XVIIIe siècle, ce qui permet aux scientifiques de déduire les pics haut et bas de ce cycle.<br>On peut également mesurer l'activité solaire grâce au Flux Solaire à 10.7cm, un indice beaucoup plus précis, qui fonctionne à l'aide d'un système radar fonctionnant à une fréquence de 2800MHz, soit une longueur d'onde de 10.7cm. "
         }
       },
-      "thirdblock": {
+      "helpcenter": {
         "header": "Centre d'aide",
         "help": {
           "title": "Comment marche Aurorapp - Northern Lights ?",
@@ -237,6 +238,17 @@
           "title": "Suggestions / problèmes",
           "message": "Si vous avez des suggestions, ou rencontrez des problèmes, n'hésitez pas à me contacter sur mon mail, je ferai de mon mieux pour vous répondre. En effet, je suis un développeur indépendant, et je suis seul à m'occuper de cette application.<br><a href='mailto:morganichoui@gmail.com'>morganichoui@gmail.com</a>"
         }
+      }
+    },
+    "helpcenter": {
+      "header": "Centre d'aide",
+      "help": {
+        "title": "Comment marche Aurorapp - Northern Lights ?",
+        "message": "C'est très simple ! <ol><li>Premièrement, il faut comprendre comment fonctione les aurores boréales. Tu peux t'aider de ma documentation, ou d'internet</li><li>Ensuite, choisis ta localisation, sinon tu seras géolocalisé si tu me l'autorises.</li><li>Tu n'auras plus qu'à consulter l'activité solaire et la couverture nuageuse. Rappel, ces données fournissent des indicateurs pour chasser les aurores boréale. Elles ne t'assureront pas d'en voir à 100% ☺</li></ol>"
+      },
+      "suggest": {
+        "title": "Suggestions / problèmes",
+        "message": "Si vous avez des suggestions, ou rencontrez des problèmes, n'hésitez pas à me contacter sur mon mail, je ferai de mon mieux pour vous répondre. En effet, je suis un développeur indépendant, et je suis seul à m'occuper de cette application.<br><a href='mailto:morganichoui@gmail.com'>morganichoui@gmail.com</a>"
       }
     }
   },

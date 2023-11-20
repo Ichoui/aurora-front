@@ -111,8 +111,9 @@
       "temperature": "Temperature",
       "subtemperature": "Pick your favorite unit",
       "infos": "Northern Lights",
-      "subinfos": "Technical explanations and anecdotes",
-      "infos.text": "Want to know more...",
+      "subinfos": "Technical details, help and more",
+      "infos.text": "Learn about",
+      "infos.helpcenter": "Help center",
       "measure": "Measurement unit",
       "submeasure": "Pick your favorite unit",
       "metric": "Metric",
@@ -225,7 +226,7 @@
           "message": "The solar cycle is based on the number of sunspots present on the surface of the Sun. Sunspots are areas that are darker and cooler than the rest of the star's surface, and are the basis of solar flares and storms that then converge on Earth. The maximum of the cycle is reached on average every 11.2 years.<br>This was realized thanks to Galileo in the 17th century, who was a pioneer in the observation of sunspots. So we have data on solar cycles that go back mainly to the eighteenth century, which allows scientists to deduce the high and low peaks of this cycle.<br>Solar activity can also be measured with the 10.7cm Solar Flux, a much more accurate index, which works with a radar system operating at a frequency of 2800MHz, a wavelength of 10.7cm."
         }
       },
-      "thirdblock": {
+      "helpcenter": {
         "header": "Help center",
         "help": {
           "title": "How does the app Aurorapp - Northern Lights work?",

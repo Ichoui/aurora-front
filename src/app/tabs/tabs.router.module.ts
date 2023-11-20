@@ -44,6 +44,16 @@ const routes: Routes = [
           {
             path: 'infos',
             loadChildren: () => import('../tab3/informations/informations.module').then(m => m.InformationsPageModule),
+            data: {
+              infos: true,
+            },
+          },
+          {
+            path: 'helpcenter',
+            loadChildren: () => import('../tab3/informations/informations.module').then(m => m.InformationsPageModule),
+            data: {
+              helpcenter: true,
+            },
           },
         ],
       },

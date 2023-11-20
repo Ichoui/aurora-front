@@ -4,48 +4,47 @@
   <div [routerLink]="['','tabs','tab3']" class="back">
     <span class="icon icon-back1"></span>
   </div>
-  <ion-card class="welcome-card" (click)="visibility($event, 0, true)">
-    <ion-card-header>{{'tab3.infos.welcome.title' | translate }}</ion-card-header>
-    <ion-card-content style="display: block; text-align: justify" [innerHtml]="'tab3.infos.welcome.message' | translate"></ion-card-content>
-  </ion-card>
-  <ion-card class="card-container">
-    <ion-card-header class="header"><span>{{ 'tab3.infos.firstblock.header' | translate }}</span></ion-card-header>
-    <app-card (click)="visibility($event, 1)" [block]="'firstblock'" [value]="'perception'"></app-card>
-    <app-card (click)="visibility($event, 2)" [block]="'firstblock'" [value]="'how'"></app-card>
-    <app-card (click)="visibility($event, 3)" [block]="'firstblock'" [value]="'forecast'"></app-card>
-    <app-card (click)="visibility($event, 4)" [block]="'firstblock'" [value]="'capricious'"></app-card>
-    <app-card (click)="visibility($event, 5)" [block]="'firstblock'" [value]="'colors'"></app-card>
-    <app-card (click)="visibility($event, 6)" [block]="'firstblock'" [value]="'where'"></app-card>
-    <app-card (click)="visibility($event, 7)" [block]="'firstblock'" [value]="'corona'"></app-card>
-    <app-card (click)="visibility($event, 8)" [block]="'firstblock'" [value]="'steve'"></app-card>
-    <app-card
-      (click)="visibility($event, 9)"
-      [block]="'firstblock'"
-      [value]="'legends'"
-      [classList]="'countries'"
-      [list]="['alaska','canada','sami','finlande','france']"
-      [extra]="'conclusion'"
-    ></app-card>
-    <app-card
-      (click)="visibility($event, 10)"
-      [block]="'firstblock'"
-      [value]="'annecdotes'"
-      [classList]="'annecdotes'"
-      [annecdotes]="['une','deux','trois','quatre','cinq', 'six']"
-    ></app-card>
-  </ion-card>
+  <ng-container *ngIf="routeData.infos">
+    <ion-card class="welcome-card" (click)="visibility( 0)">
+      <ion-card-header>{{'tab3.infos.welcome.title' | translate }}</ion-card-header>
+      <ion-card-content
+        *ngIf="tabOpen.includes(0)"
+        style="display: block; text-align: justify"
+        ²
+        [innerHtml]="'tab3.infos.welcome.message' | translate"
+      ></ion-card-content>
+    </ion-card>
+    <ion-card class="card-container">
+      <ion-card-header class="header"><span>{{ 'tab3.infos.firstblock.header' | translate }}</span></ion-card-header>
 
-  <ion-card class="card-container">
-    <ion-card-header class="header"><span>{{ 'tab3.infos.secondblock.header' | translate }}</span></ion-card-header>
-    <app-card (click)="visibility($event, 11)" [block]="'secondblock'" [value]="'kp'"></app-card>
-    <app-card (click)="visibility($event, 12)" [block]="'secondblock'" [value]="'solarWind'"></app-card>
-    <app-card (click)="visibility($event, 13)" [block]="'secondblock'" [value]="'cmi'"></app-card>
-    <app-card (click)="visibility($event, 14)" [block]="'secondblock'" [value]="'solarCycle'"></app-card>
-  </ion-card>
+      <ng-container *ngFor="let card of firstblockCard">
+        <app-card
+          (click)="visibility(card.id)"
+          [visibility]="{index: card.id, tabOpen}"
+          [block]="card.block"
+          [value]="card.value"
+          [classList]="card?.classList"
+          [list]="card?.list"
+          [extra]="card?.extra"
+          [annecdotes]="card?.annecdotes"
+        ></app-card>
+      </ng-container>
+    </ion-card>
 
-  <ion-card class="card-container">
-    <ion-card-header class="header"><span>{{ 'tab3.infos.thirdblock.header' | translate }}</span></ion-card-header>
-    <app-card (click)="visibility($event, 15)" [block]="'thirdblock'" [value]="'help'"></app-card>
-    <app-card (click)="visibility($event, 16)" [block]="'thirdblock'" [value]="'suggest'"></app-card>
-  </ion-card>
+    <ion-card class="card-container">
+      <ion-card-header class="header"><span>{{ 'tab3.infos.secondblock.header' | translate }}</span></ion-card-header>
+      <ng-container *ngFor="let card of secondblockCard">
+        <app-card (click)="visibility(card.id)" [visibility]="{index: card.id, tabOpen}" [block]="card.block" [value]="card.value"></app-card>
+      </ng-container>
+    </ion-card>
+  </ng-container>
+
+  <ng-container *ngIf="routeData.helpcenter">
+    <ion-card class="card-container">
+      <ion-card-header class="header"><span>{{ 'tab3.infos.helpcenter.header' | translate }}</span></ion-card-header>
+      <ng-container *ngFor="let card of helpcenterCard">
+        <app-card (click)="visibility(card.id)" [visibility]="{index: card.id, tabOpen}" [block]="card.block" [value]="card.value"></app-card>
+      </ng-container>
+    </ion-card>
+  </ng-container>
 </ion-content>

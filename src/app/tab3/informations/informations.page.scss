@@ -23,19 +23,6 @@ ion-card {
   }
 
   &.welcome-card {
-    &:before {
-      content: ' ';
-      background-image: url('/assets/img/artwork-auroras.jpg');
-      background-size: cover;
-      background-position: 25% 50%;
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      left: 0;
-      opacity: 0.5;
-      top: 0;
-    }
-
     ion-card-header {
       color: var(--ion-color-primary) !important;
       font-size: 1.2em;
@@ -43,17 +30,17 @@ ion-card {
       background-color: transparent;
     }
 
-    ion-card-content {
-      display: none;
-    }
+    //ion-card-content {
+    //  display: none;
+    //}
   }
 
   ion-card-content {
     color: var(--ion-color-light);
 
-    &:not(.dont-touch) {
-      display: none;
-    }
+    //&:not(.dont-touch) {
+    //  display: none;
+    //}
 
     .countries span {
       padding: 3px 0;
