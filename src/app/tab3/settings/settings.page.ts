@@ -8,16 +8,19 @@ import { StorageService } from '../../storage.service';
 import { Browser } from '@capacitor/browser';
 import { OnViewWillEnter } from '../../models/ionic';
 
+interface About {
+  label: string;
+  labelLink: string;
+  url: string;
+  bis?: About;
+}
+
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.page.html',
   styleUrls: ['./settings.page.scss'],
 })
 export class SettingsPage implements OnViewWillEnter {
-  kpindex = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-  notifications = false;
-  notifKp;
-
   locale = ELocales.FR;
   readonly locales: SelectContents[] = Locales;
 
@@ -27,7 +30,7 @@ export class SettingsPage implements OnViewWillEnter {
   temperatureUnits = TemperatureUnits.CELSIUS;
   readonly temperature: SelectContents[] = temperatureUnits;
 
-  readonly credits = [
+  readonly about: About[] = [
     {
       label: 'first',
       labelLink: 'first.link',

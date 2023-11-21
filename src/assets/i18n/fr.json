@@ -90,34 +90,32 @@
     }
   },
   "tab3": {
-    "settings": {
-      "title": "Paramètres",
+    "more": {
+      "title": "Plus",
       "notifications": "Notifications",
       "kp": "KP Index",
       "current.position": "Position actuelle",
-      "credits": {
-        "title": "Crédits",
+      "about": {
+        "title": "À propos",
         "first": "Prévisions aurorales fournies par la ",
         "first.link": "NOAA's SWPC",
         "second": "Données météo par ",
         "second.link": "OpenWeather",
-        "third": "Si t'aimes, laisse-moi une ",
+        "third": "Tu aimes Aurorapp ? Laisse-moi une ",
         "third.link": "note",
         "third.bis": " ou paye-moi ",
         "third.bis.link": "un café !"
       },
-      "subcredits": "",
       "cgu": "Conditions Générales d'Utilisation",
+      "settings": "Paramètres",
+      "subsettings": "Tes paramètres personnalisés",
       "languages": "Langue",
-      "sublanguages": "Choisis ta langue préférée",
       "temperature": "Température",
-      "subtemperature": "Choisis ton unité de température",
+      "measure": "Mesure",
       "infos": "Aurores boréales",
       "subinfos": "Explications techniques, aide et plus",
       "infos.text": "En apprendre plus",
       "infos.helpcenter": "Centre d'aide",
-      "measure": "Unité de mesure",
-      "submeasure": "Choisis ton unité de mesure",
       "metric": "Métrique",
       "imperial": "Impérial",
       "celsius": "Celsius",

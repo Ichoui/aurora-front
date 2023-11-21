@@ -158,25 +158,25 @@ export enum TemperatureUnits {
 export const measureUnits: SelectContents[] = [
   {
     slug: 'metric',
-    label: 'tab3.settings.metric',
+    label: 'tab3.more.metric',
   },
   {
     slug: 'imperial',
-    label: 'tab3.settings.imperial',
+    label: 'tab3.more.imperial',
   },
 ];
 
 export const temperatureUnits: SelectContents[] = [
   {
     slug: 'celsius',
-    label: 'tab3.settings.celsius',
+    label: 'tab3.more.celsius',
   },
   {
     slug: 'fahrenheit',
-    label: 'tab3.settings.fahrenheit',
+    label: 'tab3.more.fahrenheit',
   },
   {
     slug: 'kelvin',
-    label: 'tab3.settings.kelvin',
+    label: 'tab3.more.kelvin',
   },
 ];

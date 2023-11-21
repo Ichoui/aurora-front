@@ -1,105 +1,85 @@
-<app-header titre="{{ 'tab3.settings.title' | translate }}"></app-header>
+<app-header titre="{{ 'tab3.more.title' | translate }}"></app-header>
 
 <ion-content>
   <div class="card-container">
     <div class="header">
-      <span>{{ 'tab3.settings.infos' | translate }}</span>
+      <span>{{ 'tab3.more.infos' | translate }}</span>
     </div>
-    <div class="sub">{{ 'tab3.settings.subinfos' | translate }}</div>
+    <div class="sub">{{ 'tab3.more.subinfos' | translate }}</div>
     <ion-item [routerLink]="['..', 'infos']">
-      <span>{{ 'tab3.settings.infos.text' | translate }}</span>
+      <span>{{ 'tab3.more.infos.text' | translate }}</span>
     </ion-item>
     <ion-item [routerLink]="['..', 'helpcenter']">
-      <span>{{ 'tab3.settings.infos.helpcenter' | translate }}</span>
-    </ion-item>
-  </div>
-
-  <!--    <ion-card>z
-          <ion-card-content>
-              <ion-item>
-                  <ion-label>{{ 'tab3.settings.notifications' | translate }}</ion-label>
-                  <ion-toggle color="primary" (ionChange)="activeNotif($event)" [checked]="notifications"></ion-toggle>
-              </ion-item>
-              <ion-item *ngIf="notifications">
-                  <ion-label>{{ 'tab3.settings.kp' | translate }}</ion-label>
-                  <ion-select value="{{ notifKp }}" interface="action-sheet" (ionChange)="selectedKp($event)">
-                      <ion-select-option *ngFor="let kp of kpindex" value="{{ kp }}">{{ kp }}</ion-select-option>
-                  </ion-select>
-              </ion-item>
-          </ion-card-content>
-      </ion-card>-->
-  <!--    <ion-img src="/assets/img/aurora-tab3.jpg"></ion-img>-->
-
-  <div class="card-container">
-    <div class="header">
-      <span>{{ 'tab3.settings.languages' | translate }}</span>
-    </div>
-    <div class="sub">{{ 'tab3.settings.sublanguages' | translate }}</div>
-    <ion-item>
-      <ion-select
-        [value]="locale"
-        aria-label="locale choice"
-        interface="action-sheet"
-        (ionChange)="setLocale($event)"
-        [cancelText]="'global.cancel' | translate"
-      >
-        <ion-select-option *ngFor="let locale of locales" value="{{ locale.slug }}">{{ locale.label | translate }}</ion-select-option>
-      </ion-select>
+      <span>{{ 'tab3.more.infos.helpcenter' | translate }}</span>
     </ion-item>
   </div>
 
   <div class="card-container">
     <div class="header">
-      <span>{{ 'tab3.settings.measure' | translate }}</span>
+      <span>{{ 'tab3.more.settings' | translate }}</span>
     </div>
-    <div class="sub">{{ 'tab3.settings.submeasure' | translate }}</div>
-    <ion-item>
-      <ion-select
-        [value]="measureUnits"
-        aria-label="unit of measure choice"
-        interface="action-sheet"
-        (ionChange)="setMeasureUnit($event)"
-        [cancelText]="'global.cancel' | translate"
-      >
-        <ion-select-option *ngFor="let u of measure" [value]="u.slug">
-          <span>{{ u.label | translate }}</span>
-        </ion-select-option>
-      </ion-select>
-    </ion-item>
+    <div class="sub">{{ 'tab3.more.subsettings' | translate }}</div>
+    <div class="setting-line">
+      <p>{{ 'tab3.more.languages' | translate }}</p>
+      <ion-item>
+        <ion-select
+          [value]="locale"
+          aria-label="locale choice"
+          interface="action-sheet"
+          (ionChange)="setLocale($event)"
+          [cancelText]="'global.cancel' | translate"
+        >
+          <ion-select-option *ngFor="let locale of locales" value="{{ locale.slug }}">{{ locale.label | translate }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </div>
+
+    <div class="setting-line">
+      <p>{{ 'tab3.more.measure' | translate }}</p>
+      <ion-item>
+        <ion-select
+          [value]="measureUnits"
+          aria-label="unit of measure choice"
+          interface="action-sheet"
+          (ionChange)="setMeasureUnit($event)"
+          [cancelText]="'global.cancel' | translate"
+        >
+          <ion-select-option *ngFor="let u of measure" [value]="u.slug">
+            <span>{{ u.label | translate }}</span>
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </div>
+    <div class="setting-line">
+      <p>{{ 'tab3.more.temperature' | translate }}</p>
+      <ion-item>
+        <ion-select
+          [value]="temperatureUnits"
+          interface="action-sheet"
+          aria-label="temperature unit choice"
+          (ionChange)="setTemperatureUnit($event)"
+          [cancelText]="'global.cancel' | translate"
+        >
+          <ion-select-option *ngFor="let u of temperature" [value]="u.slug">
+            <span>{{ u.label | translate }}</span>
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </div>
   </div>
 
-  <div class="card-container">
-    <div class="header">
-      <span>{{ 'tab3.settings.temperature' | translate }}</span>
-    </div>
-    <div class="sub">{{ 'tab3.settings.subtemperature' | translate }}</div>
-    <ion-item>
-      <ion-select
-        [value]="temperatureUnits"
-        interface="action-sheet"
-        aria-label="temperature unit choice"
-        (ionChange)="setTemperatureUnit($event)"
-        [cancelText]="'global.cancel' | translate"
-      >
-        <ion-select-option *ngFor="let u of temperature" [value]="u.slug">
-          <span>{{ u.label | translate }}</span>
-        </ion-select-option>
-      </ion-select>
-    </ion-item>
-  </div>
-
-  <div class="card-container credits">
-    <div class="header credits"><span>{{ 'tab3.settings.credits.title' | translate }}</span></div>
-    <span *ngFor="let c of credits">
-      {{ 'tab3.settings.credits.' + c.label | translate }}
-      <a href="#" (click)="openUrl(c.url)">{{ 'tab3.settings.credits.' + c.labelLink | translate }}</a>
-      <ng-container *ngIf="c?.bis">
-        {{ 'tab3.settings.credits.' + c.bis.label | translate }}
-        <a href="#" (click)="openUrl(c.bis.url)">{{ 'tab3.settings.credits.' + c.bis.labelLink | translate }}</a>
+  <div class="card-container about">
+    <div class="header about"><span>{{ 'tab3.more.about.title' | translate }}</span></div>
+    <span *ngFor="let a of about">
+      {{ 'tab3.more.about.' + a.label | translate }}
+      <a href="#" (click)="openUrl(a.url)">{{ 'tab3.more.about.' + a.labelLink | translate }}</a>
+      <ng-container *ngIf="a?.bis">
+        {{ 'tab3.more.about.' + a.bis.label | translate }}
+        <a href="#" (click)="openUrl(a.bis.url)">{{ 'tab3.more.about.' + a.bis.labelLink | translate }}</a>
       </ng-container>
     </span>
     <span>
-      <ion-button class="legal" color="primary" size="small" (click)="CGU()">{{ 'tab3.settings.cgu' | translate }}</ion-button>
+      <ion-button class="legal" color="primary" size="small" (click)="CGU()">{{ 'tab3.more.cgu' | translate }}</ion-button>
     </span>
   </div>
 </ion-content>

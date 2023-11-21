@@ -5,7 +5,7 @@
 }
 
 .card-container {
-  &.credits {
+  &.about {
     color: white;
     background-image: url('/assets/img/banner.png');
     background-size: cover;
@@ -35,5 +35,18 @@
   ion-img {
     border: 2px solid var(--ion-color-primary);
     width: auto;
+  }
+
+  .setting-line {
+    display: flex;
+    align-items: center;
+    p {
+      width: 50%;
+      padding-left: 16px;
+      font-size: 16px;
+    }
+    ion-item {
+      width: 50%;
+    }
   }
 }

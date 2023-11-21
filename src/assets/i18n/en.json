@@ -89,13 +89,13 @@
     }
   },
   "tab3": {
-    "settings": {
-      "title": "Settings",
+    "more": {
+      "title": "More",
       "notifications": "Notifications",
       "kp": "KP Index",
       "current.position": "Current location",
-      "credits": {
-        "title": "Credits",
+      "about": {
+        "title": "About",
         "first": "Northern Lights forecast powered by ",
         "first.link": "NOAA",
         "second": "Weather data powered by  ",
@@ -106,16 +106,15 @@
         "third.bis.link": "coffee !"
       },
       "cgu": "Terms of Use",
+      "settings": "Settings",
+      "subsettings": "Pick your favorite units",
       "languages": "Language",
-      "sublanguages": "Pick your favorite language",
       "temperature": "Temperature",
-      "subtemperature": "Pick your favorite unit",
+      "measure": "Measurement",
       "infos": "Northern Lights",
       "subinfos": "Technical details, help and more",
       "infos.text": "Learn about",
       "infos.helpcenter": "Help center",
-      "measure": "Measurement unit",
-      "submeasure": "Pick your favorite unit",
       "metric": "Metric",
       "imperial": "Imperial",
       "celsius": "Celsius",
@@ -255,7 +254,7 @@
     },
     "art4": {
       "title": "Article 4: Intellectual Property",
-      "text": "Logos and graphic design are protected by the Intellectual Property Code, and more particularly by copyright. The user is requested to contact the developer before reusing them. <The credits are available in the tab &laquo; Settings &raquo; for any information related to this subject. Anything not from the credits belongs to the developer."
+      "text": "Logos and graphic design are protected by the Intellectual Property Code, and more particularly by copyright. The user is requested to contact the developer before reusing them. <Cedits are available in the tab &laquo; Settings &raquo; for any information related to this subject. Anything not from the credits belongs to the developer."
     },
     "art5": {
       "title": "Article 5: Warranty and Liability",

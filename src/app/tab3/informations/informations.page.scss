@@ -29,18 +29,10 @@ ion-card {
       text-align: center;
       background-color: transparent;
     }
-
-    //ion-card-content {
-    //  display: none;
-    //}
   }
 
   ion-card-content {
     color: var(--ion-color-light);
-
-    //&:not(.dont-touch) {
-    //  display: none;
-    //}
 
     .countries span {
       padding: 3px 0;
