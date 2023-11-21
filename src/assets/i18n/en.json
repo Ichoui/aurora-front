@@ -70,7 +70,7 @@
       "cycle.ssn": "Sunspots",
       "cycle.sfu": "Solar flux",
       "aurora-map": "Auroral map",
-      "sub-aurora-map": "Tap to watch live Auroral oval and set your location",
+      "sub-aurora-map": "Location and Auroral Oval by touching",
       "title": "Auroral map",
       "select": "Pre-selected locations",
       "another": "Try another location",
@@ -84,7 +84,7 @@
         "wind-bz": "Interplanetary Magnetic Field<br>A negative BZ makes it easier to observe Northern Lights and let the solar wind enters earth's magnetosphere. Conversely, a positive BZ will block solar wind out of the magnetosphere.<br>Values between -15 and 15.",
         "wind-bt": "Interplanetary Magnetic Field<br>The higher the BT value is, the more powerful the Northern Lights are.",
         "solar-cycle": "A solar cycle lasts 11 years on average. The following values may change.<br><u>Sunspots:</u> The more sunspots they are, the more important the activity solar will be.<br><u>Solar Flux:</u> Solar radio flux at 10.7 cm (2800 MHz) is an excellent indicator of solar activity.",
-        "poles": "History of the aurora oval, and prediction for the next hour."
+        "poles": "History of the auroral oval, and prediction for the next hour."
       }
     }
   },
