@@ -59,7 +59,7 @@
     <ng-container *ngTemplateOutlet="loading ? isLoadingChart : null; context: { height: true }"></ng-container>
     <div *ngIf="!loading" class="previsions">
       <div class="next-days" *ngFor="let day of days; let i = index">
-        <span class="day">{{ day.date }}</span>
+        <span class="day" [innerHTML]="splitDate(day.date)"></span>
         <div class="rain">
           <span class="icon icon-drop"></span>
           <div class="percent">{{ day.pop ? (day.pop | percent: '1.0-0') : '0%' }}</div>

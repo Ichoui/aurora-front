@@ -99,6 +99,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: center;
 
     .day {
       font-family: var(--ion-font-semibold);
@@ -108,8 +109,6 @@
   }
 
   span.icon {
-    //font-size: 3em; // icomoons
-    //filter: grayscale(25%);
     width: 120%;
   }
 

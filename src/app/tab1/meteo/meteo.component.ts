@@ -190,7 +190,7 @@ export class MeteoComponent implements OnChanges {
       } else {
         this.days.push({
           ...day,
-          date: manageDates(day.dt, 'ddd', this.locale, true),
+          date: manageDates(day.dt, 'ddd DD', this.locale, true),
           temp: {
             ...day.temp,
             max: convertUnitTemperature(day.temp.max, this.temperature),
@@ -301,7 +301,7 @@ export class MeteoComponent implements OnChanges {
     }
   }
 
-  calculateUV(indexUv): string {
+  calculateUV(indexUv: number): string {
     if (indexUv >= 0 && indexUv < 3) {
       return this.locale === ELocales.FR ? 'Faible' : 'Low';
     } else if (indexUv >= 3 && indexUv < 6) {
@@ -329,5 +329,16 @@ export class MeteoComponent implements OnChanges {
       autoplay: true,
       loop: true,
     };
+  }
+
+  splitDate(date: string | moment.Moment): string {
+    let splittedDate: string[];
+    // On rentre 100% du temps dans cette condition
+    if (typeof date === 'string') {
+      splittedDate = date.split(' ');
+      const weekDay = splittedDate[0];
+      const dayDate = splittedDate[1];
+      return weekDay + '<br>' + dayDate;
+    }
   }
 }

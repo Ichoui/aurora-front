@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { NavController, Platform } from '@ionic/angular';
 import { AuroraService } from '../aurora.service';
 import { cities, CodeLocation, Coords } from '../models/cities';
 import { Currently, Daily, Hourly, MeasureUnits, TemperatureUnits, Weather } from '../models/weather';
@@ -45,8 +44,6 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
   constructor(
     private _geoloc: Geolocation,
     private _storageService: StorageService,
-    private _navCtrl: NavController,
-    private _platform: Platform,
     private _auroraService: AuroraService,
     private _translate: TranslateService,
     private _cdr: ChangeDetectorRef,
