@@ -1,7 +1,7 @@
 {
   "name": "aurora-v2",
   "version": "2.0.0",
-  "licence":"GPL-3.0-only",
+  "licence": "GPL-3.0-only",
   "author": "Morgan N aka Ichoui",
   "description": "Aurorapp Northern Lights, available on the Play Store only, for Northern Lights Chasers",
   "scripts": {
@@ -39,10 +39,6 @@
     "@capacitor/keyboard": "^5.0.0",
     "@capacitor/splash-screen": "^5.0.0",
     "@capacitor/status-bar": "^5.0.0",
-    "@ionic-native/core": "^5.36.0",
-    "@ionic-native/geolocation": "^5.36.0",
-    "@ionic-native/splash-screen": "^5.36.0",
-    "@ionic-native/status-bar": "^5.36.0",
     "@ionic/angular": "7.0.3",
     "@ionic/core": "^7.0.3",
     "@ionic/storage": "^3.0.6",
@@ -55,6 +51,7 @@
     "@types/leaflet": "^1.7.4",
     "chart.js": "^4.2.1",
     "chartjs": "0.3.24",
+    "chartjs-plugin-annotation": "^3.0.1",
     "chartjs-plugin-datalabels": "^2.2.0",
     "cordova-sqlite-storage": "^6.0.0",
     "geojson-vt": "^3.2.1",

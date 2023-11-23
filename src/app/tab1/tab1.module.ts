@@ -7,7 +7,6 @@ import { Tab1Page } from './tab1.page';
 import { HeaderPageModule } from '../shared/header/header.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { MeteoModule } from './meteo/meteo.module';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { ToastModule } from '../shared/toast/toast.module';
 
 @NgModule({
@@ -22,6 +21,5 @@ import { ToastModule } from '../shared/toast/toast.module';
     ToastModule,
   ],
   declarations: [Tab1Page],
-  providers: [Geolocation],
 })
 export class Tab1PageModule {}

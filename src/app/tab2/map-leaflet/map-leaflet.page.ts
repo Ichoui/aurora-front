@@ -1,11 +1,9 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Geolocation } from '@capacitor/geolocation';
 import { cities, CodeLocation } from '../../models/cities';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { GeoJSON, Icon, LatLng, LatLngBounds, Map, Marker, PathOptions, Popup, Rectangle, tileLayer, ZoomPanOptions } from 'leaflet';
 import { TranslateService } from '@ngx-translate/core';
 import { StorageService } from '../../storage.service';
-import { Geoposition } from '@ionic-native/geolocation';
 import { first, map, takeUntil, tap } from 'rxjs/operators';
 import { Geocoding } from '../../models/geocoding';
 import { AuroraService } from '../../aurora.service';
@@ -31,9 +29,6 @@ export class MapLeafletPage implements OnInit, OnDestroy {
 
   constructor(
     private _cdr: ChangeDetectorRef,
-    private _route: ActivatedRoute,
-    private _router: Router,
-    private _geoloc: Geolocation,
     private _translate: TranslateService,
     private _storageService: StorageService,
     private _auroraService: AuroraService,
@@ -205,11 +200,10 @@ export class MapLeafletPage implements OnInit, OnDestroy {
    * Géoloc l'utilisateur et place marker sur la map
    * Set en localStorage les coords
    * */
-  buttonMyPosition(): void {
+  async buttonMyPosition(): Promise<void> {
     this.loadingNewLocation = true;
-    this._geoloc
-      .getCurrentPosition()
-      .then((resp: Geoposition) => {
+    await Geolocation.getCurrentPosition()
+      .then((resp: GeolocationPosition) => {
         this._addMarker(resp.coords.latitude, resp.coords.longitude);
         void this._storageService.setData('location', {
           code: 'currentLocation',

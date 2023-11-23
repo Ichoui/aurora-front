@@ -15,13 +15,12 @@ import {
 import { MAIN_TEXT_COLOR, WEATHER_NEXT_HOUR_CHART_COLOR } from '../../models/colors';
 import { CodeLocation, Coords } from '../../models/cities';
 import { StorageService } from '../../storage.service';
-import { Geoposition } from '@ionic-native/geolocation';
 import { icon, LatLng, Map, Marker, marker, tileLayer, ZoomPanOptions } from 'leaflet';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { AuroraEnumColours, Kp27day, KpForecast, SolarCycle, SolarWind, SolarWindTypes } from '../../models/aurorav3';
 import { ELocales } from '../../models/locales';
 import { MeasureUnits } from '../../models/weather';
 import { TranslateService } from '@ngx-translate/core';
+import { Geolocation } from '@capacitor/geolocation';
 
 const numberMax27Forecast = 14;
 const numberMaxNextHours = 12;
@@ -58,7 +57,6 @@ export class ForecastAuroralActivityComponent implements OnChanges {
   constructor(
     private _modalController: ModalController,
     private _storageService: StorageService,
-    private _geoloc: Geolocation,
     private _translateService: TranslateService,
     private _cdr: ChangeDetectorRef,
   ) {}
@@ -104,10 +102,9 @@ export class ForecastAuroralActivityComponent implements OnChanges {
   /**
    * localise l'utilisateur et lance l'affichage de la map
    * */
-  private _userLocalisation(): void {
-    this._geoloc
-      .getCurrentPosition()
-      .then((resp: Geoposition) => {
+  private async _userLocalisation(): Promise<void> {
+    await Geolocation.getCurrentPosition()
+      .then((resp: GeolocationPosition) => {
         this._coords = resp.coords;
         this._mapInit(this._coords.latitude, this._coords.longitude);
         void this._storageService.setData('location', {
@@ -116,9 +113,7 @@ export class ForecastAuroralActivityComponent implements OnChanges {
           long: this._coords.longitude,
         });
       })
-      .catch(error => {
-        console.warn('Error getting location', error);
-      });
+      .catch(error => console.warn('Error getting location', error));
   }
 
   /**
@@ -294,6 +289,7 @@ export class ForecastAuroralActivityComponent implements OnChanges {
     this._chartKpSpeed?.destroy();
     this._chartKpBz?.destroy();
     this._chartKpBt?.destroy();
+    console.log(solarWindDate);
     this._chartKpDensity = ForecastAuroralActivityComponent._chartSolarWind(SolarWindTypes.DENSITY, solarWindDate, densityForecast);
     this._chartKpSpeed = ForecastAuroralActivityComponent._chartSolarWind(SolarWindTypes.SPEED, solarWindDate, speedForecast, this.measure);
     this._chartKpBz = ForecastAuroralActivityComponent._chartSolarWind(SolarWindTypes.BZ, solarWindDate, bzForecast);

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy } from
 import { cities, CodeLocation, Coords } from '../models/cities';
 import { AuroraService } from '../aurora.service';
 import { NavController } from '@ionic/angular';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { Geolocation } from '@capacitor/geolocation';
 import { StorageService } from '../storage.service';
 import { map, takeUntil, tap } from 'rxjs/operators';
 import { combineLatest, from, Subject } from 'rxjs';
@@ -60,7 +60,6 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
   private _eventRefresh: any;
 
   constructor(
-    private _geoloc: Geolocation,
     private _storageService: StorageService,
     private _navCtrl: NavController,
     private _auroraService: AuroraService,
@@ -159,9 +158,8 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
    * Seulement premier accès sur cette page
    * Déterminer la localisation actuelle de l'utilisateur
    */
-  private _userLocalisation() {
-    this._geoloc
-      .getCurrentPosition()
+  private async _userLocalisation(): Promise<void> {
+    await Geolocation.getCurrentPosition()
       .then(resp => this._getExistingLocalisation(resp.coords.latitude, resp.coords.longitude))
       .catch(error => {
         console.warn('Geolocalisation error', error.message);

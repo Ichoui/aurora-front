@@ -6,7 +6,6 @@ import { FormsModule } from '@angular/forms';
 import { Tab2Page } from './tab2.page';
 import { HeaderPageModule } from '../shared/header/header.module';
 import { TranslateModule } from '@ngx-translate/core';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { SwiperModule } from 'swiper/angular';
 import { InstantAuroralActivityModule } from './instant-auroral-activity/instant-auroral-activity.module';
 import { ForecastAuroralActivityModule } from './forecast-auroral-activity/forecast-auroral-activity.module';
@@ -26,6 +25,5 @@ import { ToastModule } from '../shared/toast/toast.module';
     ToastModule,
   ],
   declarations: [Tab2Page],
-  providers: [Geolocation],
 })
 export class Tab2PageModule {}

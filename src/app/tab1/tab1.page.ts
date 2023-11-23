@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { AuroraService } from '../aurora.service';
 import { cities, CodeLocation, Coords } from '../models/cities';
 import { Currently, Daily, Hourly, MeasureUnits, TemperatureUnits, Weather } from '../models/weather';
@@ -14,6 +13,7 @@ import { ELocales } from '../models/locales';
 import * as moment from 'moment';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastError } from '../shared/toast/toast.component';
+import { Geolocation } from '@capacitor/geolocation';
 
 @Component({
   selector: 'app-tab1',
@@ -42,7 +42,6 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
   dataToast: ToastError;
 
   constructor(
-    private _geoloc: Geolocation,
     private _storageService: StorageService,
     private _auroraService: AuroraService,
     private _translate: TranslateService,
@@ -146,9 +145,8 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
    * Seulement premier accès sur cette page
    * Déterminer la localisation actuelle de l'utilisateur
    */
-  private _userLocalisation(): void {
-    this._geoloc
-      .getCurrentPosition()
+  private async _userLocalisation(): Promise<void> {
+    await Geolocation.getCurrentPosition()
       .then(resp => this._reverseGeoloc(resp.coords.latitude, resp.coords.longitude))
       .catch((error: HttpErrorResponse) => {
         console.warn('Geolocalisation error', error.error);
