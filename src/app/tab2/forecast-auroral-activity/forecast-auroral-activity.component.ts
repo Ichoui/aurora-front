@@ -12,7 +12,7 @@ import {
   updateDataChart,
   updateGradientBackgroundChart,
 } from '../../models/utils';
-import { MAIN_TEXT_COLOR, WEATHER_NEXT_HOUR_CHART_COLOR } from '../../models/colors';
+import { MAIN_TEXT_COLOR, SOLARWIND_NOWTIME_BGC_CHART_COLOR, SOLARWIND_NOWTIME_CHART_COLOR } from '../../models/colors';
 import { CodeLocation, Coords } from '../../models/cities';
 import { StorageService } from '../../storage.service';
 import { icon, LatLng, Map, Marker, marker, tileLayer, ZoomPanOptions } from 'leaflet';
@@ -21,10 +21,11 @@ import { ELocales } from '../../models/locales';
 import { MeasureUnits } from '../../models/weather';
 import { TranslateService } from '@ngx-translate/core';
 import { Geolocation } from '@capacitor/geolocation';
+import annotationPlugin from 'chartjs-plugin-annotation';
 
 const numberMax27Forecast = 14;
 const numberMaxNextHours = 12;
-Chart.register(...registerables);
+Chart.register(...registerables, annotationPlugin);
 
 @Component({
   selector: 'app-forecast-auroral-activity',
@@ -52,6 +53,7 @@ export class ForecastAuroralActivityComponent implements OnChanges {
   private _marker: Marker;
   private _coords: Coords = {} as any;
   private _map: Map;
+  private _formattedAnnotationDate: string | moment.Moment;
   @ViewChild('map_canvas', { static: false }) mapElement: ElementRef;
 
   constructor(
@@ -63,6 +65,10 @@ export class ForecastAuroralActivityComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     this.minimapLocation(); // Here to reload map at each change of location
+    if (changes?.locale?.currentValue) {
+      this._formattedAnnotationDate = manageDates(+moment(), changes?.locale.currentValue === ELocales.FR ? 'HH[h]mm' : 'hh:mm A');
+    }
+
     if (changes?.kpForecast?.currentValue !== changes?.kpForecast?.previousValue) {
       const firstChange = changes?.kpForecast?.firstChange;
       this._chartNextHoursForecast(changes.kpForecast.currentValue, firstChange);
@@ -80,6 +86,7 @@ export class ForecastAuroralActivityComponent implements OnChanges {
     if (changes?.solarCycle?.currentValue !== changes?.solarCycle?.previousValue) {
       this._calculateDataForChartSolarCycle(changes.solarCycle.currentValue);
     }
+
     this._cdr.markForCheck();
   }
 
@@ -236,7 +243,7 @@ export class ForecastAuroralActivityComponent implements OnChanges {
           datalabels: {
             anchor: 'end',
             align: 'end',
-            color: WEATHER_NEXT_HOUR_CHART_COLOR,
+            color: SOLARWIND_NOWTIME_CHART_COLOR,
             font: {
               family: 'Oswald-SemiBold',
               size: 13,
@@ -269,6 +276,21 @@ export class ForecastAuroralActivityComponent implements OnChanges {
     });
   }
 
+  /* les heures contenues dans solarWind ne sont pas toujours correctes, parfois on a 13h17 13h18 13h20 avec des sauts.
+    Ce qui implique qu'on ne peut pas afficher l'heure actuelle sur les graphiques de vent solaire. On arrondie alors avec le temps le plus proche grâce à cette fonction
+  **/
+  private _nearestHourFn(formattedAnnotationDate: string | moment.Moment, labels: string[]): string {
+    if (labels.length === 0) {
+      return;
+    }
+    return labels?.reduce((prev, curr) => {
+      const currentDiff = Math.abs(moment(formattedAnnotationDate, 'HH:mm').diff(moment(curr, 'HH:mm'))); // Différence entre heure actuelle et cible
+      const prevDiff = Math.abs(moment(formattedAnnotationDate, 'HH:mm').diff(moment(prev, 'HH:mm'))); // Différence entre heure précédente et cible
+
+      return currentDiff < prevDiff ? curr : prev; // Renvoie le temps le plus proche
+    });
+  }
+
   private _calculateDataForChartSolarWind(forecast: SolarWind[]): void {
     const bzForecast = [],
       speedForecast = [],
@@ -284,16 +306,15 @@ export class ForecastAuroralActivityComponent implements OnChanges {
       btForecast.push(unit.bt);
       speedForecast.push(convertUnitMeasure(unit.speed, this.measure));
     }
-
+    const hour = { nearest: this._nearestHourFn(this._formattedAnnotationDate, solarWindDate), real: this._formattedAnnotationDate };
     this._chartKpDensity?.destroy();
     this._chartKpSpeed?.destroy();
     this._chartKpBz?.destroy();
     this._chartKpBt?.destroy();
-    console.log(solarWindDate);
-    this._chartKpDensity = ForecastAuroralActivityComponent._chartSolarWind(SolarWindTypes.DENSITY, solarWindDate, densityForecast);
-    this._chartKpSpeed = ForecastAuroralActivityComponent._chartSolarWind(SolarWindTypes.SPEED, solarWindDate, speedForecast, this.measure);
-    this._chartKpBz = ForecastAuroralActivityComponent._chartSolarWind(SolarWindTypes.BZ, solarWindDate, bzForecast);
-    this._chartKpBt = ForecastAuroralActivityComponent._chartSolarWind(SolarWindTypes.BT, solarWindDate, btForecast);
+    this._chartKpDensity = ForecastAuroralActivityComponent._chartSolarWind(SolarWindTypes.DENSITY, solarWindDate, densityForecast, hour);
+    this._chartKpSpeed = ForecastAuroralActivityComponent._chartSolarWind(SolarWindTypes.SPEED, solarWindDate, speedForecast, hour, this.measure);
+    this._chartKpBz = ForecastAuroralActivityComponent._chartSolarWind(SolarWindTypes.BZ, solarWindDate, bzForecast, hour);
+    this._chartKpBt = ForecastAuroralActivityComponent._chartSolarWind(SolarWindTypes.BT, solarWindDate, btForecast, hour);
   }
 
   private _calculateDataForChartSolarCycle(solarCycles: SolarCycle[]): void {
@@ -313,7 +334,13 @@ export class ForecastAuroralActivityComponent implements OnChanges {
   }
 
   // https://www.chartjs.org/docs/latest/charts/line.html#point-styling
-  private static _chartSolarWind(type: SolarWindTypes, labels: string[], data: number[], measure?: MeasureUnits): Chart<ChartType, string[]> {
+  private static _chartSolarWind(
+    type: SolarWindTypes,
+    labels: string[],
+    data: number[],
+    formattedHour: { real: string | moment.Moment; nearest: string },
+    measure?: MeasureUnits,
+  ): Chart<ChartType, string[]> {
     if (data.length === 0) {
       return null;
     }
@@ -337,6 +364,28 @@ export class ForecastAuroralActivityComponent implements OnChanges {
       options: {
         responsive: true,
         plugins: {
+          // @ts-ignore
+          annotation: {
+            annotations: {
+              line1: {
+                type: 'line',
+                drawTime: 'afterDatasetsDraw',
+                value: formattedHour.nearest, // On doit trouver le plus proche label si pas de correspondance.....
+                scaleID: 'x',
+                label: {
+                  display: true,
+                  content: ['🕘' + formattedHour.real],
+                  backgroundColor: SOLARWIND_NOWTIME_BGC_CHART_COLOR,
+                  position: 'start',
+                  rotation: 90,
+                  padding: 2,
+                  font: () => ({ family: 'Oswald-Regular', size: 11 }),
+                },
+                borderColor: SOLARWIND_NOWTIME_CHART_COLOR,
+                borderWidth: 2,
+              },
+            },
+          },
           legend: { display: false },
           filler: {
             propagate: true,
