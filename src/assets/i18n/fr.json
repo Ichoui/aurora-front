@@ -230,7 +230,11 @@
         "header": "Centre d'aide",
         "help": {
           "title": "Comment marche Aurorapp - Northern Lights ?",
-          "message": "C'est très simple ! <ol><li>Premièrement, il faut comprendre comment fonctione les aurores boréales. Tu peux t'aider de ma documentation, ou d'internet</li><li>Ensuite, choisis ta localisation, sinon tu seras géolocalisé si tu me l'autorises.</li><li>Tu n'auras plus qu'à consulter l'activité solaire et la couverture nuageuse. Rappel, ces données fournissent des indicateurs pour chasser les aurores boréale. Elles ne t'assureront pas d'en voir à 100% ☺</li></ol>"
+          "message": "C'est très simple ! <ol><li>Premièrement, il faut comprendre comment fonctione les aurores boréales. Tu peux t'aider de la documentation d'Aurorapp, ou d'Internet</li><li>Ensuite, choisis ta localisation, sinon tu seras géolocalisé par Aurorapp, si tu l'autorises.</li><li>Tu n'auras plus qu'à consulter l'activité solaire et la couverture nuageuse.<br>Rappel, ces données fournissent des indicateurs pour chasser les aurores boréale. Elles ne t'assureront pas d'en voir à 100% ☺</li></ol>"
+        },
+        "noSwpcData": {
+          "title": "Les données ne s'affichent plus",
+          "message": "Les données solaires ou de KP ne s'affichent pas / tournent dans le vide ? C'est très probablement parce que le fournisseur, NOAA SWPC, a un problème. Patiente, ça ne dure souvent que quelques minutes."
         },
         "suggest": {
           "title": "Suggestions / problèmes",

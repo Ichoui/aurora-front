@@ -314,6 +314,9 @@ export class ForecastAuroralActivityComponent implements OnChanges {
 
   // https://www.chartjs.org/docs/latest/charts/line.html#point-styling
   private static _chartSolarWind(type: SolarWindTypes, labels: string[], data: number[], measure?: MeasureUnits): Chart<ChartType, string[]> {
+    if (data.length === 0) {
+      return null;
+    }
     return new Chart(type, {
       type: 'line',
       data: {

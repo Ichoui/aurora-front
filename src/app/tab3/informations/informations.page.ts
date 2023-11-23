@@ -49,7 +49,8 @@ export class InformationsPage {
 
   helpcenterCard: InfoBlocks[] = [
     { id: 15, block: 'helpcenter', value: 'help' },
-    { id: 16, block: 'helpcenter', value: 'suggest' },
+    { id: 16, block: 'helpcenter', value: 'noSwpcData' },
+    { id: 17, block: 'helpcenter', value: 'suggest' },
   ];
 
   constructor(private _route: ActivatedRoute) {
