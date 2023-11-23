@@ -76,6 +76,7 @@
       "select": "Localisation prédéfinie",
       "another": "Essaye un autre endroit",
       "unknown": "Inconnue",
+      "no-data": "La donnée ne s'affiche plus ? Touche ici",
       "tooltip": {
         "map": "Touche pour choisir une localisation personnalisée dans le monde entier. Tu peux également choisir une ville prédéfinie.<br>De plus, tu peux ici visualiser l'Ovale Auroral en temps réel (à 1 heure près).",
         "kp-next-hours": "KP Index maximum par tranches de 3 heures.<br> Plus l'indice est haut, et meilleures sont les conditions géomagnétique pour observer une Aurore Boréale.<br>Tempête géomagnétique à partir de Kp5.",

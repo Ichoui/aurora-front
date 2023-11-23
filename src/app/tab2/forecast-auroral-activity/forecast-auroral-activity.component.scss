@@ -1,6 +1,9 @@
 @import '../../../theme/shared';
 
 .card-container {
+  .data-not-displayed {
+    font-style: italic;
+  }
   &:last-child {
     margin-bottom: 15px;
   }

@@ -12,7 +12,7 @@
       </ion-popover>
     </div>
     <div class="sub">{{ 'tab2.forecast.sub-aurora-map' | translate }}</div>
-    <div id="map_canvas" [routerLink]="['..', 'tab2', 'map']"></div>
+    <div id="map_canvas" class="data-not-displayed" [routerLink]="['..', 'tab2', 'map']"></div>
   </div>
 
   <div class="card-container">
@@ -29,6 +29,9 @@
     </div>
     <div class="sub">{{ 'tab2.forecast.nexthours.sub' | translate }}</div>
     <canvas id="kpnexthours" #canvNextHour></canvas>
+    <div *ngIf="kpForecast.length === 0" class="data-not-displayed" [routerLink]="['..', 'tab3', 'helpcenter']">
+      {{ 'tab2.forecast.no-data' | translate }}
+    </div>
     <ng-container *ngTemplateOutlet="loading ? isLoading : null; context: { canvHeight: canvNextHour?.style.height }"></ng-container>
   </div>
 
@@ -46,6 +49,9 @@
     </div>
     <div class="sub">{{ 'tab2.forecast.longterm.sub' | translate }}</div>
     <canvas id="kpforecast" #canvKpForecast></canvas>
+    <div *ngIf="kpForecast27.length === 0" class="data-not-displayed" [routerLink]="['..', 'tab3', 'helpcenter']">
+      {{ 'tab2.forecast.no-data' | translate }}
+    </div>
     <ng-container *ngTemplateOutlet="loading ? isLoading : null; context: { canvHeight: canvKpForecast?.style.height }"></ng-container>
   </div>
 
@@ -63,6 +69,9 @@
     </div>
     <div class="sub">{{ 'tab2.forecast.speed.sub' | translate: { unit: measure === 'metric' ? 'km/s' : 'mps' } }}</div>
     <canvas id="speed" #canvSpeed></canvas>
+    <div *ngIf="solarWind.length === 0" class="data-not-displayed" [routerLink]="['..', 'tab3', 'helpcenter']">
+      {{ 'tab2.forecast.no-data' | translate }}
+    </div>
     <ng-container *ngTemplateOutlet="loading ? isLoading : null; context: { canvHeight: canvSpeed?.style.height }"></ng-container>
   </div>
 
@@ -80,6 +89,9 @@
     </div>
     <div class="sub">{{ 'tab2.forecast.density.sub' | translate }}</div>
     <canvas id="density" #canvDensity></canvas>
+    <div *ngIf="solarWind.length === 0" class="data-not-displayed" [routerLink]="['..', 'tab3', 'helpcenter']">
+      {{ 'tab2.forecast.no-data' | translate }}
+    </div>
     <ng-container *ngTemplateOutlet="loading ? isLoading : null; context: { canvHeight: canvDensity?.style.height }"></ng-container>
   </div>
 
@@ -97,6 +109,9 @@
     </div>
     <div class="sub">{{ 'tab2.forecast.bz.sub' | translate }}</div>
     <canvas id="bz" #canvBz></canvas>
+    <div *ngIf="solarWind.length === 0" class="data-not-displayed" [routerLink]="['..', 'tab3', 'helpcenter']">
+      {{ 'tab2.forecast.no-data' | translate }}
+    </div>
     <ng-container *ngTemplateOutlet="loading ? isLoading : null; context: { canvHeight: canvBz?.style.height }"></ng-container>
   </div>
 
@@ -114,6 +129,9 @@
     </div>
     <div class="sub">{{ 'tab2.forecast.bt.sub' | translate }}</div>
     <canvas id="bt" #canvBt></canvas>
+    <div *ngIf="solarWind.length === 0" class="data-not-displayed" [routerLink]="['..', 'tab3', 'helpcenter']">
+      {{ 'tab2.forecast.no-data' | translate }}
+    </div>
     <ng-container *ngTemplateOutlet="loading ? isLoading : null; context: { canvHeight: canvBt?.style.height }"></ng-container>
   </div>
 
@@ -131,6 +149,9 @@
     </div>
     <div class="sub">{{ 'tab2.forecast.cycle.sub' | translate }}</div>
     <canvas id="cycle" #canvCycle></canvas>
+    <div *ngIf="solarCycle.length === 0" class="data-not-displayed" [routerLink]="['..', 'tab3', 'helpcenter']">
+      {{ 'tab2.forecast.no-data' | translate }}
+    </div>
     <ng-container *ngTemplateOutlet="loading ? isLoading : null; context: { canvHeight: canvCycle?.style.height }"></ng-container>
   </div>
 
