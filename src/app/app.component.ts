@@ -75,13 +75,13 @@ export class AppComponent {
             this._translateService.setDefaultLang(ELocales.FR);
             void this._storageService.setData('locale', ELocales.FR);
           } else {
-            this._translateService.setDefaultLang(this._translateService.getBrowserLang());
-            void this._storageService.setData('locale', this._translateService.getBrowserLang());
+            this._translateService.setDefaultLang(ELocales.EN);
+            void this._storageService.setData('locale', ELocales.EN);
           }
         }
       },
       noValue => {
-        void this._storageService.setData('locale', this._translateService.getBrowserLang());
+        void this._storageService.setData('locale', ELocales.EN);
         console.warn('novalue of locale', noValue);
       },
     );
