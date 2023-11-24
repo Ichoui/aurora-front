@@ -305,7 +305,6 @@ export class ForecastAuroralActivityComponent implements OnChanges {
       speedForecast.push(convertUnitMeasure(unit.speed, this.measure));
     }
     const hour = { nearest: this._nearestHourFn(this._formattedAnnotationDate, solarWindDate), real: this._formattedAnnotationDate };
-    console.log(this._formattedAnnotationDate);
     this._chartKpDensity?.destroy();
     this._chartKpSpeed?.destroy();
     this._chartKpBz?.destroy();
