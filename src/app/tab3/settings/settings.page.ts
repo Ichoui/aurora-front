@@ -7,6 +7,7 @@ import { MeasureUnits, measureUnits, temperatureUnits, TemperatureUnits } from '
 import { StorageService } from '../../storage.service';
 import { Browser } from '@capacitor/browser';
 import { OnViewWillEnter } from '../../models/ionic';
+import { AppLauncher } from '@capacitor/app-launcher';
 
 interface About {
   label: string;
@@ -44,7 +45,7 @@ export class SettingsPage implements OnViewWillEnter {
     {
       label: 'third',
       labelLink: 'third.link',
-      url: 'https://play.google.com/store/apps/details?id=io.aurora.v2',
+      url: 'https://play.google.com/store/apps/details?id=io.aurora.start',
       bis: {
         label: 'third.bis',
         labelLink: 'third.bis.link',
@@ -116,15 +117,18 @@ export class SettingsPage implements OnViewWillEnter {
 
   /**
    * @param url {string} Url navigable
+   * @param pckge {string} Google package name
    * Demande à l'utilisateur d'ouvrir dans l'application au choix le lien
    **/
-  openUrl(url: string): void {
-    void Browser.open({ url });
-
-    // deeplinks ?
-    // https://www.youtube.com/watch?v=tAQwllZSQD8
-
-    // https://capacitorjs.com/docs/guides/deep-links
+  async openUrl(url: string, pckge?: string): Promise<void> {
+    if (pckge) {
+      const { value } = await AppLauncher.canOpenUrl({ url: pckge });
+      if (value) {
+        await AppLauncher.openUrl({ url });
+      }
+    } else {
+      await Browser.open({ url });
+    }
   }
 
   // need backend

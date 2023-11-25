@@ -2,9 +2,9 @@ platforms:
   android:
     appName: Aurorapp
     packageName: io.aurora.start
-    versionName: 1.1.0
-    versionCode: 2008
-    incrementVersionCode: true
+    versionName: 1.2.0
+    versionCode: 2010
+    incrementVersionCode: false
     manifest:
       - file: AndroidManifest.xml
         target: manifest
@@ -20,6 +20,13 @@ platforms:
         target: manifest
         inject: |
           <uses-feature android:name="android.hardware.location.gps" />
+      - file: AndroidManifest.xml
+        target: manifest
+        inject: |
+          <queries>
+            <package android:name="com.paypal.android.p2pmobile" />
+            <package android:name="com.github.android" />
+          </queries>
     res:
       - path: values
         file: styles.xml

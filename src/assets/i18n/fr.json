@@ -102,7 +102,7 @@
         "first.link": "NOAA's SWPC",
         "second": "Données météo par ",
         "second.link": "OpenWeather",
-        "third": "Tu aimes Aurorapp ? Laisse-moi une ",
+        "third": "Tu aimes Aurorapp ? Laisse une ",
         "third.link": "note",
         "third.bis": " ou paye-moi ",
         "third.bis.link": "un café !"
@@ -113,7 +113,7 @@
       "languages": "Langue",
       "temperature": "Température",
       "measure": "Mesure",
-      "infos": "Aurores boréales",
+      "infos": "Aurores Boréales",
       "subinfos": "Explications techniques sur les aurores, aide et plus",
       "infos.text": "En apprendre plus",
       "infos.helpcenter": "Centre d'aide",
@@ -230,7 +230,7 @@
       "helpcenter": {
         "header": "Centre d'aide",
         "help": {
-          "title": "Comment marche Aurorapp - Northern Lights ?",
+          "title": "Comment fonctionne Aurorapp - Northern Lights ?",
           "message": "C'est très simple ! <ol><li>Premièrement, il faut comprendre comment fonctione les aurores boréales. Tu peux t'aider de la documentation d'Aurorapp, ou d'Internet</li><li>Ensuite, choisis ta localisation, sinon tu seras géolocalisé par Aurorapp, si tu l'autorises.</li><li>Tu n'auras plus qu'à consulter l'activité solaire et la couverture nuageuse.<br>Rappel, ces données fournissent des indicateurs pour chasser les aurores boréale. Elles ne t'assureront pas d'en voir à 100% ☺</li></ol>"
         },
         "noSwpcData": {

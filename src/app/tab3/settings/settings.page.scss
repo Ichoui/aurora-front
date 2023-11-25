@@ -23,8 +23,9 @@
       display: block;
       margin-left: 15px;
     }
-    a {
+    button {
       color: var(--ion-color-secondary);
+      background-color: rgba(0, 0, 0, 0);
     }
     ion-button.legal {
       margin-top: 10px;

@@ -21,7 +21,7 @@
 > - ionic build
 > - npx cap copy
 > - npx cap update
-    >   > Note that **--watch** arg recompile code each time you save, but will not execute again copy/update
+>   > Note that **--watch** arg recompile code each time you save, but will not execute again copy/update
 
 ## Methods to run app on Android Studio
 
@@ -47,7 +47,7 @@ Android Studio :
 2 : Apply change and restart Activity (circular arrow with A)
 ```
 
-Add the following when use commande `npx cap add android` (create the ./android folder) 
+Add the following when use commande `npx cap add android` (create the ./android folder)
 
 ```
 In androidManifest.XML :
@@ -56,6 +56,10 @@ In androidManifest.XML :
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-feature android:name="android.hardware.location.gps" />
+    <queries>
+      <package android:name="com.paypal.android.p2pmobile" />
+      <package android:name="com.github.android" />
+    </queries>
 ```
 
 https://stackoverflow.com/questions/70903567/pairing-new-device-on-android-studio-bumblebee-over-wifi

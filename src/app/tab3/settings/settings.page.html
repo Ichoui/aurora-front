@@ -72,10 +72,10 @@
     <div class="header about"><span>{{ 'tab3.more.about.title' | translate }}</span></div>
     <span *ngFor="let a of about">
       {{ 'tab3.more.about.' + a.label | translate }}
-      <a href="#" (click)="openUrl(a.url)">{{ 'tab3.more.about.' + a.labelLink | translate }}</a>
+      <button (click)="openUrl(a.url)">{{ 'tab3.more.about.' + a.labelLink | translate }}</button>
       <ng-container *ngIf="a?.bis">
         {{ 'tab3.more.about.' + a.bis.label | translate }}
-        <a href="#" (click)="openUrl(a.bis.url)">{{ 'tab3.more.about.' + a.bis.labelLink | translate }}</a>
+        <button (click)="openUrl(a.bis.url)">{{ 'tab3.more.about.' + a.bis.labelLink | translate }}</button>
       </ng-container>
     </span>
     <span>
@@ -89,13 +89,13 @@
     <ion-icon name="arrow-up" color="dark"></ion-icon>
   </ion-fab-button>
   <ion-fab-list side="top">
-    <ion-fab-button color="secondary" (click)="openUrl('https://github.com/Ichoui')">
+    <ion-fab-button color="secondary" (click)="openUrl('https://github.com/Ichoui', 'com.github.android')">
       <ion-icon name="logo-github" color="dark"></ion-icon>
     </ion-fab-button>
     <ion-fab-button color="secondary" href="mailto:aurorapp.lights@gmail.com">
       <ion-icon name="at" color="dark"></ion-icon>
     </ion-fab-button>
-    <ion-fab-button color="secondary" (click)="openUrl('https://www.paypal.me/ichoui/1')">
+    <ion-fab-button color="secondary" (click)="openUrl('https://www.paypal.me/ichoui/1', 'com.paypal.android.p2pmobile')">
       <span class="icon icon-caf"></span>
     </ion-fab-button>
   </ion-fab-list>
