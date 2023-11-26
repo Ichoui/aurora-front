@@ -1,10 +1,8 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import { cities, CodeLocation, Coords } from '../models/cities';
 import { AuroraService } from '../aurora.service';
-import { NavController } from '@ionic/angular';
-import { Geolocation } from '@capacitor/geolocation';
 import { StorageService } from '../storage.service';
-import { map, takeUntil, tap } from 'rxjs/operators';
+import { map, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { combineLatest, from, Subject } from 'rxjs';
 import { MeasureUnits } from '../models/weather';
 import { Kp27day, KpCurrent, KpForecast, SolarCycle, SolarWind, SwpcData } from '../models/aurorav3';
@@ -61,7 +59,6 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
 
   constructor(
     private _storageService: StorageService,
-    private _navCtrl: NavController,
     private _auroraService: AuroraService,
     private _translate: TranslateService,
     private _cdr: ChangeDetectorRef,
@@ -83,19 +80,16 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
           this.measure = measure;
           this.locale = locale;
         }),
-      )
-      .subscribe();
-
-    combineLatest([from(this._storageService.getData('ACEdate')), from(this._storageService.getData('location'))])
-      .pipe(
-        takeUntil(this._destroy$),
+        switchMap(() => combineLatest([from(this._storageService.getData('ACEdate')), from(this._storageService.getData('location'))])),
         map(([ACEdate, location]: [number, CodeLocation]) => [ACEdate ? moment(new Date()).diff(moment(ACEdate), 'minutes') > 10 : true, location]),
         tap(([moreThanFiveMinutes, location]: [boolean, CodeLocation]) => {
           if (moreThanFiveMinutes) {
             // Avoid to load the page every time the user access to tab2, waiting 5 mins
-            if (!location) {
-              this._userLocalisation();
-            } else if (location.code === 'currentLocation' || location.code === 'marker') {
+            // if (!location) {
+            //   console.log('should not pass here !location tab2');
+            //   this._checkPermissions();
+            // } else
+            if (location.code === 'currentLocation' || location.code === 'marker') {
               this._getExistingLocalisation(location.lat, location.long);
             } else {
               this._chooseExistingCity(location.code);
@@ -106,6 +100,30 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
         }),
       )
       .subscribe();
+
+    /*    // TODO should : bloc de code devrait être dans une fonction, appelée dans le retour du combineLatest ci-dessus ... Pour éviter les erreurs bête
+    // ou avec un switchMap ??? attention import lol!
+    combineLatest([from(this._storageService.getData('ACEdate')), from(this._storageService.getData('location'))])
+      .pipe(
+        takeUntil(this._destroy$),
+        map(([ACEdate, location]: [number, CodeLocation]) => [ACEdate ? moment(new Date()).diff(moment(ACEdate), 'minutes') > 10 : true, location]),
+        tap(([moreThanFiveMinutes, location]: [boolean, CodeLocation]) => {
+          if (moreThanFiveMinutes) {
+            // Avoid to load the page every time the user access to tab2, waiting 5 mins
+            if (!location) {
+              console.log('should not pass here !location tab2');
+              // this._checkPermissions();
+            } else if (location.code === 'currentLocation' || location.code === 'marker') {
+              this._getExistingLocalisation(location.lat, location.long);
+            } else {
+              this._chooseExistingCity(location.code);
+            }
+          } else {
+            this._getACEDataFromStorage();
+          }
+        }),
+      )
+      .subscribe();*/
   }
 
   private _getACEDataFromStorage() {
@@ -143,7 +161,7 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
             this._cdr.markForCheck();
           },
           error: error => {
-            console.warn('Local storage error', error.error);
+            console.error('_getACEDataFromStorage() error, message : ', error.error);
             this.dataToast = {
               message: this._translate.instant('global.error.storage'),
               status: error.status,
@@ -158,11 +176,38 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
    * Seulement premier accès sur cette page
    * Déterminer la localisation actuelle de l'utilisateur
    */
-  private async _userLocalisation(): Promise<void> {
-    await Geolocation.getCurrentPosition()
+  /*  // Voir pour passer tout ce bloc de code dans App.component... Après tout, c'est là la première fois où on cherche la position
+  private async _checkPermissions(): Promise<void> {
+    try {
+      const permissionStatus = await Geolocation.checkPermissions();
+      console.log('permission status: ', permissionStatus);
+
+      if (permissionStatus?.location !== 'granted') {
+        const request = await Geolocation.requestPermissions();
+        if (request.location !== 'granted') {
+          console.warn('permission request not granted ', request.location);
+          this._getExistingLocalisation(69.650288, 18.955098); // par default, on envoie tromso
+          return null;
+        } else {
+          await this._getPosition();
+        }
+      } else {
+        console.warn('permission is granted in ELSE', permissionStatus.location);
+        await this._getPosition();
+      }
+    } catch (e) {
+      console.error('catch here, ', e);
+      this._getExistingLocalisation(69.650288, 18.955098); // par default, on envoie tromso
+    }
+  }
+
+  // Todo should : doit suivre la fonction ci-dessus
+  private async _getPosition(): Promise<void> {
+    await Geolocation.getCurrentPosition({ maximumAge: 3000, timeout: 10000, enableHighAccuracy: true })
       .then(resp => this._getExistingLocalisation(resp.coords.latitude, resp.coords.longitude))
       .catch(error => {
         console.warn('Geolocalisation error', error.message);
+
         this._cdr.markForCheck();
         this._eventRefresh?.target?.complete();
         this.dataToast = {
@@ -170,7 +215,7 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
           status: error.status,
         };
       });
-  }
+  }*/
 
   /**
    * @param lat {number}
@@ -229,7 +274,7 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
             void this._storageService.setData('ACEdate', new Date());
           },
           error: (error: HttpErrorResponse) => {
-            console.warn('Solar Wind data error', error.message);
+            console.error('_getDataACE() error with getAllSwpcData$, message : ', error.message);
             this._cdr.markForCheck();
             this._eventRefresh?.target?.complete();
             this.dataToast = {
@@ -251,7 +296,7 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
             void this._storageService.setData('nowcastAurora', nowcast);
           },
           error: (error: HttpErrorResponse) => {
-            console.warn('Nowcast data error', error.message);
+            console.error('_getDataACE() error with getAuroraMapData$, message : ', error.message);
             this._cdr.markForCheck();
             this._eventRefresh?.target?.complete();
             this.dataToast = {
@@ -309,7 +354,7 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
    @param event {event} renvoyé par le rafraichissement
    * Attends les retours des résultats d'API pour retirer l'animation visuelle
    * */
-  doRefresh(event) {
+  doRefresh(event: any): void {
     this._eventRefresh = event;
     this._getDataACE();
   }

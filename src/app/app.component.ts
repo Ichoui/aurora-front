@@ -8,6 +8,9 @@ import { MeasureUnits, TemperatureUnits } from './models/weather';
 import { ELocales } from './models/locales';
 import { StatusBar } from '@capacitor/status-bar';
 import { STATUS_BAR_COLOR } from './models/colors';
+import { Geolocation } from '@capacitor/geolocation';
+import { ToastError } from './shared/toast/toast.component';
+import { CodeLocation } from './models/cities';
 
 @Component({
   selector: 'app-root',
@@ -17,12 +20,14 @@ import { STATUS_BAR_COLOR } from './models/colors';
 export class AppComponent {
   // selectedKp: number;
   // currentKp: number;
+  dataToast: ToastError;
 
   constructor(
     private _platform: Platform,
     private _router: Router,
     private _translateService: TranslateService,
     private _storageService: StorageService,
+    private _translate: TranslateService,
   ) {
     this._initializeApp();
   }
@@ -32,16 +37,82 @@ export class AppComponent {
       void StatusBar.setBackgroundColor({ color: STATUS_BAR_COLOR });
     }
     this._platform.ready().then(async () => {
-      this._storageService.init().then(() => {
-        this._getLocale();
-        this._getMeasureUnit();
-        this._getTempUnit();
-      });
+      this._storageService
+        .init()
+        .then(() => {
+          // Vérifier si une location a déjà été set par le passé sur l'appli, sinon on fait les demandes de géoloc car probable première viste
+          this._storageService.getData('location').then((codeLocation: CodeLocation) => {
+            if (!codeLocation) {
+              this._checkPermissions();
+            }
+          });
+        })
+        .then(() => {
+          this._getLocale();
+          this._getMeasureUnit();
+          this._getTempUnit();
+        });
       this._translateService.addLangs(['fr', 'en']);
       await this._router.navigate(['/tabs/tab2']);
 
       // this.getKp();
       // this.isNotifsActive();
+    });
+  }
+
+  /**
+   * Check la permission de geoposition autorisée par l'utilisateur sur Android
+   * Puis détermine la localisation en fonction de la réponse
+   * Par défault : Tromso
+   */
+  private async _checkPermissions(): Promise<void> {
+    try {
+      const permissionStatus = await Geolocation.checkPermissions();
+      console.log('permission status: ', permissionStatus);
+
+      if (permissionStatus?.location !== 'granted') {
+        // Si permission n'a jamais été donnée par le passé
+        const request = await Geolocation.requestPermissions();
+        if (request.location !== 'granted') {
+          // Si l'utilisateur la refuse
+          console.warn('permission request not granted ', request.location);
+          // par default, on paramètre tout sur tromso
+          await this._setStorageLocation(69.650288, 18.955098); // par défault, on met tromso
+          return null;
+        } else {
+          console.warn('permission request is granted');
+          await this._getPosition();
+        }
+      } else {
+        console.warn('permission is granted in ELSE', permissionStatus.location);
+        await this._getPosition();
+      }
+    } catch (e) {
+      console.error('_checkPermission() catch, message :  ', e);
+      await this._setStorageLocation(69.650288, 18.955098); // par défault, on met tromso
+    }
+  }
+
+  private async _getPosition(): Promise<void> {
+    await Geolocation.getCurrentPosition({ enableHighAccuracy: true })
+      .then(resp => this._setStorageLocation(resp.coords.latitude, resp.coords.longitude))
+      .catch(error => {
+        console.warn('getPosition() : Geolocation error, message :', error.message);
+
+        // this._cdr.markForCheck();
+        // this._eventRefresh?.target?.complete();
+        this.dataToast = {
+          message: this._translate.instant('global.error.geoloc'),
+          status: error.status,
+        };
+      });
+  }
+
+  private async _setStorageLocation(lat: number, long: number): Promise<void> {
+    void this._storageService.setData('location', {
+      code: 'currentLocation',
+      lat,
+      long,
     });
   }
 
@@ -82,7 +153,7 @@ export class AppComponent {
       },
       noValue => {
         void this._storageService.setData('locale', ELocales.EN);
-        console.warn('novalue of locale', noValue);
+        console.warn('_getLocale() : problem with locale : ', noValue);
       },
     );
   }
@@ -102,7 +173,7 @@ export class AppComponent {
       },
       noValue => {
         void this._storageService.setData('measure', 'metric');
-        console.warn('novalue of measure unit', noValue);
+        console.warn('_getMeasureUnit() : problem with measure unit : ', noValue);
       },
     );
   }
@@ -121,8 +192,8 @@ export class AppComponent {
         }
       },
       noValue => {
-        void this._storageService.setData('measure', 'metric');
-        console.warn('novalue of measure unit', noValue);
+        void this._storageService.setData('temperature', 'celsius');
+        console.warn('_getTempUnit() : problem with tempeartyre : ', noValue);
       },
     );
   }

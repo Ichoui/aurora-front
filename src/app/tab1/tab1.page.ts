@@ -13,7 +13,6 @@ import { ELocales } from '../models/locales';
 import * as moment from 'moment';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastError } from '../shared/toast/toast.component';
-import { Geolocation } from '@capacitor/geolocation';
 
 @Component({
   selector: 'app-tab1',
@@ -132,19 +131,21 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
 
   // How to get Forecast if location has recently changed
   private _manageWeatherDisplay(codeLocation?: CodeLocation): void {
-    if (!codeLocation) {
-      this._userLocalisation();
-    } else if (codeLocation.code === 'currentLocation' || codeLocation.code === 'marker') {
+    // if (!codeLocation) {
+    //   this._userLocalisation();
+    // } else
+    if (codeLocation.code === 'currentLocation' || codeLocation.code === 'marker') {
       this._reverseGeoloc(codeLocation.lat, codeLocation.long);
     } else {
       this._chooseExistingCity(codeLocation.code);
     }
   }
 
-  /**
+  /*  /!**
    * Seulement premier accès sur cette page
    * Déterminer la localisation actuelle de l'utilisateur
-   */
+   *!/
+  // TODO should : ne devrait pas exister! On cherche la localisation bien avant
   private async _userLocalisation(): Promise<void> {
     await Geolocation.getCurrentPosition()
       .then(resp => this._reverseGeoloc(resp.coords.latitude, resp.coords.longitude))
@@ -156,7 +157,7 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
           status: error.status,
         };
       });
-  }
+  }*/
 
   /**
    * @lat {number}

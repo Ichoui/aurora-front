@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Geolocation } from '@capacitor/geolocation';
-import { cities, CodeLocation } from '../../models/cities';
-import { GeoJSON, Icon, LatLng, LatLngBounds, Map, Marker, PathOptions, Popup, Rectangle, tileLayer, ZoomPanOptions } from 'leaflet';
+import { cities, City, CodeLocation } from '../../models/cities';
+import { Content, GeoJSON, Icon, LatLng, LatLngBounds, Layer, Map, Marker, PathOptions, Popup, Rectangle, tileLayer, ZoomPanOptions } from 'leaflet';
 import { TranslateService } from '@ngx-translate/core';
 import { StorageService } from '../../storage.service';
 import { first, map, takeUntil, tap } from 'rxjs/operators';
@@ -22,7 +22,7 @@ export class MapLeafletPage implements OnInit, OnDestroy {
   private _map: Map;
   private _marker: Marker;
   private _popup: Popup;
-  readonly cities = cities;
+  readonly cities: City[] = cities;
   private _locale: ELocales;
   localisation: string;
   loadingNewLocation = false;
@@ -56,14 +56,14 @@ export class MapLeafletPage implements OnInit, OnDestroy {
           this._loadMap(codeLocation.lat, codeLocation.long);
         }
       },
-      error => console.warn('Il y a un soucis de storage de position', error),
+      error => console.error('_checkStorageLocation() problem, message : ', error),
     );
   }
 
   private _getStorageLocale(): void {
     this._storageService.getData('locale').then(
       (locale: ELocales) => (this._locale = locale),
-      error => console.warn('Il y a un soucis de storage de locale', error),
+      error => console.error('_getStorageLocale() problem, error : ', error),
     );
   }
 
@@ -200,6 +200,7 @@ export class MapLeafletPage implements OnInit, OnDestroy {
    * Géoloc l'utilisateur et place marker sur la map
    * Set en localStorage les coords
    * */
+  // TODO should : doit rester ici, mais code possiblement à revoir
   async buttonMyPosition(): Promise<void> {
     this.loadingNewLocation = true;
     await Geolocation.getCurrentPosition()
@@ -211,7 +212,7 @@ export class MapLeafletPage implements OnInit, OnDestroy {
           long: resp.coords.longitude,
         });
       })
-      .catch(error => console.warn('Error getting current location', error));
+      .catch(error => console.error('buttonMyPosition() : problem, message : ', error));
   }
 
   /**
@@ -227,7 +228,7 @@ export class MapLeafletPage implements OnInit, OnDestroy {
         map((res: Geocoding[]) => res[0]),
         tap({
           next: (res: Geocoding) => {
-            let infoWindow;
+            let infoWindow: string;
             if (res?.name && res?.country) {
               infoWindow = `${res?.name}${res?.state ? ', ' + res.state : ''} - ${countryNameFromCode(res.country, this._locale)}`;
             } else {
@@ -237,7 +238,7 @@ export class MapLeafletPage implements OnInit, OnDestroy {
             this._prepareTooltip(infoWindow, lat, long);
           },
           error: error => {
-            console.error('Reverse geocode error ==> ', error);
+            console.error('_reverseGeocode() problem, message : ', error);
             const infoWindow = this._translate.instant('global.unknown');
             this._prepareTooltip(infoWindow);
           },
@@ -270,8 +271,8 @@ export class MapLeafletPage implements OnInit, OnDestroy {
     }
   }
 
-  private _createTooltip(infoWindow, nowcast?, lat?, lng?) {
-    let message;
+  private _createTooltip(infoWindow: string, nowcast?: unknown, lat?: number, lng?: number) {
+    let message: Content | ((source: Layer) => Content);
     if (lat && lng) {
       message = `<b>${infoWindow}</b> <br /> Lat: ${lat} <br/> Long: ${lng} <br/> Chances: ${
         typeof nowcast === 'number' ? nowcast + '%' : this._translate.instant('tab2.forecast.unknown')

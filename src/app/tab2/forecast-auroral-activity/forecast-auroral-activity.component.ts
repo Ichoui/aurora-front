@@ -20,7 +20,6 @@ import { AuroraEnumColours, Kp27day, KpForecast, SolarCycle, SolarWind, SolarWin
 import { ELocales } from '../../models/locales';
 import { MeasureUnits } from '../../models/weather';
 import { TranslateService } from '@ngx-translate/core';
-import { Geolocation } from '@capacitor/geolocation';
 import annotationPlugin from 'chartjs-plugin-annotation';
 
 const numberMax27Forecast = 14;
@@ -93,21 +92,27 @@ export class ForecastAuroralActivityComponent implements OnChanges {
    *  Sinon si la page a déjà été chargée une fois, on ne fait qu'ajouter un marker à la map
    * Sinon charge la map avec les lat/long envoyée depuis la page popup (Marker et Ville Préselectionnées)
    * */
+
+  // TODO should : je pense qu'on ne devrait pas avoir à utiliser la userLocalisation ici, puisqu'elle est définie dans tab2.page.ts, qui est le parent de ce fichier. Le codeLocation est déjà sensé exister à ce moment de l'appli. codeLocation devrait exister 100% du temps ici.
   minimapLocation(): void {
     // localisation format json ? {code: 'currentlocation', lat: 41.1, long: 10.41} --> pas besoin de call à chaque fois lat et long comme ça...
     this._storageService.getData('location').then((codeLocation: CodeLocation) => {
-      if (!codeLocation) {
-        this._userLocalisation();
-      } else {
+      // console.log(codeLocation);
+      // if (!codeLocation) {
+      //   this._userLocalisation();
+      // } else {
+
+      if (codeLocation) {
         this._mapInit(codeLocation.lat, codeLocation.long);
       }
+      // }
     });
   }
 
   /**
    * localise l'utilisateur et lance l'affichage de la map
    * */
-  private async _userLocalisation(): Promise<void> {
+  /*  private async _userLocalisation(): Promise<void> {
     await Geolocation.getCurrentPosition()
       .then((resp: GeolocationPosition) => {
         this._coords = resp.coords;
@@ -119,7 +124,7 @@ export class ForecastAuroralActivityComponent implements OnChanges {
         });
       })
       .catch(error => console.warn('Error getting location', error));
-  }
+  }*/
 
   /**
    * @param lat

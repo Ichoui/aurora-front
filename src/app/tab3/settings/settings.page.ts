@@ -5,9 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ModalComponent } from '../../shared/modal/modal.component';
 import { MeasureUnits, measureUnits, temperatureUnits, TemperatureUnits } from '../../models/weather';
 import { StorageService } from '../../storage.service';
-import { Browser } from '@capacitor/browser';
 import { OnViewWillEnter } from '../../models/ionic';
-import { AppLauncher } from '@capacitor/app-launcher';
 
 interface About {
   label: string;
@@ -117,18 +115,10 @@ export class SettingsPage implements OnViewWillEnter {
 
   /**
    * @param url {string} Url navigable
-   * @param pckge {string} Google package name
    * Demande à l'utilisateur d'ouvrir dans l'application au choix le lien
    **/
-  async openUrl(url: string, pckge?: string): Promise<void> {
-    if (pckge) {
-      const { value } = await AppLauncher.canOpenUrl({ url: pckge });
-      if (value) {
-        await AppLauncher.openUrl({ url });
-      }
-    } else {
-      await Browser.open({ url });
-    }
+  openUrl(url: string): void {
+    window.open(url, '_self');
   }
 
   // need backend
