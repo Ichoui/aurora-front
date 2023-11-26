@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 
 import { Platform } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
@@ -21,6 +21,7 @@ export class AppComponent {
   // selectedKp: number;
   // currentKp: number;
   dataToast: ToastError;
+  loadApp = false;
 
   constructor(
     private _platform: Platform,
@@ -28,6 +29,7 @@ export class AppComponent {
     private _translateService: TranslateService,
     private _storageService: StorageService,
     private _translate: TranslateService,
+    private _cdr: ChangeDetectorRef,
   ) {
     this._initializeApp();
   }
@@ -44,6 +46,9 @@ export class AppComponent {
           this._storageService.getData('location').then((codeLocation: CodeLocation) => {
             if (!codeLocation) {
               this._checkPermissions();
+            } else {
+              this.loadApp = true;
+              this._cdr.markForCheck();
             }
           });
         })
@@ -68,8 +73,7 @@ export class AppComponent {
   private async _checkPermissions(): Promise<void> {
     try {
       const permissionStatus = await Geolocation.checkPermissions();
-      console.log('permission status: ', permissionStatus);
-
+      console.log('permission status: ', permissionStatus.location);
       if (permissionStatus?.location !== 'granted') {
         // Si permission n'a jamais été donnée par le passé
         const request = await Geolocation.requestPermissions();
@@ -114,6 +118,8 @@ export class AppComponent {
       lat,
       long,
     });
+    this.loadApp = true;
+    this._cdr.markForCheck();
   }
 
   // private _isNotifsActive(): void {
