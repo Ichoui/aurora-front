@@ -6,7 +6,6 @@ import { Chart, registerables } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { AnimationOptions } from 'ngx-lottie';
 import { ELocales } from '../../models/locales';
-import { StorageService } from '../../storage.service';
 import { MAIN_TEXT_COLOR, WEATHER_NEXT_HOUR_CHART_COLOR } from '../../models/colors';
 import { convertUnitTemperature, manageDates } from '../../models/utils';
 
@@ -51,7 +50,7 @@ export class MeteoComponent implements OnChanges {
   readonly heightCurrent = 110;
   readonly dataNumbersInChart = 8;
 
-  constructor(private _storageService: StorageService, private _cdr: ChangeDetectorRef) {}
+  constructor(private _cdr: ChangeDetectorRef) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     this._nextHoursChart?.destroy();
@@ -67,14 +66,22 @@ export class MeteoComponent implements OnChanges {
     this._cdr.markForCheck();
   }
 
-  private _todayForecast(currentWeather: Currently) {
+  private _todayForecast(currentWeather: Currently): void {
     this.currentWeather = {
       ...currentWeather,
       temp: convertUnitTemperature(currentWeather.temp, this.temperature),
       feels_like: convertUnitTemperature(currentWeather.feels_like, this.temperature),
     };
-    this.sunset = manageDates(currentWeather.sunset, this.locale === ELocales.EN ? 'hh:mm A' : 'HH[h]mm', this.locale, true);
-    this.sunrise = manageDates(currentWeather.sunrise, this.locale === ELocales.EN ? 'hh:mm A' : 'HH[h]mm', this.locale, true);
+
+    if (currentWeather.sunset === currentWeather.sunrise) {
+      const polar = this._nearestSolstice();
+      this.sunrise = polar;
+      this.sunset = polar;
+    } else {
+      this.sunrise = manageDates(currentWeather.sunrise, this.locale === ELocales.EN ? 'hh:mm A' : 'HH[h]mm', this.locale, true);
+      this.sunset = manageDates(currentWeather.sunset, this.locale === ELocales.EN ? 'hh:mm A' : 'HH[h]mm', this.locale, true);
+    }
+
     this._lotties(this._calculateWeaterIcons(currentWeather));
     this.currentDatetime = manageDates(
       moment().unix(),
@@ -82,6 +89,35 @@ export class MeteoComponent implements OnChanges {
       this.locale,
       true,
     );
+  }
+
+  private _nearestSolstice(): 'night' | 'day' {
+    const today = moment();
+
+    const currentWinterSolstice = moment([today.year(), 11, 21]);
+    const currentSummerSolstice = moment([today.year(), 5, 21]);
+    const lastWinterSolstice = moment([today.year() - 1, 11, 21]);
+    const lastSummerSolstice = moment([today.year() - 1, 5, 21]);
+
+    // Comparaison des différences entre les dates
+    const currentDiffs = [Math.abs(currentWinterSolstice.diff(today)), Math.abs(currentSummerSolstice.diff(today))];
+
+    const previousDiffs = [Math.abs(lastWinterSolstice.diff(today)), Math.abs(lastSummerSolstice.diff(today))];
+
+    // Trouver l'index de la différence minimale pour l'année en cours
+    const closestCurrent = currentDiffs.indexOf(Math.min(...currentDiffs));
+
+    // Trouver l'index de la différence minimale pour l'année précédente
+    const closestPrevious = previousDiffs.indexOf(Math.min(...previousDiffs));
+
+    // Comparer les deux années pour déterminer le résultat final
+    if (currentDiffs[closestCurrent] < previousDiffs[closestPrevious]) {
+      return closestCurrent === 0 ? 'night' : 'day';
+      // return (indexPlusProcheActuel === 0) ? solsticeHiverActuel : solsticeEteActuel;
+    } else {
+      return closestPrevious === 0 ? 'night' : 'day';
+      // return (indexPlusProchePrecedent === 0) ? solsticeHiverPrecedent : solsticeEtePrecedent;
+    }
   }
 
   private _nextHoursForecast(hourly: Hourly[]) {

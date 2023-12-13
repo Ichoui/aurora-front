@@ -103,7 +103,10 @@
           <span class="icon icon-sunrise"></span>
         </div>
         <div class="label">{{ 'tab1.weather.details.data.sunrise' | translate }}</div>
-        <div *ngIf="!loading" class="value">{{ sunrise ?? 0 }}</div>
+        <div *ngIf="!loading" class="value">
+          <ng-container *ngIf="sunrise === sunset; else notPolarDays">{{ 'tab1.weather.details.data.polar.' + sunrise | translate }}</ng-container>
+          <ng-template #notPolarDays>{{ sunrise ?? 0 }}</ng-template>
+        </div>
         <ng-container *ngTemplateOutlet="loading ? isLoadingNumber : null; context: { index: 2.4 }"></ng-container>
       </div>
       <div class="sun">
@@ -111,7 +114,10 @@
           <span class="icon icon-sunset"></span>
         </div>
         <div class="label">{{ 'tab1.weather.details.data.sunset' | translate }}</div>
-        <div *ngIf="!loading" class="value">{{ sunset ?? 0 }}</div>
+        <div *ngIf="!loading" class="value">
+          <ng-container *ngIf="sunrise === sunset; else notPolarDays">{{ 'tab1.weather.details.data.polar.' + sunset | translate }}</ng-container>
+          <ng-template #notPolarDays>{{ sunset ?? 0 }}</ng-template>
+        </div>
         <ng-container *ngTemplateOutlet="loading ? isLoadingNumber : null; context: { index: 2.55 }"></ng-container>
       </div>
     </div>
