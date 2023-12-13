@@ -23,6 +23,8 @@
       "details.data": {
         "sunrise": "Sunrise",
         "sunset": "Sunset",
+        "polar.day": "Polar day",
+        "polar.night": "Polar night",
         "windspeed": "Wind speed",
         "humidity": "Humidity",
         "winddeg": "Compass",
@@ -52,7 +54,7 @@
       "poles.sub": "Auroral oval intensity",
       "pole.north": "North pole",
       "pole.south": "South pole",
-      "poles.explanations": "Provide a 30 to 90 minutes forecast of the location and intensity of the Northern Lights, along with the last 24h forecast. OVATION model.",
+      "poles.explanations": "Provide a 30 to 90 minutes forecast of the location and intensity of the Northern Lights, along with the last 24h forecast.",
       "nexthours.title": "Next hours forecast",
       "nexthours.sub": "Kp maximum",
       "longterm.title": "Long term forecast",

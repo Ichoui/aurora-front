@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { Geolocation } from '@capacitor/geolocation';
+import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 import { cities, City, CodeLocation } from '../../models/cities';
 import { Content, GeoJSON, Icon, LatLng, LatLngBounds, Layer, Map, Marker, PathOptions, Popup, Rectangle, tileLayer, ZoomPanOptions } from 'leaflet';
 import { TranslateService } from '@ngx-translate/core';
@@ -32,6 +32,7 @@ export class MapLeafletPage implements OnInit, OnDestroy {
     private _translate: TranslateService,
     private _storageService: StorageService,
     private _auroraService: AuroraService,
+    private _geoloc: Geolocation,
   ) {}
 
   ngOnInit(): void {
@@ -200,10 +201,10 @@ export class MapLeafletPage implements OnInit, OnDestroy {
    * Géoloc l'utilisateur et place marker sur la map
    * Set en localStorage les coords
    * */
-  // TODO should : doit rester ici, mais code possiblement à revoir
   async buttonMyPosition(): Promise<void> {
     this.loadingNewLocation = true;
-    await Geolocation.getCurrentPosition()
+    this._geoloc
+      .getCurrentPosition()
       .then((resp: GeolocationPosition) => {
         this._addMarker(resp.coords.latitude, resp.coords.longitude);
         void this._storageService.setData('location', {
@@ -289,7 +290,7 @@ export class MapLeafletPage implements OnInit, OnDestroy {
 }
 
 function mapColor(index: number): string {
-  let color;
+  let color: string;
   if (index <= 8) {
     color = FORECAST_COLOR_GRAY;
   } else if (index > 8 && index < 20) {

@@ -8,6 +8,7 @@ import { IonicModule } from '@ionic/angular';
 import { MapLeafletPage } from './map-leaflet.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { HeaderPageModule } from '../../shared/header/header.module';
+import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 
 const routes: Routes = [
   {
@@ -19,5 +20,6 @@ const routes: Routes = [
 @NgModule({
   imports: [CommonModule, FormsModule, IonicModule, RouterModule.forChild(routes), TranslateModule, HeaderPageModule],
   declarations: [MapLeafletPage],
+  providers: [Geolocation],
 })
 export class LocationMapPageModule {}

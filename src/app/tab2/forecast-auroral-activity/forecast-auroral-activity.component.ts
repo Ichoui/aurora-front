@@ -13,7 +13,7 @@ import {
   updateGradientBackgroundChart,
 } from '../../models/utils';
 import { MAIN_TEXT_COLOR, SOLARWIND_NOWTIME_BGC_CHART_COLOR, SOLARWIND_NOWTIME_CHART_COLOR } from '../../models/colors';
-import { CodeLocation, Coords } from '../../models/cities';
+import { CodeLocation } from '../../models/cities';
 import { StorageService } from '../../storage.service';
 import { icon, LatLng, Map, Marker, marker, tileLayer, ZoomPanOptions } from 'leaflet';
 import { AuroraEnumColours, Kp27day, KpForecast, SolarCycle, SolarWind, SolarWindTypes } from '../../models/aurorav3';
@@ -50,7 +50,6 @@ export class ForecastAuroralActivityComponent implements OnChanges {
   private _chartCycle: Chart<ChartType, string[]>;
 
   private _marker: Marker;
-  private _coords: Coords = {} as any;
   private _map: Map;
   private _formattedAnnotationDate: string | moment.Moment;
   @ViewChild('map_canvas', { static: false }) mapElement: ElementRef;
@@ -88,43 +87,16 @@ export class ForecastAuroralActivityComponent implements OnChanges {
   }
 
   /**
-   *  Si la localisation n'a jamais été remplie, on set avec "currentLocation" && on localise l'utilisateur pour la minimap
-   *  Sinon si la page a déjà été chargée une fois, on ne fait qu'ajouter un marker à la map
-   * Sinon charge la map avec les lat/long envoyée depuis la page popup (Marker et Ville Préselectionnées)
+   *  On récupère la localisation pour initialiser la map.
+   * Charge également la map avec les lat/long envoyée depuis la page popup (Marker et Ville Préselectionnées)
    * */
-
-  // TODO should : je pense qu'on ne devrait pas avoir à utiliser la userLocalisation ici, puisqu'elle est définie dans tab2.page.ts, qui est le parent de ce fichier. Le codeLocation est déjà sensé exister à ce moment de l'appli. codeLocation devrait exister 100% du temps ici.
   minimapLocation(): void {
-    // localisation format json ? {code: 'currentlocation', lat: 41.1, long: 10.41} --> pas besoin de call à chaque fois lat et long comme ça...
     this._storageService.getData('location').then((codeLocation: CodeLocation) => {
-      // console.log(codeLocation);
-      // if (!codeLocation) {
-      //   this._userLocalisation();
-      // } else {
-
       if (codeLocation) {
         this._mapInit(codeLocation.lat, codeLocation.long);
       }
-      // }
     });
   }
-
-  /**
-   * localise l'utilisateur et lance l'affichage de la map
-   * */
-  /*  private async _userLocalisation(): Promise<void> {
-    await Geolocation.getCurrentPosition()
-      .then((resp: GeolocationPosition) => {
-        this._coords = resp.coords;
-        this._mapInit(this._coords.latitude, this._coords.longitude);
-        void this._storageService.setData('location', {
-          code: 'currentLocation',
-          lat: this._coords.latitude,
-          long: this._coords.longitude,
-        });
-      })
-      .catch(error => console.warn('Error getting location', error));
-  }*/
 
   /**
    * @param lat

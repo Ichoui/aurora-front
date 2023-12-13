@@ -3,8 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-// import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-// import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -15,6 +13,7 @@ import { IonicStorageModule } from '@ionic/storage-angular';
 import { HttpsInterceptorService } from './https-interceptor.service';
 import { Drivers } from '@ionic/storage';
 import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
+import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -42,6 +41,7 @@ import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
       useClass: HttpsInterceptorService,
       multi: true,
     },
+    Geolocation,
   ],
   bootstrap: [AppComponent],
 })

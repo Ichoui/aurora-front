@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import { AuroraService } from '../aurora.service';
-import { cities, CodeLocation, Coords } from '../models/cities';
+import { cities, City, CodeLocation, Coords } from '../models/cities';
 import { Currently, Daily, Hourly, MeasureUnits, TemperatureUnits, Weather } from '../models/weather';
 import { HttpErrorResponse } from '@angular/common/http';
 import { StorageService } from '../storage.service';
@@ -21,7 +21,7 @@ import { ToastError } from '../shared/toast/toast.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Tab1Page implements OnViewWillEnter, OnDestroy {
-  loading = true;
+  loading: boolean = true;
 
   coords: Coords;
   city: string;
@@ -131,33 +131,12 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
 
   // How to get Forecast if location has recently changed
   private _manageWeatherDisplay(codeLocation?: CodeLocation): void {
-    // if (!codeLocation) {
-    //   this._userLocalisation();
-    // } else
     if (codeLocation.code === 'currentLocation' || codeLocation.code === 'marker') {
       this._reverseGeoloc(codeLocation.lat, codeLocation.long);
     } else {
       this._chooseExistingCity(codeLocation.code);
     }
   }
-
-  /*  /!**
-   * Seulement premier accès sur cette page
-   * Déterminer la localisation actuelle de l'utilisateur
-   *!/
-  // TODO should : ne devrait pas exister! On cherche la localisation bien avant
-  private async _userLocalisation(): Promise<void> {
-    await Geolocation.getCurrentPosition()
-      .then(resp => this._reverseGeoloc(resp.coords.latitude, resp.coords.longitude))
-      .catch((error: HttpErrorResponse) => {
-        console.warn('Geolocalisation error', error.error);
-        this._eventRefresh?.target?.complete();
-        this.dataToast = {
-          message: this._translate.instant('global.error.geoloc'),
-          status: error.status,
-        };
-      });
-  }*/
 
   /**
    * @lat {number}
@@ -199,7 +178,7 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
    * Choisir une des villes pré-enregistrées
    */
   private _chooseExistingCity(code: string): void {
-    const city = cities.find(res => res.code === code);
+    const city: City = cities.find(res => res.code === code);
     this.city = city.ville;
     this.country = city.pays;
 

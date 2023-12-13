@@ -85,10 +85,6 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
         tap(([moreThanFiveMinutes, location]: [boolean, CodeLocation]) => {
           if (moreThanFiveMinutes) {
             // Avoid to load the page every time the user access to tab2, waiting 5 mins
-            // if (!location) {
-            //   console.log('should not pass here !location tab2');
-            //   this._checkPermissions();
-            // } else
             if (location.code === 'currentLocation' || location.code === 'marker') {
               this._getExistingLocalisation(location.lat, location.long);
             } else {
@@ -100,33 +96,9 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
         }),
       )
       .subscribe();
-
-    /*    // TODO should : bloc de code devrait être dans une fonction, appelée dans le retour du combineLatest ci-dessus ... Pour éviter les erreurs bête
-    // ou avec un switchMap ??? attention import lol!
-    combineLatest([from(this._storageService.getData('ACEdate')), from(this._storageService.getData('location'))])
-      .pipe(
-        takeUntil(this._destroy$),
-        map(([ACEdate, location]: [number, CodeLocation]) => [ACEdate ? moment(new Date()).diff(moment(ACEdate), 'minutes') > 10 : true, location]),
-        tap(([moreThanFiveMinutes, location]: [boolean, CodeLocation]) => {
-          if (moreThanFiveMinutes) {
-            // Avoid to load the page every time the user access to tab2, waiting 5 mins
-            if (!location) {
-              console.log('should not pass here !location tab2');
-              // this._checkPermissions();
-            } else if (location.code === 'currentLocation' || location.code === 'marker') {
-              this._getExistingLocalisation(location.lat, location.long);
-            } else {
-              this._chooseExistingCity(location.code);
-            }
-          } else {
-            this._getACEDataFromStorage();
-          }
-        }),
-      )
-      .subscribe();*/
   }
 
-  private _getACEDataFromStorage() {
+  private _getACEDataFromStorage(): void {
     combineLatest([
       from(this._storageService.getData('location')),
       from(this._storageService.getData('solarCycle')),
@@ -171,51 +143,6 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
       )
       .subscribe();
   }
-
-  /**
-   * Seulement premier accès sur cette page
-   * Déterminer la localisation actuelle de l'utilisateur
-   */
-  /*  // Voir pour passer tout ce bloc de code dans App.component... Après tout, c'est là la première fois où on cherche la position
-  private async _checkPermissions(): Promise<void> {
-    try {
-      const permissionStatus = await Geolocation.checkPermissions();
-      console.log('permission status: ', permissionStatus);
-
-      if (permissionStatus?.location !== 'granted') {
-        const request = await Geolocation.requestPermissions();
-        if (request.location !== 'granted') {
-          console.warn('permission request not granted ', request.location);
-          this._getExistingLocalisation(69.650288, 18.955098); // par default, on envoie tromso
-          return null;
-        } else {
-          await this._getPosition();
-        }
-      } else {
-        console.warn('permission is granted in ELSE', permissionStatus.location);
-        await this._getPosition();
-      }
-    } catch (e) {
-      console.error('catch here, ', e);
-      this._getExistingLocalisation(69.650288, 18.955098); // par default, on envoie tromso
-    }
-  }
-
-  // Todo should : doit suivre la fonction ci-dessus
-  private async _getPosition(): Promise<void> {
-    await Geolocation.getCurrentPosition({ maximumAge: 3000, timeout: 10000, enableHighAccuracy: true })
-      .then(resp => this._getExistingLocalisation(resp.coords.latitude, resp.coords.longitude))
-      .catch(error => {
-        console.warn('Geolocalisation error', error.message);
-
-        this._cdr.markForCheck();
-        this._eventRefresh?.target?.complete();
-        this.dataToast = {
-          message: this._translate.instant('global.error.geoloc'),
-          status: error.status,
-        };
-      });
-  }*/
 
   /**
    * @param lat {number}

@@ -2,8 +2,8 @@ platforms:
   android:
     appName: Aurorapp
     packageName: io.aurora.start
-    versionName: 1.2.5
-    versionCode: 2015
+    versionName: 1.2.6
+    versionCode: 2016
     incrementVersionCode: false
     manifest:
       - file: AndroidManifest.xml

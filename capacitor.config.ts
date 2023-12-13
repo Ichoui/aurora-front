@@ -8,6 +8,7 @@ const config: CapacitorConfig = {
     SplashScreen: {
       launchShowDuration: 500,
       launchFadeOutDuration: 500,
+      backgroundColor: '#001e49',
     },
   },
 };

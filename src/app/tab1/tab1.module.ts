@@ -8,6 +8,7 @@ import { HeaderPageModule } from '../shared/header/header.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { MeteoModule } from './meteo/meteo.module';
 import { ToastModule } from '../shared/toast/toast.module';
+import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 
 @NgModule({
   imports: [
@@ -21,5 +22,6 @@ import { ToastModule } from '../shared/toast/toast.module';
     ToastModule,
   ],
   declarations: [Tab1Page],
+  providers: [Geolocation],
 })
 export class Tab1PageModule {}
