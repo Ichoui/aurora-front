@@ -93,7 +93,6 @@ export class MeteoComponent implements OnChanges {
 
   private _nearestSolstice(): 'night' | 'day' {
     const today = moment();
-
     const currentWinterSolstice = moment([today.year(), 11, 21]);
     const currentSummerSolstice = moment([today.year(), 5, 21]);
     const lastWinterSolstice = moment([today.year() - 1, 11, 21]);
@@ -101,12 +100,10 @@ export class MeteoComponent implements OnChanges {
 
     // Comparaison des différences entre les dates
     const currentDiffs = [Math.abs(currentWinterSolstice.diff(today)), Math.abs(currentSummerSolstice.diff(today))];
-
     const previousDiffs = [Math.abs(lastWinterSolstice.diff(today)), Math.abs(lastSummerSolstice.diff(today))];
 
     // Trouver l'index de la différence minimale pour l'année en cours
     const closestCurrent = currentDiffs.indexOf(Math.min(...currentDiffs));
-
     // Trouver l'index de la différence minimale pour l'année précédente
     const closestPrevious = previousDiffs.indexOf(Math.min(...previousDiffs));
 
