@@ -77,7 +77,7 @@
       "select": "Pre-selected locations",
       "another": "Try another location",
       "unknown": "Unknown",
-      "no-data": "Data no longer displayed? Touch here",
+      "no-data": "Data no longer displayed? Tap here",
       "tooltip": {
         "map": "Tap to choose a custom location anywhere in the world. You can also choose a predefined city.<br>Moreover, here you can check the Auroral Oval in real time (give or take an hour).",
         "kp-next-hours": "Maximum Kp Index per 3 hours.<br>The higher the index is, the better the geomagnetic conditions are to observe the Northern Lights. Geomagnetic storm starts at Kp5.",
@@ -87,7 +87,7 @@
         "wind-bz": "A negative Bz makes it easier to observe Northern Lights and let the solar wind enters earth's magnetosphere. Conversely, a positive Bz will block solar wind out of the magnetosphere.<br>Values between -15 and 15.",
         "wind-bt": "The higher the Bt value is, the more powerful the Northern Lights are.<br>The Bt is high below 20nT.",
         "solar-cycle": "A solar cycle lasts 11 years on average. The following values may change.<br><u>Sunspots:</u> The more sunspots they are, the more important the activity solar will be.<br><u>Solar Flux:</u> Solar radio flux at 10.7 cm (2800 MHz) is an excellent indicator of solar activity.",
-        "poles": "History of the auroral oval, and predictions for the next hour."
+        "poles": "Tap to open.<br>History of the auroral oval on the last 24 hours, and forecast for the next hour."
       }
     }
   },
