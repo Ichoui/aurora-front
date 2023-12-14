@@ -41,7 +41,7 @@
       "density.unit": "(p/cc)",
       "speed": "Vitesse du vent",
       "probability": "Probabilité depuis ta localisation d'observer au Zénith une Aurore Boréale",
-      "aceToEarth": "Temps de propagation estimé du vent solaire entre ACE et la Terre",
+      "aceToEarth": "Temps de propagation du vent solaire entre DSCOVR et la Terre",
       "bz": "Bz",
       "bz.north": "Nord",
       "bz.south": "Sud",
@@ -57,9 +57,9 @@
       "pole.south": "Pôle Sud",
       "poles.explanations": "Offre 30 à 90 minutes de prévisions pour une Aurore, ainsi que les dernières 24 heures.",
       "nexthours.title": "Kp Index",
-      "nexthours.sub": "Prochaines heures",
+      "nexthours.sub": "Prévions - prochaines heures",
       "longterm.title": "Kp Index",
-      "longterm.sub": "Prévisions 27 jours",
+      "longterm.sub": "Prévisions - 27 jours",
       "density.title": "Densitée des particules",
       "density.sub": "Vent solaire (p/cc)",
       "speed.title": "Vitesse",
@@ -81,14 +81,14 @@
       "no-data": "La donnée ne s'affiche plus ? Touche ici",
       "tooltip": {
         "map": "Touche pour choisir une localisation personnalisée dans le monde entier. Tu peux également choisir une ville prédéfinie.<br>De plus, tu peux ici visualiser l'Ovale Auroral en temps réel (à 1 heure près).",
-        "kp-next-hours": "KP Index maximum par tranches de 3 heures.<br> Plus l'indice est haut, et meilleures sont les conditions géomagnétique pour observer une Aurore Boréale.<br>Tempête géomagnétique à partir de Kp5.",
-        "kp-next-days": "KP Index maximum sur les 27 prochains jours.<br> Plus l'indice est haut, et au mieux les conditions géomagnétique seront réunies pour observer une Aurore Boréale.<br>Tempête géomagnétique à partir de Kp5.",
-        "wind-speed": "Vitesse à laquelle le vent solaire se dirige vers la Terre. <br>Plus la vitesse du vent est élevée, et plus les Aurores Boréales vont danser dans le ciel.<br>Au delà de {{unit}}, le vent est considéré comme rapide.",
+        "kp-next-hours": "Kp Index maximum par tranches de 3 heures.<br> Plus l'indice est haut, et meilleures sont les conditions géomagnétique pour observer une Aurore Boréale.<br>Tempête géomagnétique à partir de Kp5.",
+        "kp-next-days": "Kp Index maximum sur les 27 prochains jours.<br> Plus l'indice est haut, et meilleures seront les conditions géomagnétiques seront réunies pour observer une Aurore Boréale.<br>Tempête géomagnétique à partir de Kp5.",
+        "wind-speed": "Vitesse à laquelle le vent solaire se dirige vers la Terre. <br>Plus la vitesse du vent est élevée, et plus les Aurores Boréales vont danser dans le ciel.<br>Le vent est rapide au-delà de {{unit}}",
         "wind-density": "Densité des particules par mètre cube.<br> Plus les particules sont nombreuses, et plus les Aurores Boréales sont brillantes.",
-        "wind-bz": "Champs Magnétique Interplanétaire<br> Un BZ négatif rend l'observation d'Aurores plus propices et laisse pénetrer le vent solaire dans la magnétosphère. Un BZ positif, à l'inverse, va bloquer le vent solaire hors de la magnétosphère.<br>Valeurs comprises entre -15 et 15.",
-        "wind-bt": "Champs Magnétique Interplanétaire<br>Plus le BT est élevé, plus les aurores sont puissantes. ",
+        "wind-bz": "Un Bz négatif rend l'observation d'Aurores plus propices et laisse pénetrer le vent solaire dans la magnétosphère. Un Bz positif, à l'inverse, va bloquer le vent solaire hors de la magnétosphère.<br>Valeurs comprises entre -15 et 15.",
+        "wind-bt": "Plus le Bt est élevé, plus les aurores sont puissantes. Le Bt est fort au-dessus de 20nT.",
         "solar-cycle": "Un cycle solaire dure environ 11 ans. Les valeurs sont sujettes à changement.<br><u>Tâches solaires:</u> Plus elles sont nombreuses, et plus l'activité solaire sera importante, favorisant les Aurores Boréales.<br><u>Flux solaire:</u> Le flux solaire radio à 10.7 cm (2800 MHz) est un excellent indicateur de l'activité solaire.",
-        "poles": "Historique de l'ovale auroral, et prédiction sur la prochaine heure."
+        "poles": "Historique de l'ovale auroral, et prédictions sur la prochaine heure."
       }
     }
   },
@@ -100,9 +100,9 @@
       "current.position": "Position actuelle",
       "about": {
         "title": "À propos",
-        "first": "Prévisions aurorales fournies par la ",
+        "first": "Prévisions aurorales : ",
         "first.link": "NOAA's SWPC",
-        "second": "Données météo par ",
+        "second": "Données météo : ",
         "second.link": "OpenWeather",
         "third": "Tu aimes Aurorapp ? Laisse une ",
         "third.link": "note",
@@ -145,7 +145,7 @@
         },
         "forecast": {
           "title": "Comment peut-on prévoir ce phénomène ?",
-          "message": "Grâce à un satellite nommé ACE (Advanced Composition Explorer) appartenant à la NASA, qui a pour mission d'étudier les particules solaires. Ce satellite est positionné en position Lagrange 1 entre la Terre et le Soleil, à environ 1.500.000km de distance.<br>Les données sont ensuite traitée par le &laquo; Space Weather Prediction Center &raquo; qui est un service météorologique situé aux Etats-Unis.<br>Grâce au croisement de plusieurs données (comme par exemple le Bz, le KP, la Densité des particules ou encore la vitesse du vent solaire, mais aussi la couverture nuaugeuse), on peut alors prévoir leur visibilité."
+          "message": "Grâce à des satellites appartenant à la NASA, qui a pour mission d'étudier les particules solaires. Ces satellites sont positionnés en position Lagrange 1 entre la Terre et le Soleil, à environ 1.500.000km de distance.<br>Les données sont ensuite traitée par le &laquo; Space Weather Prediction Center &raquo; qui est un service météorologique situé aux Etats-Unis.<br>Grâce au croisement de plusieurs données (comme par exemple le Bz, le KP, la Densité des particules ou encore la vitesse du vent solaire, mais aussi la couverture nuaugeuse), on peut alors prévoir leur visibilité. Il existe 2 satellites : ACE (Advanced Composition Explorer) qui arrive en fin de mission, et DSCOVR (Deep Space Climate Observatory) qui va le remplacer."
         },
         "capricious": {
           "title": "Les prévisions sont-elles précises ?",

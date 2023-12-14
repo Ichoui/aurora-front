@@ -40,7 +40,7 @@
       "density.unit": "(p/cc)",
       "speed": " Solar wind",
       "probability": "Probability to observe Northern Lights at Zenith from your location",
-      "aceToEarth": "Solar wind propagation delay between ACE satellite and Earth",
+      "aceToEarth": "Solar wind propagation delay between DSCOVR and Earth",
       "bz": "Bz",
       "bz.north": "North",
       "bz.south": "South",
@@ -55,10 +55,10 @@
       "pole.north": "North pole",
       "pole.south": "South pole",
       "poles.explanations": "Provide a 30 to 90 minutes forecast of the location and intensity of the Northern Lights, along with the last 24h forecast.",
-      "nexthours.title": "Next hours forecast",
-      "nexthours.sub": "Kp maximum",
-      "longterm.title": "Long term forecast",
-      "longterm.sub": "Kp maximum",
+      "nexthours.title": "Kp Index",
+      "nexthours.sub": "Next hours forecast",
+      "longterm.title": "Kp Index",
+      "longterm.sub": "Long term forecast",
       "density.title": "Density",
       "density.sub": "Solar wind (p/cc)",
       "speed.title": "Speed",
@@ -80,14 +80,14 @@
       "no-data": "Data no longer displayed? Touch here",
       "tooltip": {
         "map": "Tap to choose a custom location anywhere in the world. You can also choose a predefined city.<br>Moreover, here you can check the Auroral Oval in real time (give or take an hour).",
-        "kp-next-hours": "Maximum KP Index per 3 hours.<br>The higher the index is, the better the geomagnetic conditions are to observe the Northern Lights. Geomagnetic storm starts at Kp5.",
-        "kp-next-days": "Maximum KP Index for the next 27 days.<br> The higher the index is, the better the geomagnetic conditions are to observe the Northern Lights. Geomagnetic storm starts at Kp5.",
-        "wind-speed": "Solar wind speed from sun to earth.<br>The higher the speed is, the more the Northern Lights dance. We consider that the wind is fast below {{unit}}.",
+        "kp-next-hours": "Maximum Kp Index per 3 hours.<br>The higher the index is, the better the geomagnetic conditions are to observe the Northern Lights. Geomagnetic storm starts at Kp5.",
+        "kp-next-days": "Maximum Kp Index for the next 27 days.<br> The higher the index is, the better the geomagnetic conditions are to observe the Northern Lights.<br>Geomagnetic storm starts at Kp5.",
+        "wind-speed": "Solar wind speed from sun to earth.<br>The higher the speed is, the more the Northern Lights dance.<br>The wind is fast below {{unit}}.",
         "wind-density": "Particle density per cubic centimeter.<br>The more the particles are, the brighter the Northern Lights are.",
-        "wind-bz": "Interplanetary Magnetic Field<br>A negative BZ makes it easier to observe Northern Lights and let the solar wind enters earth's magnetosphere. Conversely, a positive BZ will block solar wind out of the magnetosphere.<br>Values between -15 and 15.",
-        "wind-bt": "Interplanetary Magnetic Field<br>The higher the BT value is, the more powerful the Northern Lights are.",
+        "wind-bz": "A negative Bz makes it easier to observe Northern Lights and let the solar wind enters earth's magnetosphere. Conversely, a positive Bz will block solar wind out of the magnetosphere.<br>Values between -15 and 15.",
+        "wind-bt": "The higher the Bt value is, the more powerful the Northern Lights are.<br>The Bt is high below 20nT.",
         "solar-cycle": "A solar cycle lasts 11 years on average. The following values may change.<br><u>Sunspots:</u> The more sunspots they are, the more important the activity solar will be.<br><u>Solar Flux:</u> Solar radio flux at 10.7 cm (2800 MHz) is an excellent indicator of solar activity.",
-        "poles": "History of the auroral oval, and prediction for the next hour."
+        "poles": "History of the auroral oval, and predictions for the next hour."
       }
     }
   },
@@ -103,8 +103,8 @@
         "first.link": "NOAA",
         "second": "Weather data powered by  ",
         "second.link": "OpenWeather",
-        "third": "If you like it, don't forget to ",
-        "third.link": "note me",
+        "third": "Do you like Aurorapp ? Please, ",
+        "third.link": "rate it",
         "third.bis": " or buy me a ",
         "third.bis.link": "coffee !"
       },
@@ -144,7 +144,7 @@
         },
         "forecast": {
           "title": "How can we predict this phenomenon?",
-          "message": "Thanks to a satellite named ACE (Advanced Composition Explorer) belonging to NASA, which has the mission to study solar particles. This satellite is positioned in Lagrange 1 between the Earth and the Sun, at a distance of about 1,500,000 km. The data is then processed by the Space Weather Prediction Center, a meteorological service located in the United States.<br>Thanks to the crossing of several data (as for example the Bz, the KP, the Density of the particles or the speed of the solar wind, but also the cloud cover), we can then predict their visibility."
+          "message": "Thanks to satellites belonging to NASA, which has the mission to study solar particles. Those satellites are positioned in Lagrange 1 between the Earth and the Sun, at a distance of about 1,500,000 km. The data is then processed by the Space Weather Prediction Center, a meteorological service located in the United States.<br>Thanks to the crossing of several data (as for example the Bz, the KP, the Density of the particles or the speed of the solar wind, but also the cloud cover), we can then predict their visibility. There are 2 satellites: ACE (Advanced Composition Explorer) which is nearing the end of its mission, and DSCOVR (Deep Space Climate Observatory) which will replace it."
         },
         "capricious": {
           "title": "How accurate are the forecasts?",
