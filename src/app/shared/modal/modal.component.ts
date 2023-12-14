@@ -3,6 +3,8 @@ import { ModalController } from '@ionic/angular';
 import { AuroraService } from '../../aurora.service';
 import { first } from 'rxjs/operators';
 import * as moment from 'moment';
+import { manageDates } from '../../models/utils';
+import { ELocales } from '../../models/locales';
 
 interface IPolesUrl {
   url: string;
@@ -45,6 +47,7 @@ export class ModalComponent implements OnInit {
 
   ngOnInit() {
     if (this.ovation) {
+      // https://www.swpc.noaa.gov/products/aurora-30-minute-forecast
       this.loadPoles(Pole.NORTH);
       this.loadPoles(Pole.SOUTH);
     }
@@ -92,5 +95,18 @@ export class ModalComponent implements OnInit {
 
   momentDate(date: string): string {
     return moment(date).locale(this.locale).format('dddd');
+  }
+
+  // est-ce que hour est en UTC ou non ?
+  momentHour(hour: string): string | moment.Moment {
+    console.log(moment(hour));
+    // console.log(hour);
+    // console.log(moment.utc(hour).local().format('HH:mm'));
+    // Laisser tomber le format, on verra dans un second temps
+    // vérifier les dates UTC
+
+    // loop sur console.log ?????
+    manageDates(hour, this.locale === ELocales.FR ? 'HH[h]mm' : 'hh:mm A');
+    return moment.utc(hour).local().format('HH:mm');
   }
 }

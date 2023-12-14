@@ -17,7 +17,8 @@
     <ion-img [src]="tabNorth[indexNorth]?.url"></ion-img>
     <div class="datetime">
       <span>{{ momentDate(tabNorth[indexNorth]?.time) }}</span>
-      {{ tabNorth[indexNorth]?.time | date: 'HH:mm' }}
+      {{ momentHour(tabNorth[indexNorth]?.time) }}
+      <!--      {{ tabNorth[indexNorth]?.time | date: 'HH:mm' }}-->
     </div>
     <ion-range
       color="primary"
