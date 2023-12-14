@@ -120,11 +120,11 @@ export class ModalComponent implements OnInit {
    */
   splitDatetime(dateToSplit: string, pole?: Pole): void {
     const fullUrl = dateToSplit.split('/');
-    const segmentUrl = fullUrl[9];
+    const segmentUrl = fullUrl[8];
     if (segmentUrl) {
       const segmentedSegment = segmentUrl.split('_');
-      const date = segmentedSegment[4];
-      const hourNotFormatted = segmentedSegment[5];
+      const date = segmentedSegment[2];
+      const hourNotFormatted = segmentedSegment[3];
       const hour = hourNotFormatted.split('.');
       this.formattedDatetime(date, hour[0], pole);
     }
@@ -137,10 +137,15 @@ export class ModalComponent implements OnInit {
    * Formatte la date et l'heure pour un affichage clean, à partir d'une string récupérée sur le nom de chaque image
    */
   formattedDatetime(date: string, hour: string, pole: Pole): void {
+    console.log(date);
+    console.log(hour);
     const segmentDate = date.split('');
     const day = segmentDate[6] + segmentDate[7];
     const month = segmentDate[4] + segmentDate[5];
 
+    // TODO utiliser momentJS here pour date + heure :)
+    // Faire attention aux format UTC
+    // Ajouter l'heure sur l'image première avant qu'on bouge le curseur
     const segmentHour = hour.split('');
     const hr = segmentHour[0] + segmentHour[1];
     const min = segmentHour[2] + segmentHour[3];
