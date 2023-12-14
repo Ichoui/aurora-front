@@ -7,33 +7,39 @@
     </ion-buttons>
     <ion-title>
       <span *ngIf="cgu">{{ 'cgu.title' | translate }}</span>
-      <span *ngIf="northPole && southPole">{{ 'tab2.forecast.poles' | translate }}</span>
+      <span *ngIf="ovation">{{ 'tab2.forecast.poles' | translate }}</span>
     </ion-title>
   </ion-toolbar>
 
-  <div *ngIf="northPole" class="container-map">
+  <div *ngIf="ovation" class="container-map">
     <div class="subtitle explanations">{{ 'tab2.forecast.poles.explanations' | translate }}</div>
     <div class="subtitle">{{ 'tab2.forecast.pole.north' | translate }}</div>
-    <ion-img [src]="tabNorth[valueNorth]"></ion-img>
-    <div class="datetime">{{ hourNorth }}{{ dateNorth }}</div>
+    <ion-img [src]="tabNorth[indexNorth]?.url"></ion-img>
+    <div class="datetime">
+      <span>{{ momentDate(tabNorth[indexNorth]?.time) }}</span>
+      {{ tabNorth[indexNorth]?.time | date: 'HH:mm' }}
+    </div>
     <ion-range
       color="primary"
       aria-label="North Hour"
       [min]="minNorth"
       [max]="maxNorth - 1"
-      (ionChange)="valuePolesChange($event, pole.NORTH)"
+      (ionChange)="valuePolesChange($event.detail.value, pole.NORTH)"
     ></ion-range>
   </div>
-  <div *ngIf="southPole" class="container-map">
+  <div *ngIf="ovation" class="container-map">
     <div class="subtitle">{{ 'tab2.forecast.pole.south' | translate }}</div>
-    <ion-img [src]="tabSouth[valueSouth]"></ion-img>
-    <div class="datetime">{{ hourSouth }}{{ dateSouth }}</div>
+    <ion-img [src]="tabSouth[indexSouth]?.url"></ion-img>
+    <div class="datetime">
+      <span>{{ momentDate(tabSouth[indexSouth]?.time) }}</span>
+      {{ tabSouth[indexSouth]?.time | date: 'HH:mm' }}
+    </div>
     <ion-range
       color="primary"
       aria-label="South Hour"
       [min]="minSouth"
       [max]="maxSouth - 1"
-      (ionChange)="valuePolesChange($event, pole.SOUTH)"
+      (ionChange)="valuePolesChange($event.detail.value, pole.SOUTH)"
     ></ion-range>
   </div>
 

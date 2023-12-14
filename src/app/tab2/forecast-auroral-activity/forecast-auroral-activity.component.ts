@@ -141,12 +141,12 @@ export class ForecastAuroralActivityComponent implements OnChanges {
     }
   }
 
-  async showPoles(): Promise<void> {
+  async showPoles(locale: ELocales): Promise<void> {
     const modal = await this._modalController.create({
       component: ModalComponent,
       componentProps: {
-        northPole: 'https://v2.api.auroras.live/images/ovation-north.jpg',
-        southPole: 'https://v2.api.auroras.live/images/ovation-south.jpg',
+        ovation: true,
+        locale,
       },
     });
     return await modal.present();
