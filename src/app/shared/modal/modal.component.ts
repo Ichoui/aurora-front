@@ -1,10 +1,10 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { AuroraService } from '../../aurora.service';
 import { first } from 'rxjs/operators';
 import * as moment from 'moment';
 import { manageDates } from '../../models/utils';
-import { ELocales } from '../../models/locales';
+import { HourClock } from '../../models/weather';
 
 interface IPolesUrl {
   url: string;
@@ -25,9 +25,11 @@ const SWPC_URL_PREFIX = 'https://services.swpc.noaa.gov/';
 export class ModalComponent implements OnInit {
   @Input() ovation: boolean;
   @Input() locale: string;
+  @Input() hourClock: HourClock;
 
   @Input() cgu = false;
   @Input() canvasInput = false;
+  loader = false;
 
   pole = Pole;
 
@@ -43,7 +45,7 @@ export class ModalComponent implements OnInit {
 
   @ViewChild('canvas', { static: false }) canvas: ElementRef<HTMLCanvasElement>;
 
-  constructor(private _modalController: ModalController, private _auroraService: AuroraService) {}
+  constructor(private _modalController: ModalController, private _auroraService: AuroraService, private _cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     if (this.ovation) {
@@ -71,6 +73,7 @@ export class ModalComponent implements OnInit {
    * Récupére le service pour afficher pole north / south
    */
   loadPoles(pole: Pole): void {
+    // TODO loader quand l'API met du temps à se load
     this._auroraService
       .getPoles$(pole)
       .pipe(first())
@@ -90,6 +93,8 @@ export class ModalComponent implements OnInit {
           this.valuePolesChange(0, Pole.SOUTH);
           return;
         }
+        this.loader = true;
+        this._cdr.markForCheck();
       });
   }
 
@@ -99,14 +104,18 @@ export class ModalComponent implements OnInit {
 
   // est-ce que hour est en UTC ou non ?
   momentHour(hour: string): string | moment.Moment {
-    console.log(moment(hour));
+    // TODO est-ce qu'on a besoin de this.locale ici ? Sinon remonter la chaine et le supprimer où c'est nécessaire
+    // console.log(moment(hour));
     // console.log(hour);
     // console.log(moment.utc(hour).local().format('HH:mm'));
-    // Laisser tomber le format, on verra dans un second temps
     // vérifier les dates UTC
 
     // loop sur console.log ?????
-    manageDates(hour, this.locale === ELocales.FR ? 'HH[h]mm' : 'hh:mm A');
-    return moment.utc(hour).local().format('HH:mm');
+    // console.log(this.hourClock);
+    manageDates(hour, this.hourClock === HourClock.TWENTYFOUR ? 'HH[h]mm' : 'hh:mm A');
+    return moment
+      .utc(hour)
+      .local()
+      .format(this.hourClock === HourClock.TWENTYFOUR ? 'HH[h]mm' : 'hh:mm A');
   }
 }

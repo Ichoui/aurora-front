@@ -60,7 +60,7 @@ export function convertUnitTemperature(nb: number, unit: TemperatureUnits): numb
  * @param locale ELocale
  * @param unix {boolean} Permet de convertir une date au format UNIX (Unix Timestamp) ou DATE lambda
  * */
-export function manageDates(date: number | string, format: string, locale?: ELocales, unix = false): string | moment.Moment {
+export function manageDates(date: number | string, format: string, locale?: ELocales, unix: boolean = false): string | moment.Moment {
   const offset = moment().utcOffset();
   const d = unix ? moment.unix(date as number).locale(locale) : moment.utc(date);
   return d.utcOffset(offset).format(format);

@@ -4,7 +4,7 @@ import { Platform } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { StorageService } from './storage.service';
-import { MeasureUnits, TemperatureUnits } from './models/weather';
+import { HourClock, MeasureUnits, TemperatureUnits } from './models/weather';
 import { ELocales } from './models/locales';
 import { StatusBar } from '@capacitor/status-bar';
 import { STATUS_BAR_COLOR } from './models/colors';
@@ -63,6 +63,7 @@ export class AppComponent {
           this._getLocale();
           this._getMeasureUnit();
           this._getTempUnit();
+          this._getHourClockSystem();
         });
     });
   }
@@ -153,7 +154,23 @@ export class AppComponent {
       },
       noValue => {
         void this._storageService.setData('temperature', 'celsius');
-        console.warn('_getTempUnit() : problem with tempeartyre : ', noValue);
+        console.warn('_getTempUnit() : problem with temperature : ', noValue);
+      },
+    );
+  }
+
+  private _getHourClockSystem(): void {
+    this._storageService.getData('clock').then(
+      (format: HourClock) => {
+        if (format) {
+          void this._storageService.setData('clock', format);
+        } else {
+          void this._storageService.setData('clock', 'twentyfour');
+        }
+      },
+      noValue => {
+        void this._storageService.setData('clock', 'twentyfour');
+        console.warn('_getHourClockSystem() : problem with hour clock system : ', noValue);
       },
     );
   }

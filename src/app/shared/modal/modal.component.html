@@ -11,7 +11,7 @@
     </ion-title>
   </ion-toolbar>
 
-  <div *ngIf="ovation" class="container-map">
+  <div *ngIf="ovation && loader" class="container-map">
     <div class="subtitle explanations">{{ 'tab2.forecast.poles.explanations' | translate }}</div>
     <div class="subtitle">{{ 'tab2.forecast.pole.north' | translate }}</div>
     <ion-img [src]="tabNorth[indexNorth]?.url"></ion-img>
@@ -28,7 +28,7 @@
       (ionChange)="valuePolesChange($event.detail.value, pole.NORTH)"
     ></ion-range>
   </div>
-  <div *ngIf="ovation" class="container-map">
+  <div *ngIf="ovation && loader" class="container-map">
     <div class="subtitle">{{ 'tab2.forecast.pole.south' | translate }}</div>
     <ion-img [src]="tabSouth[indexSouth]?.url"></ion-img>
     <div class="datetime">
@@ -42,6 +42,10 @@
       [max]="maxSouth - 1"
       (ionChange)="valuePolesChange($event.detail.value, pole.SOUTH)"
     ></ion-range>
+  </div>
+
+  <div *ngIf="ovation && !loader" class="content-spinner">
+    <div class="whirly-loader"></div>
   </div>
 
   <div *ngIf="cgu" id="cgu">

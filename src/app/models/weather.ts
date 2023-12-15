@@ -155,6 +155,11 @@ export enum TemperatureUnits {
   KELVIN = 'kelvin',
 }
 
+export enum HourClock {
+  TWELVE = 'twelve',
+  TWENTYFOUR = 'twentyfour',
+}
+
 export const measureUnits: SelectContents[] = [
   {
     slug: 'metric',
@@ -178,5 +183,16 @@ export const temperatureUnits: SelectContents[] = [
   {
     slug: 'kelvin',
     label: 'tab3.more.kelvin',
+  },
+];
+
+export const hourClockSystem: SelectContents[] = [
+  {
+    slug: 'twelve',
+    label: 'tab3.more.twelve',
+  },
+  {
+    slug: 'twentyfour',
+    label: 'tab3.more.twentyfour',
   },
 ];

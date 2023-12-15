@@ -4,7 +4,7 @@ import { AuroraService } from '../aurora.service';
 import { StorageService } from '../storage.service';
 import { map, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { combineLatest, from, Subject } from 'rxjs';
-import { MeasureUnits } from '../models/weather';
+import { HourClock, MeasureUnits } from '../models/weather';
 import { Kp27day, KpCurrent, KpForecast, SolarCycle, SolarWind, SwpcData } from '../models/aurorav3';
 import { determineColorsOfValue } from '../models/utils';
 import { OnViewWillEnter } from '../models/ionic';
@@ -35,6 +35,7 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
   kpForecast27days: Kp27day[] = [];
   measure: MeasureUnits;
   locale: ELocales;
+  hourClock: HourClock;
   solarWindInstant: SolarWind;
   solarWind: SolarWind[] = [];
   solarCycle: SolarCycle[] = [];
@@ -73,12 +74,17 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
     this.loadSwiper = true;
     this._cdr.markForCheck();
 
-    combineLatest([from(this._storageService.getData('measure')), from(this._storageService.getData('locale'))])
+    combineLatest([
+      from(this._storageService.getData('measure')),
+      from(this._storageService.getData('locale')),
+      from(this._storageService.getData('clock')),
+    ])
       .pipe(
         takeUntil(this._destroy$),
-        tap(([measure, locale]: [MeasureUnits, ELocales]) => {
+        tap(([measure, locale, clock]: [MeasureUnits, ELocales, HourClock]) => {
           this.measure = measure;
           this.locale = locale;
+          this.hourClock = clock;
         }),
         switchMap(() => combineLatest([from(this._storageService.getData('ACEdate')), from(this._storageService.getData('location'))])),
         map(([ACEdate, location]: [number, CodeLocation]) => [ACEdate ? moment(new Date()).diff(moment(ACEdate), 'minutes') > 10 : true, location]),
@@ -107,11 +113,12 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
       from(this._storageService.getData('kp27day')),
       from(this._storageService.getData('nowcastAurora')),
       from(this._storageService.getData('kpCurrent')),
+      from(this._storageService.getData('clock')),
     ])
       .pipe(
         takeUntil(this._destroy$),
         tap({
-          next: ([location, solarCycle, solarWind, kpForecast, kp27day, nowcastAurora, kpCurrent]: [
+          next: ([location, solarCycle, solarWind, kpForecast, kp27day, nowcastAurora, kpCurrent, clock]: [
             CodeLocation,
             SolarCycle[],
             SolarWind[],
@@ -119,6 +126,7 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
             string, // kp27day[] in .txt
             number,
             KpCurrent,
+            HourClock,
           ]) => {
             this.coords = { ...this.coords, latitude: location.lat, longitude: location.long };
             this.solarCycle = solarCycle;
@@ -128,6 +136,7 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
             this.kpForecast27days = this._getKpForecast27day(kp27day);
             this.nowcastAurora = nowcastAurora;
             this.kpCurrent = kpCurrent;
+            this.hourClock = clock;
 
             this.loading = false;
             this._cdr.markForCheck();

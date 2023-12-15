@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import { AuroraService } from '../aurora.service';
 import { cities, City, CodeLocation, Coords } from '../models/cities';
-import { Currently, Daily, Hourly, MeasureUnits, TemperatureUnits, Weather } from '../models/weather';
+import { Currently, Daily, HourClock, Hourly, MeasureUnits, TemperatureUnits, Weather } from '../models/weather';
 import { HttpErrorResponse } from '@angular/common/http';
 import { StorageService } from '../storage.service';
 import { map, takeUntil, tap } from 'rxjs/operators';
@@ -38,6 +38,7 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
   measureUnits: MeasureUnits;
   temperatureUnits: TemperatureUnits;
   locale: ELocales;
+  hourClock: HourClock;
   dataToast: ToastError;
 
   constructor(
@@ -63,21 +64,24 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
       from(this._storageService.getData('temperature')),
       from(this._storageService.getData('weather')),
       from(this._storageService.getData('locale')),
+      from(this._storageService.getData('clock')),
     ])
       .pipe(
         takeUntil(this._destroy$),
         tap({
-          next: ([location, previousLocation, measure, temperature, weather, locale]: [
+          next: ([location, previousLocation, measure, temperature, weather, locale, clock]: [
             CodeLocation,
             { lat: number; long: number },
             MeasureUnits,
             TemperatureUnits,
             any,
             ELocales,
+            HourClock,
           ]) => {
             this.temperatureUnits = temperature;
             this.measureUnits = measure;
             this.locale = locale;
+            this.hourClock = clock;
 
             // Ceci pour éviter de call l'API trop souvent
             if (this._shouldRecallWeatherAPI(weather, location, previousLocation)) {
@@ -241,4 +245,6 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
     this._eventRefresh = event;
     this._getForecast(this.city, this.country);
   }
+
+  protected readonly close = close;
 }

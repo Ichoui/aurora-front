@@ -3,7 +3,7 @@ import { ELocales, Locales, SelectContents } from '../../models/locales';
 import { ModalController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { ModalComponent } from '../../shared/modal/modal.component';
-import { MeasureUnits, measureUnits, temperatureUnits, TemperatureUnits } from '../../models/weather';
+import { HourClock, hourClockSystem, MeasureUnits, measureUnits, temperatureUnits, TemperatureUnits } from '../../models/weather';
 import { StorageService } from '../../storage.service';
 import { OnViewWillEnter } from '../../models/ionic';
 
@@ -28,6 +28,9 @@ export class SettingsPage implements OnViewWillEnter {
 
   temperatureUnits = TemperatureUnits.CELSIUS;
   readonly temperature: SelectContents[] = temperatureUnits;
+
+  hourClock = HourClock.TWENTYFOUR;
+  readonly hourClockSystem: SelectContents[] = hourClockSystem;
 
   readonly about: About[] = [
     {
@@ -57,13 +60,14 @@ export class SettingsPage implements OnViewWillEnter {
   /**
    * Invoqué à chaque retour sur la page
    * */
-  ionViewWillEnter() {
+  ionViewWillEnter(): void {
     this._getLocale();
     this._getMeasureUnit();
     this._getTemperatureUnit();
+    this._getClockHourSystem();
   }
 
-  async CGU() {
+  async CGU(): Promise<void> {
     const modal = await this._modalController.create({
       component: ModalComponent,
       componentProps: {
@@ -76,10 +80,10 @@ export class SettingsPage implements OnViewWillEnter {
   /**
    * Sélection de la langue à utiliser et update du storage
    * */
-  setLocale(event) {
+  setLocale(event): void {
     this.locale = event.detail.value;
     this._translateService.use(this.locale);
-    void this._storageService.setData('locale', this.locale);
+    void this._storageService.setData('locale', event.detail.value);
   }
 
   /**
@@ -87,7 +91,7 @@ export class SettingsPage implements OnViewWillEnter {
    * */
   setMeasureUnit(event): void {
     this.measureUnits = event.detail.value;
-    void this._storageService.setData('measure', this.measureUnits);
+    void this._storageService.setData('measure', event.detail.value);
   }
 
   /**
@@ -95,7 +99,15 @@ export class SettingsPage implements OnViewWillEnter {
    * */
   setTemperatureUnit(event): void {
     this.temperatureUnits = event.detail.value;
-    void this._storageService.setData('temperature', this.temperatureUnits);
+    void this._storageService.setData('temperature', event.detail.value);
+  }
+
+  /**
+   * Sélection du format horaire
+   * */
+  setHourClockSystem(event): void {
+    this.hourClock = event.detail.value;
+    void this._storageService.setData('clock', event.detail.value);
   }
 
   private _getLocale(): void {
@@ -113,6 +125,10 @@ export class SettingsPage implements OnViewWillEnter {
     this._storageService.getData('temperature').then((temp: TemperatureUnits) => (this.temperatureUnits = temp));
   }
 
+  private _getClockHourSystem(): void {
+    this._storageService.getData('clock').then((clock: HourClock) => (this.hourClock = clock));
+  }
+
   /**
    * @param url {string} Url navigable
    * Demande à l'utilisateur d'ouvrir dans l'application au choix le lien
@@ -120,36 +136,4 @@ export class SettingsPage implements OnViewWillEnter {
   openUrl(url: string): void {
     window.open(url, '_self');
   }
-
-  // need backend
-  // storageNotif(): void {
-  //   this.storage.get("notifications_active").then(
-  //     (notif) => {
-  //       this.notifications = notif;
-  //       if (notif) this.storageKP();
-  //     },
-  //     (error) => console.warn("Problème de récupération notification", error)
-  //   );
-  // }
-
-  // storageKP(): void {
-  //   this.storage.get("kp_notif").then(
-  //     (kp) => {
-  //       this.notifKp = kp;
-  //     },
-  //     (error) => console.warn("Problème de récupération notification", error)
-  //   );
-  // }
-
-  // activeNotif(e): void {
-  //   this.notifications = e.detail.checked;
-  //   this.storage.set("notifications_active", this.notifications);
-  // }
-
-  // selectedKp(choice?: any): void {
-  //   if (choice) {
-  //     this.notifKp = choice.detail.value;
-  //     this.storage.set("kp_notif", this.notifKp);
-  //   }
-  // }
 }

@@ -1,7 +1,18 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Coords } from '../../models/cities';
 import * as moment from 'moment';
-import { Cloudy, Currently, Daily, DailyTemp, Hourly, IconsOWM, LottiesValues, MeasureUnits, TemperatureUnits } from '../../models/weather';
+import {
+  Cloudy,
+  Currently,
+  Daily,
+  DailyTemp,
+  HourClock,
+  Hourly,
+  IconsOWM,
+  LottiesValues,
+  MeasureUnits,
+  TemperatureUnits,
+} from '../../models/weather';
 import { Chart, registerables } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { AnimationOptions } from 'ngx-lottie';
@@ -26,6 +37,7 @@ export class MeteoComponent implements OnChanges {
   @Input() locale: ELocales;
   @Input() measure: MeasureUnits;
   @Input() temperature: TemperatureUnits;
+  @Input() hourClock: HourClock;
 
   @Input() loading = false;
 
@@ -78,14 +90,14 @@ export class MeteoComponent implements OnChanges {
       this.sunrise = polar;
       this.sunset = polar;
     } else {
-      this.sunrise = manageDates(currentWeather.sunrise, this.locale === ELocales.EN ? 'hh:mm A' : 'HH[h]mm', this.locale, true);
-      this.sunset = manageDates(currentWeather.sunset, this.locale === ELocales.EN ? 'hh:mm A' : 'HH[h]mm', this.locale, true);
+      this.sunrise = manageDates(currentWeather.sunrise, this.hourClock === HourClock.TWELVE ? 'hh:mm A' : 'HH[h]mm', this.locale, true);
+      this.sunset = manageDates(currentWeather.sunset, this.hourClock === HourClock.TWELVE ? 'hh:mm A' : 'HH[h]mm', this.locale, true);
     }
 
     this._lotties(this._calculateWeaterIcons(currentWeather));
     this.currentDatetime = manageDates(
       moment().unix(),
-      this.locale === ELocales.EN ? 'dddd Do of MMMM, hh:mm A' : 'dddd DD MMMM, HH[h]mm',
+      this.hourClock === HourClock.TWELVE ? 'dddd Do of MMMM, hh:mm A' : 'dddd DD MMMM, HH[h]mm',
       this.locale,
       true,
     );
@@ -125,11 +137,11 @@ export class MeteoComponent implements OnChanges {
       if (temperaturesArr.length < this.dataNumbersInChart && i % 2 === 0) {
         const temp = convertUnitTemperature(Math.round(hours.temp), this.temperature);
         temperaturesArr.push(temp);
-        nextHoursArr.push(manageDates(hours.dt, this.locale === ELocales.EN ? 'hh A' : 'HH[h]', this.locale, true));
+        nextHoursArr.push(manageDates(hours.dt, this.hourClock === HourClock.TWELVE ? 'hh A' : 'HH[h]', this.locale, true));
       }
       const cloudy: Cloudy = {
         percent: hours.clouds,
-        time: manageDates(hours.dt, this.locale === ELocales.EN ? 'hh A' : 'HH[h]', this.locale, true),
+        time: manageDates(hours.dt, this.hourClock === HourClock.TWELVE ? 'hh A' : 'HH[h]', this.locale, true),
       };
       if (this.cloudy.length < this.dataNumbersInChart) {
         this.cloudy.push(cloudy);

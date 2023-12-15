@@ -18,7 +18,7 @@ import { StorageService } from '../../storage.service';
 import { icon, LatLng, Map, Marker, marker, tileLayer, ZoomPanOptions } from 'leaflet';
 import { AuroraEnumColours, Kp27day, KpForecast, SolarCycle, SolarWind, SolarWindTypes } from '../../models/aurorav3';
 import { ELocales } from '../../models/locales';
-import { MeasureUnits } from '../../models/weather';
+import { HourClock, MeasureUnits } from '../../models/weather';
 import { TranslateService } from '@ngx-translate/core';
 import annotationPlugin from 'chartjs-plugin-annotation';
 
@@ -39,6 +39,7 @@ export class ForecastAuroralActivityComponent implements OnChanges {
   @Input() solarCycle: SolarCycle[];
   @Input() measure: MeasureUnits;
   @Input() locale: ELocales;
+  @Input() hourClock: HourClock;
   @Input() loading = false;
 
   private _chartKpForecast: Chart<ChartType, string[]>;
@@ -63,7 +64,7 @@ export class ForecastAuroralActivityComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     this.minimapLocation(); // Here to reload map at each change of location
-    this._formattedAnnotationDate = manageDates(+moment(), this.locale === ELocales.FR ? 'HH[h]mm' : 'hh:mm A');
+    this._formattedAnnotationDate = manageDates(+moment(), this.hourClock === HourClock.TWENTYFOUR ? 'HH[h]mm' : 'hh:mm A');
 
     if (changes?.kpForecast?.currentValue !== changes?.kpForecast?.previousValue) {
       const firstChange = changes?.kpForecast?.firstChange;
@@ -141,12 +142,13 @@ export class ForecastAuroralActivityComponent implements OnChanges {
     }
   }
 
-  async showPoles(locale: ELocales): Promise<void> {
+  async showPoles(): Promise<void> {
     const modal = await this._modalController.create({
       component: ModalComponent,
       componentProps: {
         ovation: true,
-        locale,
+        locale: this.locale,
+        hourClock: this.hourClock,
       },
     });
     return await modal.present();
@@ -274,7 +276,7 @@ export class ForecastAuroralActivityComponent implements OnChanges {
       solarWindDate = [];
 
     for (const unit of forecast) {
-      solarWindDate.push(manageDates(unit.propagated_time_tag, this.locale === ELocales.FR ? 'HH[h]mm' : 'hh:mm A'));
+      solarWindDate.push(manageDates(unit.propagated_time_tag, this.hourClock === HourClock.TWENTYFOUR ? 'HH[h]mm' : 'hh:mm A'));
 
       densityForecast.push(unit.density);
       bzForecast.push(unit.bz);

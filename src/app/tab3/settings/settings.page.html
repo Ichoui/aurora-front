@@ -66,6 +66,22 @@
         </ion-select>
       </ion-item>
     </div>
+    <div class="setting-line">
+      <p>{{ 'tab3.more.hour-clock-system' | translate }}</p>
+      <ion-item>
+        <ion-select
+          [value]="hourClock"
+          interface="action-sheet"
+          aria-label="hour clock system"
+          (ionChange)="setHourClockSystem($event)"
+          [cancelText]="'global.cancel' | translate"
+        >
+          <ion-select-option *ngFor="let u of hourClockSystem" [value]="u.slug">
+            <span>{{ u.label | translate }}</span>
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </div>
   </div>
 
   <div class="card-container about">
