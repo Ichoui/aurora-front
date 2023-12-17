@@ -33,8 +33,7 @@ export const environment = {
   swpc: {
     all: 'swpc',
     currentKp: 'instant/kp',
-    solarWind1h: 'forecast/solarwind1h',
-    solarWind7d: 'forecast/solarwind7d',
+    solarWind: 'forecast/solarwind',
     solarCycle: 'forecast/solarcycle',
     ovationMap: 'map/ovation',
     nowcast: 'instant/nowcast',
