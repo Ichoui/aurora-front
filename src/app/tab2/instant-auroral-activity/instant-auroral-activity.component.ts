@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { StorageService } from '../../storage.service';
 import { convertUnitMeasure, determineColorsOfValue, roundTwoNumbers } from '../../models/utils';
 import { MeasureUnits } from '../../models/weather';
 import { AuroraEnumColours, Bt, Bz, Density, KpCurrent, SolarWind, SolarWindTypes, Speed } from '../../models/aurorav3';
@@ -23,13 +22,13 @@ export class InstantAuroralActivityComponent implements OnInit, OnChanges {
   @Input() kpCurrent: KpCurrent;
   @Input() loading = false;
 
-  constructor(private _storageService: StorageService, private _cdr: ChangeDetectorRef) {}
+  constructor(private _cdr: ChangeDetectorRef) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this._auroraBackground();
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(changes: SimpleChanges): void {
     if (!changes?.measureUnit?.firstChange && changes?.measureUnit?.currentValue !== changes?.measureUnit?.previousValue) {
       this.speed = {
         ...this.speed,
@@ -68,7 +67,6 @@ export class InstantAuroralActivityComponent implements OnInit, OnChanges {
         request_date: new Date(solarWind.time_tag),
         color: determineColorsOfValue(SolarWindTypes.BT, solarWind.bt),
       };
-
       this.speed = {
         value: convertUnitMeasure(solarWind.speed, this.measureUnit),
         date: new Date(solarWind.time_tag),

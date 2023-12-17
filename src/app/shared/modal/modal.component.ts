@@ -1,10 +1,8 @@
 import { ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { AuroraService } from '../../aurora.service';
-import { first } from 'rxjs/operators';
-import * as moment from 'moment';
-import { manageDates } from '../../models/utils';
-import { HourClock } from '../../models/weather';
+import { first, tap } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
 
 interface IPolesUrl {
   url: string;
@@ -15,7 +13,7 @@ export enum Pole {
   SOUTH = 'south',
 }
 
-const SWPC_URL_PREFIX = 'https://services.swpc.noaa.gov/';
+const SWPC_URL_PREFIX = 'https://services.swpc.noaa.gov';
 
 @Component({
   selector: 'app-modal',
@@ -24,13 +22,12 @@ const SWPC_URL_PREFIX = 'https://services.swpc.noaa.gov/';
 })
 export class ModalComponent implements OnInit {
   @Input() ovation: boolean;
-  @Input() locale: string;
-  @Input() hourClock: HourClock;
-
   @Input() cgu = false;
   @Input() canvasInput = false;
-  loader = false;
 
+  private _forecastLeadTime: number;
+
+  loader = false;
   pole = Pole;
 
   tabNorth = [];
@@ -50,8 +47,14 @@ export class ModalComponent implements OnInit {
   ngOnInit() {
     if (this.ovation) {
       // https://www.swpc.noaa.gov/products/aurora-30-minute-forecast
-      this.loadPoles(Pole.NORTH);
-      this.loadPoles(Pole.SOUTH);
+      combineLatest([this.loadPoles(Pole.NORTH), this.loadPoles(Pole.SOUTH)])
+        .pipe(
+          tap(e => {
+            this.loader = true;
+            this._cdr.markForCheck();
+          }),
+        )
+        .subscribe();
     }
   }
 
@@ -72,19 +75,16 @@ export class ModalComponent implements OnInit {
    * @pole {Pole} north / south
    * Récupére le service pour afficher pole north / south
    */
-  loadPoles(pole: Pole): void {
-    // TODO loader quand l'API met du temps à se load
-    this._auroraService
-      .getPoles$(pole)
-      .pipe(first())
-      .subscribe((resp: IPolesUrl[]) => {
+  loadPoles(pole: Pole): Observable<any> {
+    return this._auroraService.getPoles$(pole).pipe(
+      first(),
+      tap((resp: IPolesUrl[]) => {
         if (pole === Pole.NORTH) {
           this.maxNorth = resp.length;
-          resp.forEach(snapshot => {
-            this.tabNorth.push({ url: SWPC_URL_PREFIX + snapshot.url, time: snapshot.time_tag });
-          });
+          resp.forEach(snapshot => this.tabNorth.push({ url: SWPC_URL_PREFIX + snapshot.url, time: snapshot.time_tag }));
           this.tabNorth.reverse();
           this.valuePolesChange(0, Pole.NORTH);
+          return;
         }
         if (pole === Pole.SOUTH) {
           this.maxSouth = resp.length;
@@ -93,29 +93,7 @@ export class ModalComponent implements OnInit {
           this.valuePolesChange(0, Pole.SOUTH);
           return;
         }
-        this.loader = true;
-        this._cdr.markForCheck();
-      });
-  }
-
-  momentDate(date: string): string {
-    return moment(date).locale(this.locale).format('dddd');
-  }
-
-  // est-ce que hour est en UTC ou non ?
-  momentHour(hour: string): string | moment.Moment {
-    // TODO est-ce qu'on a besoin de this.locale ici ? Sinon remonter la chaine et le supprimer où c'est nécessaire
-    // console.log(moment(hour));
-    // console.log(hour);
-    // console.log(moment.utc(hour).local().format('HH:mm'));
-    // vérifier les dates UTC
-
-    // loop sur console.log ?????
-    // console.log(this.hourClock);
-    manageDates(hour, this.hourClock === HourClock.TWENTYFOUR ? 'HH[h]mm' : 'hh:mm A');
-    return moment
-      .utc(hour)
-      .local()
-      .format(this.hourClock === HourClock.TWENTYFOUR ? 'HH[h]mm' : 'hh:mm A');
+      }),
+    );
   }
 }

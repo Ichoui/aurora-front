@@ -17,7 +17,6 @@ import { CodeLocation } from '../../models/cities';
 import { StorageService } from '../../storage.service';
 import { icon, LatLng, Map, Marker, marker, tileLayer, ZoomPanOptions } from 'leaflet';
 import { AuroraEnumColours, Kp27day, KpForecast, SolarCycle, SolarWind, SolarWindTypes } from '../../models/aurorav3';
-import { ELocales } from '../../models/locales';
 import { HourClock, MeasureUnits } from '../../models/weather';
 import { TranslateService } from '@ngx-translate/core';
 import annotationPlugin from 'chartjs-plugin-annotation';
@@ -38,7 +37,6 @@ export class ForecastAuroralActivityComponent implements OnChanges {
   @Input() solarWind: SolarWind[];
   @Input() solarCycle: SolarCycle[];
   @Input() measure: MeasureUnits;
-  @Input() locale: ELocales;
   @Input() hourClock: HourClock;
   @Input() loading = false;
 
@@ -147,8 +145,6 @@ export class ForecastAuroralActivityComponent implements OnChanges {
       component: ModalComponent,
       componentProps: {
         ovation: true,
-        locale: this.locale,
-        hourClock: this.hourClock,
       },
     });
     return await modal.present();

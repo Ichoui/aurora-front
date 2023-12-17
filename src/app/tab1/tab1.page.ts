@@ -213,6 +213,7 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
               city: city,
               country: country,
               date: new Date(),
+              timezoneOffset: res.timezone_offset,
             });
             void this._storageService.setData('previousLocation', {
               lat: this.coords.latitude,

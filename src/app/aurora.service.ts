@@ -5,7 +5,7 @@ import { environment } from '../environments/environment';
 import { ExcludeType, MeasureUnits, Weather } from './models/weather';
 import { Pole } from './shared/modal/modal.component';
 import { Geocoding } from './models/geocoding';
-import { SwpcData } from './models/aurorav3';
+import { SolarWind, SwpcData } from './models/aurorav3';
 import { ELocales } from './models/locales';
 import { deleteFalsy } from './models/utils';
 
@@ -71,6 +71,11 @@ export class AuroraService {
     return this._http.post<{ nowcast: number }>(`${environment.host}${environment.swpc.nowcast}`, { lat, lng });
   }
 
+  getForecastSolarwind7d$(firstDate: string): Observable<SolarWind[]> {
+    const params = deleteFalsy({ firstDate });
+    return this._http.get<SolarWind[]>(`${environment.host}${environment.swpc.solarWind7d}`, { params });
+  }
+
   /*
    * Solar wind values
    * Density Speed Bt Bz
@@ -114,7 +119,7 @@ export class AuroraService {
   //   return this._http.get<SolarCycle[]>(`${environment.host}${environment.swpc.solarCycle}`);
   // }
 
-  test$(): Observable<any> {
-    return this._http.get(`${environment.host}${environment.swpc.solarWind}`);
-  }
+  // test$(): Observable<any> {
+  //   return this._http.get(`${environment.host}${environment.swpc.solarWind}`);
+  // }
 }

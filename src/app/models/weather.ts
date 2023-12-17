@@ -7,7 +7,7 @@ export interface Weather {
   lat: number;
   long: number;
   timezone: string;
-  timezone_offset?: number; // not used atm
+  timezone_offset: number;
   current: Currently;
   minutely: Minutely[];
   hourly: Hourly[];

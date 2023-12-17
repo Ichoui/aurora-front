@@ -40,7 +40,7 @@
       "density.unit": "(p/cc)",
       "speed": " Solar wind",
       "probability": "Probability to observe Northern Lights at Zenith from your location",
-      "aceToEarth": "Solar wind propagation delay between DSCOVR and Earth",
+      "forecastLeadTime": "Solar wind propagation delay between DSCOVR and Earth",
       "bz": "Bz",
       "bz.north": "North",
       "bz.south": "South",

@@ -16,9 +16,7 @@
     <div class="subtitle">{{ 'tab2.forecast.pole.north' | translate }}</div>
     <ion-img [src]="tabNorth[indexNorth]?.url"></ion-img>
     <div class="datetime">
-      <span>{{ momentDate(tabNorth[indexNorth]?.time) }}</span>
-      {{ momentHour(tabNorth[indexNorth]?.time) }}
-      <!--      {{ tabNorth[indexNorth]?.time | date: 'HH:mm' }}-->
+      {{ tabNorth[indexNorth].time | json }}
     </div>
     <ion-range
       color="primary"
@@ -32,8 +30,7 @@
     <div class="subtitle">{{ 'tab2.forecast.pole.south' | translate }}</div>
     <ion-img [src]="tabSouth[indexSouth]?.url"></ion-img>
     <div class="datetime">
-      <span>{{ momentDate(tabSouth[indexSouth]?.time) }}</span>
-      {{ tabSouth[indexSouth]?.time | date: 'HH:mm' }}
+      {{ tabSouth[indexSouth].time }}
     </div>
     <ion-range
       color="primary"

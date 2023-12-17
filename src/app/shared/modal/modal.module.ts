@@ -8,6 +8,5 @@ import { TranslateModule } from '@ngx-translate/core';
   declarations: [ModalComponent],
   exports: [ModalComponent],
   imports: [IonicModule, CommonModule, TranslateModule],
-  entryComponents: [ModalComponent],
 })
 export class ModalModule {}

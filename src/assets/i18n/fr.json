@@ -41,7 +41,7 @@
       "density.unit": "(p/cc)",
       "speed": "Vitesse du vent",
       "probability": "Probabilité depuis ta localisation d'observer au Zénith une Aurore Boréale",
-      "aceToEarth": "Temps de propagation du vent solaire entre DSCOVR et la Terre",
+      "forecastLeadTime": "Temps de propagation du vent solaire entre DSCOVR et la Terre",
       "bz": "Bz",
       "bz.north": "Nord",
       "bz.south": "Sud",

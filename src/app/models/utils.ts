@@ -55,7 +55,7 @@ export function convertUnitTemperature(nb: number, unit: TemperatureUnits): numb
 
 /**
  * Gestion des dates
- * @param date {number} Date
+ * @param date {number} Date au format unix si number (suite de chiffres)
  * @param format {string} Permet de choisir le formatage de la date. (ex: YYYY MM DD)
  * @param locale ELocale
  * @param unix {boolean} Permet de convertir une date au format UNIX (Unix Timestamp) ou DATE lambda
@@ -72,9 +72,9 @@ export function roundTwoNumbers(nb: number): number {
 }
 
 /**
- * Time betweeen ACE satelite and earth, depending on solar wind speed
+ * Time betweeen ACE & DSCOVR satelites and earth, depending on solar wind speed and distance of satelite from earth
  * */
-export function timeACEtoEarth(speed: number, measure: MeasureUnits): number {
+export function forecastLeadTime(speed: number, measure: MeasureUnits): number {
   if (measure === MeasureUnits.METRIC) {
     return 1500000 / (60 * speed);
   }

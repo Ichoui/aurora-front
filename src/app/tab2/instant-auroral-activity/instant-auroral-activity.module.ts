@@ -3,12 +3,13 @@ import { CommonModule } from '@angular/common';
 import { InstantAuroralActivityComponent } from './instant-auroral-activity.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { IonicModule } from '@ionic/angular';
-import { AceToEarthPipe } from './ace-to-earth.pipe';
 import { PlaceholderDataModule } from '../../shared/placeholders/placeholder-data/placeholder-data.module';
+import { ForecastLeadTimePipe } from './forecast-lead-time';
 
 @NgModule({
-  declarations: [InstantAuroralActivityComponent, AceToEarthPipe],
+  declarations: [InstantAuroralActivityComponent, ForecastLeadTimePipe],
   exports: [InstantAuroralActivityComponent],
   imports: [CommonModule, TranslateModule, IonicModule, PlaceholderDataModule],
+  providers: [ForecastLeadTimePipe],
 })
 export class InstantAuroralActivityModule {}
