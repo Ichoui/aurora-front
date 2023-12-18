@@ -7,11 +7,13 @@ import player from 'lottie-web';
 import { LottieModule } from 'ngx-lottie';
 import { PlaceholderChartsModule } from '../../shared/placeholders/placeholder-charts/placeholder-charts.module';
 import { PlaceholderDataModule } from '../../shared/placeholders/placeholder-data/placeholder-data.module';
+import { CalculateWindDegPipe } from './calculate-wind-deg.pipe';
+import { CalculateUvPipe } from './calculate-uv.pipe';
 
 export const playerFactory = () => player;
 
 @NgModule({
-  declarations: [MeteoComponent],
+  declarations: [MeteoComponent, CalculateWindDegPipe, CalculateUvPipe],
   exports: [MeteoComponent],
   imports: [
     CommonModule,

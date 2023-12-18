@@ -325,43 +325,6 @@ export class MeteoComponent implements OnChanges {
     }
   }
 
-  /**
-  http://www.toujourspret.com/techniques/orientation/topographie/rose_vents1.gif
-    */
-  calculateWindDeg(deg: number): string {
-    if (deg >= 337.5 && deg < 22.5) {
-      return 'N';
-    } else if (deg >= 22.5 && deg < 67.5) {
-      return 'NE';
-    } else if (deg >= 67.5 && deg < 112.5) {
-      return 'E';
-    } else if (deg >= 112.5 && deg < 157.5) {
-      return 'SE';
-    } else if (deg >= 157.5 && deg < 202.5) {
-      return 'S';
-    } else if (deg >= 202.5 && deg < 247.5) {
-      return this.locale === ELocales.FR ? 'SO' : 'SW';
-    } else if (deg >= 247.5 && deg < 292.5) {
-      return this.locale === ELocales.FR ? 'O' : 'W';
-    } else if (deg >= 292.5 && deg < 337.5) {
-      return this.locale === ELocales.FR ? 'NO' : 'NW';
-    }
-  }
-
-  calculateUV(indexUv: number): string {
-    if (indexUv >= 0 && indexUv < 3) {
-      return this.locale === ELocales.FR ? 'Faible' : 'Low';
-    } else if (indexUv >= 3 && indexUv < 6) {
-      return this.locale === ELocales.FR ? 'Modéré' : 'Moderate';
-    } else if (indexUv >= 6 && indexUv < 8) {
-      return this.locale === ELocales.FR ? 'Élevé' : 'High';
-    } else if (indexUv >= 8 && indexUv < 11) {
-      return this.locale === ELocales.FR ? 'Très élevé' : 'Very high';
-    } else if (indexUv >= 11) {
-      return this.locale === ELocales.FR ? 'Extrême' : 'Extreme';
-    }
-  }
-
   private _lotties(icon: LottiesValues): void {
     // if (icon === 'fog' || icon === 'snow' || icon === 'wind') {
     // not used atm, keep for sevenDays lotties evol
