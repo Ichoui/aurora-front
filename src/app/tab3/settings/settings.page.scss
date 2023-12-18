@@ -27,9 +27,17 @@
       color: var(--ion-color-secondary);
       background-color: rgba(0, 0, 0, 0);
     }
-    ion-button.legal {
-      margin-top: 10px;
-      font-size: 12px;
+
+    div.button-wrapper {
+      display: flex;
+      ion-button.legal {
+        margin: 10px auto 0;
+        font-size: 12px;
+      }
+    }
+
+    .version {
+      font-size: 0.8em;
     }
   }
 

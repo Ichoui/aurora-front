@@ -106,7 +106,8 @@
         "third": "Do you like Aurorapp ? Please, ",
         "third.link": "rate it",
         "third.bis": " or buy me a ",
-        "third.bis.link": "coffee !"
+        "third.bis.link": "coffee !",
+        "version": "Actual version: {{versionApp}}"
       },
       "cgu": "Terms of Use",
       "settings": "Settings",

@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { ELocales, Locales, SelectContents } from '../../models/locales';
-import { ModalController } from '@ionic/angular';
+import { ModalController, Platform } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { ModalComponent } from '../../shared/modal/modal.component';
 import { HourClock, hourClockSystem, MeasureUnits, measureUnits, temperatureUnits, TemperatureUnits } from '../../models/weather';
 import { StorageService } from '../../storage.service';
 import { OnViewWillEnter } from '../../models/ionic';
+import { App } from '@capacitor/app';
 
 interface About {
   label: string;
@@ -32,6 +33,8 @@ export class SettingsPage implements OnViewWillEnter {
   hourClock = HourClock.TWENTYFOUR;
   readonly hourClockSystem: SelectContents[] = hourClockSystem;
 
+  versionApp: string = null;
+
   readonly about: About[] = [
     {
       label: 'first',
@@ -55,16 +58,26 @@ export class SettingsPage implements OnViewWillEnter {
     },
   ];
 
-  constructor(private _storageService: StorageService, private _modalController: ModalController, private _translateService: TranslateService) {}
+  constructor(
+    private _storageService: StorageService,
+    private _modalController: ModalController,
+    private _translateService: TranslateService,
+    private _platform: Platform,
+  ) {}
 
   /**
    * Invoqué à chaque retour sur la page
    * */
-  ionViewWillEnter(): void {
+  async ionViewWillEnter(): Promise<void> {
     this._getLocale();
     this._getMeasureUnit();
     this._getTemperatureUnit();
     this._getClockHourSystem();
+
+    if (this._platform.is('hybrid')) {
+      const info = await App?.getInfo();
+      this.versionApp = info.version;
+    }
   }
 
   async CGU(): Promise<void> {

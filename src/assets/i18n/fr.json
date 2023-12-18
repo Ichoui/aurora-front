@@ -107,7 +107,8 @@
         "third": "Tu aimes Aurorapp ? Laisse une ",
         "third.link": "note",
         "third.bis": " ou paye-moi ",
-        "third.bis.link": "un café !"
+        "third.bis.link": "un café !",
+        "version": "Version actuelle : {{versionApp}}"
       },
       "cgu": "Conditions Générales d'Utilisation",
       "settings": "Paramètres",

@@ -94,9 +94,10 @@
         <button (click)="openUrl(a.bis.url)">{{ 'tab3.more.about.' + a.bis.labelLink | translate }}</button>
       </ng-container>
     </span>
-    <span>
+    <div class="button-wrapper">
       <ion-button class="legal" color="primary" size="small" (click)="CGU()">{{ 'tab3.more.cgu' | translate }}</ion-button>
-    </span>
+    </div>
+    <span class="version" *ngIf="versionApp">{{ 'tab3.more.about.version' | translate: {versionApp } }}</span>
   </div>
 </ion-content>
 
