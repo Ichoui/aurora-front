@@ -5,7 +5,7 @@ import { environment } from '../environments/environment';
 import { ExcludeType, MeasureUnits, Weather } from './models/weather';
 import { Pole } from './shared/modal/modal.component';
 import { Geocoding } from './models/geocoding';
-import { SwpcData } from './models/aurorav3';
+import { SolarWind, SwpcData } from './models/aurorav3';
 import { ELocales } from './models/locales';
 import { deleteFalsy } from './models/utils';
 
@@ -69,5 +69,10 @@ export class AuroraService {
 
   getNowcast$(lat: number, lng: number): Observable<{ nowcast: number }> {
     return this._http.post<{ nowcast: number }>(`${environment.host}${environment.swpc.nowcast}`, { lat, lng });
+  }
+
+  getForecastSolarwind7d$(firstDate: string): Observable<SolarWind[]> {
+    const params = deleteFalsy({ firstDate });
+    return this._http.get<SolarWind[]>(`${environment.host}${environment.swpc.solarWind7d}`, { params });
   }
 }

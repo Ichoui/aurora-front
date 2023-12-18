@@ -11,32 +11,34 @@
     </ion-title>
   </ion-toolbar>
 
-  <div *ngIf="ovation && loader" class="container-map">
+  <div *ngIf="ovation && loader && tabNorth.length > 0" class="container-map">
     <div class="subtitle explanations">{{ 'tab2.forecast.poles.explanations' | translate }}</div>
     <div class="subtitle">{{ 'tab2.forecast.pole.north' | translate }}</div>
     <ion-img [src]="tabNorth[indexNorth]?.url"></ion-img>
     <div class="datetime">
-      {{ tabNorth[indexNorth].time | json }}
+      <span>{{ tabNorth[indexNorth]?.time_tag | momentDate: this.locale }}</span>
+      {{ tabNorth[indexNorth]?.time_tag | momentHour: tabNorth[indexNorth]?.speed:measureUnit:hourClock }}
     </div>
     <ion-range
       color="primary"
       aria-label="North Hour"
-      [min]="minNorth"
-      [max]="maxNorth - 1"
+      [min]="0"
+      [max]="tabNorth.length - 1"
       (ionChange)="valuePolesChange($event.detail.value, pole.NORTH)"
     ></ion-range>
   </div>
-  <div *ngIf="ovation && loader" class="container-map">
+  <div *ngIf="ovation && loader && tabSouth.length > 0" class="container-map">
     <div class="subtitle">{{ 'tab2.forecast.pole.south' | translate }}</div>
     <ion-img [src]="tabSouth[indexSouth]?.url"></ion-img>
     <div class="datetime">
-      {{ tabSouth[indexSouth].time }}
+      <span>{{ tabSouth[indexSouth]?.time_tag | momentDate: this.locale }}</span>
+      {{ tabSouth[indexSouth]?.time_tag | momentHour: tabSouth[indexSouth]?.speed:measureUnit:hourClock }}
     </div>
     <ion-range
       color="primary"
       aria-label="South Hour"
-      [min]="minSouth"
-      [max]="maxSouth - 1"
+      [min]="0"
+      [max]="tabSouth.length - 1"
       (ionChange)="valuePolesChange($event.detail.value, pole.SOUTH)"
     ></ion-range>
   </div>
