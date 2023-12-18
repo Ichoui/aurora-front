@@ -55,15 +55,14 @@ export function convertUnitTemperature(nb: number, unit: TemperatureUnits): numb
 
 /**
  * Gestion des dates
- * @param date {number} Date au format unix si number (suite de chiffres)
+ * @param date {number} Date format 1703260800, qui correspond au date & heure en UTC
  * @param format {string} Permet de choisir le formatage de la date. (ex: YYYY MM DD)
  * @param locale ELocale
- * @param unix {boolean} Permet de convertir une date au format UNIX (Unix Timestamp) ou DATE lambda
+ * @param timezoneUnix {number} : Timezone format unix, par exemple -18000 pour le QC
  * */
-export function manageDates(date: number | string, format: string, locale?: ELocales, unix: boolean = false): string | moment.Moment {
-  const offset = moment().utcOffset();
-  const d = unix ? moment.unix(date as number).locale(locale) : moment.utc(date);
-  return d.utcOffset(offset).format(format);
+export function manageDates(date: number | string, format: string, locale?: ELocales, timezoneUnix?: number): string | moment.Moment {
+  const d = timezoneUnix ? moment.unix((date as number) + timezoneUnix).locale(locale) : moment.utc(date);
+  return d.format(format);
 }
 
 // Arrondir à 2 chiffres

@@ -26,6 +26,7 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
   coords: Coords;
   city: string;
   country: string;
+  tzOffset: number;
 
   private readonly _destroy$ = new Subject<void>();
   private _eventRefresh: any;
@@ -92,6 +93,7 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
               this.dataSevenDay = weather.dataSevenDay;
               this.city = weather.city;
               this.country = weather.country;
+              this.tzOffset = weather.timezoneOffset;
               this.coords = {
                 latitude: location?.lat,
                 longitude: location?.long,

@@ -58,8 +58,6 @@ export class ModalComponent implements OnInit {
           tap(solarWind => {
             this.tabNorth = this._getElementsAvecTimeTagEquivalent(this.partialTabNorth, solarWind);
             this.tabSouth = this._getElementsAvecTimeTagEquivalent(this.partialTabSouth, solarWind);
-            console.log(solarWind);
-            console.log(this.tabNorth);
           }),
           finalize(() => {
             this.loader = true;
