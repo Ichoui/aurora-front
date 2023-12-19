@@ -23,10 +23,18 @@ ion-toolbar {
 
   .subtitle {
     &.explanations {
-      font-size: 0.85em;
-      margin: 0 30px;
+      display: flex;
+      align-items: normal;
+      margin: 0 20px;
       font-family: var(--ion-font-semibold);
-      text-transform: inherit;
+      color: #fff;
+      font-size: 14px;
+      span {
+        text-transform: initial;
+      }
+      .icon {
+        margin-right: 5px;
+      }
     }
 
     margin-top: 20px;

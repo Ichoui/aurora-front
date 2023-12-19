@@ -12,7 +12,17 @@
   </ion-toolbar>
 
   <div *ngIf="ovation && loader && tabNorth.length > 0" class="container-map">
-    <div class="subtitle explanations">{{ 'tab2.forecast.poles.explanations' | translate }}</div>
+    <div class="subtitle explanations">
+      <span>
+        <ion-icon id="ovations" name="information-circle" class="icon"></ion-icon>
+        <ion-popover trigger="ovations" triggerAction="click" alignment="center">
+          <ng-template>
+            <div [innerHTML]="'tab2.forecast.poles.explanations.info' | translate"></div>
+          </ng-template>
+        </ion-popover>
+        {{ 'tab2.forecast.poles.explanations' | translate }}
+      </span>
+    </div>
     <div class="subtitle">{{ 'tab2.forecast.pole.north' | translate }}</div>
     <ion-img [src]="tabNorth[indexNorth]?.url"></ion-img>
     <div class="datetime">
