@@ -5,6 +5,7 @@
     "loading": "Ta localisation est en cours de chargement ...",
     "back": "Retour",
     "cancel": "Annuler",
+    "info": "Plus d'infos",
     "error": {
       "solarwind": " - Erreur réseau / module NOAA SWPC",
       "geoloc": " - Erreur réseau / module de géolocalisation",
@@ -40,7 +41,7 @@
       "density": " Densitée des particules",
       "density.unit": "(p/cc)",
       "speed": "Vitesse du vent",
-      "probability": "Probabilité depuis ta localisation d'observer au Zénith une Aurore Boréale",
+      "probability": "Probabilité d'observer au Zénith une Aurore Boréale",
       "forecastLeadTime": "Temps de propagation du vent solaire entre DSCOVR et la Terre",
       "bz": "Bz",
       "bz.north": "Nord",
@@ -48,7 +49,8 @@
       "bt": "Bt",
       "noData": "ACE No data",
       "live": "Infos",
-      "live.tooltip": "Les données ci-dessous proviennent du NOAA's Space Weather Prediction Center et sont en temps réel.<br>Elles sont informatives et ne garantissent en rien l'apparition d'Aurores Boréales ✨️"
+      "live.tooltip": "Les données ci-dessous proviennent du NOAA's Space Weather Prediction Center et sont en temps réel.<br>Elles sont informatives et ne garantissent en rien l'apparition d'Aurores Boréales ✨️",
+      "live.tooltip.tuto": "Lire le tutoriel"
     },
     "forecast": {
       "poles": "Modèle OVATION",
@@ -237,8 +239,8 @@
       "helpcenter": {
         "header": "Centre d'aide",
         "help": {
-          "title": "Comment fonctionne Aurorapp - Northern Lights ?",
-          "message": "C'est très simple ! <ol><li>Premièrement, il faut comprendre comment fonctione les aurores boréales. Tu peux t'aider de la documentation d'Aurorapp, ou d'Internet</li><li>Ensuite, choisis ta localisation, sinon tu seras géolocalisé par Aurorapp, si tu l'autorises.</li><li>Tu n'auras plus qu'à consulter l'activité solaire et la couverture nuageuse.<br>Rappel, ces données fournissent des indicateurs pour chasser les aurores boréale. Elles ne t'assureront pas d'en voir à 100% ☺</li></ol>"
+          "title": "Tutoriel : Comment fonctionne Aurorapp ?",
+          "message": "C'est très simple ! <ol><li>En lançant Aurorapp pour la première fois, tu es géolocalisé, Aurorapp se base donc sur ta localisation initiale.</li><li>Tu peux par la suite changer de localisation. Pour cela, rends-toi sur la carte du monde. De là, tu peux choisir une nouvelle localisation.</li><li>Ensuite, tu n'auras plus qu'à consulter l'activité solaire dans l'onglet 'Aurores', et la couverture nuageuse dans l'onglet 'Météo' pour plus de détails.<li>Dernièrement, il faut comprendre comment fonctione les aurores boréales, le vent solaire et le KP Index. Tu peux t'aider de la documentation d'Aurorapp, présente dans la partie 'En apprendre plus', ou encore d'Internet.</li><br>Rappel, ces données fournissent des indicateurs pour chasser les aurores boréale. Elles ne t'assureront pas d'en voir à 100% ☺</li></ol>"
         },
         "noSwpcData": {
           "title": "Les données ne s'affichent plus",
@@ -248,17 +250,6 @@
           "title": "Suggestions / problèmes",
           "message": "Si vous avez des suggestions, ou rencontrez des problèmes, n'hésitez pas à me contacter sur mon mail, je ferai de mon mieux pour vous répondre. En effet, je suis un développeur indépendant, et je suis seul à m'occuper de cette application.<br><a href='mailto:aurorapp.lights@gmail.com'>aurorapp.lights@gmail.com</a>"
         }
-      }
-    },
-    "helpcenter": {
-      "header": "Centre d'aide",
-      "help": {
-        "title": "Comment marche Aurorapp - Northern Lights ?",
-        "message": "C'est très simple ! <ol><li>Premièrement, il faut comprendre comment fonctione les aurores boréales. Tu peux t'aider de ma documentation, ou d'internet</li><li>Ensuite, choisis ta localisation, sinon tu seras géolocalisé si tu me l'autorises.</li><li>Tu n'auras plus qu'à consulter l'activité solaire et la couverture nuageuse. Rappel, ces données fournissent des indicateurs pour chasser les aurores boréale. Elles ne t'assureront pas d'en voir à 100% ☺</li></ol>"
-      },
-      "suggest": {
-        "title": "Suggestions / problèmes",
-        "message": "Si vous avez des suggestions, ou rencontrez des problèmes, n'hésitez pas à me contacter sur mon mail, je ferai de mon mieux pour vous répondre. En effet, je suis un développeur indépendant, et je suis seul à m'occuper de cette application.<br><a href='mailto:aurorapp.lights@gmail.com'>aurorapp.lights@gmail.com</a>"
       }
     }
   },

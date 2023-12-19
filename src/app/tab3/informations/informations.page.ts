@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, HostBinding } from '@angular/core';
 import { ActivatedRoute, Data } from '@angular/router';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 interface InfoBlocks {
   id: number;
@@ -17,8 +19,13 @@ interface InfoBlocks {
   styleUrls: ['./informations.page.scss'],
 })
 export class InformationsPage {
+  @HostBinding('attr.id') id: string = 'informations';
+
   tabOpen: number[] = [0];
   routeData: Data;
+
+  cardId: string;
+  private readonly _destroy$ = new Subject<void>();
 
   firstblockCard: InfoBlocks[] = [
     { id: 1, block: 'firstblock', value: 'perception' },
@@ -53,8 +60,39 @@ export class InformationsPage {
     { id: 17, block: 'helpcenter', value: 'suggest' },
   ];
 
-  constructor(private _route: ActivatedRoute) {
-    this._route.data.subscribe((v: Data) => (this.routeData = v));
+  constructor(private _route: ActivatedRoute, private _cdr: ChangeDetectorRef) {
+    this._route.data.pipe(takeUntil(this._destroy$)).subscribe((v: Data) => (this.routeData = v));
+  }
+
+  /**
+   * On regénère la vue à chaque fois qu'on vient sur la page, afin de pouvoir ouvrir & scroll jusqu'à l'ancre choisie
+   * */
+  ionViewWillEnter(): void {
+    this.tabOpen = [];
+    this._route.queryParams.pipe(takeUntil(this._destroy$)).subscribe(c => {
+      this.cardId = c.cardId;
+      this.scroll();
+    });
+    this._cdr.markForCheck();
+  }
+
+  /*
+   * On supprime le component en sortant de la vue
+   * */
+  ionViewWillLeave(): void {
+    this._destroy$.next();
+    this._destroy$.complete();
+    document.getElementById('informations').remove();
+  }
+
+  scroll(): void {
+    this.visibility(Number(this.cardId));
+    setTimeout(() => {
+      const elmnt = document.getElementById(this.cardId);
+      elmnt?.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+      // Workaround; viewportScroll not working properly atm...
+      this._cdr.markForCheck();
+    }, 250);
   }
 
   visibility(index: number): void {

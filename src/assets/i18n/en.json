@@ -4,6 +4,7 @@
     "loading": "Current location loading...",
     "back": "Back",
     "cancel": "Cancel",
+    "info": "More info",
     "error": {
       "solarwind": " - Network / NOAA SWPC module error",
       "geoloc": " - Network / geolocalisation module error",
@@ -39,7 +40,7 @@
       "density": " Particles density",
       "density.unit": "(p/cc)",
       "speed": " Solar wind",
-      "probability": "Probability to observe Northern Lights at Zenith from your location",
+      "probability": "Probability to observe Northern Lights at Zenith",
       "forecastLeadTime": "Solar wind forecast lead time (DSCOVR to Earth)",
       "bz": "Bz",
       "bz.north": "North",
@@ -47,7 +48,8 @@
       "bt": "Bt",
       "noData": "ACE No data",
       "live": "Live",
-      "live.tooltip": "The above real-time data is provided by the NOAA's Space Weather Prediction Center.<br>They are for information only and do not guarantee Northern Lights ✨"
+      "live.tooltip": "The above real-time data is provided by the NOAA's Space Weather Prediction Center.<br>They are for information only and do not guarantee Northern Lights ✨<br>Read tutorial",
+      "live.tooltip.tuto": "Read tutorial"
     },
     "forecast": {
       "poles": "OVATION Aurora Model",
@@ -236,8 +238,8 @@
       "helpcenter": {
         "header": "Help center",
         "help": {
-          "title": "How does the app Aurorapp - Northern Lights work?",
-          "message": "It's very simple! <ol><li>First, you need to understand how Aurorapp Northern Lights works. You can help yourself from Aurorapp documentation, or from the Internet</li><li>Then, choose your location, otherwise you will be geotagged if you allow Aurorapp to.</li><li>You will only have to look at the solar activity and the cloud cover. <br>Remember, these data provide indicators for hunting the aurora borealis. They won't ensure you see 100% of them ☺</li></ol>"
+          "title": "Tutorial : How does Aurorapp works?",
+          "message": "It's very simple! <ol><li>First of all, When you launch Aurorapp for the first time, you are geolocated, so Aurorapp is based on your initial location.</li><li>Then, you can change your location by going to the world map, on the 'Auroras' tab.</li><li>Then, all you have to do is check the solar activity in the 'Auroras' tab, and the cloud cover in the 'Weather' tab for more details.<li>Lastly, you need to understand how Northern Lights, the solar wind and the KP Index work. You can use the Aurorapp documentation, or the Internet.</li><br>Remember, these data provide indicators for hunting the aurora borealis. They do not guarantee that you will see 100% of them ☺</li></ol>"
         },
         "noSwpcData": {
           "title": "Data no longer displayed",

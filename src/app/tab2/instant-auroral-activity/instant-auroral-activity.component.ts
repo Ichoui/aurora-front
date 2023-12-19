@@ -2,6 +2,8 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges
 import { convertUnitMeasure, determineColorsOfValue, roundTwoNumbers } from '../../models/utils';
 import { MeasureUnits } from '../../models/weather';
 import { AuroraEnumColours, Bt, Bz, Density, KpCurrent, SolarWind, SolarWindTypes, Speed } from '../../models/aurorav3';
+import { Router } from '@angular/router';
+import { PopoverController } from '@ionic/angular';
 
 @Component({
   selector: 'app-instant-auroral-activity',
@@ -22,7 +24,7 @@ export class InstantAuroralActivityComponent implements OnInit, OnChanges {
   @Input() kpCurrent: KpCurrent;
   @Input() loading = false;
 
-  constructor(private _cdr: ChangeDetectorRef) {}
+  constructor(private _cdr: ChangeDetectorRef, private _router: Router, private _popover: PopoverController) {}
 
   ngOnInit(): void {
     this._auroraBackground();
@@ -92,5 +94,14 @@ export class InstantAuroralActivityComponent implements OnInit, OnChanges {
     for (let i = 0; i < stars.length; i++) {
       stars[i].addEventListener('animationend', reset);
     }
+  }
+
+  tutorial(cardId: number): void {
+    this._popover.dismiss().then(() => {
+      // this._router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      //   this._router.navigate(['tabs', 'tab3', 'helpcenter'], {queryParams: {cardId}});
+      // });
+      return this._router.navigate(['tabs', 'tab3', 'helpcenter'], { queryParams: { cardId } });
+    });
   }
 }

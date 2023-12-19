@@ -36,7 +36,7 @@ export class TabsPage implements OnInit {
 
     this._router.events.subscribe((event: NavigationEnd) => {
       if (event && event.url) {
-        this.selectTab(null, event.url);
+        this.underlineCurrentTab(null, event.url);
       }
     });
   }
@@ -44,7 +44,10 @@ export class TabsPage implements OnInit {
     animationItem.setSpeed(0.4);
   }
 
-  selectTab(index?: number, pathObs?: string): void {
+  /**
+   * Barre colorée en dessous des lotties
+   * */
+  underlineCurrentTab(index?: number, pathObs?: string): void {
     const path = pathObs ? pathObs : window.location.pathname;
     if (path.startsWith('/tabs/tab1') || index === 1) {
       this.activeRoute = 1;

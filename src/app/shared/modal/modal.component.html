@@ -15,7 +15,7 @@
     <div class="subtitle explanations">
       <span>
         <ion-icon id="ovations" name="information-circle" class="icon"></ion-icon>
-        <ion-popover trigger="ovations" triggerAction="click" alignment="center">
+        <ion-popover trigger="ovations" triggerAction="click" alignment="center" [isOpen]="">
           <ng-template>
             <div [innerHTML]="'tab2.forecast.poles.explanations.info' | translate"></div>
           </ng-template>

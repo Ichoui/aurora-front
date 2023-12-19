@@ -24,6 +24,9 @@
       <ion-popover trigger="kp-next-hours" triggerAction="click" alignment="center">
         <ng-template>
           <div [innerHTML]="'tab2.forecast.tooltip.kp-next-hours' | translate"></div>
+          <div class="documentation-link">
+            <span (click)="navigateToDoc(11, 'infos')">{{ 'global.info' | translate }}</span>
+          </div>
         </ng-template>
       </ion-popover>
     </div>
@@ -44,6 +47,9 @@
       <ion-popover trigger="kp-next-days" triggerAction="click" alignment="center">
         <ng-template>
           <div [innerHTML]="'tab2.forecast.tooltip.kp-next-days' | translate"></div>
+          <div class="documentation-link">
+            <span (click)="navigateToDoc(11, 'infos')">{{ 'global.info' | translate }}</span>
+          </div>
         </ng-template>
       </ion-popover>
     </div>
@@ -64,6 +70,9 @@
       <ion-popover trigger="wind-speed" triggerAction="click" alignment="center">
         <ng-template>
           <div [innerHTML]="'tab2.forecast.tooltip.wind-speed' | translate: { unit: measure === 'metric' ? '500km/s' : '350mps' }"></div>
+          <div class="documentation-link">
+            <span (click)="navigateToDoc(12, 'infos')">{{ 'global.info' | translate }}</span>
+          </div>
         </ng-template>
       </ion-popover>
     </div>
@@ -84,6 +93,9 @@
       <ion-popover trigger="wind-density" triggerAction="click" alignment="center">
         <ng-template>
           <div [innerHTML]="'tab2.forecast.tooltip.wind-density' | translate"></div>
+          <div class="documentation-link">
+            <span (click)="navigateToDoc(12, 'infos')">{{ 'global.info' | translate }}</span>
+          </div>
         </ng-template>
       </ion-popover>
     </div>
@@ -104,6 +116,9 @@
       <ion-popover trigger="wind-bz" triggerAction="click" alignment="center">
         <ng-template>
           <div [innerHTML]="'tab2.forecast.tooltip.wind-bz' | translate"></div>
+          <div class="documentation-link">
+            <span (click)="navigateToDoc(13, 'infos')">{{ 'global.info' | translate }}</span>
+          </div>
         </ng-template>
       </ion-popover>
     </div>
@@ -124,6 +139,9 @@
       <ion-popover trigger="wind-bt" triggerAction="click" alignment="center">
         <ng-template>
           <div [innerHTML]="'tab2.forecast.tooltip.wind-bt' | translate"></div>
+          <div class="documentation-link">
+            <span (click)="navigateToDoc(13, 'infos')">{{ 'global.info' | translate }}</span>
+          </div>
         </ng-template>
       </ion-popover>
     </div>
@@ -144,6 +162,9 @@
       <ion-popover trigger="solar-cycle" triggerAction="click" alignment="center">
         <ng-template>
           <div [innerHTML]="'tab2.forecast.tooltip.solar-cycle' | translate"></div>
+          <div class="documentation-link">
+            <span (click)="navigateToDoc(14, 'infos')">{{ 'global.info' | translate }}</span>
+          </div>
         </ng-template>
       </ion-popover>
     </div>

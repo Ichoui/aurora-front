@@ -7,6 +7,9 @@
     <ion-popover trigger="live" triggerAction="click" alignment="center">
       <ng-template>
         <div [innerHTML]="'tab2.instant.live.tooltip' | translate"></div>
+        <div class="documentation-link">
+          <span (click)="tutorial(15)">{{ 'tab2.instant.live.tooltip.tuto' | translate }}</span>
+        </div>
       </ng-template>
     </ion-popover>
   </div>

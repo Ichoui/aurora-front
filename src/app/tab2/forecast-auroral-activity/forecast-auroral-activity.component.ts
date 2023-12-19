@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, PopoverController } from '@ionic/angular';
 import { ModalComponent } from '../../shared/modal/modal.component';
 import { Chart, ChartType, registerables } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
@@ -21,6 +21,7 @@ import { ELocales } from '../../models/locales';
 import { HourClock, MeasureUnits } from '../../models/weather';
 import { TranslateService } from '@ngx-translate/core';
 import annotationPlugin from 'chartjs-plugin-annotation';
+import { Router } from '@angular/router';
 
 const numberMax27Forecast = 14;
 const numberMaxNextHours = 12;
@@ -60,6 +61,8 @@ export class ForecastAuroralActivityComponent implements OnChanges {
     private _storageService: StorageService,
     private _translateService: TranslateService,
     private _cdr: ChangeDetectorRef,
+    private _router: Router,
+    private _popover: PopoverController,
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -153,6 +156,10 @@ export class ForecastAuroralActivityComponent implements OnChanges {
       },
     });
     return await modal.present();
+  }
+
+  navigateToDoc(cardId: number, path: string): void {
+    this._popover.dismiss().then(() => this._router.navigate(['tabs', 'tab3', path], { queryParams: { cardId } }));
   }
 
   private _chartNextHoursForecast(forecast: KpForecast[], firstChange = false): void {
