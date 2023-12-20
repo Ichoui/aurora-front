@@ -50,7 +50,8 @@
       "noData": "ACE No data",
       "live": "Infos",
       "live.tooltip": "Les données ci-dessous proviennent du NOAA's Space Weather Prediction Center et sont en temps réel.<br>Elles sont informatives et ne garantissent en rien l'apparition d'Aurores Boréales ✨️",
-      "live.tooltip.tuto": "Lire le tutoriel"
+      "live.tooltip.tuto": "Lire le tutoriel",
+      "live.tooltip.learn": "En apprendre plus"
     },
     "forecast": {
       "poles": "Modèle OVATION",
@@ -91,7 +92,7 @@
         "wind-bz": "Un Bz négatif rend l'observation d'Aurores plus propices et laisse pénetrer le vent solaire dans la magnétosphère. Un Bz positif, à l'inverse, va bloquer le vent solaire hors de la magnétosphère.<br>Valeurs comprises entre -15 et 15.",
         "wind-bt": "Plus le Bt est élevé, plus les aurores sont puissantes. Le Bt est fort au-dessus de 20nT.",
         "solar-cycle": "Un cycle solaire dure environ 11 ans. Les valeurs sont sujettes à changement.<br><u>Tâches solaires:</u> Plus elles sont nombreuses, et plus l'activité solaire sera importante, favorisant les Aurores Boréales.<br><u>Flux solaire:</u> Le flux solaire radio à 10.7 cm (2800 MHz) est un excellent indicateur de l'activité solaire.",
-        "poles": "Touchez pour ouvrir.<br>Historique de l'ovale auroral des dernières 24 heures, et prévisions pour la prochaine heure."
+        "poles": "Touchez pour ouvrir.<br>Offre 30 à 90 minutes de prévisions pour un ovale auroral, et un historique des dernières 24 heures."
       }
     }
   },
@@ -248,7 +249,7 @@
         },
         "suggest": {
           "title": "Suggestions / problèmes",
-          "message": "Si vous avez des suggestions, ou rencontrez des problèmes, n'hésitez pas à me contacter sur mon mail, je ferai de mon mieux pour vous répondre. En effet, je suis un développeur indépendant, et je suis seul à m'occuper de cette application.<br><a href='mailto:aurorapp.lights@gmail.com'>aurorapp.lights@gmail.com</a>"
+          "message": "Si vous avez des suggestions, ou rencontrez des problèmes, n'hésitez pas à me contacter sur mon mail, je ferai de mon mieux pour vous répondre.<br>En effet, je suis un développeur indépendant, je suis seul à m'occuper du projet Aurorapp.<br><a href='mailto:aurorapp.lights@gmail.com'>aurorapp.lights@gmail.com</a>"
         }
       }
     }

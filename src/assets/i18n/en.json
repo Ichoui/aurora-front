@@ -48,15 +48,16 @@
       "bt": "Bt",
       "noData": "ACE No data",
       "live": "Live",
-      "live.tooltip": "The above real-time data is provided by the NOAA's Space Weather Prediction Center.<br>They are for information only and do not guarantee Northern Lights ✨<br>Read tutorial",
-      "live.tooltip.tuto": "Read tutorial"
+      "live.tooltip": "The above real-time data is provided by the NOAA's Space Weather Prediction Center.<br>They are for information only and do not guarantee Northern Lights ✨",
+      "live.tooltip.tuto": "Read tutorial",
+      "live.tooltip.learn": "Learn about"
     },
     "forecast": {
       "poles": "OVATION Aurora Model",
       "poles.sub": "Auroral oval intensity",
       "pole.north": "North pole",
       "pole.south": "South pole",
-      "poles.explanations": "Provide a 30- to 90-minutes forecast of the location and intensity of the ovale auroral, and a 24-hour history",
+      "poles.explanations": "Provide a 30- to 90-minutes forecast of the location and intensity of the auroral oval, and a 24-hour history",
       "poles.explanation.info": "The data comes from the solar wind and its forecast lead time from Lagrange 1, where the DISCOVR satellite is located, to Earth.",
       "nexthours.title": "Kp Index",
       "nexthours.sub": "Next hours forecast",
@@ -90,7 +91,7 @@
         "wind-bz": "A negative Bz makes it easier to observe Northern Lights and let the solar wind enters earth's magnetosphere. Conversely, a positive Bz will block solar wind out of the magnetosphere.<br>Values between -15 and 15.",
         "wind-bt": "The higher the Bt value is, the more powerful the Northern Lights are.<br>The Bt is high below 20nT.",
         "solar-cycle": "A solar cycle lasts 11 years on average. The following values may change.<br><u>Sunspots:</u> The more sunspots they are, the more important the activity solar will be.<br><u>Solar Flux:</u> Solar radio flux at 10.7 cm (2800 MHz) is an excellent indicator of solar activity.",
-        "poles": "Tap to open.<br>History of the auroral oval on the last 24 hours, and forecast for the next hour."
+        "poles": "Tap to open.<br>Provide a 30- to 90-minutes forecast of the location and intensity of the auroral oval, and a 24-hour history"
       }
     }
   },
@@ -247,7 +248,7 @@
         },
         "suggest": {
           "title": "Suggestions / Problems",
-          "message": "If you have any suggestions, or encounter any problems, don't hesitate to contact me on my mail, I will do my best to answer you. Indeed, I'm a freelance developer, and I'm the only one to work on this application.<br><a href='mailto:aurorapp.lights@gmail.com'>aurorapp.lights@gmail.com</a>"
+          "message": "If you have any suggestions, or encounter any problems, don't hesitate to contact me on my mail, I will do my best to answer you.<br>Sorry for English people who use Aurorapp, I don't speak fluent English, but I'd like to thank you for being here. If you have any suggestions for improving the text, I'd love to hear from you.<br>Finally, I'm a freelance developer, I am working alone on Aurorapp.<br><a href='mailto:aurorapp.lights@gmail.com'>aurorapp.lights@gmail.com</a>"
         }
       }
     }

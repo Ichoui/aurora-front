@@ -8,7 +8,10 @@
       <ng-template>
         <div [innerHTML]="'tab2.instant.live.tooltip' | translate"></div>
         <div class="documentation-link">
-          <span (click)="tutorial(15)">{{ 'tab2.instant.live.tooltip.tuto' | translate }}</span>
+          <span (click)="documentation(15, 'helpcenter')">{{ 'tab2.instant.live.tooltip.tuto' | translate }}</span>
+        </div>
+        <div class="documentation-link">
+          <span (click)="documentation(0, 'infos')">{{ 'tab2.instant.live.tooltip.learn' | translate }}</span>
         </div>
       </ng-template>
     </ion-popover>

@@ -80,6 +80,12 @@ export class InstantAuroralActivityComponent implements OnInit, OnChanges {
     this._cdr.markForCheck();
   }
 
+  documentation(cardId: number, path: string): void {
+    this._popover.dismiss().then(() => {
+      return this._router.navigate(['tabs', 'tab3', path], { queryParams: { cardId } });
+    });
+  }
+
   /**
    * Fait scintiller les étoiles en background
    * */
@@ -94,14 +100,5 @@ export class InstantAuroralActivityComponent implements OnInit, OnChanges {
     for (let i = 0; i < stars.length; i++) {
       stars[i].addEventListener('animationend', reset);
     }
-  }
-
-  tutorial(cardId: number): void {
-    this._popover.dismiss().then(() => {
-      // this._router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      //   this._router.navigate(['tabs', 'tab3', 'helpcenter'], {queryParams: {cardId}});
-      // });
-      return this._router.navigate(['tabs', 'tab3', 'helpcenter'], { queryParams: { cardId } });
-    });
   }
 }

@@ -1,4 +1,5 @@
 <div class="container">
+  <!--    World Map -->
   <div class="card-container">
     <div class="header">
       <span>
@@ -15,6 +16,7 @@
     <div id="map_canvas" class="data-not-displayed" [routerLink]="['..', 'tab2', 'map']"></div>
   </div>
 
+  <!--    KP NEXT HOURS -->
   <div class="card-container">
     <div class="header">
       <span>
@@ -24,9 +26,7 @@
       <ion-popover trigger="kp-next-hours" triggerAction="click" alignment="center">
         <ng-template>
           <div [innerHTML]="'tab2.forecast.tooltip.kp-next-hours' | translate"></div>
-          <div class="documentation-link">
-            <span (click)="navigateToDoc(11, 'infos')">{{ 'global.info' | translate }}</span>
-          </div>
+          <ng-container *ngTemplateOutlet="documentation; context: { cardId: 11, path: 'infos' }"></ng-container>
         </ng-template>
       </ion-popover>
     </div>
@@ -38,6 +38,7 @@
     <ng-container *ngTemplateOutlet="loading ? isLoading : null; context: { canvHeight: canvNextHour?.style.height }"></ng-container>
   </div>
 
+  <!--    KP 27 DAYS-->
   <div class="card-container">
     <div class="header">
       <span>
@@ -47,9 +48,7 @@
       <ion-popover trigger="kp-next-days" triggerAction="click" alignment="center">
         <ng-template>
           <div [innerHTML]="'tab2.forecast.tooltip.kp-next-days' | translate"></div>
-          <div class="documentation-link">
-            <span (click)="navigateToDoc(11, 'infos')">{{ 'global.info' | translate }}</span>
-          </div>
+          <ng-container *ngTemplateOutlet="documentation; context: { cardId: 11, path: 'infos' }"></ng-container>
         </ng-template>
       </ion-popover>
     </div>
@@ -61,6 +60,7 @@
     <ng-container *ngTemplateOutlet="loading ? isLoading : null; context: { canvHeight: canvKpForecast?.style.height }"></ng-container>
   </div>
 
+  <!--    SPEED SOLAR WIND-->
   <div class="card-container">
     <div class="header">
       <span>
@@ -70,9 +70,7 @@
       <ion-popover trigger="wind-speed" triggerAction="click" alignment="center">
         <ng-template>
           <div [innerHTML]="'tab2.forecast.tooltip.wind-speed' | translate: { unit: measure === 'metric' ? '500km/s' : '350mps' }"></div>
-          <div class="documentation-link">
-            <span (click)="navigateToDoc(12, 'infos')">{{ 'global.info' | translate }}</span>
-          </div>
+          <ng-container *ngTemplateOutlet="documentation; context: { cardId: 12, path: 'infos' }"></ng-container>
         </ng-template>
       </ion-popover>
     </div>
@@ -84,6 +82,7 @@
     <ng-container *ngTemplateOutlet="loading ? isLoading : null; context: { canvHeight: canvSpeed?.style.height }"></ng-container>
   </div>
 
+  <!--    DENSITY SOLAR WIND -->
   <div class="card-container">
     <div class="header">
       <span>
@@ -93,9 +92,7 @@
       <ion-popover trigger="wind-density" triggerAction="click" alignment="center">
         <ng-template>
           <div [innerHTML]="'tab2.forecast.tooltip.wind-density' | translate"></div>
-          <div class="documentation-link">
-            <span (click)="navigateToDoc(12, 'infos')">{{ 'global.info' | translate }}</span>
-          </div>
+          <ng-container *ngTemplateOutlet="documentation; context: { cardId: 12, path: 'infos' }"></ng-container>
         </ng-template>
       </ion-popover>
     </div>
@@ -107,6 +104,7 @@
     <ng-container *ngTemplateOutlet="loading ? isLoading : null; context: { canvHeight: canvDensity?.style.height }"></ng-container>
   </div>
 
+  <!--    BZ SOLAR WIND -->
   <div class="card-container">
     <div class="header">
       <span>
@@ -116,9 +114,7 @@
       <ion-popover trigger="wind-bz" triggerAction="click" alignment="center">
         <ng-template>
           <div [innerHTML]="'tab2.forecast.tooltip.wind-bz' | translate"></div>
-          <div class="documentation-link">
-            <span (click)="navigateToDoc(13, 'infos')">{{ 'global.info' | translate }}</span>
-          </div>
+          <ng-container *ngTemplateOutlet="documentation; context: { cardId: 13, path: 'infos' }"></ng-container>
         </ng-template>
       </ion-popover>
     </div>
@@ -130,6 +126,7 @@
     <ng-container *ngTemplateOutlet="loading ? isLoading : null; context: { canvHeight: canvBz?.style.height }"></ng-container>
   </div>
 
+  <!--    BT SOLAR WIND -->
   <div class="card-container">
     <div class="header">
       <span>
@@ -139,9 +136,7 @@
       <ion-popover trigger="wind-bt" triggerAction="click" alignment="center">
         <ng-template>
           <div [innerHTML]="'tab2.forecast.tooltip.wind-bt' | translate"></div>
-          <div class="documentation-link">
-            <span (click)="navigateToDoc(13, 'infos')">{{ 'global.info' | translate }}</span>
-          </div>
+          <ng-container *ngTemplateOutlet="documentation; context: { cardId: 13, path: 'infos' }"></ng-container>
         </ng-template>
       </ion-popover>
     </div>
@@ -153,6 +148,7 @@
     <ng-container *ngTemplateOutlet="loading ? isLoading : null; context: { canvHeight: canvBt?.style.height }"></ng-container>
   </div>
 
+  <!--    SOLAR CYCLE -->
   <div class="card-container">
     <div class="header">
       <span>
@@ -162,9 +158,7 @@
       <ion-popover trigger="solar-cycle" triggerAction="click" alignment="center">
         <ng-template>
           <div [innerHTML]="'tab2.forecast.tooltip.solar-cycle' | translate"></div>
-          <div class="documentation-link">
-            <span (click)="navigateToDoc(14, 'infos')">{{ 'global.info' | translate }}</span>
-          </div>
+          <ng-container *ngTemplateOutlet="documentation; context: { cardId: 14, path: 'infos' }"></ng-container>
         </ng-template>
       </ion-popover>
     </div>
@@ -176,6 +170,7 @@
     <ng-container *ngTemplateOutlet="loading ? isLoading : null; context: { canvHeight: canvCycle?.style.height }"></ng-container>
   </div>
 
+  <!--    POLES NORTH / SOUTH -->
   <div class="card-container">
     <div class="header">
       <span>
@@ -196,5 +191,11 @@
 
   <ng-template #isLoading let-canvHeight="canvHeight">
     <app-placeholder-charts [canvHeight]="canvHeight"></app-placeholder-charts>
+  </ng-template>
+
+  <ng-template #documentation let-cardId="cardId" let-path="path">
+    <div class="documentation-link">
+      <span (click)="navigateToDoc(cardId, path)">{{ 'global.info' | translate }}</span>
+    </div>
   </ng-template>
 </div>
