@@ -77,7 +77,7 @@
       "cycle.sfu": "Solar flux",
       "aurora-map": "World map",
       "sub-aurora-map": "Location and Auroral Oval by touching",
-      "title": "Auroral map",
+      "title": "World map",
       "select": "Pre-selected locations",
       "another": "Try another location",
       "unknown": "Unknown",
@@ -135,7 +135,8 @@
       "en": "English"
     },
     "infos": {
-      "title": "Northern<br>Lights",
+      "title.about": "Learn<br>about",
+      "title.help": "Help",
       "welcome": {
         "title": "Aurorapp - Northern Lights",
         "message": "Aurorapp - Northern Lights is a modern, sexy and colorful app for both hunters and tourists interested in the Northern Lights activity.<br>Please excuse me for my bad English, I am not a native speaker.<br>If you have any suggestions, you can contact me by email.<br>Thank you for understanding 🌌"

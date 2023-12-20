@@ -68,10 +68,12 @@ export class InformationsPage {
    * On regénère la vue à chaque fois qu'on vient sur la page, afin de pouvoir ouvrir & scroll jusqu'à l'ancre choisie
    * */
   ionViewWillEnter(): void {
-    this.tabOpen = [];
     this._route.queryParams.pipe(takeUntil(this._destroy$)).subscribe(c => {
-      this.cardId = c.cardId;
-      this.scroll();
+      if (c.cardId) {
+        this.tabOpen = [];
+        this.cardId = c.cardId;
+        this.scroll();
+      }
     });
     this._cdr.markForCheck();
   }

@@ -51,7 +51,7 @@
       "live": "Infos",
       "live.tooltip": "Les données ci-dessous proviennent du NOAA's Space Weather Prediction Center et sont en temps réel.<br>Elles sont informatives et ne garantissent en rien l'apparition d'Aurores Boréales ✨️",
       "live.tooltip.tuto": "Lire le tutoriel",
-      "live.tooltip.learn": "En apprendre plus"
+      "live.tooltip.learn": "Découvrir"
     },
     "forecast": {
       "poles": "Modèle OVATION",
@@ -78,7 +78,7 @@
       "cycle.sfu": "Flux solaire",
       "aurora-map": "Carte du monde",
       "sub-aurora-map": "Localisation et Ovale Auroral en touchant",
-      "title": "Carte aurorale",
+      "title": "Carte<br>du monde",
       "select": "Localisation prédéfinie",
       "another": "Essaye un autre endroit",
       "unknown": "Inconnue",
@@ -125,7 +125,7 @@
       "twentyfour": "24h",
       "infos": "Aurores Boréales",
       "subinfos": "Explications techniques sur les aurores, aide et plus",
-      "infos.text": "En apprendre plus",
+      "infos.text": "Découvrir",
       "infos.helpcenter": "Centre d'aide",
       "metric": "Métrique",
       "imperial": "Impérial",
@@ -136,7 +136,8 @@
       "en": "English"
     },
     "infos": {
-      "title": "Aurores",
+      "title.about": "Découvrir",
+      "title.help": "Aide",
       "welcome": {
         "title": "Aurorapp - Northern Lights",
         "message": "Aurorapp - Northern Lights est une application moderne, sexy et colorée, développée pour chasser les Aurores Boréales.<br>Si tu t'intéresses à l'activité des Aurores, que tu sois touriste ou chasseur aguerri, cette application est faites pour toi 🌌"
@@ -241,7 +242,7 @@
         "header": "Centre d'aide",
         "help": {
           "title": "Tutoriel : Comment fonctionne Aurorapp ?",
-          "message": "C'est très simple ! <ol><li>En lançant Aurorapp pour la première fois, tu es géolocalisé, Aurorapp se base donc sur ta localisation initiale.</li><li>Tu peux par la suite changer de localisation. Pour cela, rends-toi sur la carte du monde. De là, tu peux choisir une nouvelle localisation.</li><li>Ensuite, tu n'auras plus qu'à consulter l'activité solaire dans l'onglet 'Aurores', et la couverture nuageuse dans l'onglet 'Météo' pour plus de détails.<li>Dernièrement, il faut comprendre comment fonctione les aurores boréales, le vent solaire et le KP Index. Tu peux t'aider de la documentation d'Aurorapp, présente dans la partie 'En apprendre plus', ou encore d'Internet.</li><br>Rappel, ces données fournissent des indicateurs pour chasser les aurores boréale. Elles ne t'assureront pas d'en voir à 100% ☺</li></ol>"
+          "message": "C'est très simple ! <ol><li>En lançant Aurorapp pour la première fois, tu es géolocalisé, Aurorapp se base donc sur ta localisation initiale.</li><li>Tu peux par la suite changer de localisation. Pour cela, rends-toi sur la carte du monde. De là, tu peux choisir une nouvelle localisation.</li><li>Ensuite, tu n'auras plus qu'à consulter l'activité solaire dans l'onglet 'Aurores', et la couverture nuageuse dans l'onglet 'Météo' pour plus de détails.<li>Dernièrement, il faut comprendre comment fonctione les aurores boréales, le vent solaire et le KP Index. Tu peux t'aider de la documentation d'Aurorapp, présente dans la partie 'Découvrir', ou encore d'Internet.</li><br>Rappel, ces données fournissent des indicateurs pour chasser les aurores boréale. Elles ne t'assureront pas d'en voir à 100% ☺</li></ol>"
         },
         "noSwpcData": {
           "title": "Les données ne s'affichent plus",

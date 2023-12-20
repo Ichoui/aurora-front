@@ -56,14 +56,6 @@ export const cities: City[] = [
     longitude: -115.569748,
   },
   {
-    code: 'jsp',
-    ville: 'Jasper',
-    pays: 'Canada',
-    codePays: 'CA',
-    latitude: 52.873291,
-    longitude: -118.080682,
-  },
-  {
     code: 'edm',
     ville: 'Edmonton',
     pays: 'Canada',

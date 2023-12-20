@@ -1,4 +1,5 @@
-<app-header titre="{{ 'tab3.infos.title' | translate }}"></app-header>
+<app-header *ngIf="routeData.infos" titre="{{ 'tab3.infos.title.about' | translate }}"></app-header>
+<app-header *ngIf="routeData.helpcenter" titre="{{ 'tab3.infos.title.help' | translate }}"></app-header>
 
 <ion-content>
   <div [routerLink]="['','tabs','tab3']" class="back">
