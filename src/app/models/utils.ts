@@ -59,9 +59,24 @@ export function convertUnitTemperature(nb: number, unit: TemperatureUnits): numb
  * @param format {string} Permet de choisir le formatage de la date. (ex: YYYY MM DD)
  * @param locale ELocale
  * @param timezoneUnix {number} : Timezone format unix, par exemple -18000 pour le QC
+ * @param nowDate {boolean} : Quand on commence avec une date non générée par un serveur et qui se met auto en UTC
  * */
-export function manageDates(date: number | string, format: string, locale?: ELocales, timezoneUnix?: number): string | moment.Moment {
-  const d = timezoneUnix ? moment.unix((date as number) + timezoneUnix).locale(locale) : moment.utc(date);
+export function manageDates(
+  date: number | string,
+  format: string,
+  locale?: ELocales,
+  timezoneUnix?: number,
+  nowDate: boolean = false,
+): string | moment.Moment {
+  let d: moment.Moment;
+  if (nowDate) {
+    d = moment
+      .unix((date as number) + timezoneUnix)
+      .locale(locale)
+      .utc();
+  } else {
+    d = timezoneUnix ? moment.unix((date as number) + timezoneUnix).locale(locale) : moment.utc(date);
+  }
   return d.format(format);
 }
 

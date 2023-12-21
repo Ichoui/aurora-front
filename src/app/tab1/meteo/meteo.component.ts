@@ -68,7 +68,11 @@ export class MeteoComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     this._nextHoursChart?.destroy();
-    if (changes?.currentWeather?.currentValue !== changes?.currentWeather?.previousValue) {
+    console.log(changes);
+    if (
+      changes?.currentWeather?.currentValue !== changes?.currentWeather?.previousValue ||
+      changes?.coords?.currentValue !== changes?.coords?.previousValue
+    ) {
       this._todayForecast(changes.currentWeather.currentValue);
     }
     if (changes?.hourlyWeather?.currentValue !== changes?.hourlyWeather?.previousValue) {
@@ -92,17 +96,27 @@ export class MeteoComponent implements OnChanges {
       this.sunrise = polar;
       this.sunset = polar;
     } else {
-      this.sunrise = manageDates(currentWeather.sunrise, this.hourClock === HourClock.TWELVE ? 'hh:mm A' : 'HH[h]mm', this.locale, this.tzOffset);
-      this.sunset = manageDates(currentWeather.sunset, this.hourClock === HourClock.TWELVE ? 'hh:mm A' : 'HH[h]mm', this.locale, this.tzOffset);
+      console.log(currentWeather.sunrise);
+      this.sunrise = manageDates(
+        currentWeather.sunrise,
+        this.hourClock === HourClock.TWELVE ? 'hh:mm A' : 'HH[h]mm',
+        this.locale,
+        this.tzOffset,
+        true,
+      );
+      this.sunset = manageDates(currentWeather.sunset, this.hourClock === HourClock.TWELVE ? 'hh:mm A' : 'HH[h]mm', this.locale, this.tzOffset, true);
     }
 
     this._lotties(this._calculateWeaterIcons(currentWeather));
+
     this.currentDatetime = manageDates(
       moment().unix(),
       this.hourClock === HourClock.TWELVE ? 'dddd Do of MMMM, hh:mm A' : 'dddd DD MMMM, HH[h]mm',
       this.locale,
       this.tzOffset,
+      true,
     );
+    this._cdr.markForCheck();
   }
 
   private _nearestSolstice(): 'night' | 'day' {

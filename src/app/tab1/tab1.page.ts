@@ -94,6 +94,7 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
               this.city = weather.city;
               this.country = weather.country;
               this.tzOffset = weather.timezoneOffset;
+              console.log(weather.timezoneOffset);
               this.coords = {
                 lat: coords?.lat,
                 long: coords?.long,
@@ -192,6 +193,8 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
               date: new Date(),
               timezoneOffset: res.timezone_offset,
             });
+            this.tzOffset = res.timezone_offset;
+            console.log(res.timezone_offset);
             void this._storageService.setData('previousLocation', {
               lat: this.coords.lat,
               long: this.coords.long,
