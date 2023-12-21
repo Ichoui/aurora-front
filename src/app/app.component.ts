@@ -9,8 +9,8 @@ import { ELocales } from './models/locales';
 import { StatusBar } from '@capacitor/status-bar';
 import { STATUS_BAR_COLOR } from './models/colors';
 import { ToastError } from './shared/toast/toast.component';
-import { CodeLocation } from './models/cities';
 import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
+import { CityCoords } from './models/cities';
 
 @Component({
   selector: 'app-root',
@@ -50,8 +50,8 @@ export class AppComponent {
         .init()
         .then(() => {
           // Vérifier si une location a déjà été set par le passé sur l'appli, sinon on fait les demandes de géoloc car probable première visite
-          this._storageService.getData('location').then((codeLocation: CodeLocation) => {
-            if (!codeLocation) {
+          this._storageService.getData('location').then((coords: CityCoords) => {
+            if (!coords) {
               this._getPosition();
             } else {
               this.loadApp = true;
@@ -88,7 +88,6 @@ export class AppComponent {
 
   private _setStorageLocation(lat: number, long: number): void {
     this._storageService.setData('location', {
-      code: 'currentLocation',
       lat,
       long,
     });

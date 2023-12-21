@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { Coords } from '../../models/cities';
 import * as moment from 'moment';
 import {
   Cloudy,
@@ -19,6 +18,7 @@ import { AnimationOptions } from 'ngx-lottie';
 import { ELocales } from '../../models/locales';
 import { MAIN_TEXT_COLOR, WEATHER_NEXT_HOUR_CHART_COLOR } from '../../models/colors';
 import { convertUnitTemperature, manageDates } from '../../models/utils';
+import { CityCoords } from '../../models/cities';
 
 Chart.register(...registerables);
 
@@ -29,7 +29,7 @@ Chart.register(...registerables);
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MeteoComponent implements OnChanges {
-  @Input() coords: Coords;
+  @Input() coords: CityCoords;
   @Input() currentWeather: Currently;
   @Input() hourlyWeather: Hourly[];
   @Input() sevenDayWeather: Daily[];

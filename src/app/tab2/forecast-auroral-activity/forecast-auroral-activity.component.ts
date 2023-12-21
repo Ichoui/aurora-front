@@ -13,7 +13,6 @@ import {
   updateGradientBackgroundChart,
 } from '../../models/utils';
 import { MAIN_TEXT_COLOR, SOLARWIND_NOWTIME_BGC_CHART_COLOR, SOLARWIND_NOWTIME_CHART_COLOR } from '../../models/colors';
-import { CodeLocation } from '../../models/cities';
 import { StorageService } from '../../storage.service';
 import { icon, LatLng, Map, Marker, marker, tileLayer, ZoomPanOptions } from 'leaflet';
 import { AuroraEnumColours, Kp27day, KpForecast, SolarCycle, SolarWind, SolarWindTypes } from '../../models/aurorav3';
@@ -22,6 +21,7 @@ import { HourClock, MeasureUnits } from '../../models/weather';
 import { TranslateService } from '@ngx-translate/core';
 import annotationPlugin from 'chartjs-plugin-annotation';
 import { Router } from '@angular/router';
+import { CityCoords } from '../../models/cities';
 
 const numberMax27Forecast = 14;
 const numberMaxNextHours = 12;
@@ -95,9 +95,9 @@ export class ForecastAuroralActivityComponent implements OnChanges {
    * Charge également la map avec les lat/long envoyée depuis la page popup (Marker et Ville Préselectionnées)
    * */
   minimapLocation(): void {
-    this._storageService.getData('location').then((codeLocation: CodeLocation) => {
-      if (codeLocation) {
-        this._mapInit(codeLocation.lat, codeLocation.long);
+    this._storageService.getData('location').then((coords: CityCoords) => {
+      if (coords) {
+        this._mapInit(coords.lat, coords.long);
       }
     });
   }

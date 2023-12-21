@@ -1,16 +1,16 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
-import { cities, City, CodeLocation } from '../../models/cities';
 import { Content, GeoJSON, Icon, LatLng, LatLngBounds, Layer, Map, Marker, PathOptions, Popup, Rectangle, tileLayer, ZoomPanOptions } from 'leaflet';
 import { TranslateService } from '@ngx-translate/core';
 import { StorageService } from '../../storage.service';
-import { first, map, takeUntil, tap } from 'rxjs/operators';
+import { debounceTime, first, map, takeUntil, tap } from 'rxjs/operators';
 import { Geocoding } from '../../models/geocoding';
 import { AuroraService } from '../../aurora.service';
 import { countryNameFromCode } from '../../models/utils';
 import { FORECAST_COLOR_GRAY, FORECAST_COLOR_GREEN, FORECAST_COLOR_ORANGE, FORECAST_COLOR_RED, FORECAST_COLOR_YELLOW } from '../../models/colors';
 import { ELocales } from '../../models/locales';
 import { Subject } from 'rxjs';
+import { City, CityCoords } from '../../models/cities';
 
 @Component({
   selector: 'app-map-leaflet',
@@ -22,10 +22,11 @@ export class MapLeafletPage implements OnInit, OnDestroy {
   private _map: Map;
   private _marker: Marker;
   private _popup: Popup;
-  readonly cities: City[] = cities;
   private _locale: ELocales;
-  localisation: string;
+  searchbarWidth: string;
   loadingNewLocation = false;
+  citiesMatched = false;
+  citiesList: City[] = [];
 
   constructor(
     private _cdr: ChangeDetectorRef,
@@ -51,10 +52,9 @@ export class MapLeafletPage implements OnInit, OnDestroy {
    * */
   private _checkStorageLocation(): void {
     this._storageService.getData('location').then(
-      (codeLocation: CodeLocation) => {
-        if (codeLocation) {
-          this.localisation = codeLocation.code;
-          this._loadMap(codeLocation.lat, codeLocation.long);
+      (coords: CityCoords) => {
+        if (coords) {
+          this._loadMap(coords.lat, coords.long);
         }
       },
       error => console.error('_checkStorageLocation() problem, message : ', error),
@@ -68,34 +68,51 @@ export class MapLeafletPage implements OnInit, OnDestroy {
     );
   }
 
-  /**
-   * @param choice {any} Lorsque le Select est modifié, rentre dans la condition pour modifier la valeur de localisation
-   * @param position {LatLng} Lorsqu'on ajoute un point sur la carte
-   * Permet de pré-remplir le select avec la valeur disponible en storage si elle existe.
-   * Met également la valeur en storage pour traitement tab2
-   * */
-  selectNewLocation(choice?: any, position?: LatLng): void {
-    this.loadingNewLocation = true;
-    if (choice) {
-      this.localisation = choice.detail.value;
-      const city = cities.find(res => res.code === choice.detail.value);
-      if (city) {
-        void this._storageService.setData('location', {
-          code: this.localisation,
-          lat: city.latitude,
-          long: city.longitude,
-        });
-        this._addMarker(city.latitude, city.longitude);
-      }
-    } else {
-      this.localisation = 'marker';
-      void this._storageService.setData('location', {
-        code: 'marker',
-        lat: position.lat,
-        long: position.lng,
-      });
-      this._addMarker(position.lat, position.lng);
+  handleInput(event: any): void {
+    const search = event.target.value.toLowerCase();
+    if (search.length > 2) {
+      this._auroraService
+        .getCorrespondingCities$(search)
+        .pipe(
+          debounceTime(400),
+          tap(() => {
+            this.searchbarWidth = document.querySelectorAll('.searchbar-input-container')[0].clientWidth + 'px';
+          }),
+          tap(c => {
+            this.citiesMatched = true;
+            this.citiesList = c;
+            this._cdr.markForCheck();
+          }),
+        )
+        .subscribe();
     }
+  }
+
+  closeSearchbar(): void {
+    this.citiesMatched = false;
+    this.citiesList = [];
+    this._cdr.markForCheck();
+  }
+
+  convertCoords(coords: { lat: string; lng: string }): CityCoords {
+    return { lat: Number(coords.lat), long: Number(coords.lng) };
+  }
+
+  /**
+   * @param coords {CityCoords} Coordonnées de la location
+   * Ajoute la location actuelle en storage
+   * Rajoute un marker physique sur la map
+   * */
+  selectNewLocation(coords: CityCoords): void {
+    if (this.citiesMatched) {
+      this.closeSearchbar();
+    }
+    this.loadingNewLocation = true;
+    void this._storageService.setData('location', {
+      lat: coords.lat,
+      long: coords.long,
+    });
+    this._addMarker(coords.lat, coords.long);
   }
 
   /**
@@ -126,7 +143,7 @@ export class MapLeafletPage implements OnInit, OnDestroy {
 
     this._map.on('click', params => {
       let latLng: LatLng = params['latlng'];
-      void this.selectNewLocation(null, latLng);
+      void this.selectNewLocation({ lat: latLng.lat, long: latLng.lng });
     });
     // https://github.com/nouhouari/angular-leaflet/blob/master/package.json
 
@@ -147,9 +164,6 @@ export class MapLeafletPage implements OnInit, OnDestroy {
         takeUntil(this._destroy$),
         tap((coords: number[] /*[long, lat, aurora]*/) => {
           let length = coords.length;
-          // if (long === Math.round(longCurrent) && lat === Math.round(latCurrent)) {
-          //   void this._storageService.setData('nowcastAurora', nowcastAurora);
-          // }
           while (--length) {
             let long = coords[length][0];
             const lat = coords[length][1];
@@ -208,7 +222,6 @@ export class MapLeafletPage implements OnInit, OnDestroy {
       .then((resp: GeolocationPosition) => {
         this._addMarker(resp.coords.latitude, resp.coords.longitude);
         void this._storageService.setData('location', {
-          code: 'currentLocation',
           lat: resp.coords.latitude,
           long: resp.coords.longitude,
         });
@@ -287,6 +300,8 @@ export class MapLeafletPage implements OnInit, OnDestroy {
     this.loadingNewLocation = false;
     this._cdr.markForCheck();
   }
+
+  protected readonly LatLng = LatLng;
 }
 
 function mapColor(index: number): string {

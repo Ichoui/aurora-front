@@ -8,6 +8,7 @@ import { Geocoding } from './models/geocoding';
 import { SolarWind, SwpcData } from './models/aurorav3';
 import { ELocales } from './models/locales';
 import { deleteFalsy } from './models/utils';
+import { City } from './models/cities';
 
 @Injectable({
   providedIn: 'root',
@@ -74,5 +75,10 @@ export class AuroraService {
   getForecastSolarwind7d$(firstDate: string): Observable<SolarWind[]> {
     const params = deleteFalsy({ firstDate });
     return this._http.get<SolarWind[]>(`${environment.host}${environment.swpc.solarWind7d}`, { params });
+  }
+
+  getCorrespondingCities$(search: string): Observable<City[]> {
+    const params = deleteFalsy({ search });
+    return this._http.get<City[]>(`${environment.host}${environment.city}`, { params });
   }
 }

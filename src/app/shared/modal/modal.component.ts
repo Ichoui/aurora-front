@@ -106,7 +106,7 @@ export class ModalComponent implements OnInit {
 
   /**
    * @pole {Pole} north / south
-   * Récupére le service pour créer des array avec la valeur des URL avant de les croiser
+   * Récupère le service pour créer des array avec la valeur des URL avant de les croiser
    */
   loadPoles(pole: Pole): Observable<unknown> {
     return this._auroraService.getPoles$(pole).pipe(

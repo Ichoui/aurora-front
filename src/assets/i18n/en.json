@@ -78,7 +78,7 @@
       "aurora-map": "World map",
       "sub-aurora-map": "Location and Auroral Oval by touching",
       "title": "World map",
-      "select": "Pre-selected locations",
+      "select": "Select a custom location",
       "another": "Try another location",
       "unknown": "Unknown",
       "no-data": "Data no longer displayed? Tap here",

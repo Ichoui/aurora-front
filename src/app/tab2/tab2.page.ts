@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
-import { cities, CodeLocation, Coords } from '../models/cities';
 import { AuroraService } from '../aurora.service';
 import { StorageService } from '../storage.service';
 import { map, switchMap, takeUntil, tap } from 'rxjs/operators';
@@ -14,6 +13,7 @@ import SwiperCore, { Navigation, Pagination, SwiperOptions } from 'swiper';
 import * as moment from 'moment/moment';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastError } from '../shared/toast/toast.component';
+import { CityCoords } from '../models/cities';
 
 SwiperCore.use([Pagination, Navigation]);
 
@@ -27,7 +27,7 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
   loading = true;
   loadSwiper = false;
 
-  coords: Coords;
+  coords: CityCoords;
   city: string;
   country: string;
   // Data inputs
@@ -87,15 +87,11 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
           this.hourClock = clock;
         }),
         switchMap(() => combineLatest([from(this._storageService.getData('ACEdate')), from(this._storageService.getData('location'))])),
-        map(([ACEdate, location]: [number, CodeLocation]) => [ACEdate ? moment(new Date()).diff(moment(ACEdate), 'minutes') > 10 : true, location]),
-        tap(([moreThanFiveMinutes, location]: [boolean, CodeLocation]) => {
+        map(([ACEdate, location]: [number, CityCoords]) => [ACEdate ? moment(new Date()).diff(moment(ACEdate), 'minutes') > 10 : true, location]),
+        tap(([moreThanFiveMinutes, coords]: [boolean, CityCoords]) => {
           if (moreThanFiveMinutes) {
             // Avoid to load the page every time the user access to tab2, waiting 5 mins
-            if (location.code === 'currentLocation' || location.code === 'marker') {
-              this._getExistingLocalisation(location.lat, location.long);
-            } else {
-              this._chooseExistingCity(location.code);
-            }
+            this._getExistingLocalisation(coords.lat, coords.long);
           } else {
             this._getACEDataFromStorage();
           }
@@ -118,8 +114,8 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
       .pipe(
         takeUntil(this._destroy$),
         tap({
-          next: ([location, solarCycle, solarWind, kpForecast, kp27day, nowcastAurora, kpCurrent, clock]: [
-            CodeLocation,
+          next: ([coords, solarCycle, solarWind, kpForecast, kp27day, nowcastAurora, kpCurrent, clock]: [
+            CityCoords,
             SolarCycle[],
             SolarWind[],
             KpForecast[],
@@ -128,7 +124,7 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
             KpCurrent,
             HourClock,
           ]) => {
-            this.coords = { ...this.coords, latitude: location.lat, longitude: location.long };
+            this.coords = coords;
             this.solarCycle = solarCycle;
             this.solarWindInstant = this._getSolarWind(solarWind, true) as SolarWind;
             this.solarWind = this._getSolarWind(solarWind) as SolarWind[];
@@ -160,24 +156,8 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
    * */
   private _getExistingLocalisation(lat: number, long: number) {
     this.coords = {
-      latitude: lat,
-      longitude: long,
-    };
-    this._getDataACE();
-  }
-
-  /**
-   * @param code slug de la ville pour pouvoir récupérer les données liées au code
-   * Choisir une des villes pré-enregistrées
-   */
-  private _chooseExistingCity(code: string): void {
-    const city = cities.find(res => res.code === code);
-    this.city = city.ville;
-    this.country = city.pays;
-
-    this.coords = {
-      latitude: city.latitude,
-      longitude: city.longitude,
+      lat,
+      long,
     };
     this._getDataACE();
   }
@@ -187,7 +167,7 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
    * */
   private _getDataACE(): void {
     this._auroraService
-      .getAllSwpcDatas$(this.coords.latitude, this.coords.longitude)
+      .getAllSwpcDatas$(this.coords.lat, this.coords.long)
       .pipe(
         tap({
           next: (value: SwpcData) => {
@@ -223,7 +203,7 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
       .subscribe();
 
     this._auroraService
-      .getAuroraMapData$(this.coords.latitude, this.coords.longitude)
+      .getAuroraMapData$(this.coords.lat, this.coords.long)
       .pipe(
         tap({
           next: (nowcast: number) => {

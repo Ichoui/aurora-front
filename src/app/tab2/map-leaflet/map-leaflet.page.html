@@ -12,18 +12,24 @@
     </ion-popover>
   </div>
 </div>
-<ion-item>
-  <ion-label>{{ 'tab2.forecast.select' | translate }}</ion-label>
-  <ion-select
-    interface="action-sheet"
-    aria-label="cities select"
-    [value]="localisation"
-    [cancelText]="'global.cancel' | translate"
-    (ionChange)="selectNewLocation($event)"
-  >
-    <ion-select-option *ngFor="let city of cities" [value]="city.code">{{ city.ville }} - {{ city.codePays }}</ion-select-option>
-  </ion-select>
-</ion-item>
+<div class="searchbar">
+  <ion-searchbar
+    id="searchbar"
+    search-icon="location-outline"
+    [placeholder]="'tab2.forecast.select' | translate "
+    (ionInput)="handleInput($event)"
+    (ionClear)="closeSearchbar()"
+  ></ion-searchbar>
+
+  <ion-list class="searchbar-list" *ngIf="citiesMatched" [style.width]="searchbarWidth">
+    <ion-item *ngFor="let result of citiesList" (click)="selectNewLocation(convertCoords(result))">
+      <ion-label class="name">
+        <span>{{ result.name }} - {{result.country }}</span>
+        <span>{{ result.lat }}, {{ result.lng }}</span>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</div>
 
 <div class="map-container">
   <div *ngIf="loadingNewLocation" class="content-spinner">

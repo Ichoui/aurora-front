@@ -15,10 +15,12 @@ export const environment = {
     geocode: 'geocode',
     weather: 'weather',
   },
+  city: 'city',
   swpc: {
     all: 'swpc',
     currentKp: 'instant/kp',
-    solarWind: 'forecast/solarwind',
+    solarWind1h: 'forecast/solarwind1h',
+    solarWind7d: 'forecast/solarwind7d',
     solarCycle: 'forecast/solarcycle',
     ovationMap: 'map/ovation',
     nowcast: 'instant/nowcast',

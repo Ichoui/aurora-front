@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import { AuroraService } from '../aurora.service';
-import { cities, City, CodeLocation, Coords } from '../models/cities';
 import { Currently, Daily, HourClock, Hourly, MeasureUnits, TemperatureUnits, Weather } from '../models/weather';
 import { HttpErrorResponse } from '@angular/common/http';
 import { StorageService } from '../storage.service';
@@ -13,6 +12,7 @@ import { ELocales } from '../models/locales';
 import * as moment from 'moment';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastError } from '../shared/toast/toast.component';
+import { CityCoords } from '../models/cities';
 
 @Component({
   selector: 'app-tab1',
@@ -23,7 +23,7 @@ import { ToastError } from '../shared/toast/toast.component';
 export class Tab1Page implements OnViewWillEnter, OnDestroy {
   loading: boolean = true;
 
-  coords: Coords;
+  coords: CityCoords;
   city: string;
   country: string;
   tzOffset: number;
@@ -70,8 +70,8 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
       .pipe(
         takeUntil(this._destroy$),
         tap({
-          next: ([location, previousLocation, measure, temperature, weather, locale, clock]: [
-            CodeLocation,
+          next: ([coords, previousLocation, measure, temperature, weather, locale, clock]: [
+            CityCoords,
             { lat: number; long: number },
             MeasureUnits,
             TemperatureUnits,
@@ -85,8 +85,8 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
             this.hourClock = clock;
 
             // Ceci pour éviter de call l'API trop souvent
-            if (this._shouldRecallWeatherAPI(weather, location, previousLocation)) {
-              this._manageWeatherDisplay(location);
+            if (this._shouldRecallWeatherAPI(weather, coords, previousLocation)) {
+              this._reverseGeoloc(coords.lat, coords.long);
             } else {
               this.dataCurrentWeather = weather.dataCurrentWeather;
               this.dataHourly = weather.dataHourly;
@@ -95,8 +95,8 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
               this.country = weather.country;
               this.tzOffset = weather.timezoneOffset;
               this.coords = {
-                latitude: location?.lat,
-                longitude: location?.long,
+                lat: coords?.lat,
+                long: coords?.long,
               };
               this.loading = false;
               this._cdr.markForCheck();
@@ -120,7 +120,7 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
    * No weather in store
    * Date stored is passed from more than 5mn
    * */
-  private _shouldRecallWeatherAPI(weather: Weather, location: CodeLocation, previousLocation: { lat: number; long: number }): boolean {
+  private _shouldRecallWeatherAPI(weather: Weather, location: CityCoords, previousLocation: { lat: number; long: number }): boolean {
     const weatherDateDifference = weather?.date ? moment(new Date()).diff(moment(weather['date']), 'minutes') : null;
     let bool = false;
 
@@ -135,15 +135,6 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
     return bool;
   }
 
-  // How to get Forecast if location has recently changed
-  private _manageWeatherDisplay(codeLocation?: CodeLocation): void {
-    if (codeLocation.code === 'currentLocation' || codeLocation.code === 'marker') {
-      this._reverseGeoloc(codeLocation.lat, codeLocation.long);
-    } else {
-      this._chooseExistingCity(codeLocation.code);
-    }
-  }
-
   /**
    * @lat {number}
    * @long {number}
@@ -152,8 +143,8 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
    */
   private _reverseGeoloc(lat: number, long: number): void {
     this.coords = {
-      latitude: lat,
-      longitude: long,
+      lat,
+      long,
     };
     this._auroraService
       .getGeocoding$(lat, long)
@@ -180,27 +171,11 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
   }
 
   /**
-   * @code slug de la ville pour pouvoir récupérer les données liées au code
-   * Choisir une des villes pré-enregistrées
-   */
-  private _chooseExistingCity(code: string): void {
-    const city: City = cities.find(res => res.code === code);
-    this.city = city.ville;
-    this.country = city.pays;
-
-    this.coords = {
-      latitude: city.latitude,
-      longitude: city.longitude,
-    };
-    this._getForecast(city.ville, city.pays);
-  }
-
-  /**
    * API OpenWeatherMap
    */
   private _getForecast(city: string, country: string): void {
     this._auroraService
-      .openWeatherMapForecast$(this.coords.latitude, this.coords.longitude, this.locale)
+      .openWeatherMapForecast$(this.coords.lat, this.coords.long, this.locale)
       .pipe(
         takeUntil(this._destroy$),
         tap({
@@ -218,8 +193,8 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
               timezoneOffset: res.timezone_offset,
             });
             void this._storageService.setData('previousLocation', {
-              lat: this.coords.latitude,
-              long: this.coords.longitude,
+              lat: this.coords.lat,
+              long: this.coords.long,
             });
 
             // End loading
