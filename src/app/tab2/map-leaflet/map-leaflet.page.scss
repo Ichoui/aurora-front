@@ -8,10 +8,12 @@
   margin: 0 auto 5px;
   ion-searchbar {
     padding: 0;
+    --icon-color: #fff;
+    --placeholder-color: #fff;
   }
   ion-list.searchbar-list {
     position: absolute;
-    height: 125px;
+    height: 160px;
     width: 100%;
     z-index: 925;
     padding: 0;
@@ -26,7 +28,8 @@
       font-size: 0.8em;
       span {
         &:last-child {
-          font-size: 0.7em;
+          opacity: 0.75;
+          font-size: 0.75em;
         }
       }
     }
