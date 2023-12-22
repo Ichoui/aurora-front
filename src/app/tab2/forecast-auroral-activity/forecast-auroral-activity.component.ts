@@ -167,8 +167,9 @@ export class ForecastAuroralActivityComponent implements OnChanges {
     const nextHoursDate = [];
     const nextHoursColors = [];
     for (const unit of forecast) {
+      const utcOffsetInMinutes = moment().utcOffset();
       if (nextHoursForecast.length < numberMaxNextHours) {
-        nextHoursDate.push(moment(unit.timeTag).format('HH') + 'h');
+        nextHoursDate.push(moment.utc(unit.timeTag).add(utcOffsetInMinutes, 'minutes').local().format('HH') + 'h');
         nextHoursForecast.push(unit.kpIndex);
         if (unit.kpIndex >= 6) {
           unit.color = AuroraEnumColours.red;
@@ -285,7 +286,6 @@ export class ForecastAuroralActivityComponent implements OnChanges {
 
     for (const unit of forecast) {
       solarWindDate.push(manageDates(unit.propagated_time_tag, this.hourClock === HourClock.TWENTYFOUR ? 'HH[h]mm' : 'hh:mm A'));
-
       densityForecast.push(unit.density);
       bzForecast.push(unit.bz);
       btForecast.push(unit.bt);

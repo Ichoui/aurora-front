@@ -75,7 +75,7 @@ export function manageDates(
       .locale(locale)
       .utc();
   } else {
-    d = timezoneUnix ? moment.unix((date as number) + timezoneUnix).locale(locale) : moment.utc(date);
+    d = timezoneUnix ? moment.unix((date as number) + timezoneUnix).locale(locale) : moment.utc(date).local();
   }
   return d.format(format);
 }
