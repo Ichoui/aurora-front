@@ -68,7 +68,6 @@ export class MeteoComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     this._nextHoursChart?.destroy();
-    console.log(changes);
     if (
       changes?.currentWeather?.currentValue !== changes?.currentWeather?.previousValue ||
       changes?.coords?.currentValue !== changes?.coords?.previousValue
@@ -96,7 +95,6 @@ export class MeteoComponent implements OnChanges {
       this.sunrise = polar;
       this.sunset = polar;
     } else {
-      console.log(currentWeather.sunrise);
       this.sunrise = manageDates(
         currentWeather.sunrise,
         this.hourClock === HourClock.TWELVE ? 'hh:mm A' : 'HH[h]mm',

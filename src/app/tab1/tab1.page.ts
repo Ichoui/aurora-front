@@ -94,7 +94,6 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
               this.city = weather.city;
               this.country = weather.country;
               this.tzOffset = weather.timezoneOffset;
-              console.log(weather.timezoneOffset);
               this.coords = {
                 lat: coords?.lat,
                 long: coords?.long,
@@ -139,7 +138,7 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
   /**
    * @lat {number}
    * @long {number}
-   * Si utilisateur a déjà eu accès à cette page / utilisé la tab 3 / rentré coords dans tab3
+   * Si utilisateur a déjà eu accès à la localisation
    * reverseGeocode, retrouve le nom de la ville via Lat/long
    */
   private _reverseGeoloc(lat: number, long: number): void {
@@ -154,7 +153,7 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
         map((res: Geocoding[]) => res[0]),
         tap({
           next: (res: Geocoding) => {
-            this.city = res ? `${res.name}${res?.state ? ', ' + res.state : ''} -` : null;
+            this.city = res ? `${res.name} -` : null;
             this.country = res ? countryNameFromCode(res.country, this.locale) : null;
             this._getForecast(this.city, this.country);
           },
@@ -194,7 +193,6 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
               timezoneOffset: res.timezone_offset,
             });
             this.tzOffset = res.timezone_offset;
-            console.log(res.timezone_offset);
             void this._storageService.setData('previousLocation', {
               lat: this.coords.lat,
               long: this.coords.long,

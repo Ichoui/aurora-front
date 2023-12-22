@@ -16,6 +16,7 @@
   <ion-searchbar
     id="searchbar"
     search-icon="location-outline"
+    [debounce]="400"
     [placeholder]="'tab2.forecast.select' | translate "
     (ionInput)="handleInput($event)"
     (ionClear)="closeSearchbar()"

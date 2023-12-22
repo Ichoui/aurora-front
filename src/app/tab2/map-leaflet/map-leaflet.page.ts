@@ -3,7 +3,7 @@ import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 import { Content, GeoJSON, Icon, LatLng, LatLngBounds, Layer, Map, Marker, PathOptions, Popup, Rectangle, tileLayer, ZoomPanOptions } from 'leaflet';
 import { TranslateService } from '@ngx-translate/core';
 import { StorageService } from '../../storage.service';
-import { debounceTime, first, map, takeUntil, tap } from 'rxjs/operators';
+import { first, map, takeUntil, tap } from 'rxjs/operators';
 import { Geocoding } from '../../models/geocoding';
 import { AuroraService } from '../../aurora.service';
 import { countryNameFromCode } from '../../models/utils';
@@ -74,14 +74,14 @@ export class MapLeafletPage implements OnInit, OnDestroy {
       this._auroraService
         .getCorrespondingCities$(search)
         .pipe(
-          debounceTime(400),
-          tap(() => {
-            this.searchbarWidth = document.querySelectorAll('.searchbar-input-container')[0].clientWidth + 'px';
-          }),
           tap(c => {
-            this.citiesMatched = true;
-            this.citiesList = c;
-            this._cdr.markForCheck();
+            if (c.length !== 0) {
+              this.searchbarWidth = document.querySelectorAll('.searchbar-input-container')[0].clientWidth + 'px';
+
+              this.citiesMatched = true;
+              this.citiesList = c;
+              this._cdr.markForCheck();
+            }
           }),
         )
         .subscribe();
@@ -244,7 +244,7 @@ export class MapLeafletPage implements OnInit, OnDestroy {
           next: (res: Geocoding) => {
             let infoWindow: string;
             if (res?.name && res?.country) {
-              infoWindow = `${res?.name}${res?.state ? ', ' + res.state : ''} - ${countryNameFromCode(res.country, this._locale)}`;
+              infoWindow = `${res?.name} - ${countryNameFromCode(res.country, this._locale)}`;
             } else {
               infoWindow = this._translate.instant('global.unknown');
               res?.country ? (infoWindow = countryNameFromCode(res.country, this._locale)) : (infoWindow = this._translate.instant('global.unknown'));
