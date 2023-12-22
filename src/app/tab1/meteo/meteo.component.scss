@@ -24,19 +24,20 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    .minicons {
-      position: absolute;
-      bottom: 10px;
-      left: 70%;
-      font-size: 25px;
-    }
 
     .temperature {
+      position: relative;
       font-size: 55px;
-      width: 100px;
+      width: auto;
       sup {
         top: -20px !important;
         font-size: 25px !important;
+      }
+      .minicons {
+        position: absolute;
+        font-size: 25px;
+        bottom: 0;
+        top: 0;
       }
     }
     &.feels {

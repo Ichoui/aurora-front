@@ -9,9 +9,9 @@
         <sup *ngIf="temperature === temperatureUnits.CELSIUS">°C</sup>
         <sup *ngIf="temperature === temperatureUnits.FAHRENHEIT">°F</sup>
         <sup *ngIf="temperature === temperatureUnits.KELVIN">°K</sup>
+        <span *ngIf="currentWeather?.temp >= 33 && !loading" class="icon minicons icon-hot"></span>
+        <span *ngIf="currentWeather?.temp <= 0 && !loading" class="icon minicons icon-cold"></span>
       </div>
-      <span *ngIf="currentWeather?.temp >= 33 && !loading" class="icon minicons icon-hot"></span>
-      <span *ngIf="currentWeather?.temp <= 0 && !loading" class="icon minicons icon-cold"></span>
     </div>
     <div class="row feels">
       <ng-container *ngTemplateOutlet="loading ? isLoadingNumber : null; context: { index: 2.5 }"></ng-container>
