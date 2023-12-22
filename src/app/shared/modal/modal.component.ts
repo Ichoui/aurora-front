@@ -96,12 +96,12 @@ export class ModalComponent implements OnInit {
   }
 
   /**
-   * @index {number} Index de l'image dans le tableau
+   * @index {event} Index de l'image dans le tableau
    * @pole {string}
    * Calcule lorsqu'on bouge l'item ion-range l'image à afficher en fonction de la valeur
    */
-  valuePolesChange(index: number, pole: Pole): void {
-    pole === Pole.NORTH ? (this.indexNorth = index) : (this.indexSouth = index);
+  valuePolesChange(event: any, pole: Pole, index?: number): void {
+    pole === Pole.NORTH ? (this.indexNorth = event?.detail?.value ?? index) : (this.indexSouth = event?.detail?.value ?? index);
   }
 
   /**
@@ -115,13 +115,13 @@ export class ModalComponent implements OnInit {
         if (pole === Pole.NORTH) {
           resp.forEach(snapshot => this.partialTabNorth.push({ url: SWPC_URL_PREFIX + snapshot.url, time_tag: snapshot.time_tag }));
           this.partialTabNorth.reverse();
-          this.valuePolesChange(0, Pole.NORTH);
+          this.valuePolesChange(null, Pole.NORTH, 0);
           return;
         }
         if (pole === Pole.SOUTH) {
           resp.forEach(snapshot => this.partialTabSouth.push({ url: SWPC_URL_PREFIX + snapshot.url, time_tag: snapshot.time_tag }));
           this.partialTabSouth.reverse();
-          this.valuePolesChange(0, Pole.SOUTH);
+          this.valuePolesChange(null, Pole.SOUTH, 0);
           return;
         }
       }),

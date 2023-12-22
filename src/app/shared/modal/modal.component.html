@@ -34,7 +34,7 @@
       aria-label="North Hour"
       [min]="0"
       [max]="tabNorth.length - 1"
-      (ionChange)="valuePolesChange($event.detail.value, pole.NORTH)"
+      (ionChange)="valuePolesChange($event, pole.NORTH)"
     ></ion-range>
   </div>
   <div *ngIf="ovation && loader && tabSouth.length > 0" class="container-map">
@@ -49,7 +49,7 @@
       aria-label="South Hour"
       [min]="0"
       [max]="tabSouth.length - 1"
-      (ionChange)="valuePolesChange($event.detail.value, pole.SOUTH)"
+      (ionChange)="valuePolesChange($event, pole.SOUTH)"
     ></ion-range>
   </div>
 
