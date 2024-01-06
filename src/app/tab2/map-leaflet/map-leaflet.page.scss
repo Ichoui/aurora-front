@@ -13,7 +13,7 @@
   }
   ion-list.searchbar-list {
     position: absolute;
-    height: 160px;
+    max-height: 160px;
     width: 100%;
     z-index: 925;
     padding: 0;

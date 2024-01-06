@@ -15,7 +15,7 @@ export const environment = {
     geocode: 'geocode',
     weather: 'weather',
   },
-  city: 'city',
+  cities: 'cities',
   swpc: {
     all: 'swpc',
     currentKp: 'instant/kp',

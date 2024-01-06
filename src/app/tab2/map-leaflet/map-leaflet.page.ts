@@ -94,8 +94,8 @@ export class MapLeafletPage implements OnInit, OnDestroy {
     this._cdr.markForCheck();
   }
 
-  convertCoords(coords: { lat: string; lng: string }): CityCoords {
-    return { lat: Number(coords.lat), long: Number(coords.lng) };
+  convertCoords(coords: { lat: string; long: string }): CityCoords {
+    return { lat: Number(coords.lat), long: Number(coords.long) };
   }
 
   /**

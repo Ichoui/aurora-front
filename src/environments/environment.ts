@@ -26,12 +26,11 @@ export const environment = {
     'Content-Type': 'application/json',
     Aurora: 'true',
   },
-
   openweatherapi: {
     geocode: 'geocode',
     weather: 'weather',
   },
-  city: 'city',
+  cities: 'cities',
   swpc: {
     all: 'swpc',
     currentKp: 'instant/kp',

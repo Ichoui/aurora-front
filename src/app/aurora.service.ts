@@ -79,6 +79,6 @@ export class AuroraService {
 
   getCorrespondingCities$(search: string): Observable<City[]> {
     const params = deleteFalsy({ search });
-    return this._http.get<City[]>(`${environment.host}${environment.city}`, { params });
+    return this._http.get<City[]>(`${environment.host}${environment.cities}`, { params });
   }
 }
