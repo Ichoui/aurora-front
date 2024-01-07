@@ -246,7 +246,7 @@
         },
         "noSwpcData": {
           "title": "Les données ne s'affichent plus",
-          "message": "Les données solaires ou de KP ne s'affichent pas / tournent dans le vide ? C'est très probablement parce que le fournisseur, NOAA SWPC, a un problème. Patiente, ça ne dure souvent que quelques minutes."
+          "message": "Les données de vent solaires ou de KP ne s'affichent pas / chargent dans le vide ? C'est très probablement parce que le fournisseur, NOAA SWPC, a un problème. Patiente, ça ne dure souvent que quelques minutes. C'est très fréquent comme problème, il ne faut pas s'inquiéter 😉"
         },
         "suggest": {
           "title": "Suggestions / problèmes",

@@ -120,6 +120,8 @@ export class ForecastAuroralActivityComponent implements OnChanges {
 
     this._map.dragging.disable();
     this._map.zoomControl.remove();
+    this._map.doubleClickZoom.disable();
+    this._map.scrollWheelZoom.disable();
     this._map.attributionControl.remove();
 
     tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

@@ -245,7 +245,7 @@
         },
         "noSwpcData": {
           "title": "Data no longer displayed",
-          "message": "Solar or KP data not displayed? This is most likely because the supplier, NOAA SWPC, has a problem. Be patient, it often only lasts a few minutes."
+          "message": "Solar wind or KP data not displayed / infinite loading? This is most likely because the supplier, NOAA SWPC, has a problem. Be patient, it often only lasts a few minutes. It's a very common problem, so don't worry 😉"
         },
         "suggest": {
           "title": "Suggestions / Problems",
