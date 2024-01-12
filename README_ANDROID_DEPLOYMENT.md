@@ -1,8 +1,8 @@
 # ANDROID
 
-# Shell Order
+# Ordre des commandes shell
 
-### FIRST TIME
+### Premier Build : créer ./android
 
 `npm run android:build:prod` : Build in prod mode<br>
 `npm run android:create` : create android folder<br>
@@ -13,19 +13,43 @@
 
 ---
 
-### IF ANDROID FOLDER EXISTS
+### Si le dossier ./android existe déjà
 
 `npm run android:build:prod` : Build in prod mode<br>
+OU <br>
+`npm run android:build:dev` : Build in dev mode<br>
 `npm run android:trapeze` : generate android data like manifest config and update version. Moreover, copy [styles.xml](src/styles.xml) to android folder path `android/app/src/main/res/values/styles.xml`<br>
 `npm run android:update-files` : Update native dependecies, Install capacitor and/or cordova plugins<br>
 `npm run android:copy-files` : Copy web assets <br>
+
+# ADB Connexion
+
+Permettre la connexion wi-fi avec Android Studio
+Dans un terminal :
+
+```
+adb pair <PHONE_IP>:<PHONE_PORT>
+# Entrer le code proposé par le téléphone
+adb connect <PHONE_IP>:<PHONE_PORT_PROVIDED_ABOVE_PAIR_WITH_QR_BUTTON_ON_YOUR_PHONE>
+# Ca devrait se connecter
+```
+
+# Débug depuis le téléphone
+
+Après ces étapes, on pourra utiliser le téléphone pour débug directement en mode développement sur le serveur local et la BDD locale
+
+- Il faut ouvrir le port 5001 (le port du serveur émulé par firebase emulator)
+- Rajouter 0.0.0.0 dans le config `firebase.json` pour pouvoir écouter l'IP du PC ET localhost
+- Optionnel : Utiliser le DNS du routeur pour donner un nom pratique (et donc cacher l'IP): dans notre cas, "zenbook"
+- Dans le fichier `environement.dev.ts`, l'URL doit correspondre au port d'écoute ET à l'adresse IP / DNS
+- Ajouter dans le androidManifest `<application android:usesCleartextTraffic="true">` afin d'accepter les requêtes HTTP en plus des HTTPS
 
 # Build Splashscreen et Logos
 
 Official tool for building splashscreens and Playstore Logo
 https://www.npmjs.com/package/@capacitor/assets
 
-An Android folder should exists
+Le dossier ./android doit exister pour continuer
 
 # Symbole de débogage
 

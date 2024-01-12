@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
+import { envBase } from '../environments/environment.base';
 import { ExcludeType, MeasureUnits, Weather } from './models/weather';
 import { Pole } from './shared/modal/modal.component';
 import { Geocoding } from './models/geocoding';
@@ -25,14 +26,14 @@ export class AuroraService {
    */
   openWeatherMapForecast$(lat: number, lon: number, lang: ELocales, exclude?: ExcludeType): Observable<Weather> {
     const params = {
-      appid: environment.apikey,
+      appid: envBase.apikey,
       lat: lat.toString(),
       lon: lon.toString(),
       lang,
       units: MeasureUnits.METRIC,
       exclude,
     };
-    return this._http.get<Weather>(`${environment.host}${environment.openweatherapi.weather}`, { params });
+    return this._http.get<Weather>(`${environment.host}${envBase.openweatherapi.weather}`, { params });
   }
 
   /**
@@ -42,15 +43,15 @@ export class AuroraService {
    */
   getGeocoding$(lat: number, lon: number): Observable<Geocoding[]> {
     const params = {
-      appid: environment.apikey,
+      appid: envBase.apikey,
       lat: lat.toString(),
       lon: lon.toString(),
     };
-    return this._http.get<Geocoding[]>(`${environment.host}${environment.openweatherapi.geocode}`, { params });
+    return this._http.get<Geocoding[]>(`${environment.host}${envBase.openweatherapi.geocode}`, { params });
   }
 
   getAllSwpcDatas$(lat?: number, long?: number): Observable<SwpcData> {
-    return this._http.post<SwpcData>(`${environment.host}${environment.swpc.all}`, { lat, long });
+    return this._http.post<SwpcData>(`${environment.host}${envBase.swpc.all}`, { lat, long });
   }
 
   /**
@@ -60,25 +61,30 @@ export class AuroraService {
    * Donnée : https://www.swpc.noaa.gov/products/aurora-30-minute-forecast
    */
   getPoles$(pole: Pole): Observable<unknown> {
-    return this._http.get(`${environment.host}${pole === Pole.NORTH ? environment.swpc.poleNorth : environment.swpc.poleSouth}`);
+    return this._http.get(`${environment.host}${pole === Pole.NORTH ? envBase.swpc.poleNorth : envBase.swpc.poleSouth}`);
   }
 
   getAuroraMapData$(lat?: number, long?: number): Observable<any | number> {
     const params = deleteFalsy({ lat, long });
-    return this._http.get(`${environment.host}${environment.swpc.ovationMap}`, { params });
+    return this._http.get(`${environment.host}${envBase.swpc.ovationMap}`, { params });
   }
 
   getNowcast$(lat: number, lng: number): Observable<{ nowcast: number }> {
-    return this._http.post<{ nowcast: number }>(`${environment.host}${environment.swpc.nowcast}`, { lat, lng });
+    return this._http.post<{ nowcast: number }>(`${environment.host}${envBase.swpc.nowcast}`, { lat, lng });
   }
 
   getForecastSolarwind7d$(firstDate: string): Observable<SolarWind[]> {
     const params = deleteFalsy({ firstDate });
-    return this._http.get<SolarWind[]>(`${environment.host}${environment.swpc.solarWind7d}`, { params });
+    return this._http.get<SolarWind[]>(`${environment.host}${envBase.swpc.solarWind7d}`, { params });
   }
 
   getCorrespondingCities$(search: string): Observable<City[]> {
     const params = deleteFalsy({ search });
-    return this._http.get<City[]>(`${environment.host}${environment.cities}`, { params });
+    return this._http.get<City[]>(`${environment.host}${envBase.cities}`, { params });
+  }
+
+  // Notifications
+  registerDevice(token: string, deviceUuid: string): Observable<any> {
+    return this._http.post(`${environment.host}${envBase.notifications.register}`, { token, deviceUuid });
   }
 }

@@ -5,6 +5,9 @@ const config: CapacitorConfig = {
   appName: 'Aurorapp', // Official application name on smartphone ; override by trapeze-config.yaml, needed for creating folder android
   webDir: 'www',
   plugins: {
+    PushNotifications: {
+      presentationOptions: ['badge', 'sound', 'alert'],
+    },
     SplashScreen: {
       launchShowDuration: 500,
       launchFadeOutDuration: 500,

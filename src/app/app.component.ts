@@ -11,6 +11,10 @@ import { STATUS_BAR_COLOR } from './models/colors';
 import { ToastError } from './shared/toast/toast.component';
 import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 import { CityCoords } from './models/cities';
+import { PushNotifications, Token } from '@capacitor/push-notifications';
+import { Device } from '@capacitor/device';
+import { AuroraService } from './aurora.service';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -35,6 +39,7 @@ export class AppComponent {
     private _translate: TranslateService,
     private _cdr: ChangeDetectorRef,
     private _geoloc: Geolocation,
+    private _auroraService: AuroraService,
   ) {
     this._initializeApp();
   }
@@ -42,6 +47,7 @@ export class AppComponent {
   private _initializeApp(): void {
     if (this._platform.is('hybrid')) {
       void StatusBar.setBackgroundColor({ color: STATUS_BAR_COLOR });
+      this._registerPushNotifs();
     }
     this._translateService.addLangs(['fr', 'en']);
     this._router.navigate(['/tabs/tab2']);
@@ -66,6 +72,39 @@ export class AppComponent {
           this._getHourClockSystem();
         });
     });
+  }
+
+  private _registerPushNotifs(): void {
+    let deviceUuid = null;
+    //Android will just grant without prompting ; iOS will prompt user and return if they granted permission or not ;
+    Promise.all([PushNotifications.requestPermissions(), Device.getId()]).then(([push, device]) => {
+      console.log('DEVICE', device.identifier);
+      deviceUuid = device.identifier;
+      if (push.receive === 'granted') {
+        // Register with Apple / Google to receive push via APNS/FCM
+        PushNotifications.register();
+        // } else {
+        // Show some error
+      }
+    });
+
+    PushNotifications.addListener('registration', (token: Token) => {
+      console.warn(token.value);
+      console.warn(deviceUuid);
+      this._auroraService.registerDevice(token.value, deviceUuid).pipe(first()).subscribe();
+    });
+
+    // PushNotifications.addListener('registrationError', (error: any) => {
+    //   console.error('Not registered')
+    // });
+    //
+    // PushNotifications.addListener('pushNotificationReceived', (notification: PushNotificationSchema) => {
+    //   alert('Push received: ' + JSON.stringify(notification));
+    // });
+    //
+    // PushNotifications.addListener('pushNotificationActionPerformed', (notification: ActionPerformed) => {
+    //   alert('Push action performed: ' + JSON.stringify(notification));
+    // });
   }
 
   /**

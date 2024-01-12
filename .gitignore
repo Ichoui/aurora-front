@@ -31,3 +31,6 @@ npm-debug.log*
 /plugins
 /www
 src/environments/keep.ts
+!/google-services.json
+!/src/environments/google-services.dev.json
+!/src/environments/google-services.prod.json

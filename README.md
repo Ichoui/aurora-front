@@ -6,6 +6,7 @@
 <br> Create a typescript file here `src/environments/keep.ts` and then :
 
 - export a const named `OPENWHEATHER_API_KEY`
+- needs a google-services.json at root (managed by angular.json to replace the good one)
 
 You will need an OpenWeatherMap account.
 Moreover, the NESTJS back-end must be run.
