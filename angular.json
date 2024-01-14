@@ -45,8 +45,8 @@
             "dev": {
               "fileReplacements": [
                 {
-                  "replace": "google-services.json",
-                  "with": "src/environments/google-services.dev.json"
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.dev.ts"
                 }
               ],
               "optimization": true,
@@ -70,10 +70,6 @@
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
-                },
-                {
-                  "replace": "google-services.json",
-                  "with": "src/environments/google-services.prod.json"
                 }
               ],
               "optimization": true,
@@ -105,9 +101,6 @@
           "configurations": {
             "production": {
               "browserTarget": "app:build:production"
-            },
-            "ci": {
-              "progress": false
             }
           }
         },
