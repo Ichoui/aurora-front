@@ -46,7 +46,7 @@
               "fileReplacements": [
                 {
                   "replace": "google-services.json",
-                  "with": "src/environments/google-services.prod.json"
+                  "with": "src/environments/google-services.dev.json"
                 }
               ],
               "optimization": true,
