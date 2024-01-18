@@ -84,7 +84,11 @@ export class AuroraService {
   }
 
   // Notifications
-  registerDevice(token: string, deviceUuid: string): Observable<any> {
-    return this._http.post(`${environment.host}${envBase.notifications.register}`, { token, deviceUuid });
+  registerDevice(deviceUuid: string, token: string): Observable<any> {
+    return this._http.post(`${environment.host}${envBase.notifications.registerDevice}`, { token, deviceUuid });
+  }
+
+  registerLocale(deviceUuid: string, locale: ELocales): Observable<any> {
+    return this._http.post(`${environment.host}${envBase.notifications.registerLocale}`, { locale, deviceUuid });
   }
 }

@@ -7,6 +7,9 @@ import { HourClock, hourClockSystem, MeasureUnits, measureUnits, temperatureUnit
 import { StorageService } from '../../storage.service';
 import { OnViewWillEnter } from '../../models/ionic';
 import { App } from '@capacitor/app';
+import { first } from 'rxjs/operators';
+import { AuroraService } from '../../aurora.service';
+import { Device } from '@capacitor/device';
 
 interface About {
   label: string;
@@ -62,6 +65,7 @@ export class SettingsPage implements OnViewWillEnter {
     private _storageService: StorageService,
     private _modalController: ModalController,
     private _translateService: TranslateService,
+    private _auroraService: AuroraService,
     private _platform: Platform,
   ) {}
 
@@ -95,8 +99,17 @@ export class SettingsPage implements OnViewWillEnter {
    * */
   setLocale(event): void {
     this.locale = event.detail.value;
-    this._translateService.use(this.locale);
+    this._translateService.use(event.detail.value);
     void this._storageService.setData('locale', event.detail.value);
+
+    if (this._platform.is('hybrid')) {
+      Device.getId().then(device =>
+        this._auroraService
+          .registerLocale(device.identifier, event.detail.value === ELocales.FR ? ELocales.FR : ELocales.EN)
+          .pipe(first())
+          .subscribe(),
+      );
+    }
   }
 
   /**

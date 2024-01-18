@@ -36,3 +36,4 @@ src/environments/keep.ts
 /src/environments/google-services.prod.json
 /src/environments/env.dev.ts
 /src/environments/env.prod.ts
+/src/environments/environment.ts

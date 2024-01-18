@@ -30,6 +30,7 @@ import { first } from 'rxjs/operators';
 export class AppComponent {
   dataToast: ToastError;
   loadApp: boolean = false;
+  private _deviceUuid = null;
 
   constructor(
     private _platform: Platform,
@@ -75,11 +76,10 @@ export class AppComponent {
   }
 
   private _registerPushNotifs(): void {
-    let deviceUuid = null;
     //Android will just grant without prompting ; iOS will prompt user and return if they granted permission or not ;
     Promise.all([PushNotifications.requestPermissions(), Device.getId()]).then(([push, device]) => {
       console.log('DEVICE', device.identifier);
-      deviceUuid = device.identifier;
+      this._deviceUuid = device.identifier;
       if (push.receive === 'granted') {
         // Register with Apple / Google to receive push via APNS/FCM
         PushNotifications.register();
@@ -90,8 +90,8 @@ export class AppComponent {
 
     PushNotifications.addListener('registration', (token: Token) => {
       console.warn(token.value);
-      console.warn(deviceUuid);
-      this._auroraService.registerDevice(token.value, deviceUuid).pipe(first()).subscribe();
+      console.warn(this._deviceUuid);
+      this._auroraService.registerDevice(this._deviceUuid, token.value).pipe(first()).subscribe();
     });
 
     // PushNotifications.addListener('registrationError', (error: any) => {
@@ -148,6 +148,12 @@ export class AppComponent {
             this._translateService.setDefaultLang(ELocales.EN);
             void this._storageService.setData('locale', ELocales.EN);
           }
+        }
+        if (this._platform.is('hybrid')) {
+          this._auroraService
+            .registerLocale(this._deviceUuid, locale === ELocales.FR ? ELocales.FR : ELocales.EN)
+            .pipe(first())
+            .subscribe();
         }
       },
       noValue => {
