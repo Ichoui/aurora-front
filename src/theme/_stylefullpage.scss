@@ -17,10 +17,11 @@ ion-header {
 }
 
 ion-text {
-  font-family: var(--ion-font-semibold);
+  font-family: var(--ion-font-semibold);;
 }
 
 app-header {
+  position: relative;
   z-index: 999;
 }
 ion-content {
@@ -48,8 +49,9 @@ ion-card-content {
 }
 
 app-tab2 {
-  .swiper swiper.slide {
-    height: auto !important;
+  //.swiper swiper.slide {
+  swiper-slide{
+    height: calc(100vh - 50px - 68px) !important; // faut une taille fixe ici
   }
   .swiper-pagination {
     display: flex;

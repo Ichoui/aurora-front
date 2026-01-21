@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 import { Content, GeoJSON, Icon, LatLng, LatLngBounds, Layer, Map, Marker, PathOptions, Popup, Rectangle, tileLayer, ZoomPanOptions } from 'leaflet';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { StorageService } from '../../storage.service';
 import { first, map, takeUntil, tap } from 'rxjs/operators';
 import { Geocoding } from '../../models/geocoding';
@@ -11,11 +11,18 @@ import { FORECAST_COLOR_GRAY, FORECAST_COLOR_GREEN, FORECAST_COLOR_ORANGE, FOREC
 import { ELocales } from '../../models/locales';
 import { Subject } from 'rxjs';
 import { City, CityCoords } from '../../models/cities';
+import { IonIcon, IonItem, IonLabel, IonList, IonPopover, IonSearchbar } from '@ionic/angular/standalone';
+import { HeaderComponent } from '../../shared/header/header.component';
+import { RouterLink } from '@angular/router';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-map-leaflet',
+  standalone: true,
   templateUrl: './map-leaflet.page.html',
   styleUrls: ['./map-leaflet.page.scss'],
+  // providers: [Geolocation], // attention aux multiples iic
+  imports: [IonPopover, IonIcon, HeaderComponent, RouterLink, TranslateModule, IonSearchbar, IonItem, IonList, IonLabel, NgIf],
 })
 export class MapLeafletPage implements OnInit, OnDestroy {
   private readonly _destroy$ = new Subject<void>();

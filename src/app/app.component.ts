@@ -21,10 +21,13 @@ import { CityCoords } from './models/cities';
   providers: [Geolocation],
   template: `
     <ion-app class="md">
-      <div *ngIf="!loadApp" class="content-spinner">
-        <div class="whirly-loader"></div>
-      </div>
-      <ion-router-outlet *ngIf="loadApp"></ion-router-outlet>
+      @if (!loadApp) {
+        <div class="content-spinner">
+          <div class="whirly-loader"></div>
+        </div>
+      } @else {
+        <ion-router-outlet />
+      }
     </ion-app>
   `,
 })

@@ -1,7 +1,12 @@
 import { ChangeDetectorRef, Component, HostBinding } from '@angular/core';
-import { ActivatedRoute, Data } from '@angular/router';
+import { ActivatedRoute, Data, RouterLink } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { TranslateModule } from '@ngx-translate/core';
+import { HeaderComponent } from '../../shared/header/header.component';
+import { IonCard, IonCardContent, IonCardHeader, IonContent, ViewWillEnter, ViewWillLeave } from '@ionic/angular/standalone';
+import { NgForOf, NgIf } from '@angular/common';
+import { CardComponent } from './card/card.component';
 
 interface InfoBlocks {
   id: number;
@@ -17,8 +22,10 @@ interface InfoBlocks {
   selector: 'app-informations',
   templateUrl: './informations.page.html',
   styleUrls: ['./informations.page.scss'],
+  imports: [TranslateModule, HeaderComponent, IonContent, RouterLink, IonCard, IonCardHeader, IonCardContent, NgIf, CardComponent, NgForOf],
+  standalone: true,
 })
-export class InformationsPage {
+export class InformationsPage implements ViewWillEnter, ViewWillLeave {
   @HostBinding('attr.id') id: string = 'informations';
 
   tabOpen: number[] = [0];
@@ -60,7 +67,10 @@ export class InformationsPage {
     { id: 17, block: 'helpcenter', value: 'suggest' },
   ];
 
-  constructor(private _route: ActivatedRoute, private _cdr: ChangeDetectorRef) {
+  constructor(
+    private _route: ActivatedRoute,
+    private _cdr: ChangeDetectorRef,
+  ) {
     this._route.data.pipe(takeUntil(this._destroy$)).subscribe((v: Data) => (this.routeData = v));
   }
 

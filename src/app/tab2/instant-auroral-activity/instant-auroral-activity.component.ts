@@ -17,13 +17,13 @@ import { TranslateModule } from '@ngx-translate/core';
 import { IonPopover } from '@ionic/angular/standalone';
 import { NgClass, NgComponentOutlet, NgForOf, NgIf, NgTemplateOutlet } from '@angular/common';
 import { PlaceholderDataComponent } from '../../shared/placeholders/placeholder-data/placeholder-data.component';
-import { ForecastLeadTimePipe } from './forecast-lead-time';
+import { ForecastLeadTimePipe } from './forecast-lead-time.pipe';
 
 @Component({
   selector: 'app-instant-auroral-activity',
+  standalone: true,
   templateUrl: './instant-auroral-activity.component.html',
   styleUrls: ['./instant-auroral-activity.component.scss'],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TranslateModule, IonPopover, NgTemplateOutlet, NgIf, NgForOf, NgClass, PlaceholderDataComponent, ForecastLeadTimePipe],
 })

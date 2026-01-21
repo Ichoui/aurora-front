@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { HourClock, MeasureUnits } from '../../models/weather';
-import { ForecastLeadTimePipe } from '../../tab2/instant-auroral-activity/forecast-lead-time';
-import * as moment from 'moment';
+import { ForecastLeadTimePipe } from '../../tab2/instant-auroral-activity/forecast-lead-time.pipe';
+import moment from 'moment';
 
 @Pipe({
   name: 'momentHour',

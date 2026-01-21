@@ -1,12 +1,16 @@
 import { Component } from '@angular/core';
 import { ELocales, Locales, SelectContents } from '../../models/locales';
 import { ModalController, Platform } from '@ionic/angular';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ModalComponent } from '../../shared/modal/modal.component';
 import { HourClock, hourClockSystem, MeasureUnits, measureUnits, temperatureUnits, TemperatureUnits } from '../../models/weather';
 import { StorageService } from '../../storage.service';
 import { OnViewWillEnter } from '../../models/ionic';
 import { App } from '@capacitor/app';
+import { HeaderComponent } from '../../shared/header/header.component';
+import { IonButton, IonContent, IonFab, IonFabButton, IonFabList, IonIcon, IonItem, IonSelect, IonSelectOption } from '@ionic/angular/standalone';
+import { RouterLink } from '@angular/router';
+import { NgForOf, NgIf } from '@angular/common';
 
 interface About {
   label: string;
@@ -17,8 +21,25 @@ interface About {
 
 @Component({
   selector: 'app-settings',
+  standalone: true,
   templateUrl: './settings.page.html',
   styleUrls: ['./settings.page.scss'],
+  imports: [
+    HeaderComponent,
+    IonContent,
+    TranslateModule,
+    RouterLink,
+    IonItem,
+    IonSelect,
+    IonSelectOption,
+    NgForOf,
+    IonButton,
+    IonFab,
+    IonFabButton,
+    IonIcon,
+    IonFabList,
+    NgIf,
+  ],
 })
 export class SettingsPage implements OnViewWillEnter {
   locale = ELocales.FR;

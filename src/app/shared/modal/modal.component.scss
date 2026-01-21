@@ -11,7 +11,7 @@ ion-toolbar {
     padding: 20px 40px 20px 0;
     font-size: 1em;
     text-align: center;
-    font-family: var(--ion-font-semibold);
+    font-family: var(--ion-font-semibold), serif;
     text-transform: uppercase;
   }
 }
@@ -26,7 +26,7 @@ ion-toolbar {
       display: flex;
       align-items: normal;
       margin: 0 20px;
-      font-family: var(--ion-font-semibold);
+      font-family: var(--ion-font-semibold), serif;
       color: #fff;
       font-size: 14px;
       span {

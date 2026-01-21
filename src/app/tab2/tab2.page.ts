@@ -14,7 +14,7 @@ import { OnViewWillEnter } from '../models/ionic';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ELocales } from '../models/locales';
 import type { SwiperOptions } from 'swiper/types';
-import * as moment from 'moment/moment';
+import moment from 'moment/moment';
 import { ToastComponent, ToastError } from '../shared/toast/toast.component';
 import { CityCoords } from '../models/cities';
 import { HeaderComponent } from '../shared/header/header.component';
@@ -33,7 +33,7 @@ import { ForecastAuroralActivityComponent } from './forecast-auroral-activity/fo
     InstantAuroralActivityComponent,
     ForecastAuroralActivityComponent,
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA], // ??? pas sûr
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

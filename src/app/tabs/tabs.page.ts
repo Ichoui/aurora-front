@@ -3,6 +3,9 @@ import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { CommonModule, NgIf } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
+import { LottieComponent } from 'ngx-lottie';
+import { FormsModule } from '@angular/forms';
+import { TabsPageRoutingModule } from './tabs.router.module';
 
 // Minimal local types (keeps the code compiling without ngx-lottie)
 export type AnimationOptions = {
@@ -18,10 +21,10 @@ export type AnimationItem = {
 
 @Component({
   selector: 'app-tabs',
+  standalone: true,
   templateUrl: 'tabs.page.html',
   styleUrls: ['tabs.page.scss'],
-
-  imports: [IonicModule, CommonModule, TranslateModule, RouterLink, NgIf],
+  imports: [IonicModule, CommonModule, TranslateModule, RouterLink, NgIf, LottieComponent, FormsModule]
 })
 export class TabsPage implements OnInit {
   @ViewChild('auroraLogo', { static: false }) auroraLogo;

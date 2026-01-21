@@ -23,7 +23,7 @@
   ></ion-searchbar>
 
   <ion-list class="searchbar-list" *ngIf="citiesMatched" [style.width]="searchbarWidth">
-    <ion-item *ngFor="let result of citiesList" (click)="selectNewLocation(convertCoords(result))">
+    <ion-item *ngFor="let result:  of citiesList" (click)="selectNewLocation(convertCoords(result))">
       <ion-label class="name">
         <span>{{ result.name }} - {{result.countryCode }}</span>
         <span>{{ result.lat }}, {{ result.long }}</span>

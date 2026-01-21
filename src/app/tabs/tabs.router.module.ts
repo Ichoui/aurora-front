@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: 'tabs',
     component: TabsPage,
@@ -12,7 +12,7 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            loadChildren: () => import('../tab1/tab1.module').then(m => m.Tab1PageModule),
+            loadComponent: () => import('../tab1/tab1.page').then(m => m.Tab1Page),
           },
         ],
       },
@@ -21,11 +21,11 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            loadChildren: () => import('../tab2/tab2.module').then(m => m.Tab2PageModule),
+            loadComponent: () => import('../tab2/tab2.page').then(m => m.Tab2Page),
           },
           {
             path: 'map',
-            loadChildren: () => import('../tab2/map-leaflet/map-leaflet.module').then(m => m.LocationMapPageModule),
+            loadComponent: () => import('../tab2/map-leaflet/map-leaflet.page').then(m => m.MapLeafletPage),
           },
         ],
       },
@@ -39,18 +39,18 @@ const routes: Routes = [
           },
           {
             path: 'settings',
-            loadChildren: () => import('../tab3/settings/settings.module').then(m => m.SettingsPageModule),
+            loadComponent: () => import('../tab3/settings/settings.page').then(m => m.SettingsPage),
           },
           {
             path: 'infos',
-            loadChildren: () => import('../tab3/informations/informations.module').then(m => m.InformationsPageModule),
+            loadComponent: () => import('../tab3/informations/informations.page').then(m => m.InformationsPage),
             data: {
               infos: true,
             },
           },
           {
             path: 'helpcenter',
-            loadChildren: () => import('../tab3/informations/informations.module').then(m => m.InformationsPageModule),
+            loadComponent: () => import('../tab3/informations/informations.page').then(m => m.InformationsPage),
             data: {
               helpcenter: true,
             },

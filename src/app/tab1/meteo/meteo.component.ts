@@ -33,11 +33,13 @@ import { CalculateWindDegPipe } from './calculate-wind-deg.pipe';
 import { PlaceholderDataComponent } from '../../shared/placeholders/placeholder-data/placeholder-data.component';
 import { PlaceholderChartsComponent } from '../../shared/placeholders/placeholder-charts/placeholder-charts.component';
 import { CalculateUvPipe } from './calculate-uv.pipe';
+import { LottieComponent } from 'ngx-lottie';
 
 Chart.register(...registerables);
 
 @Component({
   selector: 'app-meteo',
+  standalone: true,
   templateUrl: './meteo.component.html',
   styleUrls: ['./meteo.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -53,6 +55,7 @@ Chart.register(...registerables);
     PercentPipe,
     NgForOf,
     NgOptimizedImage,
+    LottieComponent
   ],
 })
 export class MeteoComponent implements OnChanges {

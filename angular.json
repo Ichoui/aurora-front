@@ -30,7 +30,7 @@
                 "output": "./svg"
               }
             ],
-            "styles": ["src/theme/variables.scss", "src/global.scss"],
+            "styles": ["src/global.scss"],
             "allowedCommonJsDependencies": ["leaflet", "moment", "lottie-web", "localforage-cordovasqlitedriver"],
             "scripts": [],
             "aot": false,

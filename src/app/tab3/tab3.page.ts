@@ -4,5 +4,6 @@ import { Component } from '@angular/core';
   selector: 'app-tab3',
   templateUrl: 'tab3.page.html',
   styleUrls: ['tab3.page.scss'],
+  standalone: true,
 })
 export class Tab3Page {}

@@ -2,7 +2,10 @@
   <div class="date">{{ currentDatetime }}</div>
   <div class="today">
     <div class="row">
-      <ng-lottie *ngIf="lottieConfig" [options]="lottieConfig" [width]="widthCurrent + 'px'" [height]="heightCurrent + 'px'"></ng-lottie>
+      <ng-lottie *ngIf="lottieConfig"
+                 [options]="lottieConfig"
+                 [width]="widthCurrent + 'px'"
+                 [height]="heightCurrent + 'px'"></ng-lottie>
       <div class="temperature">
         {{ currentWeather?.temp | number: '1.0-0' }}
         <ng-container *ngTemplateOutlet="loading ? isLoadingNumber : null; context: { index: 2.4 }"></ng-container>
@@ -34,7 +37,7 @@
     <div class="sub"></div>
     <div class="next-hours">
       <canvas id="next-hours" #canvHeight></canvas>
-      <ng-container *ngTemplateOutlet="loading ? isLoadingChart : null; context: { canvHeight: canvHeight?.style.height }"></ng-container>
+        <ng-container *ngTemplateOutlet="loading ? isLoadingChart : null; context: { canvHeight: canvHeight?.style.height }"></ng-container>
       <div *ngIf="!loading" class="next-more-info">
         <ng-container *ngFor="let hourly of hourlyWeather; index as i">
           <div *ngIf="i < dataNumbersInChart" class="next-content">

@@ -12,9 +12,11 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient } from '@angular/common/http';
 
-import { routes } from './app.routes';
+// import { routes } from './app.routes';
 import { HttpsInterceptorService } from './https-interceptor.service';
 import { register } from 'swiper/element/bundle';
+import { provideLottieOptions } from 'ngx-lottie';
+import { routes } from './tabs/tabs.router.module';
 register();
 
 // required for AOT compilation
@@ -33,6 +35,9 @@ export const appConfig: ApplicationConfig = {
       useClass: HttpsInterceptorService,
       multi: true,
     },
+    provideLottieOptions({
+      player: () => import('lottie-web'),
+    }),
     importProvidersFrom(
       IonicModule.forRoot(),
       IonicStorageModule.forRoot({
