@@ -1,12 +1,27 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { AnimationOptions } from 'ngx-lottie';
-import { NavigationEnd, Router } from '@angular/router';
-import { AnimationItem } from 'ngx-lottie/lib/symbols';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
+import { CommonModule, NgIf } from '@angular/common';
+import { IonicModule } from '@ionic/angular';
+import { TranslateModule } from '@ngx-translate/core';
+
+// Minimal local types (keeps the code compiling without ngx-lottie)
+export type AnimationOptions = {
+  path?: string;
+  renderer?: string;
+  autoplay?: boolean;
+  loop?: boolean;
+};
+
+export type AnimationItem = {
+  setSpeed: (speed: number) => void;
+};
 
 @Component({
   selector: 'app-tabs',
   templateUrl: 'tabs.page.html',
   styleUrls: ['tabs.page.scss'],
+
+  imports: [IonicModule, CommonModule, TranslateModule, RouterLink, NgIf],
 })
 export class TabsPage implements OnInit {
   @ViewChild('auroraLogo', { static: false }) auroraLogo;

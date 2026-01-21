@@ -1,5 +1,8 @@
+import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
+import { TranslateModule } from '@ngx-translate/core';
+
 import { AuroraService } from '../../aurora.service';
 import { finalize, first, map, switchMap, tap } from 'rxjs/operators';
 import { combineLatest, Observable } from 'rxjs';
@@ -7,6 +10,8 @@ import * as moment from 'moment';
 import { HourClock, MeasureUnits } from '../../models/weather';
 import { ELocales } from '../../models/locales';
 import { SolarWind } from '../../models/aurorav3';
+import { MomentHourPipe } from './moment-hour.pipe';
+import { MomentDatePipe } from './moment-date.pipe';
 
 interface IPolesUrl {
   url: string;
@@ -22,6 +27,8 @@ const SWPC_URL_PREFIX = 'https://services.swpc.noaa.gov';
 
 @Component({
   selector: 'app-modal',
+  standalone: true,
+  imports: [CommonModule, IonicModule, TranslateModule, MomentHourPipe, MomentDatePipe],
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss'],
 })
@@ -46,7 +53,11 @@ export class ModalComponent implements OnInit {
   indexSouth: number = 0;
   @ViewChild('canvas', { static: false }) canvas: ElementRef<HTMLCanvasElement>;
 
-  constructor(private _modalController: ModalController, private _auroraService: AuroraService, private _cdr: ChangeDetectorRef) {}
+  constructor(
+    private _modalController: ModalController,
+    private _auroraService: AuroraService,
+    private _cdr: ChangeDetectorRef,
+  ) {}
 
   ngOnInit(): void {
     if (this.ovation) {

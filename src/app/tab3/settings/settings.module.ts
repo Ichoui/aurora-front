@@ -9,10 +9,6 @@ import { SettingsPage } from './settings.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { HeaderPageModule } from '../../shared/header/header.module';
 import { ModalModule } from '../../shared/modal/modal.module';
-import { IonicStorageModule } from '@ionic/storage-angular';
-import { Drivers } from '@ionic/storage';
-
-import { LottieAnimationViewModule } from 'ng-lottie';
 
 const routes: Routes = [
   {
@@ -22,21 +18,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    RouterModule.forChild(routes),
-    FormsModule,
-    TranslateModule,
-    HeaderPageModule,
-    ModalModule,
-    LottieAnimationViewModule.forRoot(),
-    IonicStorageModule.forRoot({
-      name: '__dbAurora',
-      driverOrder: [Drivers.IndexedDB, Drivers.LocalStorage],
-    }),
-  ],
+  imports: [CommonModule, FormsModule, IonicModule, RouterModule.forChild(routes), TranslateModule, HeaderPageModule, ModalModule],
   declarations: [SettingsPage],
 })
 export class SettingsPageModule {}

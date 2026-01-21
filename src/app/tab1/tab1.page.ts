@@ -10,17 +10,22 @@ import { combineLatest, from, Subject } from 'rxjs';
 import { OnViewWillEnter } from '../models/ionic';
 import { ELocales } from '../models/locales';
 import * as moment from 'moment';
-import { TranslateService } from '@ngx-translate/core';
-import { ToastError } from '../shared/toast/toast.component';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ToastComponent, ToastError } from '../shared/toast/toast.component';
 import { CityCoords } from '../models/cities';
+import { IonContent, IonIcon, IonRefresher, IonRefresherContent, ViewWillEnter } from '@ionic/angular/standalone';
+import { HeaderComponent } from '../shared/header/header.component';
+import { MeteoComponent } from './meteo/meteo.component';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [IonIcon, IonRefresherContent, IonRefresher, IonContent, HeaderComponent, TranslateModule, MeteoComponent, ToastComponent, NgIf],
 })
-export class Tab1Page implements OnViewWillEnter, OnDestroy {
+export class Tab1Page implements ViewWillEnter, OnDestroy {
   loading: boolean = true;
 
   coords: CityCoords;
@@ -56,7 +61,7 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
 
   ionViewWillEnter(): void {
     this.loading = true; // buffer constant
-
+    console.log('ionViewWillEnter Tab1Page');
     // Cheminement en fonction si la localisation est pré-set ou si géoloc
     combineLatest([
       from(this._storageService.getData('location')),
@@ -79,13 +84,16 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
             ELocales,
             HourClock,
           ]) => {
+            console.log(weather);
             this.temperatureUnits = temperature;
             this.measureUnits = measure;
             this.locale = locale;
             this.hourClock = clock;
 
             // Ceci pour éviter de call l'API trop souvent
+            console.log('cc');
             if (this._shouldRecallWeatherAPI(weather, coords, previousLocation)) {
+              console.log('cc');
               this._reverseGeoloc(coords.lat, coords.long);
             } else {
               this.dataCurrentWeather = weather.dataCurrentWeather;
@@ -153,6 +161,7 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
         map((res: Geocoding[]) => res[0]),
         tap({
           next: (res: Geocoding) => {
+            console.log('ccc');
             this.city = res ? `${res.name} -` : null;
             this.country = res ? countryNameFromCode(res.country, this.locale) : null;
             this._getForecast(this.city, this.country);
@@ -197,7 +206,7 @@ export class Tab1Page implements OnViewWillEnter, OnDestroy {
               lat: this.coords.lat,
               long: this.coords.long,
             });
-
+            console.log(res);
             // End loading
             this._eventRefresh ? this._eventRefresh.target.complete() : '';
             this.loading = false;

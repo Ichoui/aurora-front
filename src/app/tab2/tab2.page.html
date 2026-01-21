@@ -1,12 +1,12 @@
 <app-header [titre]=" 'tab2.title' | translate"></app-header>
-<ion-content fullscreen="true">
-  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" pullMin="140">
+<ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" [pullMin]="140">
     <ion-refresher-content refreshingSpinner="bubbles"></ion-refresher-content>
   </ion-refresher>
 
   <ng-container *ngIf="loadSwiper">
-    <swiper [config]="configSwiper">
-      <ng-template swiperSlide>
+    <swiper-container [attr.slides-per-view]="1" [attr.auto-height]="true" [attr.pagination]="'true'">
+      <swiper-slide>
         <app-instant-auroral-activity
           [loading]="loading"
           [solarWind]="solarWindInstant"
@@ -14,8 +14,8 @@
           [nowcastAurora]="nowcastAurora"
           [kpCurrent]="kpCurrent"
         ></app-instant-auroral-activity>
-      </ng-template>
-      <ng-template swiperSlide>
+      </swiper-slide>
+      <swiper-slide>
         <app-forecast-auroral-activity
           [loading]="loading"
           [kpForecast27]="kpForecast27days"
@@ -26,8 +26,8 @@
           [locale]="locale"
           [hourClock]="hourClock"
         ></app-forecast-auroral-activity>
-      </ng-template>
-    </swiper>
+      </swiper-slide>
+    </swiper-container>
   </ng-container>
 
   <app-toast [toastError]="dataToast"></app-toast>

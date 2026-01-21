@@ -1,0 +1,3 @@
+This file was disabled during the Angular 21 upgrade to return to NgModule bootstrap.
+See `src/app/app.module.ts` + `src/app/app-routing.module.ts`.
+

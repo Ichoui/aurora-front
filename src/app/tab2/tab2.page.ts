@@ -1,4 +1,8 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA, OnDestroy } from '@angular/core';
+import { IonicModule } from '@ionic/angular';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+
 import { AuroraService } from '../aurora.service';
 import { StorageService } from '../storage.service';
 import { map, switchMap, takeUntil, tap } from 'rxjs/operators';
@@ -9,16 +13,27 @@ import { determineColorsOfValue } from '../models/utils';
 import { OnViewWillEnter } from '../models/ionic';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ELocales } from '../models/locales';
-import SwiperCore, { Navigation, Pagination, SwiperOptions } from 'swiper';
+import type { SwiperOptions } from 'swiper/types';
 import * as moment from 'moment/moment';
-import { TranslateService } from '@ngx-translate/core';
-import { ToastError } from '../shared/toast/toast.component';
+import { ToastComponent, ToastError } from '../shared/toast/toast.component';
 import { CityCoords } from '../models/cities';
-
-SwiperCore.use([Pagination, Navigation]);
+import { HeaderComponent } from '../shared/header/header.component';
+import { InstantAuroralActivityComponent } from './instant-auroral-activity/instant-auroral-activity.component';
+import { ForecastAuroralActivityComponent } from './forecast-auroral-activity/forecast-auroral-activity.component';
 
 @Component({
   selector: 'app-tab2',
+  standalone: true,
+  imports: [
+    CommonModule,
+    IonicModule,
+    TranslateModule,
+    HeaderComponent,
+    ToastComponent,
+    InstantAuroralActivityComponent,
+    ForecastAuroralActivityComponent,
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

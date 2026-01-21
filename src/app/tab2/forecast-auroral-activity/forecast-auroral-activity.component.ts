@@ -1,4 +1,14 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  CUSTOM_ELEMENTS_SCHEMA,
+  ElementRef,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import { ModalController, PopoverController } from '@ionic/angular';
 import { ModalComponent } from '../../shared/modal/modal.component';
 import { Chart, ChartType, registerables } from 'chart.js';
@@ -18,10 +28,13 @@ import { icon, LatLng, Map, Marker, marker, tileLayer, ZoomPanOptions } from 'le
 import { AuroraEnumColours, Kp27day, KpForecast, SolarCycle, SolarWind, SolarWindTypes } from '../../models/aurorav3';
 import { ELocales } from '../../models/locales';
 import { HourClock, MeasureUnits } from '../../models/weather';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import annotationPlugin from 'chartjs-plugin-annotation';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CityCoords } from '../../models/cities';
+import { IonIcon, IonPopover } from '@ionic/angular/standalone';
+import { PlaceholderChartsComponent } from '../../shared/placeholders/placeholder-charts/placeholder-charts.component';
+import { NgIf } from '@angular/common';
 
 const numberMax27Forecast = 14;
 const numberMaxNextHours = 12;
@@ -31,7 +44,10 @@ Chart.register(...registerables, annotationPlugin);
   selector: 'app-forecast-auroral-activity',
   templateUrl: './forecast-auroral-activity.component.html',
   styleUrls: ['./forecast-auroral-activity.component.scss'],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [IonIcon, TranslateModule, RouterLink, IonPopover, NgIf, PlaceholderChartsComponent],
 })
 export class ForecastAuroralActivityComponent implements OnChanges {
   @Input() kpForecast: KpForecast[];

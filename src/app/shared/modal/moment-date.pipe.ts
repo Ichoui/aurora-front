@@ -4,6 +4,7 @@ import { ELocales } from '../../models/locales';
 
 @Pipe({
   name: 'momentDate',
+  standalone: true,
 })
 export class MomentDatePipe implements PipeTransform {
   transform(date: string, locale: ELocales): unknown {

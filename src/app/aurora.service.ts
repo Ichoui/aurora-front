@@ -32,6 +32,7 @@ export class AuroraService {
       units: MeasureUnits.METRIC,
       exclude,
     };
+    console.log(params);
     return this._http.get<Weather>(`${environment.host}${environment.openweatherapi.weather}`, { params });
   }
 

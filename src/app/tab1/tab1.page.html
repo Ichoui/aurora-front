@@ -1,6 +1,6 @@
 <app-header titre="{{ 'tab1.title' | translate }}"></app-header>
 
-<ion-content fullscreen="true">
+<ion-content fullscreen>
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" pullMin="160">
     <ion-refresher-content refreshingSpinner="bubbles"></ion-refresher-content>
   </ion-refresher>

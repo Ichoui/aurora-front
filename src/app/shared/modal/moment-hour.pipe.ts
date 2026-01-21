@@ -5,6 +5,7 @@ import * as moment from 'moment';
 
 @Pipe({
   name: 'momentHour',
+  standalone: true,
 })
 export class MomentHourPipe implements PipeTransform {
   constructor(private _forecastLeadTimePipe: ForecastLeadTimePipe) {}

@@ -14,11 +14,25 @@ import {
 } from '../../models/weather';
 import { Chart, registerables } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import { AnimationOptions } from 'ngx-lottie';
+
+// Minimal local type (keeps the code compiling without ngx-lottie)
+export type AnimationOptions = {
+  path?: string;
+  renderer?: string;
+  autoplay?: boolean;
+  loop?: boolean;
+};
+
 import { ELocales } from '../../models/locales';
 import { MAIN_TEXT_COLOR, WEATHER_NEXT_HOUR_CHART_COLOR } from '../../models/colors';
 import { convertUnitTemperature, manageDates } from '../../models/utils';
 import { CityCoords } from '../../models/cities';
+import { DecimalPipe, NgForOf, NgIf, NgOptimizedImage, NgTemplateOutlet, PercentPipe } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
+import { CalculateWindDegPipe } from './calculate-wind-deg.pipe';
+import { PlaceholderDataComponent } from '../../shared/placeholders/placeholder-data/placeholder-data.component';
+import { PlaceholderChartsComponent } from '../../shared/placeholders/placeholder-charts/placeholder-charts.component';
+import { CalculateUvPipe } from './calculate-uv.pipe';
 
 Chart.register(...registerables);
 
@@ -27,6 +41,19 @@ Chart.register(...registerables);
   templateUrl: './meteo.component.html',
   styleUrls: ['./meteo.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgTemplateOutlet,
+    DecimalPipe,
+    TranslateModule,
+    CalculateWindDegPipe,
+    PlaceholderDataComponent,
+    PlaceholderChartsComponent,
+    CalculateUvPipe,
+    NgIf,
+    PercentPipe,
+    NgForOf,
+    NgOptimizedImage,
+  ],
 })
 export class MeteoComponent implements OnChanges {
   @Input() coords: CityCoords;

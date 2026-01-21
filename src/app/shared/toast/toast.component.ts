@@ -1,4 +1,6 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { IonicModule } from '@ionic/angular';
 
 export interface ToastError {
   message: string;
@@ -7,6 +9,8 @@ export interface ToastError {
 
 @Component({
   selector: 'app-toast',
+  standalone: true,
+  imports: [CommonModule, IonicModule],
   templateUrl: './toast.component.html',
   styleUrls: ['./toast.component.scss'],
 })

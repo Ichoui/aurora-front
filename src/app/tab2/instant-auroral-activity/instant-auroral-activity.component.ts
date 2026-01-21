@@ -1,15 +1,31 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  CUSTOM_ELEMENTS_SCHEMA,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { convertUnitMeasure, determineColorsOfValue, roundTwoNumbers } from '../../models/utils';
 import { MeasureUnits } from '../../models/weather';
 import { AuroraEnumColours, Bt, Bz, Density, KpCurrent, SolarWind, SolarWindTypes, Speed } from '../../models/aurorav3';
 import { Router } from '@angular/router';
 import { PopoverController } from '@ionic/angular';
+import { TranslateModule } from '@ngx-translate/core';
+import { IonPopover } from '@ionic/angular/standalone';
+import { NgClass, NgComponentOutlet, NgForOf, NgIf, NgTemplateOutlet } from '@angular/common';
+import { PlaceholderDataComponent } from '../../shared/placeholders/placeholder-data/placeholder-data.component';
+import { ForecastLeadTimePipe } from './forecast-lead-time';
 
 @Component({
   selector: 'app-instant-auroral-activity',
   templateUrl: './instant-auroral-activity.component.html',
   styleUrls: ['./instant-auroral-activity.component.scss'],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [TranslateModule, IonPopover, NgTemplateOutlet, NgIf, NgForOf, NgClass, PlaceholderDataComponent, ForecastLeadTimePipe],
 })
 export class InstantAuroralActivityComponent implements OnInit, OnChanges {
   density: Density;
@@ -24,7 +40,11 @@ export class InstantAuroralActivityComponent implements OnInit, OnChanges {
   @Input() kpCurrent: KpCurrent;
   @Input() loading = false;
 
-  constructor(private _cdr: ChangeDetectorRef, private _router: Router, private _popover: PopoverController) {}
+  constructor(
+    private _cdr: ChangeDetectorRef,
+    private _router: Router,
+    private _popover: PopoverController,
+  ) {}
 
   ngOnInit(): void {
     this._auroraBackground();

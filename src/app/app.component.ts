@@ -1,19 +1,24 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
-
-import { Platform } from '@ionic/angular';
-import { TranslateService } from '@ngx-translate/core';
+import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+
+import { IonicModule, Platform } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
+import { StatusBar } from '@capacitor/status-bar';
+import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
+
 import { StorageService } from './storage.service';
 import { HourClock, MeasureUnits, TemperatureUnits } from './models/weather';
 import { ELocales } from './models/locales';
-import { StatusBar } from '@capacitor/status-bar';
 import { STATUS_BAR_COLOR } from './models/colors';
 import { ToastError } from './shared/toast/toast.component';
-import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 import { CityCoords } from './models/cities';
 
 @Component({
   selector: 'app-root',
+  standalone: true,
+  imports: [CommonModule, IonicModule],
+  providers: [Geolocation],
   template: `
     <ion-app class="md">
       <div *ngIf="!loadApp" class="content-spinner">
@@ -70,7 +75,7 @@ export class AppComponent {
 
   /**
    * Détermine la localisation de l'utilisateur
-   * Par défault : Tromso
+   * Par défaut : Tromso
    */
   private async _getPosition(): Promise<void> {
     this._geoloc
@@ -78,7 +83,7 @@ export class AppComponent {
       .then(resp => this._setStorageLocation(resp.coords.latitude, resp.coords.longitude))
       .catch(error => {
         console.warn('getPosition() : Geolocation error, message :', error.message);
-        this._setStorageLocation(69.650288, 18.955098); // par défault, on met tromso
+        this._setStorageLocation(69.650288, 18.955098); // par défaut, on met tromso
         this.dataToast = {
           message: this._translate.instant('global.error.geoloc'),
           status: error.status,
