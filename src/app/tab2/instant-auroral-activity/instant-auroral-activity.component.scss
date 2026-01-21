@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 .ace-data {
   position: relative;
   display: flex;
@@ -128,7 +130,7 @@
     display: flex;
     align-items: center;
     min-height: 30px;
-    background: lighten(#001e49, 7%);
+    background: color.adjust(#001e49, $lightness: 7%);
     width: 60px;
     margin: 4px auto 0;
     border-radius: 100px;

@@ -29,18 +29,19 @@ ion-content {
 }
 
 app-instant-auroral-activity {
-  min-height: 80vh !important;
+  //min-height: 80vh !important;
   overflow: hidden;
 }
 
 app-forecast-auroral-activity {
-  height: 80vh;
+  //height: 80vh;
+  height: auto;
   overflow-y: auto;
 }
 app-instant-auroral-activity,
 app-forecast-auroral-activity {
   width: 100%;
-  margin-top: 10px;
+  //margin-top: 10px; // vrai ?
 }
 
 ion-card-content {
@@ -48,10 +49,19 @@ ion-card-content {
   padding-bottom: 7px !important;
 }
 
+// bloquer le scroll du container et le laisser pour chaque composant?
 app-tab2 {
   //.swiper swiper.slide {
   swiper-slide{
+    //height: calc(100vh - 50px - 68px) !important; // faut une taille fixe ici
+  }
+  app-instant-auroral-activity {
+    // vrai ?
+    display: block;
     height: calc(100vh - 50px - 68px) !important; // faut une taille fixe ici
+    max-height: calc(100vh - 50px - 68px) !important; // faut une taille fixe ici
+    overflow: hidden;
+
   }
   .swiper-pagination {
     display: flex;
