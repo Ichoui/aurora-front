@@ -38,7 +38,7 @@
     "title": "Aurores",
     "instant": {
       "kpindex": "Kp Index",
-      "density": " Densitée des particules",
+      "density": " Densité des particules",
       "density.unit": "(p/cc)",
       "speed": "Vitesse du vent",
       "probability": "Probabilité d'observer au Zénith une Aurore Boréale",
@@ -61,7 +61,7 @@
       "poles.explanations": "Offre 30 à 90 minutes de prévisions pour un ovale auroral, et un historique des dernières 24 heures.",
       "poles.explanations.info": "Les données sont issues du vent solaire et du temps de propagation du vent solaire entre le point Lagrange 1, où se trouve le satellite DISCOVR, jusqu'à la Terre.",
       "nexthours.title": "Kp Index",
-      "nexthours.sub": "Prévions - prochaines heures",
+      "nexthours.sub": "Prévisions - prochaines heures",
       "longterm.title": "Kp Index",
       "longterm.sub": "Prévisions - 27 jours",
       "density.title": "Densitée des particules",
@@ -86,10 +86,10 @@
       "tooltip": {
         "map": "Touche pour choisir une localisation personnalisée dans le monde entier. Tu peux également choisir une ville prédéfinie.<br>De plus, tu peux ici visualiser l'Ovale Auroral en temps réel (à 1 heure près).",
         "kp-next-hours": "Kp Index maximum par tranches de 3 heures.<br> Plus l'indice est haut, et meilleures sont les conditions géomagnétique pour observer une Aurore Boréale.<br>Tempête géomagnétique à partir de Kp5.",
-        "kp-next-days": "Kp Index maximum sur les 27 prochains jours.<br> Plus l'indice est haut, et meilleures seront les conditions géomagnétiques seront réunies pour observer une Aurore Boréale.<br>Tempête géomagnétique à partir de Kp5.",
+        "kp-next-days": "Kp Index maximum sur les 27 prochains jours.<br> Plus l'indice est haut, meilleures seront les conditions géomagnétique  pour observer une Aurore Boréale.<br>Tempête géomagnétique à partir de Kp5.",
         "wind-speed": "Vitesse à laquelle le vent solaire se dirige vers la Terre. <br>Plus la vitesse du vent est élevée, et plus les Aurores Boréales vont danser dans le ciel.<br>Le vent est rapide au-delà de {{unit}}",
         "wind-density": "Densité des particules par mètre cube.<br> Plus les particules sont nombreuses, et plus les Aurores Boréales sont brillantes.",
-        "wind-bz": "Un Bz négatif rend l'observation d'Aurores plus propices et laisse pénetrer le vent solaire dans la magnétosphère. Un Bz positif, à l'inverse, va bloquer le vent solaire hors de la magnétosphère.<br>Valeurs comprises entre -15 et 15.",
+        "wind-bz": "Un Bz négatif rend l'observation d'Aurores plus propices et laisse pénétrer le vent solaire dans la magnétosphère. Un Bz positif, à l'inverse, va bloquer le vent solaire hors de la magnétosphère.<br>Valeurs comprises entre -15 et 15.",
         "wind-bt": "Plus le Bt est élevé, plus les aurores sont puissantes. Le Bt est fort au-dessus de 20nT.",
         "solar-cycle": "Un cycle solaire dure environ 11 ans. Les valeurs sont sujettes à changement.<br><u>Tâches solaires:</u> Plus elles sont nombreuses, et plus l'activité solaire sera importante, favorisant les Aurores Boréales.<br><u>Flux solaire:</u> Le flux solaire radio à 10.7 cm (2800 MHz) est un excellent indicateur de l'activité solaire.",
         "poles": "Touchez pour ouvrir.<br>Offre 30 à 90 minutes de prévisions pour un ovale auroral, et un historique des dernières 24 heures."
@@ -140,7 +140,7 @@
       "title.help": "Aide",
       "welcome": {
         "title": "Aurorapp - Northern Lights",
-        "message": "Aurorapp - Northern Lights est une application moderne, sexy et colorée, développée pour chasser les Aurores Boréales.<br>Si tu t'intéresses à l'activité des Aurores, que tu sois touriste ou chasseur aguerri, cette application est faites pour toi 🌌"
+        "message": "Aurorapp - Northern Lights est une application moderne, sexy et colorée, développée pour chasser les Aurores Boréales.<br>Si tu t'intéresses à l'activité des Aurores, que tu sois touriste ou chasseur aguerri, cette application est faite pour toi 🌌"
       },
       "firstblock": {
         "header": "Une Aurore Boréale ?",
@@ -150,11 +150,11 @@
         },
         "how": {
           "title": "Mécanisme ?",
-          "message": "Une Aurore Boréale est un phénomène naturel qui a pour origine le <b>Soleil</b>.<br>Elles apparaissent lorsque des <b>particules solaires</b>, propulsées par des vents solaires, entrent dans le champ magnétique terrestre. Elles se produisent à proximité des pôles magnétiques, dans la <b>zone aurorale</b> (située entre 65 et 75° de latitude), où elles interagissent avec les couches supérieures de l'atmosphère : ozone, oxygène, hydrogène et autres gaz. De l'énergie se créé alors et devient visible sous forme de lumières dansantes.<br>Ce phénomène se produit à une altitude de 100 km, au niveau de la ligne de Karman (ligne qui sépare l'atmosphère de l'espace), c'est à dire dans la Thermosphère (85 - 690 km).<br><br>Pour plus d'informations techniques et scientifiques, je te propose les sites suivants :<ul><li><a href='https://tinyurl.com/y3ptbsab'>visitnorway.fr</a></li><li><a href='https://tinyurl.com/mrxhyth5'>bastienfoucher.com</a></li></ul>"
+          "message": "Une Aurore Boréale est un phénomène naturel qui a pour origine le <b>Soleil</b>.<br>Elles apparaissent lorsque des <b>particules solaires</b>, propulsées par des vents solaires, entrent dans le champ magnétique terrestre. Elles se produisent à proximité des pôles magnétiques, dans la <b>zone aurorale</b> (située entre 65 et 75° de latitude), où elles interagissent avec les couches supérieures de l'atmosphère : ozone, oxygène, hydrogène et autres gaz. De l'énergie se créé alors et devient visible sous forme de lumières dansantes.<br>Ce phénomène se produit à une altitude de 100 km, au niveau de la ligne de Karman (ligne qui sépare l'atmosphère de l'espace, approximativement 100km), c'est à dire dans la Thermosphère (85 - 690 km).<br><br>Pour plus d'informations techniques et scientifiques, je te propose les sites suivants :<ul><li><a href='https://tinyurl.com/y3ptbsab'>visitnorway.fr</a></li><li><a href='https://tinyurl.com/mrxhyth5'>bastienfoucher.com</a></li></ul>"
         },
         "forecast": {
           "title": "Comment peut-on prévoir ce phénomène ?",
-          "message": "Grâce à des satellites appartenant à la NASA, qui a pour mission d'étudier les particules solaires. Ces satellites sont positionnés en position Lagrange 1 entre la Terre et le Soleil, à environ 1.500.000km de distance.<br>Les données sont ensuite traitée par le &laquo; Space Weather Prediction Center &raquo; qui est un service météorologique situé aux Etats-Unis.<br>Grâce au croisement de plusieurs données (comme par exemple le Bz, le KP, la Densité des particules ou encore la vitesse du vent solaire, mais aussi la couverture nuaugeuse), on peut alors prévoir leur visibilité. Il existe 2 satellites : ACE (Advanced Composition Explorer) qui arrive en fin de mission, et DSCOVR (Deep Space Climate Observatory) qui va le remplacer."
+          "message": "Grâce à des satellites appartenant à la NASA, qui a pour mission d'étudier les particules solaires. Ces satellites sont positionnés en position Lagrange 1 entre la Terre et le Soleil, à environ 1.500.000km de distance.<br>Les données sont ensuite traitée par le &laquo; Space Weather Prediction Center &raquo; qui est un service météorologique situé aux Etats-Unis.<br>Grâce au croisement de plusieurs données (comme par exemple le Bz, le KP, la Densité des particules ou encore la vitesse du vent solaire, mais aussi la couverture nuageuse), on peut alors prévoir leur visibilité. Il existe 2 satellites : ACE (Advanced Composition Explorer) qui arrive en fin de mission, et DSCOVR (Deep Space Climate Observatory) qui va le remplacer."
         },
         "capricious": {
           "title": "Les prévisions sont-elles précises ?",
@@ -174,11 +174,11 @@
         },
         "steve": {
           "title": "STEVE",
-          "message": "STEVE (Strong Thermal Emission Velocity Enhancement) est l'appelation donnée à un nouveau genre d'Aurore Boréale, découverte en 2017 par des chasseurs d'Aurores Boréales sur un groupe Facebook en Alberta, Canada. <br>Elle se présente sous la forme d'un long et étroit ruban pourpre, à travers le ciel. Les scientifiques, alertés par cette communauté, n'a pas été en mesure d'expliquer immédiatement le phénomène. C'est en 2018, après des recherches, qu'un professeur de l'Université de Calgary a pu affirmer que STEVE est un flux de gaz chaud (environ 3000°) qui se déplace plus rapidement que l'air environnant, d'ou sa couleur pourpre.<br>Le &laquo phénomène Steve &raquo; peut durer jusqu'à 1h, avance à une vitesse maximum de 6km/s et peut mesurer jusqu'à 25km. STEVE est observable en Alberta, à la latitude de Calgary. "
+          "message": "STEVE (Strong Thermal Emission Velocity Enhancement) est l'appellation donnée à un nouveau genre d'Aurore Boréale, découverte en 2017 par des chasseurs d'Aurores Boréales sur un groupe Facebook en Alberta, Canada. <br>Elle se présente sous la forme d'un long et étroit ruban pourpre, à travers le ciel. Les scientifiques, alertés par cette communauté, n'ont pas été en mesure d'expliquer immédiatement le phénomène. C'est en 2018, après des recherches, qu'un professeur de l'Université de Calgary a pu affirmer que STEVE est un flux de gaz chaud (environ 3000°) qui se déplace plus rapidement que l'air environnant, d'où sa couleur pourpre.<br>Le &laquo phénomène Steve &raquo; peut durer jusqu'à 1h, avance à une vitesse maximum de 6km/s et peut mesurer jusqu'à 25km. STEVE est observable en Alberta, à la latitude de Calgary. "
         },
         "legends": {
           "title": "Mythes & Légendes",
-          "message": "Il existe bon nombre de légendes autour des Aurores, qui diffèrent en fonction des Régions. En voici quelques-une.",
+          "message": "Il existe bon nombre de légendes autour des Aurores, qui diffèrent en fonction des Régions. En voici quelques-unes.",
           "alaska": {
             "list": "Alaska : ",
             "message": "Les Inuits craignaient les Aurores. Ils voyaient dedans des âmes dansantes d'animaux, comme le saumon, le phoque, le béluga ou le cerf. Ils se munissaient alors de couteau pour tenter de les chasser."
@@ -204,7 +204,7 @@
             "message": "Les pêcheurs Normands avaient peurs des Aurores, car elles étaient de couleurs rougeâtre. Les Aurores ne descendant pas fréquemment jusqu'en France à cette basse latitude, ils pensaient que celles-ci étaient annonciatrices de malheurs."
           },
           "romains": {
-            "list": "Peuple Romain :",
+            "list": "Peuple romain :",
             "message": "Dans la mythologie romaine, Aurora était la déesse de l'Aurore. Le mot « borealis » fait référence au dieu grec du vent du Nord. « Aurora Borealis », ou Aurore Boréale, signifie donc « vent de l'Aurore ». Dans de nombreuses langues, ce phénomène est appelé « lumières du Nord »."
           },
           "conclusion": "Ces légendes sont de très brefs résumés, il en existe un nombre très conséquent. Il en existe dans les différents pays Scandinaves, en Russie, en Amérique du Nord, et sont toutes différentes. La seule chose que ces légendes ont en commun, c'est qu'elles ne laissent personne indifférent."
@@ -213,8 +213,8 @@
           "title": "Anecdotes",
           "une": "Galilée aurait inventé le terme « Aurora Borealis » en 1619.",
           "deux": "Des Aurores Boréales ont été observées sur Mars, Vénus, Saturne, Jupiter et Uranus. En raison de sa taille et de sa proximité du soleil, Mercure n'a pas d'atmosphère. Par conséquent, les Aurores Boréales ne peuvent pas s'y produire.",
-          "trois": "Dans l'hémisphère Nord, nous avons des Aurore Boréale. Dans l'hémisphère Sud, nous avons des Aurore Australe. L'Aurora Polaire désigne les aurores des deux pôles.",
-          "quatre": "L'Aurore Australe est assez rare, car il n'y a pas beaucoup de terres à l'approche du Pôle Sud. Elle peut être aperçue depuis l'Antarctique, la Tasmanie, au sud de l'Australie et aussi à l'extrémité sud de la Nouvelle-Zélande.",
+          "trois": "Dans l'hémisphère Nord, nous avons des Aurores Boréales. Dans l'hémisphère Sud, nous avons des Aurores Australes. L'Aurora Polaire désigne les aurores des deux pôles.",
+          "quatre": "L'Aurore Australe est assez rare, car il n'y a pas beaucoup de terres à l'approche du pôle Sud. Elle peut être aperçue depuis l'Antarctique, la Tasmanie, au sud de l'Australie et aussi à l'extrémité sud de la Nouvelle-Zélande.",
           "cinq": "Les Aurores Boréales dépendent de l'activité magnétique du Soleil. Il se trouve que l'activité solaire a un cycle de 11 ans. Lors d'un pic haut, les tempêtes magnétiques sont violentes et entraînent de magnifiques Aurores Boréales. Elles peuvent même être un problème pour les instruments magnétiques, comme la boussole et son Nord magnétique.",
           "six": "Il existe deux villes situées en Alaska, Fairbanks et Nome, où il est possible d'observer des Aurores Boréales plus de 200 jours par an."
         }
@@ -242,7 +242,7 @@
         "header": "Centre d'aide",
         "help": {
           "title": "Tutoriel : Comment fonctionne Aurorapp ?",
-          "message": "C'est très simple ! <ol><li>En lançant Aurorapp pour la première fois, tu es géolocalisé, Aurorapp se base donc sur ta localisation initiale.</li><li>Tu peux par la suite changer de localisation. Pour cela, rends-toi sur la carte du monde. De là, tu peux choisir une nouvelle localisation.</li><li>Ensuite, tu n'auras plus qu'à consulter l'activité solaire dans l'onglet 'Aurores', et la couverture nuageuse dans l'onglet 'Météo' pour plus de détails.<li>Dernièrement, il faut comprendre comment fonctione les aurores boréales, le vent solaire et le KP Index. Tu peux t'aider de la documentation d'Aurorapp, présente dans la partie 'Découvrir', ou encore d'Internet.</li><br>Rappel, ces données fournissent des indicateurs pour chasser les aurores boréale. Elles ne t'assureront pas d'en voir à 100% ☺</li></ol>"
+          "message": "C'est très simple ! <ol><li>En lançant Aurorapp pour la première fois, tu es géolocalisé, Aurorapp se base donc sur ta localisation initiale.</li><li>Tu peux par la suite changer de localisation. Pour cela, rends-toi sur la carte du monde. De là, tu peux choisir une nouvelle localisation.</li><li>Ensuite, tu n'auras plus qu'à consulter l'activité solaire dans l'onglet 'Aurores', et la couverture nuageuse dans l'onglet 'Météo' pour plus de détails.<li>Dernièrement, il faut comprendre comment fonctionne les aurores boréales, le vent solaire et le KP Index. Tu peux t'aider de la documentation d'Aurorapp, présente dans la partie 'Découvrir', ou encore d'Internet.</li><br>Rappel, ces données fournissent des indicateurs pour chasser les aurores boréales. Elles ne t'assureront pas d'en voir à 100% ☺</li></ol>"
         },
         "noSwpcData": {
           "title": "Les données ne s'affichent plus",
@@ -263,7 +263,7 @@
     },
     "art2": {
       "title": "Article 2 : Accès et utilisation du site ",
-      "text": "L’utilisateur peut accéder en toute heure, en tout lieu et à tout moment à l’application.<br>L’utilisateur devra bénéficier d’une connexion internet pour accéder à la majeure partie des fonctionnalités proposées par l’application.<br>L’utilisation pourra trouver des informations relatives aux aurores boréales. Grâce à sa géolocalisation, il sera en capacité de consulter les données du &laquo; Space Weather Prediction Center &raquo;, situé aux Etats-Unis, retravaillée par le développeur. De plus, l’utilisateur pourra également consulter la météo dans la ville choisie. <br>Le site ne dispose d’aucune publicité, et est entièrement gratuit. Il ne génère aucuns revenus."
+      "text": "L’utilisateur peut accéder en toute heure, en tout lieu et à tout moment à l’application.<br>L’utilisateur devra bénéficier d’une connexion internet pour accéder à la majeure partie des fonctionnalités proposées par l’application.<br>L’utilisation pourra trouver des informations relatives aux aurores boréales. Grâce à sa géolocalisation, il sera en capacité de consulter les données du &laquo; Space Weather Prediction Center &raquo;, situé aux Etats-Unis, retravaillée par le développeur. De plus, l’utilisateur pourra également consulter la météo dans la ville choisie. <br>Le site ne dispose d’aucune publicité, et est entièrement gratuit. Il ne génère aucun revenu."
     },
     "art3": {
       "title": "Article 3 : Données personnelles",
@@ -275,7 +275,7 @@
     },
     "art5": {
       "title": "Article 5 : Garantie et Responsabilité ",
-      "text": "L’application dépend exclusivement des données fournies par d’autres services en ligne, gratuit ou payant. Le développeur se réserve le droit :<ul><li>Suspendre le site momentanément ou définitivement</li><li>tModifier le cœur de l’application, et demander à l’avenir plus de renseignements à l’utilisateur, qui sera prévenu de ces évolutions au travers d’une mise à jour</li></ul>"
+      "text": "L’application dépend exclusivement des données fournies par d’autres services en ligne, gratuit ou payant. Le développeur se réserve le droit :<ul><li>Suspendre le site momentanément ou définitivement</li><li>Modifier le cœur de l’application, et demander à l’avenir plus de renseignements à l’utilisateur, qui sera prévenu de ces évolutions au travers d’une mise à jour</li></ul>"
     },
     "art6": {
       "title": "Article 6 : Contacts",

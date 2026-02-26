@@ -1,23 +1,23 @@
 {
   "global": {
     "unknown": "Unknown location",
-    "loading": "Current location loading...",
+    "loading": "Loading your current location...",
     "back": "Back",
     "cancel": "Cancel",
     "info": "More info",
     "error": {
-      "solarwind": " - Network / NOAA SWPC module error",
-      "geoloc": " - Network / geolocalisation module error",
+      "solarwind": " - Network error / NOAA SWPC module",
+      "geoloc": " - Network error / geolocation module",
       "storage": " - Local storage error",
-      "weatherForecast": " - Network / weather module error",
-      "reversegeo": " - Network / reverse geocode module error"
+      "weatherForecast": " - Network error / weather module",
+      "reversegeo": " - Network error / reverse geocoding module"
     }
   },
   "tab1": {
     "title": "Weather",
     "weather": {
-      "next.hours": "Next hours forecast",
-      "seven.days": "7 days forecast",
+      "next.hours": "Hourly forecast",
+      "seven.days": "7-day forecast",
       "cover.clouds": "Cloud cover",
       "details": "More details",
       "feelslike": "Feels like",
@@ -28,70 +28,70 @@
         "polar.night": "Polar night",
         "windspeed": "Wind speed",
         "humidity": "Humidity",
-        "winddeg": "Compass",
-        "uvindex": "UV Index"
+        "winddeg": "Wind direction",
+        "uvindex": "UV index"
       }
     }
   },
   "tab2": {
     "title": "Auroras",
     "instant": {
-      "kpindex": "Kp Index",
-      "density": " Particles density",
+      "kpindex": "Kp index",
+      "density": "Particle density",
       "density.unit": "(p/cc)",
-      "speed": " Solar wind",
-      "probability": "Probability to observe Northern Lights at Zenith",
-      "forecastLeadTime": "Solar wind forecast lead time (DSCOVR to Earth)",
+      "speed": "Solar wind speed",
+      "probability": "Probability of seeing the Northern Lights at zenith",
+      "forecastLeadTime": "Solar wind propagation time (DSCOVR → Earth)",
       "bz": "Bz",
       "bz.north": "North",
       "bz.south": "South",
       "bt": "Bt",
-      "noData": "ACE No data",
+      "noData": "ACE: No data",
       "live": "Live",
-      "live.tooltip": "The above real-time data is provided by the NOAA's Space Weather Prediction Center.<br>They are for information only and do not guarantee Northern Lights ✨",
-      "live.tooltip.tuto": "Read tutorial",
-      "live.tooltip.learn": "Learn about"
+      "live.tooltip": "The real-time data below is provided by NOAA’s Space Weather Prediction Center.<br>It is for information purposes only and does not guarantee Northern Lights activity.",
+      "live.tooltip.tuto": "Read the tutorial",
+      "live.tooltip.learn": "Learn more"
     },
     "forecast": {
       "poles": "OVATION Aurora Model",
       "poles.sub": "Auroral oval intensity",
-      "pole.north": "North pole",
-      "pole.south": "South pole",
-      "poles.explanations": "Provide a 30- to 90-minutes forecast of the location and intensity of the auroral oval, and a 24-hour history",
-      "poles.explanation.info": "The data comes from the solar wind and its forecast lead time from Lagrange 1, where the DISCOVR satellite is located, to Earth.",
-      "nexthours.title": "Kp Index",
+      "pole.north": "North Pole",
+      "pole.south": "South Pole",
+      "poles.explanations": "Provides a 30- to 90-minute forecast of the auroral oval location and intensity, plus a 24-hour history.",
+      "poles.explanation.info": "The data is based on the solar wind and its propagation time from Lagrange Point 1 (where the DSCOVR satellite is located) to Earth.",
+      "nexthours.title": "Kp index",
       "nexthours.sub": "Next hours forecast",
-      "longterm.title": "Kp Index",
-      "longterm.sub": "Long term forecast",
-      "density.title": "Density",
+      "longterm.title": "Kp index",
+      "longterm.sub": "27-day forecast",
+      "density.title": "Particle density",
       "density.sub": "Solar wind (p/cc)",
       "speed.title": "Speed",
       "speed.sub": "Solar wind ({{unit}})",
       "bz.title": "Bz",
-      "bz.sub": "IMF - Interplanetary Magnetic Field (nT)",
+      "bz.sub": "Interplanetary Magnetic Field (nT)",
       "bt.title": "Bt",
-      "bt.sub": "IMF - Interplanetary Magnetic Field (nT)",
+      "bt.sub": "Interplanetary Magnetic Field (nT)",
       "cycle.title": "Solar cycle",
-      "cycle.sub": "Avg. duration of 11 year",
+      "cycle.sub": "Average duration: 11 years",
       "cycle.ssn": "Sunspots",
       "cycle.sfu": "Solar flux",
       "aurora-map": "World map",
-      "sub-aurora-map": "Location and Auroral Oval by touching",
+      "sub-aurora-map": "Tap to view the location and the auroral oval",
       "title": "World map",
-      "select": "Select a custom location",
+      "select": "Choose a location",
       "another": "Try another location",
       "unknown": "Unknown",
-      "no-data": "Data no longer displayed? Tap here",
+      "no-data": "Data no longer showing? Tap here",
       "tooltip": {
-        "map": "Tap to choose a custom location anywhere in the world. You can also choose a predefined city.<br>Moreover, here you can check the Auroral Oval in real time (give or take an hour).",
-        "kp-next-hours": "Maximum Kp Index per 3 hours.<br>The higher the index is, the better the geomagnetic conditions are to observe the Northern Lights. Geomagnetic storm starts at Kp5.",
-        "kp-next-days": "Maximum Kp Index for the next 27 days.<br> The higher the index is, the better the geomagnetic conditions are to observe the Northern Lights.<br>Geomagnetic storm starts at Kp5.",
-        "wind-speed": "Solar wind speed from sun to earth.<br>The higher the speed is, the more the Northern Lights dance.<br>The wind is fast below {{unit}}.",
-        "wind-density": "Particle density per cubic centimeter.<br>The more the particles are, the brighter the Northern Lights are.",
-        "wind-bz": "A negative Bz makes it easier to observe Northern Lights and let the solar wind enters earth's magnetosphere. Conversely, a positive Bz will block solar wind out of the magnetosphere.<br>Values between -15 and 15.",
-        "wind-bt": "The higher the Bt value is, the more powerful the Northern Lights are.<br>The Bt is high below 20nT.",
-        "solar-cycle": "A solar cycle lasts 11 years on average. The following values may change.<br><u>Sunspots:</u> The more sunspots they are, the more important the activity solar will be.<br><u>Solar Flux:</u> Solar radio flux at 10.7 cm (2800 MHz) is an excellent indicator of solar activity.",
-        "poles": "Tap to open.<br>Provide a 30- to 90-minutes forecast of the location and intensity of the auroral oval, and a 24-hour history"
+        "map": "Tap to pick a custom location anywhere in the world. You can also choose a preset city.<br>You can also view the auroral oval in near real time (give or take about an hour).",
+        "kp-next-hours": "Maximum Kp index per 3-hour window.<br>The higher the index, the better the geomagnetic conditions for observing the Northern Lights.<br>Geomagnetic storms start at Kp 5.",
+        "kp-next-days": "Maximum Kp index for the next 27 days.<br>The higher the index, the better the geomagnetic conditions for observing the Northern Lights.<br>Geomagnetic storms start at Kp 5.",
+        "wind-speed": "Solar wind speed toward Earth.<br>The faster the wind, the more the auroras tend to “dance”.<br>The wind is considered fast above {{unit}}.",
+        "wind-density": "Particle density per cubic centimeter.<br>The higher the density, the brighter the auroras can be.",
+        "wind-bz": "A negative Bz makes it easier for solar wind to enter Earth’s magnetosphere, increasing the chance of auroras. A positive Bz tends to block solar wind.<br>Typical values range between -15 and 15.",
+        "wind-bt": "The higher the Bt value, the stronger the auroras can be.<br>Bt is considered strong above 20 nT.",
+        "solar-cycle": "A solar cycle lasts about 11 years on average. Values may change over time.<br><u>Sunspots:</u> More sunspots generally mean higher solar activity, which can favor auroras.<br><u>Solar flux:</u> The 10.7 cm solar radio flux (2800 MHz) is an excellent indicator of solar activity.",
+        "poles": "Tap to open.<br>Provides a 30- to 90-minute forecast of the auroral oval location and intensity, plus a 24-hour history."
       }
     }
   },
@@ -99,32 +99,32 @@
     "more": {
       "title": "More",
       "notifications": "Notifications",
-      "kp": "KP Index",
+      "kp": "Kp index",
       "current.position": "Current location",
       "about": {
         "title": "About",
-        "first": "Northern Lights forecast powered by ",
-        "first.link": "NOAA",
-        "second": "Weather data powered by  ",
+        "first": "Aurora forecasts powered by ",
+        "first.link": "NOAA SWPC",
+        "second": "Weather data powered by ",
         "second.link": "OpenWeather",
-        "third": "Do you like Aurorapp ? Please, ",
-        "third.link": "rate it",
-        "third.bis": " or buy me a ",
-        "third.bis.link": "coffee !",
-        "version": "Actual version: {{versionApp}}"
+        "third": "Enjoy Aurorapp? Please ",
+        "third.link": "leave a rating",
+        "third.bis": " or buy me ",
+        "third.bis.link": "a coffee!",
+        "version": "Current version: {{versionApp}}"
       },
       "cgu": "Terms of Use",
       "settings": "Settings",
-      "subsettings": "Pick your favorite units",
+      "subsettings": "Choose your preferred units",
       "languages": "Language",
       "temperature": "Temperature",
       "measure": "Measurement",
-      "hour-clock-system": "Hour clock",
-      "twelve": "12h",
-      "twentyfour": "24h",
+      "hour-clock-system": "Time format",
+      "twelve": "12-hour",
+      "twentyfour": "24-hour",
       "infos": "Northern Lights",
-      "subinfos": "Technical details about Northern Lights, tutorial and more",
-      "infos.text": "Learn about",
+      "subinfos": "Technical details about auroras, tutorial, and more",
+      "infos.text": "Learn more",
       "infos.helpcenter": "Help center",
       "metric": "Metric",
       "imperial": "Imperial",
@@ -135,121 +135,121 @@
       "en": "English"
     },
     "infos": {
-      "title.about": "Learn<br>about",
+      "title.about": "Learn<br>more",
       "title.help": "Help",
       "welcome": {
         "title": "Aurorapp - Northern Lights",
-        "message": "Aurorapp - Northern Lights is a modern, sexy and colorful app for both hunters and tourists interested in the Northern Lights activity.<br>Please excuse me for my bad English, I am not a native speaker.<br>If you have any suggestions, you can contact me by email.<br>Thank you for understanding 🌌"
+        "message": "Aurorapp - Northern Lights is a modern, vibrant app designed for aurora hunters and curious travelers alike.<br>If you're interested in Northern Lights activity, this app is for you."
       },
       "firstblock": {
         "header": "Northern Lights?",
         "perception": {
-          "title": "Naked eye perception",
-          "message": "Above all, you should know that an Aurora Borealis does not look like the idea we have of them, often put forward through magnificent shots. You should know that they are mainly <b>pale white</b> in color to the naked eye, when there is not much auroral activity.<br>This can be disappointing at first sight... ! In reality, the colors are only very slightly perceptible to our eyes, which have difficulty making the contrast with the darkness. devices being much better than us!<br>During geomagnetic storms, it is possible to see like air currents, fast, pale and vaguely colored in the sky. For anyone who knows how to appreciate the aurora borealis, it's still sublime!"
+          "title": "What you see with the naked eye",
+          "message": "First, it’s important to know that the Northern Lights rarely look like the spectacular photos you may have seen. When auroral activity is low, they often appear <b>pale white</b> to the naked eye.<br>That can be disappointing at first… but it’s normal. In reality, our eyes struggle to perceive colors in the dark, while camera sensors are far more sensitive.<br>During geomagnetic storms, you may see fast-moving, faint, slightly colored “curtains” in the sky. If you know what to look for, it can be truly breathtaking."
         },
         "how": {
-          "title": "Mechanism?",
-          "message": "An Aurora Borealis is a natural phenomenon that originates from the <b>Sun</b>.<br>They appear when <b>solar particles</b>, propelled by solar winds, enter the Earth's magnetic field. They occur near the magnetic poles, in the <b>auroral zone</b> (located between 65 and 75° latitude), where they interact with the upper layers of the atmosphere: ozone, oxygen, hydrogen and other gases. Energy is then created and becomes visible in the form of dancing lights.<br>This phenomenon occurs at an altitude of 100 km, at the level of the Karman line (line that separates the atmosphere from space), that is to say in the Thermosphere (85 - 690 km).<br><br>For more technical and scientific information, I suggest the following sites:<ul><li><a href='https://tinyurl.com/y3ptbsab'>visitnorway.fr</a></li><li><a href='https://tinyurl.com/mrxhyth5'>bastienfoucher.com</a></li></ul>"
+          "title": "How does it work?",
+          "message": "The Northern Lights are a natural phenomenon originating from the <b>Sun</b>.<br>They occur when <b>solar particles</b>, carried by the solar wind, interact with Earth’s magnetic field. They are most common near the magnetic poles, in the <b>auroral zone</b> (roughly between 65° and 75° latitude), where they collide with the upper atmosphere (oxygen, hydrogen, ozone, and other gases). The energy released becomes visible as dancing lights.<br>This phenomenon typically occurs around 100 km altitude, near the Kármán line (often used as the boundary between the atmosphere and space), within the thermosphere (85–690 km).<br><br>For more technical and scientific information, here are a couple of resources:<ul><li><a href='https://tinyurl.com/y3ptbsab'>visitnorway.fr</a></li><li><a href='https://tinyurl.com/mrxhyth5'>bastienfoucher.com</a></li></ul>"
         },
         "forecast": {
-          "title": "How can we predict this phenomenon?",
-          "message": "Thanks to satellites belonging to NASA, which has the mission to study solar particles. Those satellites are positioned in Lagrange 1 between the Earth and the Sun, at a distance of about 1,500,000 km. The data is then processed by the Space Weather Prediction Center, a meteorological service located in the United States.<br>Thanks to the crossing of several data (as for example the Bz, the KP, the Density of the particles or the speed of the solar wind, but also the cloud cover), we can then predict their visibility. There are 2 satellites: ACE (Advanced Composition Explorer) which is nearing the end of its mission, and DSCOVR (Deep Space Climate Observatory) which will replace it."
+          "title": "How can we predict it?",
+          "message": "Thanks to NASA satellites designed to study solar particles. These satellites are positioned at Lagrange Point 1, between Earth and the Sun, about 1,500,000 km away.<br>The data is processed by the Space Weather Prediction Center, a U.S.-based space weather service.<br>By combining multiple indicators (such as Bz, Kp, particle density, solar wind speed, and cloud cover), we can estimate visibility conditions. Two satellites are commonly referenced: ACE (Advanced Composition Explorer), nearing the end of its mission, and DSCOVR (Deep Space Climate Observatory), which is now the primary source."
         },
         "capricious": {
           "title": "How accurate are the forecasts?",
-          "message": "No.<br>Scientific data cannot guarantee their visibility at 100%. We talk mostly in probability, but learning how to read them allows for a better understanding of the phenomenon. There are also cloud cover and light pollution factors that come into play. <br>The best thing to do is always to go outside and check to see if they are there."
+          "message": "Not very.<br>Scientific data cannot guarantee aurora visibility 100% of the time. These indicators are best used to estimate probability and improve your understanding. Cloud cover and light pollution also play a major role.<br>The best approach is still to go outside and check the sky."
         },
         "colors": {
-          "title": "Green, purple or pink",
-          "message": "The color of Aurora Borealis depends on the altitude at which the solar wind plasma comes into contact with the gases in our atmosphere. The higher the <b>density</b> of a solar wind, the lower the particles contained in the plasma will descend into the atmosphere.<ul><li><b>Purple / Red</b>: between 200 and 500km altitude, electrons ionize mainly helium, and some oxygen, which is scarce at this altitude.</li><li><b>Green</b>: between 100 and 200km altitude, electrons ionize oxygen, which is denser at this altitude. This is the most common phenomenon</li><li><b>Pink</b>: between 80 and 100km altitude, electrons ionize hydrogen and nitrogen. Rather rare as it requires a very dense and/or energy charged solar wind</li></ul>"
+          "title": "Green, purple, or pink",
+          "message": "Aurora colors depend on the altitude at which solar wind plasma interacts with atmospheric gases. The higher the <b>particle density</b>, the deeper particles can penetrate into the atmosphere.<ul><li><b>Purple / Red</b>: around 200–500 km altitude, electrons mainly excite helium and some oxygen (which is scarce at that altitude).</li><li><b>Green</b>: around 100–200 km altitude, electrons excite oxygen, which is denser there. This is the most common color.</li><li><b>Pink</b>: around 80–100 km altitude, electrons excite hydrogen and nitrogen. This is rarer and typically requires a dense and/or highly energetic solar wind.</li></ul>"
         },
         "where": {
-          "title": "Where to see Northern Lights?",
-          "message": "The closer you get to one of the planet's poles, the higher the probability of seeing them.<br>Alaska, Northern Canada, Norway, Iceland or even Lapland are prime locations to admire them at dusk. In the southern hemisphere, it will be mostly in New Zealand, because of the lack of continents at low latitudes. Of course, it depends on the solar activity.<br>In summer, it is impossible to see the Northern Lights near the North Pole because of the midnight sun (the day does not set or very little). It is then necessary to approach the winter solstice (December 21) to see some. On the contrary, in summer it is possible to see them by approaching the South Pole"
+          "title": "Where can you see them?",
+          "message": "The closer you are to one of Earth’s poles, the higher your chances of seeing auroras.<br>Alaska, Northern Canada, Norway, Iceland, and Lapland are prime destinations after dusk. In the Southern Hemisphere, sightings are most common in New Zealand, due to the lack of land at lower latitudes. Of course, it also depends on solar activity.<br>In summer, it’s impossible to see auroras near the North Pole because of the midnight sun. You’ll need to get closer to the winter solstice (around December 21). Conversely, in summer it can still be possible to see auroras by moving closer to the South Pole."
         },
         "corona": {
-          "title": "Aurora Coronas",
-          "message": "It is an apparition of Aurora in the shape of a crown at the zenith (at 90° above our head). The appearance of the Aurora then appears circular, in the form of a spiral. The base of the Aurora is located between 80 and 100km, while its tip is much higher in the Thermosphere. An impression is then created: luminous rays of Aurora seem to converge from the extremities to the base, and this gives an impression of a crown, hence the name.<br>It is necessary to be at a high latitude as well as a Kp5 to have the chance to see them."
+          "title": "Aurora coronas",
+          "message": "An aurora corona is an aurora that appears like a crown at the zenith (90° above your head). The aurora can look circular, almost like a spiral. The base is usually around 80–100 km altitude, while the top reaches much higher into the thermosphere. This perspective can make rays appear to converge, creating the “crown” effect.<br>You generally need high latitude and around Kp 5 to have a good chance of seeing one."
         },
         "steve": {
           "title": "STEVE",
-          "message": "STEVE (Strong Thermal Emission Velocity Enhancement) is the name given to a new kind of Aurora Borealis, discovered in 2017 by Aurora Borealis hunters on a Facebook group in Alberta, Canada. <br>It appears as a long, narrow purple ribbon across the sky. Scientists, alerted by this community, were not able to immediately explain the phenomenon. It was in 2018, after research, that a professor at the University of Calgary was able to affirm that STEVE is a hot gas flow (about 3000°) that moves faster than the surrounding air, hence its purple color.<br>The &laquo phenomenon Steve &raquo; can last up to 1 hour, advances at a maximum speed of 6km/s and can measure up to 25km. STEVE is observable in Alberta, at the latitude of Calgary. "
+          "message": "STEVE (Strong Thermal Emission Velocity Enhancement) is the name given to a new type of auroral phenomenon discovered in 2017 by aurora watchers in a Facebook group in Alberta, Canada.<br>It appears as a long, narrow purple ribbon across the sky. Scientists were initially unable to explain it. In 2018, research led by a professor at the University of Calgary described STEVE as a flow of hot gas (around 3000°) moving faster than the surrounding air, which gives it its purple glow.<br>The “STEVE phenomenon” can last up to an hour, moves at speeds up to 6 km/s, and can stretch up to 25 km. It has been observed in Alberta, around the latitude of Calgary."
         },
         "legends": {
           "title": "Myths & Legends",
-          "message": "There are many legends about the Aurora, which differ from region to region. Here are some of them.",
+          "message": "Many legends about auroras exist, and they vary widely depending on the region. Here are a few examples.",
           "alaska": {
-            "list": "Alaska : ",
-            "message": "The Inuit feared the Aurora. They saw in them the dancing souls of animals, such as salmon, seals, beluga whales or deer. They would then use knives to try to chase them away."
+            "list": "Alaska: ",
+            "message": "Some Inuit feared the aurora, seeing it as the dancing souls of animals such as salmon, seals, beluga whales, or deer. They would carry knives to try to chase it away."
           },
           "canada": {
-            "list": "Canada : ",
-            "message": "The Inuit of Hudson Bay believed that the sky was a huge dome with holes through which the spirits of the dead passed on their way to the heavenly regions. They then lit many torches to guide the newcomers. As for the West Indians, they saw friendly giants."
+            "list": "Canada: ",
+            "message": "Inuit from Hudson Bay believed the sky was a vast dome with holes through which the spirits of the dead passed on their way to the heavens. They would light torches to guide the newcomers. Some West Indian peoples saw them as friendly giants."
           },
           "vikings": {
-            "list": "Viking folk: ",
-            "message": "They represented for the Viking folk the Valkyries, who are known as the messengers of the Norse god Odin. At the end of each war, Odin selected the most valiant warriors who could join the Valhaha for the Ragnarök, and sent the Valkyries to retrieve them. The Vikings believed that the Aurora were the reflection of the Valkyries' armor that came to earth to accomplish their mission."
+            "list": "Vikings: ",
+            "message": "Vikings associated auroras with the Valkyries, messengers of the Norse god Odin. After each war, Odin selected the bravest warriors to join Valhalla for Ragnarök, and the Valkyries would come to retrieve them. Auroras were believed to be reflections of the Valkyries’ armor."
           },
           "sami": {
-            "list": "Sami folk: ",
-            "message": "his Sami folk includes the northern part of Norway, Sweden, Finland and the Kola Peninsula in Russia. For some tribes of this people, the Aurora are bad omens, evoking death. They appear when a person is burned alive, or when there has been a murder, suicide or childbirth.<br>For other tribes, they announce a Good omen, such as the blowing of whales in the Arctic Ocean."
+            "list": "Sámi people: ",
+            "message": "The Sámi people live across Northern Norway, Sweden, Finland, and Russia’s Kola Peninsula. For some tribes, auroras were bad omens associated with death, appearing after tragic events.<br>For others, they were a good omen, like the breath of whales in the Arctic Ocean."
           },
           "finlande": {
-            "list": "Finnish Folk: ",
-            "message": "Legend has it that Arctic foxes produced the Aurora by running across the sky at great speed, so much so that the fur on their tails set off sparks and projected these illuminations. Another legend tells that the fire foxes made the snow deposited on the ground swirl towards the sky. <br>In Finnish, the Aurora Borealis is called \"Revontulet\", which literally means Fire Fox."
+            "list": "Finnish people: ",
+            "message": "Legend says Arctic foxes created the aurora by running across the sky so fast that sparks flew from their tails. Another story tells of “fire foxes” swirling snow up into the sky, reflecting moonlight.<br>In Finnish, the Northern Lights are called “Revontulet”, which literally means “fire fox”."
           },
           "france": {
-            "list": "France : ",
-            "message": "The Norman fishermen were afraid of the Aurora, because they were reddish in color. The Auroras do not frequently come down to France at this low latitude, so they thought that they were harbingers of misfortune."
+            "list": "France: ",
+            "message": "Norman fishermen feared auroras because of their reddish color. Since auroras rarely reach France at such low latitudes, they were seen as a sign of misfortune."
           },
           "romains": {
-            "list": "Romain Folk :",
-            "message": "In Roman mythology, Aurora was the goddess of the Dawn. The word « borealis » refers to the Greek god of the north wind. « Aurora Borealis », or Aurora Borealis, therefore means « wind of the Dawn ». In many languages, this phenomenon is called « Northern Lights »."
+            "list": "Romans: ",
+            "message": "In Roman mythology, Aurora was the goddess of dawn. The word “borealis” refers to Boreas, the Greek god of the north wind. “Aurora Borealis” can therefore be interpreted as “dawn of the north wind”. In many languages, this phenomenon is simply called the “Northern Lights”."
           },
-          "conclusion": "These legends are very brief summaries, there is a very large number of them. They exist in different Scandinavian countries, in Russia, in North America, and they are all different. The only thing that these legends have in common is that they leave no one indifferent."
+          "conclusion": "These are only brief summaries—there are many more legends across Scandinavia, Russia, and North America, and they differ greatly. The one thing they all share is that auroras leave no one indifferent."
         },
         "annecdotes": {
-          "title": "Anecdotes",
-          "une": "Galileo would have invented the term « Aurora Borealis » en 1619.",
-          "deux": "Aurora Borealis have been observed on Mars, Venus, Saturn, Jupiter and Uranus. Because of its size and proximity to the sun, Mercury has no atmosphere. Therefore, the Aurora Borealis cannot occur there.",
-          "trois": "In the Northern Hemisphere, we have Aurora Borealis. In the Southern Hemisphere, we have Aurora Australis. The Polar Aurora refers to the aurora at both poles.",
-          "quatre": "The Aurora Australis is quite rare, as there is not much land near the South Pole. It can be seen from Antarctica, Tasmania, southern Australia and also at the southern tip of New Zealand.",
-          "cinq": "The Aurora Borealis depends on the magnetic activity of the Sun. It turns out that the solar activity has a cycle of 11 years. During a high peak, the magnetic storms are violent and lead to beautiful Northern Lights. They can even be a problem for magnetic instruments, like the compass and its magnetic North.",
-          "six": "There are two cities located in Alaska, Fairbanks and Nome, where it is possible to observe the Northern Lights more than 200 days a year."
+          "title": "Fun facts",
+          "une": "Galileo is said to have coined the term “Aurora Borealis” in 1619.",
+          "deux": "Auroras have been observed on Mars, Venus, Saturn, Jupiter, and Uranus. Because Mercury is small and very close to the Sun, it has virtually no atmosphere—so auroras cannot occur there.",
+          "trois": "In the Northern Hemisphere we have Aurora Borealis; in the Southern Hemisphere, Aurora Australis. “Polar aurora” refers to auroras at both poles.",
+          "quatre": "Aurora Australis is relatively rare because there is little land near the South Pole. It can be seen from Antarctica, Tasmania, southern Australia, and the far south of New Zealand.",
+          "cinq": "Auroras depend on the Sun’s magnetic activity, which follows an ~11-year cycle. At solar maximum, magnetic storms can be intense and produce spectacular auroras. They can also interfere with magnetic instruments such as compasses.",
+          "six": "Two cities in Alaska—Fairbanks and Nome—can experience aurora visibility on more than 200 days per year."
         }
       },
       "secondblock": {
         "header": "Auroral activity indicators",
         "kp": {
-          "title": "The Kp-Index",
-          "message": "The K-Index, or Kp (Planetary K-Index), is the index used to express the magnitude of geomagnetic storms. It is an excellent indicator of the perturbations of the Earth's magnetic field, but it does not predict 100% the visibility of an Aurora. Readings are taken on the ground, worldwide, every 3 hours The scale starts at 0 and ends at 9:<ul><li><b>Kp 0</b> : Very calm, low visibility in far northern skies</li><li><b>Kp 1</b>: Very calm in far northern skies (Yellowknife, Reykjavik, Fairbanks, Whitehorse)</li><b>Kp 2</b>: Quiet, visible in the North always, very slightly bright (Anchorage, Edmonton, Saskatoon, Winnipeg, Trondheim)</li><li><b>Kp 3</b>: Visible at zenith, pale green color (Calgary, Alesund)</li><li><b>Kp 4</b>: Bright, steady, and dynamic. Some color appears (Vancouver, Minneapolis, Oslo, Helsinki, Stockholm)</li><li><b>Kp 5</b>: Minor storm. Bright and very colorful, red and purple may appear. Small chance of Aurora Corona (Seattle, Chicago, Toronto, Halifax, Edinburgh)</li><li><b>Kp 6</b>: Medium storm. More intense than previous level (Portland, Indianapolis, Dublin, Manchester, Moscow, Christchurch (NZ))</li><li><b>Kp 7</b>: Powerful storm. High probability of Aurora Corona (Salt Lake City, Nashville, London, Brussels, Melbourne, Wellington)</li><li><b>Kp 8</b>: Intense storm. Possible to see at 50° latitude (Paris, Munich, San Francisco, Las Vegas, Atlanta)</li><li><b>Kp 9</b> : Extreme storm. Possible to see them at a latitude of 40° (Barcelona, Marseille, Roma, Miami). The aurora are red. Rare because it requires a powerful coronal mass ejection.</li></ul>"
+          "title": "The Kp index",
+          "message": "The K index (or planetary Kp index) measures the magnitude of geomagnetic storms. It is an excellent indicator of disturbances in Earth’s magnetic field, but it does not guarantee aurora visibility. Measurements are taken worldwide every 3 hours. The scale goes from 0 to 9:<ul><li><b>Kp 0</b>: Very calm, low visibility in far northern skies</li><li><b>Kp 1</b>: Very calm (Yellowknife, Reykjavík, Fairbanks, Whitehorse)</li><li><b>Kp 2</b>: Quiet, usually visible further north, faint (Anchorage, Edmonton, Saskatoon, Winnipeg, Trondheim)</li><li><b>Kp 3</b>: Visible near zenith, pale green (Calgary, Ålesund)</li><li><b>Kp 4</b>: Bright, steady, dynamic; some color appears (Vancouver, Minneapolis, Oslo, Helsinki, Stockholm)</li><li><b>Kp 5</b>: Minor storm; bright and colorful; red/purple may appear; small chance of an aurora corona (Seattle, Chicago, Toronto, Halifax, Edinburgh)</li><li><b>Kp 6</b>: Moderate storm; stronger than the previous level (Portland, Indianapolis, Dublin, Manchester, Moscow, Christchurch)</li><li><b>Kp 7</b>: Strong storm; high chance of an aurora corona (Salt Lake City, Nashville, London, Brussels, Melbourne, Wellington)</li><li><b>Kp 8</b>: Severe storm; auroras may be seen around 50° latitude (Paris, Munich, San Francisco, Las Vegas, Atlanta)</li><li><b>Kp 9</b>: Extreme storm; auroras may be seen around 40° latitude (Barcelona, Marseille, Rome, Miami). Auroras can appear red. This is rare and typically requires a powerful coronal mass ejection.</li></ul>"
         },
         "solarWind": {
-          "title": "The Solar Wind",
-          "message": "he solar wind is a <b>plasma</b> (a gas consisting mainly of electrons, ions and protons). There are 2 types of solar wind:<ul><li>the slow one (about 300 km/s)</li><li>the fast one (between 500 and 800 km/s)</li></ul> It is the second one that has a direct impact on the Earth, and is subject to solar activity and cycles.<br>The solar wind is emitted continuously, but its emission can depend on certain phenomena, such as coronal holes or even solar flares, which can amplify its <b><i>speed</i></b> and <b><i>density</i></b>.<br>The faster the wind, the more the Aurora can dance across Earth. The higher the density, the more powerful the Aurora will be. But, the solar wind does not work alone. It is directly linked to the Interplanetary Magnetic Field.<br>"
+          "title": "Solar wind",
+          "message": "Solar wind is <b>plasma</b> (a gas made mostly of electrons, ions, and protons). There are two main types:<ul><li>slow (around 300 km/s)</li><li>fast (between 500 and 800 km/s)</li></ul>The fast wind has the most direct impact on Earth and varies with solar activity and cycles.<br>Solar wind is emitted continuously, but events such as coronal holes or solar flares can increase its <b><i>speed</i></b> and <b><i>density</i></b>.<br>The faster the wind, the more dynamic auroras can be. The higher the density, the stronger they can become. However, solar wind doesn’t act alone—it is closely linked to the Interplanetary Magnetic Field (IMF).<br>"
         },
         "cmi": {
-          "title": "The Interplanetary Magnetic Field (IMF)",
-          "message": "It is thanks to it that we obtain the following values:<br> - the Bt, and the Bx, By, Bz.<br>The latter are vectors, creating axes from the earth. Only the Bt and Bz are important for solar activity.<ul><li><b>BZ:</b> it is an axis, which passes through the North and South poles of the earth. When this axis is oriented south (negative), it gets in phase with the <b>Earth's magnetosphere</b>, which is oriented north all the time. In this way, like magnets attracting each other, it allows the solar wind particles to penetrate the atmosphere more easily and thus collide with the oxygen and other terrestrial gases, which will allow the auroras to shine. The Bz axis is considered to be between -15 and 15.</li><li><b>Bt:</b> The Bt is a value that represents the power of the MIC. The higher the value, the more the conditions to obtain a geomagnetic storm will be present. We can estimate that 15nT is a medium value, 25 is a strong value.</li></ul>Namely, when the solar cycle is at its lowest, the sun's magnetic field is equivalent to that of the Earth, while when it is at its highest, many sunspots are formed, which makes the magnetic field around the sun very shifting. <br>It is the solar wind that subsequently carries these magnetic disturbances to Earth."
+          "title": "Interplanetary Magnetic Field (IMF)",
+          "message": "The IMF provides values such as Bt and the Bx, By, Bz components.<br>These components are vectors that define directions relative to Earth. For auroral activity, Bt and Bz are the most important.<ul><li><b>Bz:</b> an axis passing through Earth’s north and south poles. When Bz is southward (negative), it can couple with Earth’s magnetosphere (which is generally northward), allowing solar wind particles to enter more easily and increasing auroral activity. Bz is often considered in the range -15 to 15.</li><li><b>Bt:</b> represents the strength of the IMF. The higher the value, the more favorable conditions can be for geomagnetic storms. As a rough guide, ~15 nT is moderate, and ~25 nT is strong.</li></ul>When the solar cycle is at minimum, the Sun’s magnetic field is closer in strength to Earth’s. At solar maximum, many sunspots appear and the Sun’s magnetic field becomes much more complex.<br>Solar wind then carries these magnetic disturbances toward Earth."
         },
         "solarCycle": {
-          "title": "Solar Cycle",
-          "message": "The solar cycle is based on the number of sunspots present on the surface of the Sun. Sunspots are areas that are darker and cooler than the rest of the star's surface, and are the basis of solar flares and storms that then converge on Earth. The maximum of the cycle is reached on average every 11.2 years.<br>This was realized thanks to Galileo in the 17th century, who was a pioneer in the observation of sunspots. So we have data on solar cycles that go back mainly to the eighteenth century, which allows scientists to deduce the high and low peaks of this cycle.<br>Solar activity can also be measured with the 10.7cm Solar Flux, a much more accurate index, which works with a radar system operating at a frequency of 2800MHz, a wavelength of 10.7cm."
+          "title": "Solar cycle",
+          "message": "The solar cycle is largely tracked using the number of sunspots visible on the Sun’s surface. Sunspots are darker, cooler regions and are closely linked to solar flares and storms that can impact Earth. The cycle peaks roughly every 11.2 years on average.<br>This pattern was identified thanks to early observations, including Galileo’s work in the 17th century. Recorded solar cycle data goes back mainly to the 18th century, allowing scientists to study highs and lows over time.<br>Solar activity can also be measured using the 10.7 cm solar flux, a more precise index based on radio emissions at 2800 MHz (wavelength 10.7 cm)."
         }
       },
       "helpcenter": {
         "header": "Help center",
         "help": {
-          "title": "Tutorial : How does Aurorapp works?",
-          "message": "It's very simple! <ol><li>First of all, When you launch Aurorapp for the first time, you are geolocated, so Aurorapp is based on your initial location.</li><li>Then, you can change your location by going to the world map, on the 'Auroras' tab.</li><li>Then, all you have to do is check the solar activity in the 'Auroras' tab, and the cloud cover in the 'Weather' tab for more details.<li>Lastly, you need to understand how Northern Lights, the solar wind and the KP Index work. You can use the Aurorapp documentation, or the Internet.</li><br>Remember, these data provide indicators for hunting the aurora borealis. They do not guarantee that you will see 100% of them ☺</li></ol>"
+          "title": "Tutorial: How does Aurorapp work?",
+          "message": "It’s very simple! <ol><li>When you launch Aurorapp for the first time, it uses your current location, so the app starts with your initial position.</li><li>You can change the location anytime from the world map in the “Auroras” tab.</li><li>Then check solar activity in the “Auroras” tab and cloud cover in the “Weather” tab.</li><li>Finally, it helps to understand how auroras, solar wind, and the Kp index work. You can use Aurorapp’s documentation in the “Learn more” section, or the Internet.</li><br>Reminder: these data points are indicators for aurora hunting. They do not guarantee you will see auroras 100% of the time.</li></ol>"
         },
         "noSwpcData": {
           "title": "Data no longer displayed",
-          "message": "Solar wind or KP data not displayed / infinite loading? This is most likely because the supplier, NOAA SWPC, has a problem. Be patient, it often only lasts a few minutes. It's a very common problem, so don't worry 😉"
+          "message": "Solar wind or Kp data not showing / stuck loading? This is most likely because NOAA SWPC is experiencing an issue. Please be patient—it usually only lasts a few minutes. It’s very common, so there’s no need to worry."
         },
         "suggest": {
-          "title": "Suggestions / Problems",
-          "message": "If you have any suggestions, or encounter any problems, don't hesitate to contact me on my mail, I will do my best to answer you.<br>Sorry for English people who use Aurorapp, I don't speak fluent English, but I'd like to thank you for being here. If you have any suggestions for improving the text, I'd love to hear from you.<br>Finally, I'm a freelance developer, I am working alone on Aurorapp.<br><a href='mailto:aurorapp.lights@gmail.com'>aurorapp.lights@gmail.com</a>"
+          "title": "Suggestions / issues",
+          "message": "If you have suggestions or run into any problems, feel free to contact me by email—I’ll do my best to reply.<br>I’m an independent developer working alone on Aurorapp.<br><a href='mailto:aurorapp.lights@gmail.com'>aurorapp.lights@gmail.com</a>"
         }
       }
     }
@@ -257,28 +257,28 @@
   "cgu": {
     "title": "Terms of Use",
     "art1": {
-      "title": "Article 1: Legal Disclaimer",
-      "text": "The application is edited by Mr. Morgan N, an independent and creative developer, not declared.<br> The application is non-profit, and is proposed for the sole purpose of informing a user about weather facts. The application is hosted on the Play Store only.<br>Contact email: <a href='mailto:aurorapp.lights@gmail.com'>aurorapp.lights@gmail.com</a>"
+      "title": "Article 1: Legal notice",
+      "text": "This application is published by Mr. Morgan NICOL, an independent and creative developer.<br>The application is non-profit and is provided solely to inform users about weather-related data.<br>The application is distributed on the Play Store / App Store depending on your device.<br>Contact email: <a href='mailto:aurorapp.lights@gmail.com'>aurorapp.lights@gmail.com</a>"
     },
     "art2": {
-      "title": "Article 2: Access and use of the site",
-      "text": "The user can access the application at any time, any place and at any time.<br>The user will need an internet connection to access most of the features offered by the application.<br>The use will be able to find information related to the northern lights. Thanks to its geolocation, it will be able to consult the data of the Space Weather Prediction Center, located in the United States, reworked and formatted by the developer. In addition, the user will also be able to consult the weather in the chosen city. <The site has no advertising, and is completely free. It does not generate any revenue."
+      "title": "Article 2: Access and use",
+      "text": "Users can access the application at any time, from anywhere.<br>An internet connection is required to access most features of the application.<br>The application provides information related to the Northern Lights. Thanks to geolocation, users can view data from the Space Weather Prediction Center (United States), processed and formatted by the developer. Users can also view weather information for the selected city.<br>The application contains no advertising and is entirely free. It does not generate any revenue."
     },
     "art3": {
-      "title": "Article 3: Personal Data",
-      "text": "Under the Data Protection Act, dated January 6, the user has a right to access, rectify, delete and oppose his personal data.<br>As a result:<ul><li>Only the user's geolocation data will be requested to ensure the proper functioning of the application on his smartphone / tablet. This data is stored directly in the application on the user's phone, by &laquo; Local Storage &raquo;</li><li>The geolocation data is only created at the user's request. The application does not &laquo; track &raquo; the user's movements</li><li>No information is collected, transmitted, usable or processed by the developer at this time.</li><li>No cookies are used in this application</li><li>No personal or impersonal data is stored anywhere other than on the user's smartphone/tablet</li><li>No database has been commissioned for this application</li><li>There are no plans at this time for the management of this data to evolve over time.</li></ul>"
+      "title": "Article 3: Personal data",
+      "text": "In accordance with data protection laws, users have the right to access, rectify, delete, and object to the processing of their personal data.<br>As a result:<ul><li>Only the user’s geolocation data is requested to ensure proper operation of the application on their smartphone/tablet. This data is stored locally on the device using “Local Storage”.</li><li>Geolocation data is only created when requested by the user. The application does not track the user’s movements.</li><li>No information is collected, transmitted, used, or processed by the developer at this time.</li><li>No cookies are used in this application.</li><li>No personal or non-personal data is stored anywhere other than on the user’s device.</li><li>No database has been set up for this application.</li><li>There are currently no plans to change how this data is managed over time.</li></ul>"
     },
     "art4": {
-      "title": "Article 4: Intellectual Property",
-      "text": "Logos and graphic design are protected by the Intellectual Property Code, and more particularly by copyright. The user is requested to contact the developer before reusing them. <Cedits are available in the tab &laquo; Settings &raquo; for any information related to this subject. Anything not from the credits belongs to the developer."
+      "title": "Article 4: Intellectual property",
+      "text": "Logos and graphic design are protected by intellectual property laws, in particular copyright. Users are asked to contact the developer before reusing them.<br>Credits are available in the “Settings” tab for any related information. Any content not listed in the credits belongs to the developer."
     },
     "art5": {
-      "title": "Article 5: Warranty and Liability",
-      "text": "The application depends exclusively on data provided by other online services, free or paid. The developer reserves the right:<ul><li>Suspend the site momentarily or permanently</li><li>tModify the core of the application, and ask in the future for more information from the user, who will be notified of these developments through an update</li></ul>"
+      "title": "Article 5: Warranty and liability",
+      "text": "The application relies exclusively on data provided by third-party online services, whether free or paid. The developer reserves the right to:<ul><li>Temporarily or permanently suspend the application</li><li>Modify the core of the application and, in the future, request additional information from the user, who will be informed of these changes through an update</li></ul>"
     },
     "art6": {
-      "title": "Article 6 : Contacts",
-      "text": "<b>Morgan 'Ichoui' N - Web and mobile free developper - Toulouse</b><br>You can join me for any claims or suggestions. For that, use the green button in the Settings page."
+      "title": "Article 6: Contact",
+      "text": "<b>MorgaN - Independent web & mobile developer - Toulouse area</b><br>Reachable via social networks or email for any suggestions or claims. To do so, go to the Settings tab and use the green button to find my contact details."
     }
   }
 }
