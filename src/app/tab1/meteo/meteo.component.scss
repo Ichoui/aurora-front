@@ -67,11 +67,12 @@
   position: relative;
   .next-more-info {
     display: flex;
-    align-content: center;
+    justify-content: space-evenly;
   }
 
   .next-content {
     img {
+      padding-left: 5px;
     }
     .rain {
       display: flex;
@@ -94,7 +95,7 @@
 // Prévisions 7j
 .previsions {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
 
   .next-days {
     display: flex;
@@ -110,7 +111,7 @@
   }
 
   span.icon {
-    width: 120%;
+    //width: 120%;
   }
 
   .rain {
