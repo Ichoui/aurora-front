@@ -34,7 +34,7 @@ import { Router, RouterLink } from '@angular/router';
 import { CityCoords } from '../../models/cities';
 import { IonIcon, IonPopover } from '@ionic/angular/standalone';
 import { PlaceholderChartsComponent } from '../../shared/placeholders/placeholder-charts/placeholder-charts.component';
-import { NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgIf, NgOptimizedImage, NgTemplateOutlet } from '@angular/common';
 
 const numberMax27Forecast = 14;
 const numberMaxNextHours = 12;
@@ -46,7 +46,7 @@ Chart.register(...registerables, annotationPlugin);
   templateUrl: './forecast-auroral-activity.component.html',
   styleUrls: ['./forecast-auroral-activity.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [IonIcon, TranslateModule, RouterLink, IonPopover, NgIf, PlaceholderChartsComponent, NgTemplateOutlet],
+  imports: [IonIcon, TranslateModule, RouterLink, IonPopover, NgIf, PlaceholderChartsComponent, NgTemplateOutlet, NgOptimizedImage],
 })
 export class ForecastAuroralActivityComponent implements OnChanges {
   @Input() kpForecast: KpForecast[];

@@ -20,7 +20,7 @@ import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-tab1',
-  standalone:  true,
+  standalone: true,
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -85,7 +85,6 @@ export class Tab1Page implements ViewWillEnter, OnDestroy {
             ELocales,
             HourClock,
           ]) => {
-            console.log(weather);
             this.temperatureUnits = temperature;
             this.measureUnits = measure;
             this.locale = locale;

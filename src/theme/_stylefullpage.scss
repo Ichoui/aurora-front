@@ -17,7 +17,7 @@ ion-header {
 }
 
 ion-text {
-  font-family: var(--ion-font-semibold);;
+  font-family: var(--ion-font-semibold);
 }
 
 app-header {
@@ -48,11 +48,10 @@ ion-card-content {
   padding-top: 7px !important;
   padding-bottom: 7px !important;
 }
-
 // bloquer le scroll du container et le laisser pour chaque composant?
 app-tab2 {
   //.swiper swiper.slide {
-  swiper-slide{
+  swiper-slide {
     //height: calc(100vh - 50px - 68px) !important; // faut une taille fixe ici
   }
   app-instant-auroral-activity {
@@ -61,24 +60,6 @@ app-tab2 {
     height: calc(100vh - 50px - 68px) !important; // faut une taille fixe ici
     max-height: calc(100vh - 50px - 68px) !important; // faut une taille fixe ici
     overflow: hidden;
-
-  }
-  .swiper-pagination {
-    display: flex;
-    position: fixed;
-    top: 68px;
-    z-index: 2;
-    width: 100%;
-    .swiper-pagination-bullet {
-      display: block;
-      background-color: var(--ion-color-tertiary);
-      height: 3px;
-      width: 50%;
-    }
-
-    .swiper-pagination-bullet-active {
-      background-color: var(--ion-color-primary);
-    }
   }
 }
 
@@ -88,7 +69,10 @@ app-tab2 {
   margin-top: 20px !important;
   width: 90%;
   font-size: 14px;
-  box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 1px -2px, rgba(0, 0, 0, 0.14) 0px 2px 2px 0, rgba(0, 0, 0, 0.12) 0px 1px 5px 0;
+  box-shadow:
+    rgba(0, 0, 0, 0.2) 0px 3px 1px -2px,
+    rgba(0, 0, 0, 0.14) 0px 2px 2px 0,
+    rgba(0, 0, 0, 0.12) 0px 1px 5px 0;
   .header {
     display: flex;
     align-items: center;

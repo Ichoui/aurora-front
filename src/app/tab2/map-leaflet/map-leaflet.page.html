@@ -12,30 +12,13 @@
     </ion-popover>
   </div>
 </div>
-<div class="searchbar">
-  <ion-searchbar
-    id="searchbar"
-    search-icon="location-outline"
-    [debounce]="400"
-    [placeholder]="'tab2.forecast.select' | translate "
-    (ionInput)="handleInput($event)"
-    (ionClear)="closeSearchbar()"
-  ></ion-searchbar>
-
-  <ion-list class="searchbar-list" *ngIf="citiesMatched" [style.width]="searchbarWidth">
-    <ion-item *ngFor="let result:  of citiesList" (click)="selectNewLocation(convertCoords(result))">
-      <ion-label class="name">
-        <span>{{ result.name }} - {{result.countryCode }}</span>
-        <span>{{ result.lat }}, {{ result.long }}</span>
-      </ion-label>
-    </ion-item>
-  </ion-list>
-</div>
 
 <div class="map-container">
-  <div *ngIf="loadingNewLocation" class="content-spinner">
+  @if(loadingNewLocation) {
+  <div class="content-spinner">
     <div class="whirly-loader"></div>
   </div>
+  }
   <button type="button" class="my-position" (click)="buttonMyPosition()" [disabled]="loadingNewLocation">
     <span class="icon icon-map-target"></span>
   </button>
@@ -45,4 +28,28 @@
     <span>50%</span>
     <span>75%</span>
   </div>
+</div>
+
+<div class="searchbar">
+  <ion-searchbar
+    id="searchbar"
+    search-icon="location-outline"
+    [debounce]="400"
+    [placeholder]="'tab2.forecast.select' | translate "
+    (ionInput)="handleInput($event)"
+    (ionClear)="closeSearchbar()"
+  />
+
+  @if (citiesMatched) {
+  <ion-list class="searchbar-list" [style.width]="searchbarWidth">
+    @for (result of citiesList; track $index) {
+    <ion-item (click)="selectNewLocation(convertCoords(result))">
+      <ion-label class="name">
+        <span>{{ result.name }} - {{result.countryCode }}</span>
+        <span>{{ result.lat }}, {{ result.long }}</span>
+      </ion-label>
+    </ion-item>
+    }
+  </ion-list>
+  }
 </div>

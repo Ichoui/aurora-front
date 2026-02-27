@@ -61,7 +61,7 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
   configSwiper: SwiperOptions = {
     pagination: {
       enabled: true,
-      clickable: false,
+      clickable: true,
       type: 'bullets',
       bulletClass: `swiper-pagination-bullet`,
     },

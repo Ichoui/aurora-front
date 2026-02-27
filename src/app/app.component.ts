@@ -52,7 +52,10 @@ export class AppComponent {
       void StatusBar.setBackgroundColor({ color: STATUS_BAR_COLOR });
     }
     this._translateService.addLangs(['fr', 'en']);
+
+    // INITIAL ROUTE
     this._router.navigate(['/tabs/tab2']);
+
     this._platform.ready().then(async () => {
       this._storageService
         .init()

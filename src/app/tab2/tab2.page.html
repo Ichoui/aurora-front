@@ -6,7 +6,8 @@
 
   @if (loadSwiper) {
   <ng-container>
-    <swiper-container slides-per-view="1" auto-height="false" pagination="true">
+    <!-- progressbar ou loop ! idk -->
+    <swiper-container slides-per-view="1" auto-height="true" pagination="true" pagination-clickable="true" pagination-type="bullets">
       <swiper-slide>
         <app-instant-auroral-activity
           [loading]="loading"
