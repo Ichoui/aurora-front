@@ -1,4 +1,4 @@
-export const mapStyle = [
+const mapStyle = [
   {
     elementType: 'geometry',
     stylers: [

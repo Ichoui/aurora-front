@@ -22,7 +22,7 @@ import { NgForOf, NgIf } from '@angular/common';
   templateUrl: './map-leaflet.page.html',
   styleUrls: ['./map-leaflet.page.scss'],
   // providers: [Geolocation], // attention aux multiples iic
-  imports: [IonPopover, IonIcon, HeaderComponent, RouterLink, TranslateModule, IonSearchbar, IonItem, IonList, IonLabel, NgIf],
+  imports: [IonPopover, IonIcon, HeaderComponent, RouterLink, TranslateModule, IonSearchbar, IonItem, IonList, IonLabel],
 })
 export class MapLeafletPage implements OnInit, OnDestroy {
   private readonly _destroy$ = new Subject<void>();

@@ -18,7 +18,6 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 // Minimal local type (keeps the code compiling without ngx-lottie)
 export type AnimationOptions = {
   path?: string;
-  renderer?: string;
   autoplay?: boolean;
   loop?: boolean;
 };
@@ -55,7 +54,7 @@ Chart.register(...registerables);
     PercentPipe,
     NgForOf,
     NgOptimizedImage,
-    LottieComponent
+    LottieComponent,
   ],
 })
 export class MeteoComponent implements OnChanges {
@@ -84,9 +83,8 @@ export class MeteoComponent implements OnChanges {
   days: Daily[] = [];
 
   todayTemp: DailyTemp;
-  lottieConfig: AnimationOptions = {
+  lottieConfig = {
     path: `assets/lotties/lottie-clear-day.json`,
-    renderer: 'svg',
     autoplay: true,
     loop: true,
   };
@@ -377,7 +375,6 @@ export class MeteoComponent implements OnChanges {
     this.lottieConfig = {
       path: `assets/lotties/lottie-${icon}.json`,
       // path: `assets/lotties/lottie-very-cloudy-night.json`,
-      renderer: 'svg',
       autoplay: true,
       loop: true,
     };

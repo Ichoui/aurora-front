@@ -10,7 +10,6 @@ import { TabsPageRoutingModule } from './tabs.router.module';
 // Minimal local types (keeps the code compiling without ngx-lottie)
 export type AnimationOptions = {
   path?: string;
-  renderer?: string;
   autoplay?: boolean;
   loop?: boolean;
 };
@@ -24,7 +23,7 @@ export type AnimationItem = {
   standalone: true,
   templateUrl: 'tabs.page.html',
   styleUrls: ['tabs.page.scss'],
-  imports: [IonicModule, CommonModule, TranslateModule, RouterLink, NgIf, LottieComponent, FormsModule]
+  imports: [IonicModule, CommonModule, TranslateModule, RouterLink, NgIf, LottieComponent, FormsModule],
 })
 export class TabsPage implements OnInit {
   @ViewChild('auroraLogo', { static: false }) auroraLogo;
@@ -41,13 +40,11 @@ export class TabsPage implements OnInit {
     this._interval();
     this.lottieConfigWeather = {
       path: `assets/lotties/lottie-partly-cloudy-day.json`,
-      renderer: 'svg',
       autoplay: true,
       loop: true,
     };
     this.lottieConfigSettings = {
       path: `assets/lotties/lottie-settings.json`,
-      renderer: 'svg',
       autoplay: true,
       loop: true,
     };
