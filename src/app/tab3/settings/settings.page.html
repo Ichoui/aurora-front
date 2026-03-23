@@ -29,7 +29,9 @@
           (ionChange)="setLocale($event)"
           [cancelText]="'global.cancel' | translate"
         >
-          <ion-select-option *ngFor="let locale of locales" value="{{ locale.slug }}">{{ locale.label | translate }}</ion-select-option>
+          @for (locale of locales; track locale.slug) {
+          <ion-select-option [value]="locale.slug">{{ locale.label | translate }}</ion-select-option>
+          }
         </ion-select>
       </ion-item>
     </div>
@@ -44,9 +46,11 @@
           (ionChange)="setMeasureUnit($event)"
           [cancelText]="'global.cancel' | translate"
         >
-          <ion-select-option *ngFor="let u of measure" [value]="u.slug">
+          @for (u of measure; track u.slug) {
+          <ion-select-option [value]="u.slug">
             <span>{{ u.label | translate }}</span>
           </ion-select-option>
+          }
         </ion-select>
       </ion-item>
     </div>
@@ -60,9 +64,11 @@
           (ionChange)="setTemperatureUnit($event)"
           [cancelText]="'global.cancel' | translate"
         >
-          <ion-select-option *ngFor="let u of temperature" [value]="u.slug">
+          @for (u of temperature; track u.slug) {
+          <ion-select-option [value]="u.slug">
             <span>{{ u.label | translate }}</span>
           </ion-select-option>
+          }
         </ion-select>
       </ion-item>
     </div>
@@ -76,9 +82,11 @@
           (ionChange)="setHourClockSystem($event)"
           [cancelText]="'global.cancel' | translate"
         >
-          <ion-select-option *ngFor="let u of hourClockSystem" [value]="u.slug">
+          @for (u of hourClockSystem; track u.slug) {
+          <ion-select-option [value]="u.slug">
             <span>{{ u.label | translate }}</span>
           </ion-select-option>
+          }
         </ion-select>
       </ion-item>
     </div>
@@ -86,18 +94,21 @@
 
   <div class="card-container about">
     <div class="header about"><span>{{ 'tab3.more.about.title' | translate }}</span></div>
-    <span *ngFor="let a of about">
+    @for (a of about; track a.label) {
+    <span>
       {{ 'tab3.more.about.' + a.label | translate }}
       <button (click)="openUrl(a.url)">{{ 'tab3.more.about.' + a.labelLink | translate }}</button>
-      <ng-container *ngIf="a?.bis">
-        {{ 'tab3.more.about.' + a.bis.label | translate }}
-        <button (click)="openUrl(a.bis.url)">{{ 'tab3.more.about.' + a.bis.labelLink | translate }}</button>
-      </ng-container>
+      @if (a?.bis) { {{ 'tab3.more.about.' + a.bis.label | translate }}
+      <button (click)="openUrl(a.bis.url)">{{ 'tab3.more.about.' + a.bis.labelLink | translate }}</button>
+      }
     </span>
+    }
     <div class="button-wrapper">
       <ion-button class="legal" color="primary" size="small" (click)="CGU()">{{ 'tab3.more.cgu' | translate }}</ion-button>
     </div>
-    <span class="version" *ngIf="versionApp">{{ 'tab3.more.about.version' | translate: {versionApp } }}</span>
+    @if (versionApp) {
+    <span class="version">{{ 'tab3.more.about.version' | translate: { versionApp } }}</span>
+    }
   </div>
 </ion-content>
 

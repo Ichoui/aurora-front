@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 import { PopoverController } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { IonPopover } from '@ionic/angular/standalone';
-import { NgClass, NgComponentOutlet, NgForOf, NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { PlaceholderDataComponent } from '../../shared/placeholders/placeholder-data/placeholder-data.component';
 import { ForecastLeadTimePipe } from './forecast-lead-time.pipe';
 
@@ -25,7 +25,7 @@ import { ForecastLeadTimePipe } from './forecast-lead-time.pipe';
   templateUrl: './instant-auroral-activity.component.html',
   styleUrls: ['./instant-auroral-activity.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TranslateModule, IonPopover, NgTemplateOutlet, NgIf, NgForOf, NgClass, PlaceholderDataComponent, ForecastLeadTimePipe],
+  imports: [TranslateModule, IonPopover, NgTemplateOutlet, NgClass, PlaceholderDataComponent, ForecastLeadTimePipe],
 })
 export class InstantAuroralActivityComponent implements OnInit, OnChanges {
   density: Density;

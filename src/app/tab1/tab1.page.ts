@@ -16,7 +16,6 @@ import { CityCoords } from '../models/cities';
 import { IonContent, IonIcon, IonRefresher, IonRefresherContent, ViewWillEnter } from '@ionic/angular/standalone';
 import { HeaderComponent } from '../shared/header/header.component';
 import { MeteoComponent } from './meteo/meteo.component';
-import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-tab1',
@@ -24,7 +23,7 @@ import { NgIf } from '@angular/common';
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [IonIcon, IonRefresherContent, IonRefresher, IonContent, HeaderComponent, TranslateModule, MeteoComponent, ToastComponent, NgIf],
+  imports: [IonIcon, IonRefresherContent, IonRefresher, IonContent, HeaderComponent, TranslateModule, MeteoComponent, ToastComponent],
 })
 export class Tab1Page implements ViewWillEnter, OnDestroy {
   loading: boolean = true;

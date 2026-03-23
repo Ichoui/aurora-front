@@ -19,17 +19,20 @@
 
   <div class="kp ace-data">
     <div class="colored">
-      <span
-        *ngFor="let i of [1, 2, 3, 4]"
-        [ngClass]="{
-          green: kpCurrent?.color === AuroraEnumColours.green,
-          yellow: kpCurrent?.color === AuroraEnumColours.yellow,
-          orange: kpCurrent?.color === AuroraEnumColours.orange,
-          red: kpCurrent?.color === AuroraEnumColours.red
-        }"
-      ></span>
+      @for (i of [1, 2, 3, 4]; track i) {
+        <span
+          [ngClass]="{
+            green: kpCurrent?.color === AuroraEnumColours.green,
+            yellow: kpCurrent?.color === AuroraEnumColours.yellow,
+            orange: kpCurrent?.color === AuroraEnumColours.orange,
+            red: kpCurrent?.color === AuroraEnumColours.red
+          }"
+        ></span>
+      }
     </div>
-    <div class="value" *ngIf="kpCurrent?.kpIndex || kpCurrent?.kpIndex === 0">{{ kpCurrent.kpIndex }}</div>
+    @if (kpCurrent?.kpIndex || kpCurrent?.kpIndex === 0) {
+      <div class="value">{{ kpCurrent.kpIndex }}</div>
+    }
     <ng-container
       *ngTemplateOutlet="!kpCurrent?.kpIndex && kpCurrent?.kpIndex !== 0 ? isLoadingAceData : null; context: { index: 2.4 }"
     ></ng-container>
@@ -38,17 +41,20 @@
 
   <div class="speed ace-data">
     <div class="colored">
-      <span
-        *ngFor="let i of [1, 2, 3, 4]"
-        [ngClass]="{
-          green: speed?.color === AuroraEnumColours.green,
-          yellow: speed?.color === AuroraEnumColours.yellow,
-          orange: speed?.color === AuroraEnumColours.orange,
-          red: speed?.color === AuroraEnumColours.red
-        }"
-      ></span>
+      @for (i of [1, 2, 3, 4]; track i) {
+        <span
+          [ngClass]="{
+            green: speed?.color === AuroraEnumColours.green,
+            yellow: speed?.color === AuroraEnumColours.yellow,
+            orange: speed?.color === AuroraEnumColours.orange,
+            red: speed?.color === AuroraEnumColours.red
+          }"
+        ></span>
+      }
     </div>
-    <div class="value" *ngIf="speed?.value">{{ speed.value }}</div>
+    @if (speed?.value) {
+      <div class="value">{{ speed.value }}</div>
+    }
     <ng-container *ngTemplateOutlet="!speed?.value ? isLoadingAceData : null; context: { index: 2.5 }"></ng-container>
     <div class="label">
       {{ 'tab2.instant.speed' | translate }}
@@ -58,17 +64,20 @@
 
   <div class="density ace-data">
     <div class="colored">
-      <span
-        *ngFor="let i of [1, 2, 3, 4]"
-        [ngClass]="{
-          green: density?.color === AuroraEnumColours.green,
-          yellow: density?.color === AuroraEnumColours.yellow,
-          orange: density?.color === AuroraEnumColours.orange,
-          red: density?.color === AuroraEnumColours.red
-        }"
-      ></span>
+      @for (i of [1, 2, 3, 4]; track i) {
+        <span
+          [ngClass]="{
+            green: density?.color === AuroraEnumColours.green,
+            yellow: density?.color === AuroraEnumColours.yellow,
+            orange: density?.color === AuroraEnumColours.orange,
+            red: density?.color === AuroraEnumColours.red
+          }"
+        ></span>
+      }
     </div>
-    <div class="value" *ngIf="density?.value">{{ density.value }}</div>
+    @if (density?.value) {
+      <div class="value">{{ density.value }}</div>
+    }
     <ng-container *ngTemplateOutlet="!density?.value ? isLoadingAceData : null; context: { index: 2.6 }"></ng-container>
     <div class="label">
       {{ 'tab2.instant.density' | translate }}
@@ -78,17 +87,20 @@
 
   <div class="bz ace-data">
     <div class="colored">
-      <span
-        *ngFor="let i of [1, 2, 3, 4]"
-        [ngClass]="{
-          green: bz?.color === AuroraEnumColours.green,
-          yellow: bz?.color === AuroraEnumColours.yellow,
-          orange: bz?.color === AuroraEnumColours.orange,
-          red: bz?.color === AuroraEnumColours.red
-        }"
-      ></span>
+      @for (i of [1, 2, 3, 4]; track i) {
+        <span
+          [ngClass]="{
+            green: bz?.color === AuroraEnumColours.green,
+            yellow: bz?.color === AuroraEnumColours.yellow,
+            orange: bz?.color === AuroraEnumColours.orange,
+            red: bz?.color === AuroraEnumColours.red
+          }"
+        ></span>
+      }
     </div>
-    <div class="value" *ngIf="bz?.value">{{ bz.value }}</div>
+    @if (bz?.value) {
+      <div class="value">{{ bz.value }}</div>
+    }
     <ng-container *ngTemplateOutlet="!bz?.value ? isLoadingAceData : null; context: { index: 2.7 }"></ng-container>
     <div class="label">
       {{ 'tab2.instant.bz' | translate }}
@@ -98,28 +110,39 @@
 
   <div class="bt ace-data">
     <div class="colored">
-      <span
-        *ngFor="let i of [1, 2, 3, 4]"
-        [ngClass]="{
-          green: bt?.color === AuroraEnumColours.green,
-          yellow: bt?.color === AuroraEnumColours.yellow,
-          orange: bt?.color === AuroraEnumColours.orange,
-          red: bt?.color === AuroraEnumColours.red
-        }"
-      ></span>
+      @for (i of [1, 2, 3, 4]; track i) {
+        <span
+          [ngClass]="{
+            green: bt?.color === AuroraEnumColours.green,
+            yellow: bt?.color === AuroraEnumColours.yellow,
+            orange: bt?.color === AuroraEnumColours.orange,
+            red: bt?.color === AuroraEnumColours.red
+          }"
+        ></span>
+      }
     </div>
-    <div class="value" *ngIf="bt?.value">{{ bt.value }}</div>
+    @if (bt?.value) {
+      <div class="value">{{ bt.value }}</div>
+    }
     <ng-container *ngTemplateOutlet="!bt?.value ? isLoadingAceData : null; context: { index: 2.8 }"></ng-container>
     <div class="label">{{ 'tab2.instant.bt' | translate }}</div>
   </div>
 
   <div class="infos nowcast ace-data">
-    <div *ngIf="nowcastAurora >= 0; else isLoadingNumber">{{ nowcastAurora }}%</div>
+    @if (nowcastAurora >= 0) {
+      <div>{{ nowcastAurora }}%</div>
+    } @else {
+      <ng-container *ngTemplateOutlet="isLoadingNumber"></ng-container>
+    }
     <p [innerHTML]="'tab2.instant.probability' | translate"></p>
   </div>
 
   <div class="infos forecastLeadTime ace-data">
-    <div *ngIf="speed?.value; else isLoadingNumber">{{ speed.value | forecastLeadTime: measureUnit }}mn</div>
+    @if (speed?.value) {
+      <div>{{ speed.value | forecastLeadTime: measureUnit }}mn</div>
+    } @else {
+      <ng-container *ngTemplateOutlet="isLoadingNumber"></ng-container>
+    }
     <p [innerHTML]="'tab2.instant.forecastLeadTime' | translate"></p>
   </div>
 

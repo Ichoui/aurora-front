@@ -2,26 +2,40 @@
   <div class="date">{{ currentDatetime }}</div>
   <div class="today">
     <div class="row">
-      <ng-lottie *ngIf="lottieConfig" [options]="lottieConfig" [width]="widthCurrent + 'px'" [height]="heightCurrent + 'px'"></ng-lottie>
+      @if (lottieConfig) {
+        <ng-lottie [options]="lottieConfig" [width]="widthCurrent + 'px'" [height]="heightCurrent + 'px'"></ng-lottie>
+      }
       <div class="temperature">
         {{ currentWeather?.temp | number: '1.0-0' }}
         <ng-container *ngTemplateOutlet="loading ? isLoadingNumber : null; context: { index: 2.4 }"></ng-container>
-        <sup *ngIf="temperature === temperatureUnits.CELSIUS">°C</sup>
-        <sup *ngIf="temperature === temperatureUnits.FAHRENHEIT">°F</sup>
-        <sup *ngIf="temperature === temperatureUnits.KELVIN">°K</sup>
-        <span *ngIf="currentWeather?.temp >= 33 && !loading" class="icon minicons icon-hot"></span>
-        <span *ngIf="currentWeather?.temp <= 0 && !loading" class="icon minicons icon-cold"></span>
+        @if (temperature === temperatureUnits.CELSIUS) {
+          <sup>°C</sup>
+        }
+        @if (temperature === temperatureUnits.FAHRENHEIT) {
+          <sup>°F</sup>
+        }
+        @if (temperature === temperatureUnits.KELVIN) {
+          <sup>°K</sup>
+        }
+        @if (currentWeather?.temp >= 33 && !loading) {
+          <span class="icon minicons icon-hot"></span>
+        }
+        @if (currentWeather?.temp <= 0 && !loading) {
+          <span class="icon minicons icon-cold"></span>
+        }
       </div>
     </div>
     <div class="row feels">
       <ng-container *ngTemplateOutlet="loading ? isLoadingNumber : null; context: { index: 2.5 }"></ng-container>
-      <div *ngIf="!loading">
-        {{ todayTemp?.max | number: '1.0-0' }}° / {{ todayTemp?.min | number: '1.0-0' }}°&nbsp;
-        <span class="tiret">—</span>
-        &nbsp;{{ 'tab1.weather.feelslike' | translate }}&nbsp;{{ currentWeather?.feels_like | number: '1.0-0' }}°&nbsp;
-        <span class="tiret">—</span>
-        <span class="description">&nbsp;{{ currentWeather?.weather[0].description }}</span>
-      </div>
+      @if (!loading) {
+        <div>
+          {{ todayTemp?.max | number: '1.0-0' }}° / {{ todayTemp?.min | number: '1.0-0' }}°&nbsp;
+          <span class="tiret">—</span>
+          &nbsp;{{ 'tab1.weather.feelslike' | translate }}&nbsp;{{ currentWeather?.feels_like | number: '1.0-0' }}°&nbsp;
+          <span class="tiret">—</span>
+          <span class="description">&nbsp;{{ currentWeather?.weather[0].description }}</span>
+        </div>
+      }
     </div>
   </div>
 
@@ -35,17 +49,21 @@
     <div class="next-hours">
       <canvas id="next-hours" #canvHeight></canvas>
       <ng-container *ngTemplateOutlet="loading ? isLoadingChart : null; context: { canvHeight: canvHeight?.style.height }"></ng-container>
-      <div *ngIf="!loading" class="next-more-info">
-        <ng-container *ngFor="let hourly of hourlyWeather; index as i">
-          <div *ngIf="i < dataNumbersInChart" class="next-content">
-            <img ngSrc="assets/img/meteoOWM/{{ hourly.weather[0].icon }}@2x.png" [alt]="hourly.weather[0].description" height="45" width="45" />
-            <div class="rain">
-              <span class="icon icon-drop"></span>
-              <div class="percent">{{ hourly.pop ? (hourly.pop | percent: '1.0-0') : '0%' }}</div>
-            </div>
-          </div>
-        </ng-container>
-      </div>
+      @if (!loading) {
+        <div class="next-more-info">
+          @for (hourly of hourlyWeather; track hourly.dt; let i = $index) {
+            @if (i < dataNumbersInChart) {
+              <div class="next-content">
+                <img ngSrc="assets/img/meteoOWM/{{ hourly.weather[0].icon }}@2x.png" [alt]="hourly.weather[0].description" height="45" width="45" />
+                <div class="rain">
+                  <span class="icon icon-drop"></span>
+                  <div class="percent">{{ hourly.pop ? (hourly.pop | percent: '1.0-0') : '0%' }}</div>
+                </div>
+              </div>
+            }
+          }
+        </div>
+      }
     </div>
   </div>
 
@@ -57,22 +75,26 @@
     </div>
     <div class="sub"></div>
     <ng-container *ngTemplateOutlet="loading ? isLoadingChart : null; context: { height: true }"></ng-container>
-    <div *ngIf="!loading" class="previsions">
-      <div class="next-days" *ngFor="let day of days; let i = index">
-        <span class="day" [innerHTML]="splitDate(day.date)"></span>
-        <div class="rain">
-          <span class="icon icon-drop"></span>
-          <div class="percent">{{ day.pop ? (day.pop | percent: '1.0-0') : '0%' }}</div>
-        </div>
-        <span class="iconn">
-          <img ngSrc="assets/img/meteoOWM/{{ day.weather[0].icon }}@2x.png" [alt]="day.weather[0].description" [width]="45" [height]="45" />
-        </span>
-        <div class="temps">
-          <span class="temp-max">{{ day.temp.max | number: '1.0-0' }}°</span>
-          <span class="temp-min">{{ day.temp.min | number: '1.0-0' }}°</span>
-        </div>
+    @if (!loading) {
+      <div class="previsions">
+        @for (day of days; track day.date) {
+          <div class="next-days">
+            <span class="day" [innerHTML]="splitDate(day.date)"></span>
+            <div class="rain">
+              <span class="icon icon-drop"></span>
+              <div class="percent">{{ day.pop ? (day.pop | percent: '1.0-0') : '0%' }}</div>
+            </div>
+            <span class="iconn">
+              <img ngSrc="assets/img/meteoOWM/{{ day.weather[0].icon }}@2x.png" [alt]="day.weather[0].description" [width]="45" [height]="45" />
+            </span>
+            <div class="temps">
+              <span class="temp-max">{{ day.temp.max | number: '1.0-0' }}°</span>
+              <span class="temp-min">{{ day.temp.min | number: '1.0-0' }}°</span>
+            </div>
+          </div>
+        }
       </div>
-    </div>
+    }
   </div>
 
   <div class="card-container">
@@ -83,13 +105,17 @@
     </div>
     <div class="sub"></div>
     <ng-container *ngTemplateOutlet="loading ? isLoadingChart : null; context: { height: true }"></ng-container>
-    <div *ngIf="!loading" class="cloudy-rate">
-      <div *ngFor="let c of cloudy" class="cloudy">
-        <div class="time">{{ c.time }}</div>
-        <div class="bar" [style.width]="(c.percent * 67) / 100 + 'vw'"></div>
-        <div class="percent">{{ c.percent }}%</div>
+    @if (!loading) {
+      <div class="cloudy-rate">
+        @for (c of cloudy; track c.time) {
+          <div class="cloudy">
+            <div class="time">{{ c.time }}</div>
+            <div class="bar" [style.width]="(c.percent * 67) / 100 + 'vw'"></div>
+            <div class="percent">{{ c.percent }}%</div>
+          </div>
+        }
       </div>
-    </div>
+    }
   </div>
 
   <div class="card-container">
@@ -103,10 +129,15 @@
           <span class="icon icon-sunrise"></span>
         </div>
         <div class="label">{{ 'tab1.weather.details.data.sunrise' | translate }}</div>
-        <div *ngIf="!loading" class="value">
-          <ng-container *ngIf="sunrise === sunset; else notPolarDays">{{ 'tab1.weather.details.data.polar.' + sunrise | translate }}</ng-container>
-          <ng-template #notPolarDays>{{ sunrise ?? 0 }}</ng-template>
-        </div>
+        @if (!loading) {
+          <div class="value">
+            @if (sunrise === sunset) {
+              {{ 'tab1.weather.details.data.polar.' + sunrise | translate }}
+            } @else {
+              {{ sunrise ?? 0 }}
+            }
+          </div>
+        }
         <ng-container *ngTemplateOutlet="loading ? isLoadingNumber : null; context: { index: 2.4 }"></ng-container>
       </div>
       <div class="sun">
@@ -114,10 +145,15 @@
           <span class="icon icon-sunset"></span>
         </div>
         <div class="label">{{ 'tab1.weather.details.data.sunset' | translate }}</div>
-        <div *ngIf="!loading" class="value">
-          <ng-container *ngIf="sunrise === sunset; else notPolarDays">{{ 'tab1.weather.details.data.polar.' + sunset | translate }}</ng-container>
-          <ng-template #notPolarDays>{{ sunset ?? 0 }}</ng-template>
-        </div>
+        @if (!loading) {
+          <div class="value">
+            @if (sunrise === sunset) {
+              {{ 'tab1.weather.details.data.polar.' + sunset | translate }}
+            } @else {
+              {{ sunset ?? 0 }}
+            }
+          </div>
+        }
         <ng-container *ngTemplateOutlet="loading ? isLoadingNumber : null; context: { index: 2.55 }"></ng-container>
       </div>
     </div>
@@ -127,8 +163,12 @@
           <span class="icon icon-wind-cloud"></span>
         </div>
         <div class="label">{{ 'tab1.weather.details.data.windspeed' | translate }}</div>
-        <div *ngIf="measure === measureUnits.METRIC && !loading" class="value">{{ currentWeather?.wind_speed * 3.2 | number: '1.0-0' }} km/h</div>
-        <div *ngIf="measure === measureUnits.IMPERIAL && !loading" class="value">{{ currentWeather?.wind_speed | number: '1.0-0' }} mph</div>
+        @if (measure === measureUnits.METRIC && !loading) {
+          <div class="value">{{ currentWeather?.wind_speed * 3.2 | number: '1.0-0' }} km/h</div>
+        }
+        @if (measure === measureUnits.IMPERIAL && !loading) {
+          <div class="value">{{ currentWeather?.wind_speed | number: '1.0-0' }} mph</div>
+        }
         <ng-container *ngTemplateOutlet="loading ? isLoadingNumber : null; context: { index: 2.4 }"></ng-container>
       </div>
       <div class="feels-like">
@@ -136,7 +176,9 @@
           <span class="icon icon-vent-rose"></span>
         </div>
         <div class="label">{{ 'tab1.weather.details.data.winddeg' | translate }}</div>
-        <div *ngIf="!loading" class="value">{{ currentWeather?.wind_deg | calculateWindDeg: locale }} ({{ currentWeather?.wind_deg }}°)</div>
+        @if (!loading) {
+          <div class="value">{{ currentWeather?.wind_deg | calculateWindDeg: locale }} ({{ currentWeather?.wind_deg }}°)</div>
+        }
         <ng-container *ngTemplateOutlet="loading ? isLoadingNumber : null; context: { index: 2.55 }"></ng-container>
       </div>
     </div>
@@ -146,7 +188,9 @@
           <span class="icon icon-uv-index"></span>
         </div>
         <div class="label">{{ 'tab1.weather.details.data.uvindex' | translate }}</div>
-        <div *ngIf="!loading" class="value">{{ currentWeather?.uvi | calculateUv: locale }} ({{ currentWeather?.uvi | number: '1.0-0' }})</div>
+        @if (!loading) {
+          <div class="value">{{ currentWeather?.uvi | calculateUv: locale }} ({{ currentWeather?.uvi | number: '1.0-0' }})</div>
+        }
         <ng-container *ngTemplateOutlet="loading ? isLoadingNumber : null; context: { index: 2.4 }"></ng-container>
       </div>
       <div class="feels-like">
@@ -154,7 +198,9 @@
           <span class="icon icon-humidity"></span>
         </div>
         <div class="label">{{ 'tab1.weather.details.data.humidity' | translate }}</div>
-        <div *ngIf="!loading" class="value">{{ currentWeather?.humidity }} %</div>
+        @if (!loading) {
+          <div class="value">{{ currentWeather?.humidity }} %</div>
+        }
         <ng-container *ngTemplateOutlet="loading ? isLoadingNumber : null; context: { index: 2.55 }"></ng-container>
       </div>
     </div>

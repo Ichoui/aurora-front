@@ -2,23 +2,24 @@
   <!-- trick complètement éclaté car lotties ne fonctionnent pas dans ion-tab-bar -->
   <div class="trick-tab-bar">
     <div #left class="tabs tab1">
-      <ng-lottie
-        *ngIf="lottieConfigWeather"
-        [options]="lottieConfigWeather"
-        [width]="100+'%'"
-        [height]="70+'px'"
-        [routerLink]="['', 'tabs','tab1']"></ng-lottie>
-      <div class="currentview" *ngIf="activeRoute === 1"></div>
+      @if (lottieConfigWeather) {
+      <ng-lottie [options]="lottieConfigWeather" [width]="100 + '%'" [height]="70 + 'px'" [routerLink]="['', 'tabs', 'tab1']"></ng-lottie>
+      } @if (activeRoute === 1) {
+      <div class="currentview"></div>
+      }
     </div>
     <div #right class="tabs tab3">
+      @if (lottieConfigSettings) {
       <ng-lottie
-        *ngIf="lottieConfigSettings"
         width="100%"
         height="50px"
         (animationCreated)="animationCreated($event)"
         [options]="lottieConfigSettings"
-        [routerLink]="['', 'tabs','tab3']"></ng-lottie>
-      <div class="currentview" *ngIf="activeRoute === 3"></div>
+        [routerLink]="['', 'tabs', 'tab3']"
+      ></ng-lottie>
+      } @if (activeRoute === 3) {
+      <div class="currentview"></div>
+      }
     </div>
   </div>
   <ion-tab-bar slot="bottom">

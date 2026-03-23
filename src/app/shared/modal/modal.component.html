@@ -6,81 +6,93 @@
       </ion-button>
     </ion-buttons>
     <ion-title>
-      <span *ngIf="cgu">{{ 'cgu.title' | translate }}</span>
-      <span *ngIf="ovation">{{ 'tab2.forecast.poles' | translate }}</span>
+      @if (cgu) {
+        <span>{{ 'cgu.title' | translate }}</span>
+      }
+      @if (ovation) {
+        <span>{{ 'tab2.forecast.poles' | translate }}</span>
+      }
     </ion-title>
   </ion-toolbar>
 
-  <div *ngIf="ovation && loader && tabNorth.length > 0" class="container-map">
-    <div class="subtitle explanations">
-      <span>
-        <ion-icon id="ovations" name="information-circle" class="icon"></ion-icon>
-        <ion-popover trigger="ovations" triggerAction="click" alignment="center" [isOpen]="">
-          <ng-template>
-            <div [innerHTML]="'tab2.forecast.poles.explanations.info' | translate"></div>
-          </ng-template>
-        </ion-popover>
-        {{ 'tab2.forecast.poles.explanations' | translate }}
-      </span>
+  @if (ovation && loader && tabNorth.length > 0) {
+    <div class="container-map">
+      <div class="subtitle explanations">
+        <span>
+          <ion-icon id="ovations" name="information-circle" class="icon"></ion-icon>
+          <ion-popover trigger="ovations" triggerAction="click" alignment="center" [isOpen]="">
+            <ng-template>
+              <div [innerHTML]="'tab2.forecast.poles.explanations.info' | translate"></div>
+            </ng-template>
+          </ion-popover>
+          {{ 'tab2.forecast.poles.explanations' | translate }}
+        </span>
+      </div>
+      <div class="subtitle">{{ 'tab2.forecast.pole.north' | translate }}</div>
+      <ion-img [src]="tabNorth[indexNorth]?.url"></ion-img>
+      <div class="datetime">
+        <span>{{ tabNorth[indexNorth]?.time_tag | momentDate: this.locale }}</span>
+        {{ tabNorth[indexNorth]?.time_tag | momentHour: tabNorth[indexNorth]?.speed : measureUnit : hourClock }}
+      </div>
+      <ion-range
+        color="primary"
+        aria-label="North Hour"
+        [min]="0"
+        [max]="tabNorth.length - 1"
+        (ionChange)="valuePolesChange($event, pole.NORTH)"
+      ></ion-range>
     </div>
-    <div class="subtitle">{{ 'tab2.forecast.pole.north' | translate }}</div>
-    <ion-img [src]="tabNorth[indexNorth]?.url"></ion-img>
-    <div class="datetime">
-      <span>{{ tabNorth[indexNorth]?.time_tag | momentDate: this.locale }}</span>
-      {{ tabNorth[indexNorth]?.time_tag | momentHour: tabNorth[indexNorth]?.speed:measureUnit:hourClock }}
+  }
+  @if (ovation && loader && tabSouth.length > 0) {
+    <div class="container-map">
+      <div class="subtitle">{{ 'tab2.forecast.pole.south' | translate }}</div>
+      <ion-img [src]="tabSouth[indexSouth]?.url"></ion-img>
+      <div class="datetime">
+        <span>{{ tabSouth[indexSouth]?.time_tag | momentDate: this.locale }}</span>
+        {{ tabSouth[indexSouth]?.time_tag | momentHour: tabSouth[indexSouth]?.speed : measureUnit : hourClock }}
+      </div>
+      <ion-range
+        color="primary"
+        aria-label="South Hour"
+        [min]="0"
+        [max]="tabSouth.length - 1"
+        (ionChange)="valuePolesChange($event, pole.SOUTH)"
+      ></ion-range>
     </div>
-    <ion-range
-      color="primary"
-      aria-label="North Hour"
-      [min]="0"
-      [max]="tabNorth.length - 1"
-      (ionChange)="valuePolesChange($event, pole.NORTH)"
-    ></ion-range>
-  </div>
-  <div *ngIf="ovation && loader && tabSouth.length > 0" class="container-map">
-    <div class="subtitle">{{ 'tab2.forecast.pole.south' | translate }}</div>
-    <ion-img [src]="tabSouth[indexSouth]?.url"></ion-img>
-    <div class="datetime">
-      <span>{{ tabSouth[indexSouth]?.time_tag | momentDate: this.locale }}</span>
-      {{ tabSouth[indexSouth]?.time_tag | momentHour: tabSouth[indexSouth]?.speed:measureUnit:hourClock }}
-    </div>
-    <ion-range
-      color="primary"
-      aria-label="South Hour"
-      [min]="0"
-      [max]="tabSouth.length - 1"
-      (ionChange)="valuePolesChange($event, pole.SOUTH)"
-    ></ion-range>
-  </div>
+  }
 
-  <div *ngIf="ovation && !loader" class="content-spinner">
-    <div class="whirly-loader"></div>
-  </div>
+  @if (ovation && !loader) {
+    <div class="content-spinner">
+      <div class="whirly-loader"></div>
+    </div>
+  }
 
-  <div *ngIf="cgu" id="cgu">
-    <div class="cgu-block">
-      <div [innerHTML]="'cgu.art1.title' | translate" class="art-title"></div>
-      <div [innerHTML]="'cgu.art1.text' | translate" class="art-msg"></div>
+  @if (cgu) {
+    <div id="cgu">
+      <div class="cgu-block">
+        <div [innerHTML]="'cgu.art1.title' | translate" class="art-title"></div>
+        <div [innerHTML]="'cgu.art1.text' | translate" class="art-msg"></div>
+      </div>
+      <div class="cgu-block">
+        <div [innerHTML]="'cgu.art2.title' | translate" class="art-title"></div>
+        <div [innerHTML]="'cgu.art2.text' | translate" class="art-msg"></div>
+      </div>
+      <div class="cgu-block">
+        <div [innerHTML]="'cgu.art3.title' | translate" class="art-title"></div>
+        <div [innerHTML]="'cgu.art3.text' | translate" class="art-msg"></div>
+      </div>
+      <div class="cgu-block">
+        <div [innerHTML]="'cgu.art4.title' | translate" class="art-title"></div>
+        <div [innerHTML]="'cgu.art4.text' | translate" class="art-msg"></div>
+      </div>
+      <div class="cgu-block">
+        <div [innerHTML]="'cgu.art5.title' | translate" class="art-title"></div>
+        <div [innerHTML]="'cgu.art5.text' | translate" class="art-msg"></div>
+      </div>
+      <div class="cgu-block">
+        <div [innerHTML]="'cgu.art6.title' | translate" class="art-title"></div>
+        <div [innerHTML]="'cgu.art6.text' | translate" class="art-msg"></div>
+      </div>
     </div>
-    <div class="cgu-block">
-      <div [innerHTML]="'cgu.art2.title' | translate" class="art-title"></div>
-      <div [innerHTML]="'cgu.art2.text' | translate" class="art-msg"></div>
-    </div>
-    <div class="cgu-block">
-      <div [innerHTML]="'cgu.art3.title' | translate" class="art-title"></div>
-      <div [innerHTML]="'cgu.art3.text' | translate" class="art-msg"></div>
-    </div>
-    <div class="cgu-block">
-      <div [innerHTML]="'cgu.art4.title' | translate" class="art-title"></div>
-      <div [innerHTML]="'cgu.art4.text' | translate" class="art-msg"></div>
-    </div>
-    <div class="cgu-block">
-      <div [innerHTML]="'cgu.art5.title' | translate" class="art-title"></div>
-      <div [innerHTML]="'cgu.art5.text' | translate" class="art-msg"></div>
-    </div>
-    <div class="cgu-block">
-      <div [innerHTML]="'cgu.art6.title' | translate" class="art-title"></div>
-      <div [innerHTML]="'cgu.art6.text' | translate" class="art-msg"></div>
-    </div>
-  </div>
+  }
 </ion-content>

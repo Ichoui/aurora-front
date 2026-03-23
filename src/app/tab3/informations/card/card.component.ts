@@ -1,14 +1,13 @@
 import { Component, Input } from '@angular/core';
 import { IonCard, IonCardContent, IonCardHeader, IonIcon } from '@ionic/angular/standalone';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgForOf, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
   styleUrls: ['../informations.page.scss'],
   standalone: true,
-  imports: [IonCardHeader, IonCard, IonIcon, TranslateModule, IonCardContent, NgForOf, NgIf],
+  imports: [IonCardHeader, IonCard, IonIcon, TranslateModule, IonCardContent],
 })
 export class CardComponent {
   @Input() visibility: { index: number; tabOpen: number[] };

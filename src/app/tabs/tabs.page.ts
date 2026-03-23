@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
-import { CommonModule, NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { LottieComponent } from 'ngx-lottie';
@@ -23,7 +23,7 @@ export type AnimationItem = {
   standalone: true,
   templateUrl: 'tabs.page.html',
   styleUrls: ['tabs.page.scss'],
-  imports: [IonicModule, CommonModule, TranslateModule, RouterLink, NgIf, LottieComponent, FormsModule],
+  imports: [IonicModule, CommonModule, TranslateModule, RouterLink, LottieComponent, FormsModule],
 })
 export class TabsPage implements OnInit {
   @ViewChild('auroraLogo', { static: false }) auroraLogo;

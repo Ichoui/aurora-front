@@ -1,25 +1,39 @@
 <ion-card>
   <ion-card-header class="align-caret">
-    <ion-icon *ngIf="!isOpen()" name="caret-forward-outline"></ion-icon>
-    <ion-icon *ngIf="isOpen()" name="caret-down-outline"></ion-icon>
+    @if (!isOpen()) {
+      <ion-icon name="caret-forward-outline"></ion-icon>
+    }
+    @if (isOpen()) {
+      <ion-icon name="caret-down-outline"></ion-icon>
+    }
     <div style="width: 100%">
       {{ 'tab3.infos.' + block + '.' + value + '.title' | translate }}
     </div>
   </ion-card-header>
-  <ion-card-content *ngIf="isOpen()">
-    <div *ngIf="!annecdotes" [innerHTML]="'tab3.infos.' + block + '.' + value + '.message' | translate"></div>
-    <div *ngFor="let l of list" [class]="classList">
-      <span>{{ 'tab3.infos.' + block + '.' + value + '.' + l + '.list' | translate }}</span>
-      {{ 'tab3.infos.' + block + '.' + value + '.' + l + '.message' | translate }}
-    </div>
+  @if (isOpen()) {
+    <ion-card-content>
+      @if (!annecdotes) {
+        <div [innerHTML]="'tab3.infos.' + block + '.' + value + '.message' | translate"></div>
+      }
+      @for (l of list; track l) {
+        <div [class]="classList">
+          <span>{{ 'tab3.infos.' + block + '.' + value + '.' + l + '.list' | translate }}</span>
+          {{ 'tab3.infos.' + block + '.' + value + '.' + l + '.message' | translate }}
+        </div>
+      }
 
-    <div *ngFor="let a of annecdotes" [class]="classList">
-      <span [innerHTML]="'tab3.infos.' + block + '.' + value + '.' + a | translate"></span>
-    </div>
+      @for (a of annecdotes; track a) {
+        <div [class]="classList">
+          <span [innerHTML]="'tab3.infos.' + block + '.' + value + '.' + a | translate"></span>
+        </div>
+      }
 
-    <div *ngIf="!!extra">
-      <br />
-      {{ 'tab3.infos.' + block + '.' + value + '.' + extra | translate }}
-    </div>
-  </ion-card-content>
+      @if (!!extra) {
+        <div>
+          <br />
+          {{ 'tab3.infos.' + block + '.' + value + '.' + extra | translate }}
+        </div>
+      }
+    </ion-card-content>
+  }
 </ion-card>

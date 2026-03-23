@@ -10,7 +10,6 @@ import { App } from '@capacitor/app';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { IonButton, IonContent, IonFab, IonFabButton, IonFabList, IonIcon, IonItem, IonSelect, IonSelectOption } from '@ionic/angular/standalone';
 import { RouterLink } from '@angular/router';
-import { NgForOf, NgIf } from '@angular/common';
 
 interface About {
   label: string;
@@ -32,13 +31,11 @@ interface About {
     IonItem,
     IonSelect,
     IonSelectOption,
-    NgForOf,
     IonButton,
     IonFab,
     IonFabButton,
     IonIcon,
     IonFabList,
-    NgIf,
   ],
 })
 export class SettingsPage implements OnViewWillEnter {

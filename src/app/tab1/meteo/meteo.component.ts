@@ -26,7 +26,7 @@ import { ELocales } from '../../models/locales';
 import { MAIN_TEXT_COLOR, WEATHER_NEXT_HOUR_CHART_COLOR } from '../../models/colors';
 import { convertUnitTemperature, manageDates } from '../../models/utils';
 import { CityCoords } from '../../models/cities';
-import { DecimalPipe, NgForOf, NgIf, NgOptimizedImage, NgTemplateOutlet, PercentPipe } from '@angular/common';
+import { DecimalPipe, NgOptimizedImage, NgTemplateOutlet, PercentPipe } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { CalculateWindDegPipe } from './calculate-wind-deg.pipe';
 import { PlaceholderDataComponent } from '../../shared/placeholders/placeholder-data/placeholder-data.component';
@@ -50,9 +50,7 @@ Chart.register(...registerables);
     PlaceholderDataComponent,
     PlaceholderChartsComponent,
     CalculateUvPipe,
-    NgIf,
     PercentPipe,
-    NgForOf,
     NgOptimizedImage,
     LottieComponent,
   ],

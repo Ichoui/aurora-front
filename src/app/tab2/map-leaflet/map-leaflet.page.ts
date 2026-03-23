@@ -14,7 +14,6 @@ import { City, CityCoords } from '../../models/cities';
 import { IonIcon, IonItem, IonLabel, IonList, IonPopover, IonSearchbar } from '@ionic/angular/standalone';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { RouterLink } from '@angular/router';
-import { NgForOf, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-map-leaflet',

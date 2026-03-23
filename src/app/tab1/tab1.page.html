@@ -13,7 +13,9 @@
       </span>
     </span>
     <span class="country">{{ country }}</span>
-    <span *ngIf="!city && !country" class="country">{{ 'global.unknown' | translate }}</span>
+    @if (!city && !country) {
+    <span class="country">{{ 'global.unknown' | translate }}</span>
+    }
   </h2>
 
   <app-meteo

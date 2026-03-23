@@ -5,7 +5,6 @@ import { Subject } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { IonCard, IonCardContent, IonCardHeader, IonContent, ViewWillEnter, ViewWillLeave } from '@ionic/angular/standalone';
-import { NgForOf, NgIf } from '@angular/common';
 import { CardComponent } from './card/card.component';
 
 interface InfoBlocks {
@@ -22,7 +21,7 @@ interface InfoBlocks {
   selector: 'app-informations',
   templateUrl: './informations.page.html',
   styleUrls: ['./informations.page.scss'],
-  imports: [TranslateModule, HeaderComponent, IonContent, RouterLink, IonCard, IonCardHeader, IonCardContent, NgIf, CardComponent, NgForOf],
+  imports: [TranslateModule, HeaderComponent, IonContent, RouterLink, IonCard, IonCardHeader, IonCardContent, CardComponent],
   standalone: true,
 })
 export class InformationsPage implements ViewWillEnter, ViewWillLeave {

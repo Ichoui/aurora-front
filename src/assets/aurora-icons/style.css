@@ -1,8 +1,11 @@
 @font-face {
   font-family: 'aurora-icons';
   src: url('fonts/aurora-icons.eot?aeqnv6');
-  src: url('fonts/aurora-icons.eot?aeqnv6#iefix') format('embedded-opentype'), url('fonts/aurora-icons.ttf?aeqnv6') format('truetype'),
-    url('fonts/aurora-icons.woff?aeqnv6') format('woff'), url('fonts/aurora-icons.svg?aeqnv6#aurora-icons') format('svg');
+  src:
+    url('fonts/aurora-icons.eot?aeqnv6#iefix') format('embedded-opentype'),
+    url('fonts/aurora-icons.ttf?aeqnv6') format('truetype'),
+    url('fonts/aurora-icons.woff?aeqnv6') format('woff'),
+    url('fonts/aurora-icons.svg?aeqnv6#aurora-icons') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
