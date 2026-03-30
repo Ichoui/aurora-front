@@ -9,7 +9,7 @@ import { countryNameFromCode, roundTwoNumbers } from '../models/utils';
 import { combineLatest, from, Subject } from 'rxjs';
 import { OnViewWillEnter } from '../models/ionic';
 import { ELocales } from '../models/locales';
-import * as moment from 'moment';
+import moment from 'moment';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ToastComponent, ToastError } from '../shared/toast/toast.component';
 import { CityCoords } from '../models/cities';
@@ -61,7 +61,6 @@ export class Tab1Page implements ViewWillEnter, OnDestroy {
 
   ionViewWillEnter(): void {
     this.loading = true; // buffer constant
-    console.log('ionViewWillEnter Tab1Page');
     // Cheminement en fonction si la localisation est pré-set ou si géoloc
     combineLatest([
       from(this._storageService.getData('location')),
@@ -90,9 +89,7 @@ export class Tab1Page implements ViewWillEnter, OnDestroy {
             this.hourClock = clock;
 
             // Ceci pour éviter de call l'API trop souvent
-            console.log('cc');
             if (this._shouldRecallWeatherAPI(weather, coords, previousLocation)) {
-              console.log('cc');
               this._reverseGeoloc(coords.lat, coords.long);
             } else {
               this.dataCurrentWeather = weather.dataCurrentWeather;
