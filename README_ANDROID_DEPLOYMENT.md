@@ -11,6 +11,7 @@
 `npm run android:update-files` : Update native dependecies, Install capacitor and/or cordova plugins<br>
 `npm run android:copy-files` : Copy web assets <br>
 Note : les permissions manifest et les versions (versionCode/versionName) sont gérées directement dans le projet Android.<br>
+Backup des customisations natives : voir [README_ANDROID_CUSTOMIZATIONS.md](README_ANDROID_CUSTOMIZATIONS.md).<br>
 
 ---
 
@@ -21,6 +22,7 @@ Note : les permissions manifest et les versions (versionCode/versionName) sont g
 `npm run android:update-files` : Update native dependecies, Install capacitor and/or cordova plugins<br>
 `npm run android:copy-files` : Copy web assets <br>
 Note : les permissions manifest et les versions (versionCode/versionName) sont gérées directement dans le projet Android.<br>
+Backup des customisations natives : voir [README_ANDROID_CUSTOMIZATIONS.md](README_ANDROID_CUSTOMIZATIONS.md).<br>
 
 # Build Splashscreen et Logos
 
