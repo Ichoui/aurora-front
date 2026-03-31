@@ -27,3 +27,115 @@
 @use 'leaflet/dist/leaflet.css';
 
 @use 'theme/variables.scss';
+
+/* ======================== */
+/* Aurora Background Effect */
+/* ======================== */
+
+ion-content::part(background) {
+  background-color: var(--bg-dark);
+  background-image:
+    radial-gradient(45rem 32rem at 12% 8%, rgba(105, 191, 175, 0.18), transparent 65%),
+    radial-gradient(42rem 38rem at 88% 18%, rgba(140, 255, 234, 0.12), transparent 62%),
+    radial-gradient(46rem 46rem at 70% 78%, rgba(88, 133, 255, 0.14), transparent 66%),
+    radial-gradient(60rem 60rem at 40% 55%, rgba(255, 255, 255, 0.03), transparent 70%),
+    linear-gradient(180deg, #06142e 0%, #001e49 55%, #001a3f 100%);
+  background-repeat: no-repeat;
+  background-blend-mode: screen, screen, screen, screen, normal;
+  animation: aurora-drift 28s ease-in-out infinite;
+}
+
+app-tab2 ion-content::part(background) {
+  background-color: var(--ion-background-color);
+  background-image: none;
+  animation: none;
+}
+
+@keyframes aurora-drift {
+  0% {
+    background-position:
+      8% 6%,
+      92% 18%,
+      72% 78%,
+      40% 55%,
+      center;
+  }
+  50% {
+    background-position:
+      14% 12%,
+      80% 10%,
+      62% 70%,
+      46% 48%,
+      center;
+  }
+  100% {
+    background-position:
+      8% 6%,
+      92% 18%,
+      72% 78%,
+      40% 55%,
+      center;
+  }
+}
+
+/* ======================== */
+/* Glass Effect             */
+/* ======================== */
+
+.glass {
+  background: rgba(4, 18, 45, 0.8);
+  backdrop-filter: blur(14px) saturate(120%);
+  -webkit-backdrop-filter: blur(14px) saturate(120%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* ======================== */
+/* Ping animation           */
+/* ======================== */
+
+.ping-dot {
+  position: relative;
+  display: inline-flex;
+  width: 8px;
+  height: 8px;
+}
+
+.ping-dot::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: var(--primary);
+  opacity: 0.75;
+  animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.ping-dot::after {
+  content: '';
+  position: relative;
+  display: inline-flex;
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background: var(--primary);
+}
+
+@keyframes ping {
+  75%,
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ion-content::part(background) {
+    animation: none;
+  }
+  .ping-dot::before {
+    animation: none;
+  }
+}

@@ -87,6 +87,12 @@
   --ion-color-orange: #fcb941;
   --ion-color-red: #fc6042;
   --ion-color-purple: #8262c3;
+
+  /* App theme tokens (aurora/glass) */
+  --primary: var(--ion-color-primary);
+  --secondary: var(--ion-color-secondary);
+  --bg-dark: var(--ion-background-color);
+  --bg-light: #f5f8f7;
   /* fonts */
   --ion-font-extralight: 'Oswald-ExtraLight';
   --ion-font-light: 'Oswald-Light';

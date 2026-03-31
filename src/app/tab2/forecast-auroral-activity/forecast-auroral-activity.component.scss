@@ -1,6 +1,63 @@
 @use '../../../theme/shared';
 
+.container {
+  position: relative;
+}
+
+.forecast-aurora {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.forecast-aurora .aurora-element {
+  position: absolute;
+  width: 55vw;
+  height: 55vh;
+  filter: blur(75px);
+  opacity: 0.22;
+  mix-blend-mode: screen;
+  animation: float 24s infinite alternate ease-in-out;
+}
+
+.forecast-aurora .blob-1 {
+  background: radial-gradient(circle, var(--primary) 0%, transparent 90%);
+  top: -10%;
+  left: -10%;
+}
+
+.forecast-aurora .blob-2 {
+  background: radial-gradient(circle, var(--secondary) 0%, transparent 90%);
+  bottom: 20%;
+  right: -5%;
+  animation-delay: -7s;
+  animation-duration: 28s;
+}
+
+.forecast-aurora .blob-3 {
+  background: radial-gradient(circle, rgba(88, 133, 255, 0.9) 0%, transparent 90%);
+  top: 30%;
+  right: 20%;
+  animation-delay: -14s;
+  animation-duration: 32s;
+}
+
+@keyframes float {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(10%, 5%) scale(1.1);
+  }
+  100% {
+    transform: translate(-5%, 10%) scale(0.9);
+  }
+}
+
 .card-container {
+  z-index: 1;
   .data-not-displayed {
     font-style: italic;
   }
@@ -18,5 +75,11 @@
 
   .poles {
     text-align: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .forecast-aurora .aurora-element {
+    animation: none;
   }
 }

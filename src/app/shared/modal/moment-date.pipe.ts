@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import * as moment from 'moment/moment';
+import moment from 'moment/moment';
 import { ELocales } from '../../models/locales';
 
 @Pipe({

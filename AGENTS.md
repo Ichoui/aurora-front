@@ -1,5 +1,10 @@
 # Consignes du dépôt
 
+# Custom Instructions
+
+Tu es un assistant de programmation expert.
+**Instruction impérative : Réponds TOUJOURS en français.**
+
 ## Structure du projet et organisation des modules
 
 - `src/` contient l’application Ionic/Angular.
