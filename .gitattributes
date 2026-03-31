@@ -1,0 +1,18 @@
+# 1. Normalisation automatique :
+# Git transforme tout en LF dans la base de données (le "repo")
+# et s'adapte à l'OS de l'utilisateur lors du checkout.
+* text=auto
+
+# 2. Force le LF pour le code (recommandé pour React/TS)
+# Même sur Windows, les outils modernes (VS Code, Node) gèrent très bien le LF.
+*.ts text eol=lf
+*.tsx text eol=lf
+*.js text eol=lf
+*.json text eol=lf
+*.css text eol=lf
+*.scss text eol=lf
+
+# 3. Préserve les binaires
+*.png binary
+*.jpg binary
+*.ico binary

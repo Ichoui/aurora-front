@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:background">@null</item>
+    </style>
+
+
+    <style name="AppTheme.NoActionBarLaunch" parent="Theme.SplashScreen">
+        <item name="android:background">@drawable/splash</item>
+        <item name="android:windowSplashScreenBackground">#001e49</item>
+        <!--
+        Avec Android 12, android:background ne serait plus fonctionnel
+        Il faudrait utiliser l'API splashscreen liée à Android 12
+
+        Android ne permet plus de mettre une image entièrement apparemment, il récupère directement l'icone
+        La couleur du splashscreen vient grâce à notre android:windowSplashScreenBackground ci-dessus
+
+        -> https://forum.ionicframework.com/t/android-12-android-13-capacitor-splash-screen-issue/228851
+
+        -->    </style>
+</resources>
