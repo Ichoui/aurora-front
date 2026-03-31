@@ -39,10 +39,12 @@ Tu es un assistant de programmation expert.
 
 ## Commits & Pull Requests
 
-- L’historique git montre des messages courts et informels, sans convention stricte.
-- Garder des commits concis et descriptifs (impératif recommandé) et éviter de mélanger des changements non liés.
-- Pour les PR : inclure un résumé clair, lier les issues pertinentes, et ajouter des captures pour les changements UI.
-- Si les assets Android ou la config native changent, mentionner les commandes exécutées (ex. `npm run deploy`).
+- Je préfere que tu ne touches pas à GIT et que tu me laisses faire les commits et les PR, pour garder un historique propre et cohérent.
+
+[//]: # '- L’historique git montre des messages courts et informels, sans convention stricte.'
+[//]: # '- Garder des commits concis et descriptifs (impératif recommandé) et éviter de mélanger des changements non liés.'
+[//]: # '- Pour les PR : inclure un résumé clair, lier les issues pertinentes, et ajouter des captures pour les changements UI.'
+[//]: # '- Si les assets Android ou la config native changent, mentionner les commandes exécutées (ex. `npm run deploy`).'
 
 ## Sécurité & configuration
 
