@@ -1,11 +1,13 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import type { PipeTransform } from '@angular/core';
+import { Pipe } from '@angular/core';
 import { ELocales } from '../../models/locales';
 
 @Pipe({
   name: 'calculateWindDeg',
 })
 export class CalculateWindDegPipe implements PipeTransform {
-  transform(deg: number, locale: ELocales): string {
+  transform(deg: number | null | undefined, locale: ELocales): string {
+    if (deg == null) return '';
     /**
      http://www.toujourspret.com/techniques/orientation/topographie/rose_vents1.gif
      */
@@ -26,5 +28,6 @@ export class CalculateWindDegPipe implements PipeTransform {
     } else if (deg >= 292.5 && deg < 337.5) {
       return locale === ELocales.FR ? 'NO' : 'NW';
     }
+    return '';
   }
 }

@@ -1,5 +1,7 @@
 # ANDROID
 
+Prérequis : `nvm use`, dépendances installées avec `npm install`, JDK 21 et SDK Android 36. Voir [README_DEPENDENCIES.md](README_DEPENDENCIES.md) pour les versions et vérifications de mise à niveau.
+
 # Shell Order
 
 ### FIRST TIME
@@ -16,6 +18,8 @@ Backup des customisations natives : voir [README_ANDROID_CUSTOMIZATIONS.md](READ
 ---
 
 ### IF ANDROID FOLDER EXISTS
+
+`npm run deploy` prépare le projet existant (build web, assets, styles et synchronisation Capacitor), sans recréer le dossier Android. Ne lancer `android:create` qu’à la création initiale du projet natif.
 
 `npm run android:build:prod` : Build in prod mode<br>
 `npm run android:sync-styles` : copy [styles.xml](src/styles.xml) to `android/app/src/main/res/values/styles.xml`<br>

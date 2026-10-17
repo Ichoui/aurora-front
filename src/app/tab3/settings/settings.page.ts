@@ -1,15 +1,27 @@
-import { Component } from '@angular/core';
-import { ELocales, Locales, SelectContents } from '../../models/locales';
-import { ModalController, Platform } from '@ionic/angular';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { ModalComponent } from '../../shared/modal/modal.component';
-import { HourClock, hourClockSystem, MeasureUnits, measureUnits, temperatureUnits, TemperatureUnits } from '../../models/weather';
-import { StorageService } from '../../storage.service';
-import { OnViewWillEnter } from '../../models/ionic';
-import { App } from '@capacitor/app';
-import { HeaderComponent } from '../../shared/header/header.component';
-import { IonButton, IonContent, IonFab, IonFabButton, IonFabList, IonIcon, IonItem, IonSelect, IonSelectOption } from '@ionic/angular/standalone';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { App } from '@capacitor/app';
+import { Capacitor } from '@capacitor/core';
+import type { SelectCustomEvent, ViewWillEnter } from '@ionic/angular';
+import {
+  IonButton,
+  IonContent,
+  IonFab,
+  IonFabButton,
+  IonFabList,
+  IonIcon,
+  IonItem,
+  IonSelect,
+  IonSelectOption,
+  ModalController,
+} from '@ionic/angular';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import type { SelectContents } from '../../models/locales';
+import { ELocales, Locales } from '../../models/locales';
+import { HourClock, hourClockSystem, MeasureUnits, measureUnits, temperatureUnits, TemperatureUnits } from '../../models/weather';
+import { HeaderComponent } from '../../shared/header/header.component';
+import { ModalComponent } from '../../shared/modal/modal.component';
+import { StorageService } from '../../storage.service';
 
 interface About {
   label: string;
@@ -20,13 +32,13 @@ interface About {
 
 @Component({
   selector: 'app-settings',
-  standalone: true,
   templateUrl: './settings.page.html',
-  styleUrls: ['./settings.page.scss'],
+  styleUrl: './settings.page.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     HeaderComponent,
     IonContent,
-    TranslateModule,
+    TranslatePipe,
     RouterLink,
     IonItem,
     IonSelect,
@@ -38,20 +50,24 @@ interface About {
     IonFabList,
   ],
 })
-export class SettingsPage implements OnViewWillEnter {
-  locale = ELocales.FR;
+export class SettingsPage implements ViewWillEnter {
+  private readonly _storageService = inject(StorageService);
+  private readonly _modalController = inject(ModalController);
+  private readonly _translateService = inject(TranslateService);
+
+  readonly locale = signal(ELocales.FR);
   readonly locales: SelectContents[] = Locales;
 
-  measureUnits = MeasureUnits.METRIC;
+  readonly measureUnits = signal(MeasureUnits.METRIC);
   readonly measure: SelectContents[] = measureUnits;
 
-  temperatureUnits = TemperatureUnits.CELSIUS;
+  readonly temperatureUnits = signal(TemperatureUnits.CELSIUS);
   readonly temperature: SelectContents[] = temperatureUnits;
 
-  hourClock = HourClock.TWENTYFOUR;
+  readonly hourClock = signal(HourClock.TWENTYFOUR);
   readonly hourClockSystem: SelectContents[] = hourClockSystem;
 
-  versionApp: string = null;
+  readonly versionApp = signal<string | null>(null);
 
   readonly about: About[] = [
     {
@@ -76,25 +92,15 @@ export class SettingsPage implements OnViewWillEnter {
     },
   ];
 
-  constructor(
-    private _storageService: StorageService,
-    private _modalController: ModalController,
-    private _translateService: TranslateService,
-    private _platform: Platform,
-  ) {}
-
   /**
    * Invoqué à chaque retour sur la page
    * */
   async ionViewWillEnter(): Promise<void> {
-    this._getLocale();
-    this._getMeasureUnit();
-    this._getTemperatureUnit();
-    this._getClockHourSystem();
+    await Promise.all([this._getLocale(), this._getMeasureUnit(), this._getTemperatureUnit(), this._getClockHourSystem()]);
 
-    if (this._platform.is('hybrid')) {
-      const info = await App?.getInfo();
-      this.versionApp = info.version;
+    if (Capacitor.isNativePlatform()) {
+      const info = await App.getInfo();
+      this.versionApp.set(info.version);
     }
   }
 
@@ -111,53 +117,52 @@ export class SettingsPage implements OnViewWillEnter {
   /**
    * Sélection de la langue à utiliser et update du storage
    * */
-  setLocale(event): void {
-    this.locale = event.detail.value;
-    this._translateService.use(this.locale);
+  setLocale(event: SelectCustomEvent<ELocales>): void {
+    this.locale.set(event.detail.value);
+    this._translateService.use(this.locale());
     void this._storageService.setData('locale', event.detail.value);
   }
 
   /**
    * Sélection de l'unité Imperiale ou Métrique
    * */
-  setMeasureUnit(event): void {
-    this.measureUnits = event.detail.value;
+  setMeasureUnit(event: SelectCustomEvent<MeasureUnits>): void {
+    this.measureUnits.set(event.detail.value);
     void this._storageService.setData('measure', event.detail.value);
   }
 
   /**
    * Sélection de l'unité Celsius ou Farheneight
    * */
-  setTemperatureUnit(event): void {
-    this.temperatureUnits = event.detail.value;
+  setTemperatureUnit(event: SelectCustomEvent<TemperatureUnits>): void {
+    this.temperatureUnits.set(event.detail.value);
     void this._storageService.setData('temperature', event.detail.value);
   }
 
   /**
    * Sélection du format horaire
    * */
-  setHourClockSystem(event): void {
-    this.hourClock = event.detail.value;
+  setHourClockSystem(event: SelectCustomEvent<HourClock>): void {
+    this.hourClock.set(event.detail.value);
     void this._storageService.setData('clock', event.detail.value);
   }
 
-  private _getLocale(): void {
-    this._storageService.getData('locale').then((locale: ELocales) => {
-      this._translateService.use(locale);
-      this.locale = locale;
-    });
+  private async _getLocale(): Promise<void> {
+    const locale = (await this._storageService.getData('locale')) ?? ELocales.EN;
+    this._translateService.use(locale);
+    this.locale.set(locale);
   }
 
-  private _getMeasureUnit(): void {
-    this._storageService.getData('measure').then((measure: MeasureUnits) => (this.measureUnits = measure));
+  private async _getMeasureUnit(): Promise<void> {
+    this.measureUnits.set((await this._storageService.getData('measure')) ?? MeasureUnits.METRIC);
   }
 
-  private _getTemperatureUnit(): void {
-    this._storageService.getData('temperature').then((temp: TemperatureUnits) => (this.temperatureUnits = temp));
+  private async _getTemperatureUnit(): Promise<void> {
+    this.temperatureUnits.set((await this._storageService.getData('temperature')) ?? TemperatureUnits.CELSIUS);
   }
 
-  private _getClockHourSystem(): void {
-    this._storageService.getData('clock').then((clock: HourClock) => (this.hourClock = clock));
+  private async _getClockHourSystem(): Promise<void> {
+    this.hourClock.set((await this._storageService.getData('clock')) ?? HourClock.TWENTYFOUR);
   }
 
   /**

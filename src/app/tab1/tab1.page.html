@@ -1,15 +1,15 @@
-<app-header titre="{{ 'tab1.title' | translate }}"></app-header>
+<app-header titre="{{ 'tab1.title' | translate }}" />
 
 <ion-content fullscreen>
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" pullMin="160">
-    <ion-refresher-content refreshingSpinner="bubbles"></ion-refresher-content>
+    <ion-refresher-content refreshingSpinner="bubbles" />
   </ion-refresher>
 
   <h2 class="ion-text-center">
     <span class="city">
       <span>
-        <ion-icon name="pin"></ion-icon>
-        {{ city ?? '' }}
+        <ion-icon name="pin" />
+        {{ city }}
       </span>
     </span>
     <span class="country">{{ country }}</span>
@@ -29,7 +29,7 @@
     [tzOffset]="tzOffset"
     [locale]="locale"
     [hourClock]="hourClock"
-  ></app-meteo>
+  />
 
-  <app-toast [toastError]="dataToast"></app-toast>
+  <app-toast [toastError]="dataToast" />
 </ion-content>

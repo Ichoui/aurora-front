@@ -1,7 +1,7 @@
 @if (routeData.infos) {
-<app-header titre="{{ 'tab3.infos.title.about' | translate }}"></app-header>
+<app-header titre="{{ 'tab3.infos.title.about' | translate }}" />
 } @if (routeData.helpcenter) {
-<app-header titre="{{ 'tab3.infos.title.help' | translate }}"></app-header>
+<app-header titre="{{ 'tab3.infos.title.help' | translate }}" />
 }
 
 <ion-content>
@@ -12,7 +12,7 @@
   <ion-card class="welcome-card" (click)="visibility(0)">
     <ion-card-header>{{'tab3.infos.welcome.title' | translate }}</ion-card-header>
     @if (tabOpen.includes(0)) {
-    <ion-card-content style="display: block; text-align: justify" [innerHtml]="'tab3.infos.welcome.message' | translate"></ion-card-content>
+    <ion-card-content style="display: block; text-align: justify" [innerHtml]="'tab3.infos.welcome.message' | translate" />
     }
   </ion-card>
   <ion-card class="card-container">
@@ -29,33 +29,21 @@
       [list]="card?.list"
       [extra]="card?.extra"
       [annecdotes]="card?.annecdotes"
-    ></app-card>
+    />
     }
   </ion-card>
 
   <ion-card class="card-container">
     <ion-card-header class="header"><span>{{ 'tab3.infos.secondblock.header' | translate }}</span></ion-card-header>
     @for (card of secondblockCard; track card.id) {
-    <app-card
-      [id]="card.id"
-      (click)="visibility(card.id)"
-      [visibility]="{index: card.id, tabOpen}"
-      [block]="card.block"
-      [value]="card.value"
-    ></app-card>
+    <app-card [id]="card.id" (click)="visibility(card.id)" [visibility]="{index: card.id, tabOpen}" [block]="card.block" [value]="card.value" />
     }
   </ion-card>
   } @if (routeData.helpcenter) {
   <ion-card class="card-container">
     <ion-card-header class="header"><span>{{ 'tab3.infos.helpcenter.header' | translate }}</span></ion-card-header>
     @for (card of helpcenterCard; track card.id) {
-    <app-card
-      [id]="card.id"
-      (click)="visibility(card.id)"
-      [visibility]="{index: card.id, tabOpen}"
-      [block]="card.block"
-      [value]="card.value"
-    ></app-card>
+    <app-card [id]="card.id" (click)="visibility(card.id)" [visibility]="{index: card.id, tabOpen}" [block]="card.block" [value]="card.value" />
     }
   </ion-card>
   }

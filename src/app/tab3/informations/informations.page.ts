@@ -1,10 +1,12 @@
-import { ChangeDetectorRef, Component, HostBinding } from '@angular/core';
-import { ActivatedRoute, Data, RouterLink } from '@angular/router';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
-import { TranslateModule } from '@ngx-translate/core';
+import { DOCUMENT } from '@angular/common';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import type { Data } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import type { ViewWillEnter, ViewWillLeave } from '@ionic/angular';
+import { IonCard, IonCardContent, IonCardHeader, IonContent } from '@ionic/angular';
+import { TranslatePipe } from '@ngx-translate/core';
 import { HeaderComponent } from '../../shared/header/header.component';
-import { IonCard, IonCardContent, IonCardHeader, IonContent, ViewWillEnter, ViewWillLeave } from '@ionic/angular/standalone';
 import { CardComponent } from './card/card.component';
 
 interface InfoBlocks {
@@ -20,18 +22,23 @@ interface InfoBlocks {
 @Component({
   selector: 'app-informations',
   templateUrl: './informations.page.html',
-  styleUrls: ['./informations.page.scss'],
-  imports: [TranslateModule, HeaderComponent, IonContent, RouterLink, IonCard, IonCardHeader, IonCardContent, CardComponent],
-  standalone: true,
+  styleUrl: './informations.page.scss',
+  imports: [TranslatePipe, HeaderComponent, IonContent, RouterLink, IonCard, IonCardHeader, IonCardContent, CardComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { id: 'informations' },
 })
 export class InformationsPage implements ViewWillEnter, ViewWillLeave {
-  @HostBinding('attr.id') id: string = 'informations';
+  private readonly _route = inject(ActivatedRoute);
+  private readonly _cdr = inject(ChangeDetectorRef);
+
+  private readonly _document = inject(DOCUMENT);
+  private _scrollTimer?: ReturnType<typeof setTimeout>;
 
   tabOpen: number[] = [0];
-  routeData: Data;
+  routeData: Data = {};
 
-  cardId: string;
-  private readonly _destroy$ = new Subject<void>();
+  cardId = '';
+  private readonly _destroyRef = inject(DestroyRef);
 
   firstblockCard: InfoBlocks[] = [
     { id: 1, block: 'firstblock', value: 'perception' },
@@ -66,40 +73,41 @@ export class InformationsPage implements ViewWillEnter, ViewWillLeave {
     { id: 17, block: 'helpcenter', value: 'suggest' },
   ];
 
-  constructor(
-    private _route: ActivatedRoute,
-    private _cdr: ChangeDetectorRef,
-  ) {
-    this._route.data.pipe(takeUntil(this._destroy$)).subscribe((v: Data) => (this.routeData = v));
+  constructor() {
+    this._route.data.pipe(takeUntilDestroyed(this._destroyRef)).subscribe((v: Data) => {
+      this.routeData = v;
+      this._cdr.markForCheck();
+    });
+    this._destroyRef.onDestroy(() => {
+      if (this._scrollTimer) clearTimeout(this._scrollTimer);
+    });
   }
 
   /**
    * On regénère la vue à chaque fois qu'on vient sur la page, afin de pouvoir ouvrir & scroll jusqu'à l'ancre choisie
    * */
   ionViewWillEnter(): void {
-    this._route.queryParams.pipe(takeUntil(this._destroy$)).subscribe(c => {
-      if (c.cardId) {
-        this.tabOpen = [];
-        this.cardId = c.cardId;
-        this.scroll();
-      }
-    });
+    const cardId = this._route.snapshot.queryParamMap.get('cardId');
+    if (cardId) {
+      this.tabOpen = [];
+      this.cardId = cardId;
+      this.scroll();
+    }
     this._cdr.markForCheck();
   }
 
   /*
-   * On supprime le component en sortant de la vue
+   * Annule le défilement différé en quittant la vue mise en cache par Ionic
    * */
   ionViewWillLeave(): void {
-    this._destroy$.next();
-    this._destroy$.complete();
-    document.getElementById('informations').remove();
+    if (this._scrollTimer) clearTimeout(this._scrollTimer);
   }
 
   scroll(): void {
     this.visibility(Number(this.cardId));
-    setTimeout(() => {
-      const elmnt = document.getElementById(this.cardId);
+    if (this._scrollTimer) clearTimeout(this._scrollTimer);
+    this._scrollTimer = setTimeout(() => {
+      const elmnt = this._document.getElementById(this.cardId);
       elmnt?.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
       // Workaround; viewportScroll not working properly atm...
       this._cdr.markForCheck();

@@ -1,90 +1,61 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import type { OnInit } from '@angular/core';
+import { afterNextRender, ChangeDetectionStrategy, Component, DestroyRef, ElementRef, inject, Injector, signal, viewChild } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
-import { TranslateModule } from '@ngx-translate/core';
-import { LottieComponent } from 'ngx-lottie';
-import { FormsModule } from '@angular/forms';
-import { TabsPageRoutingModule } from './tabs.router.module';
-
-// Minimal local types (keeps the code compiling without ngx-lottie)
-export type AnimationOptions = {
-  path?: string;
-  autoplay?: boolean;
-  loop?: boolean;
-};
-
-export type AnimationItem = {
-  setSpeed: (speed: number) => void;
-};
+import { IonLabel, IonTabBar, IonTabButton, IonTabs } from '@ionic/angular';
+import { TranslatePipe } from '@ngx-translate/core';
+import type { AnimationItem } from 'lottie-web';
+import { LottieComponent, type AnimationOptions } from 'ngx-lottie';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-tabs',
-  standalone: true,
   templateUrl: 'tabs.page.html',
-  styleUrls: ['tabs.page.scss'],
-  imports: [IonicModule, CommonModule, TranslateModule, RouterLink, LottieComponent, FormsModule],
+  styleUrl: 'tabs.page.scss',
+  // Keep Ionic's cached outlet reachable during change detection.
+  changeDetection: ChangeDetectionStrategy.Eager,
+  imports: [IonTabs, IonTabBar, IonTabButton, IonLabel, TranslatePipe, RouterLink, LottieComponent],
 })
 export class TabsPage implements OnInit {
-  @ViewChild('auroraLogo', { static: false }) auroraLogo;
+  private readonly _router = inject(Router);
+  private readonly _destroyRef = inject(DestroyRef);
+  private readonly _injector = inject(Injector);
+  readonly auroraLogo = viewChild<unknown, ElementRef<HTMLElement>>('auroraLogo', { read: ElementRef });
 
-  // lotties
-  lottieConfigWeather: AnimationOptions;
-  lottieConfigSettings: AnimationOptions;
-
-  activeRoute: number = null;
-
-  constructor(private _router: Router) {}
+  lottieConfigWeather: AnimationOptions = { path: 'assets/lotties/lottie-partly-cloudy-day.json', autoplay: true, loop: true };
+  lottieConfigSettings: AnimationOptions = { path: 'assets/lotties/lottie-settings.json', autoplay: true, loop: true };
+  readonly activeRoute = signal<number | null>(null);
 
   ngOnInit(): void {
     this._interval();
-    this.lottieConfigWeather = {
-      path: `assets/lotties/lottie-partly-cloudy-day.json`,
-      autoplay: true,
-      loop: true,
-    };
-    this.lottieConfigSettings = {
-      path: `assets/lotties/lottie-settings.json`,
-      autoplay: true,
-      loop: true,
-    };
-
-    this._router.events.subscribe((event: NavigationEnd) => {
-      if (event && event.url) {
-        this.underlineCurrentTab(null, event.url);
-      }
-    });
+    this.underlineCurrentTab();
+    this._router.events
+      .pipe(
+        filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+        takeUntilDestroyed(this._destroyRef),
+      )
+      .subscribe(event => this.underlineCurrentTab(undefined, event.urlAfterRedirects));
   }
+
   animationCreated(animationItem: AnimationItem): void {
     animationItem.setSpeed(0.4);
   }
 
-  /**
-   * Barre colorée en dessous des lotties
-   * */
+  /** Barre colorée sous l'onglet actif. */
   underlineCurrentTab(index?: number, pathObs?: string): void {
-    const path = pathObs ? pathObs : window.location.pathname;
-    if (path.startsWith('/tabs/tab1') || index === 1) {
-      this.activeRoute = 1;
-    } else if (path.startsWith('/tabs/tab2') || index === 2) {
-      this.activeRoute = null;
-    } else if (path.startsWith('/tabs/tab3') || index === 3) {
-      this.activeRoute = 3;
-    }
+    const path = pathObs ?? this._router.url;
+    if (path.startsWith('/tabs/tab1') || index === 1) this.activeRoute.set(1);
+    else if (path.startsWith('/tabs/tab2') || index === 2) this.activeRoute.set(null);
+    else if (path.startsWith('/tabs/tab3') || index === 3) this.activeRoute.set(3);
   }
 
-  /*
-   * Permet d'afficher le logo Aurora
-   * tag <a> est dans shadowRoot et ne se charge pas immédiatement
-   * Interval enchaîne les itérations jusqu'à ce qu'il existe et s'arrête
-   * */
+  /** Attend le rendu du bouton ; le débordement du logo est géré par son shadow part CSS. */
   private _interval(): void {
-    const inter = setInterval(() => {
-      const fuckingA = this.auroraLogo.el.shadowRoot.querySelector('a'); // null
-      if (fuckingA !== null) {
-        fuckingA.style.overflow = 'visible';
-        clearInterval(inter);
-      }
-    }, 50);
+    afterNextRender(
+      () => {
+        this.auroraLogo()?.nativeElement.classList.add('aurora-logo');
+      },
+      { injector: this._injector },
+    );
   }
 }

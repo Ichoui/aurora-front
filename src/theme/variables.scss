@@ -1,7 +1,10 @@
 // Ionic Variables and Theming. For more info, please see:
 // http://ionicframework.com/docs/theming/
 
-@import 'fonts';
+@use 'fonts';
+@use 'icomoon';
+@use 'stylefullpage';
+@use 'loader';
 
 /** Ionic CSS Variables **/
 :root {
@@ -104,7 +107,3 @@
   // Map filter
   --map-tiles-filter: brightness(0.6) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) brightness(0.7);
 }
-
-@import 'icomoon';
-@import 'stylefullpage';
-@import 'loader';

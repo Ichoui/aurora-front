@@ -557,31 +557,11 @@
   transform-origin: 50% 50%;
 }
 
-@-moz-keyframes whirly-loader {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-@-webkit-keyframes whirly-loader {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
 @keyframes whirly-loader {
   0% {
-    -ms-transform: rotate(0deg);
     transform: rotate(0deg);
   }
   100% {
-    -ms-transform: rotate(360deg);
     transform: rotate(360deg);
   }
 }

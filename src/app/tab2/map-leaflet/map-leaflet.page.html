@@ -1,10 +1,10 @@
-<app-header [titre]="'tab2.forecast.title' | translate"></app-header>
+<app-header [titre]="'tab2.forecast.title' | translate" />
 <div class="header-bar">
   <div [routerLink]="['','tabs','tab2']" class="back">
     <span class="icon icon-back1"></span>
   </div>
   <div class="info">
-    <ion-icon id="info-map" name="information-circle"></ion-icon>
+    <ion-icon id="info-map" name="information-circle" />
     <ion-popover trigger="info-map" triggerAction="click" alignment="center">
       <ng-template>
         <div [innerHTML]="'tab2.forecast.tooltip.map' | translate"></div>
@@ -33,7 +33,7 @@
 <div class="searchbar">
   <ion-searchbar
     id="searchbar"
-    search-icon="location-outline"
+    searchIcon="location-outline"
     [debounce]="400"
     [placeholder]="'tab2.forecast.select' | translate "
     (ionInput)="handleInput($event)"
@@ -43,7 +43,7 @@
   @if (citiesMatched) {
   <ion-list class="searchbar-list" [style.width]="searchbarWidth">
     @for (result of citiesList; track $index) {
-    <ion-item (click)="selectNewLocation(convertCoords(result))">
+    <ion-item button (click)="selectNewLocation(convertCoords(result))">
       <ion-label class="name">
         <span>{{ result.name }} - {{result.countryCode }}</span>
         <span>{{ result.lat }}, {{ result.long }}</span>

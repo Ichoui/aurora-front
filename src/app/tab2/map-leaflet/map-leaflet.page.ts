@@ -1,46 +1,50 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
-import { Content, GeoJSON, Icon, LatLng, LatLngBounds, Layer, Map, Marker, PathOptions, Popup, Rectangle, tileLayer, ZoomPanOptions } from 'leaflet';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { StorageService } from '../../storage.service';
-import { first, map, takeUntil, tap } from 'rxjs/operators';
-import { Geocoding } from '../../models/geocoding';
-import { AuroraService } from '../../aurora.service';
-import { countryNameFromCode } from '../../models/utils';
-import { FORECAST_COLOR_GRAY, FORECAST_COLOR_GREEN, FORECAST_COLOR_ORANGE, FORECAST_COLOR_RED, FORECAST_COLOR_YELLOW } from '../../models/colors';
-import { ELocales } from '../../models/locales';
-import { Subject } from 'rxjs';
-import { City, CityCoords } from '../../models/cities';
-import { IonIcon, IonItem, IonLabel, IonList, IonPopover, IonSearchbar } from '@ionic/angular/standalone';
-import { HeaderComponent } from '../../shared/header/header.component';
+import { DOCUMENT } from '@angular/common';
+import type { OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
+import { Geolocation } from '@capacitor/geolocation';
+import type { SearchbarCustomEvent } from '@ionic/angular';
+import { IonIcon, IonItem, IonLabel, IonList, IonPopover, IonSearchbar } from '@ionic/angular';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import type { Feature, FeatureCollection, Geometry } from 'geojson';
+import type { PathOptions, ZoomPanOptions } from 'leaflet';
+import { GeoJSON, Icon, LatLng, LatLngBounds, Map, Marker, Popup, Rectangle, tileLayer } from 'leaflet';
+import type { Subscription } from 'rxjs';
+import { first, map, tap } from 'rxjs';
+import { AuroraService } from '../../aurora.service';
+import type { City, CityCoords } from '../../models/cities';
+import { FORECAST_COLOR_GRAY, FORECAST_COLOR_GREEN, FORECAST_COLOR_ORANGE, FORECAST_COLOR_RED, FORECAST_COLOR_YELLOW } from '../../models/colors';
+import type { Geocoding } from '../../models/geocoding';
+import { ELocales } from '../../models/locales';
+import { countryNameFromCode } from '../../models/utils';
+import { HeaderComponent } from '../../shared/header/header.component';
+import { StorageService } from '../../storage.service';
 
 @Component({
   selector: 'app-map-leaflet',
-  standalone: true,
   templateUrl: './map-leaflet.page.html',
-  styleUrls: ['./map-leaflet.page.scss'],
-  // providers: [Geolocation], // attention aux multiples iic
-  imports: [IonPopover, IonIcon, HeaderComponent, RouterLink, TranslateModule, IonSearchbar, IonItem, IonList, IonLabel],
+  styleUrl: './map-leaflet.page.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [IonPopover, IonIcon, HeaderComponent, RouterLink, TranslatePipe, IonSearchbar, IonItem, IonList, IonLabel],
 })
 export class MapLeafletPage implements OnInit, OnDestroy {
-  private readonly _destroy$ = new Subject<void>();
-  private _map: Map;
-  private _marker: Marker;
-  private _popup: Popup;
-  private _locale: ELocales;
-  searchbarWidth: string;
+  private readonly _cdr = inject(ChangeDetectorRef);
+  private readonly _translate = inject(TranslateService);
+  private readonly _storageService = inject(StorageService);
+  private readonly _auroraService = inject(AuroraService);
+  private readonly _document = inject(DOCUMENT);
+
+  private readonly _destroyRef = inject(DestroyRef);
+  private _map?: Map;
+  private _marker?: Marker;
+  private _popup?: Popup;
+  private _locale = ELocales.EN;
+  private _searchSubscription?: Subscription;
+  searchbarWidth = '';
   loadingNewLocation = false;
   citiesMatched = false;
   citiesList: City[] = [];
-
-  constructor(
-    private _cdr: ChangeDetectorRef,
-    private _translate: TranslateService,
-    private _storageService: StorageService,
-    private _auroraService: AuroraService,
-    private _geoloc: Geolocation,
-  ) {}
 
   ngOnInit(): void {
     this._checkStorageLocation();
@@ -48,8 +52,9 @@ export class MapLeafletPage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this._destroy$.next();
-    this._destroy$.complete();
+    this._searchSubscription?.unsubscribe();
+    this._map?.remove();
+    this._map = undefined;
   }
 
   /**
@@ -58,8 +63,8 @@ export class MapLeafletPage implements OnInit, OnDestroy {
    * */
   private _checkStorageLocation(): void {
     this._storageService.getData('location').then(
-      (coords: CityCoords) => {
-        if (coords) {
+      coords => {
+        if (coords && !this._destroyRef.destroyed) {
           this._loadMap(coords.lat, coords.long);
         }
       },
@@ -69,28 +74,39 @@ export class MapLeafletPage implements OnInit, OnDestroy {
 
   private _getStorageLocale(): void {
     this._storageService.getData('locale').then(
-      (locale: ELocales) => (this._locale = locale),
+      locale => {
+        this._locale = locale ?? ELocales.EN;
+      },
       error => console.error('_getStorageLocale() problem, error : ', error),
     );
   }
 
-  handleInput(event: any): void {
-    const search = event.target.value.toLowerCase();
+  handleInput(event: SearchbarCustomEvent): void {
+    const search = (event.detail.value ?? '').toLowerCase();
+    this._searchSubscription?.unsubscribe();
     if (search.length > 2) {
-      this._auroraService
+      this._searchSubscription = this._auroraService
         .getCorrespondingCities$(search)
         .pipe(
+          takeUntilDestroyed(this._destroyRef),
           tap(c => {
             if (c.length !== 0) {
-              this.searchbarWidth = document.querySelectorAll('.searchbar-input-container')[0].clientWidth + 'px';
+              this.searchbarWidth = `${event.target.getBoundingClientRect().width}px`;
 
               this.citiesMatched = true;
               this.citiesList = c;
               this._cdr.markForCheck();
-            }
+            } else this.closeSearchbar();
           }),
         )
-        .subscribe();
+        .subscribe({
+          error: (error: unknown) => {
+            console.error('City search failed', error);
+            this.closeSearchbar();
+          },
+        });
+    } else {
+      this.closeSearchbar();
     }
   }
 
@@ -114,6 +130,7 @@ export class MapLeafletPage implements OnInit, OnDestroy {
       this.closeSearchbar();
     }
     this.loadingNewLocation = true;
+    this._cdr.markForCheck();
     void this._storageService.setData('location', {
       lat: coords.lat,
       long: coords.long,
@@ -127,7 +144,7 @@ export class MapLeafletPage implements OnInit, OnDestroy {
    * Chargement de la carte
    * */
   private _loadMap(lat: number, long: number): void {
-    let mapOpt: ZoomPanOptions = {
+    const mapOpt: ZoomPanOptions = {
       animate: true,
       duration: 1.2,
     };
@@ -148,7 +165,7 @@ export class MapLeafletPage implements OnInit, OnDestroy {
     this._map.addLayer(tileLayer1);
 
     this._map.on('click', params => {
-      let latLng: LatLng = params['latlng'];
+      const latLng = params.latlng as LatLng;
       void this.selectNewLocation({ lat: latLng.lat, long: latLng.lng });
     });
     // https://github.com/nouhouari/angular-leaflet/blob/master/package.json
@@ -156,22 +173,23 @@ export class MapLeafletPage implements OnInit, OnDestroy {
     this._auroralOval(lat, long);
   }
 
-  private _auroralOval(latCurrent: number, longCurrent: number) {
-    const collection: GeoJSON.FeatureCollection = {
+  private _auroralOval(latCurrent: number, longCurrent: number): void {
+    if (!this._map) return;
+    const collection: FeatureCollection = {
       type: 'FeatureCollection',
       features: [],
     };
 
-    let layer = new GeoJSON(collection, { style }).addTo(this._map);
+    const layer = new GeoJSON(collection, { style }).addTo(this._map);
 
     this._auroraService
       .getAuroraMapData$()
       .pipe(
-        takeUntil(this._destroy$),
-        tap((coords: number[] /*[long, lat, aurora]*/) => {
+        takeUntilDestroyed(this._destroyRef),
+        tap(coords => {
           let length = coords.length;
           while (--length) {
-            let long = coords[length][0];
+            const long = coords[length][0];
             const lat = coords[length][1];
             const nowcastAurora = coords[length][2];
             const corner1 = new LatLng(lat + 2, long + 2),
@@ -194,7 +212,11 @@ export class MapLeafletPage implements OnInit, OnDestroy {
         }),
         tap(() => this._addMarker(latCurrent, longCurrent)),
       )
-      .subscribe();
+      .subscribe({
+        error: (error: unknown) => {
+          console.error('Request failed', error);
+        },
+      });
   }
 
   /**
@@ -202,7 +224,8 @@ export class MapLeafletPage implements OnInit, OnDestroy {
    * @param long {number}
    * Permet de créer un marqueur
    * */
-  private _addMarker(lat: any, long: any) {
+  private _addMarker(lat: number, long: number): void {
+    if (!this._map) return;
     if (!this._marker) {
       this._marker = new Marker([lat, long], {
         draggable: false,
@@ -223,16 +246,17 @@ export class MapLeafletPage implements OnInit, OnDestroy {
    * */
   async buttonMyPosition(): Promise<void> {
     this.loadingNewLocation = true;
-    this._geoloc
-      .getCurrentPosition()
-      .then((resp: GeolocationPosition) => {
-        this._addMarker(resp.coords.latitude, resp.coords.longitude);
-        void this._storageService.setData('location', {
-          lat: resp.coords.latitude,
-          long: resp.coords.longitude,
-        });
-      })
-      .catch(error => console.error('buttonMyPosition() : problem, message : ', error));
+    try {
+      const { coords } = await Geolocation.getCurrentPosition();
+      if (this._destroyRef.destroyed) return;
+      this._addMarker(coords.latitude, coords.longitude);
+      await this._storageService.setData('location', { lat: coords.latitude, long: coords.longitude });
+    } catch (error: unknown) {
+      console.error('buttonMyPosition(): Geolocation error', error);
+      this.loadingNewLocation = false;
+    } finally {
+      if (!this._destroyRef.destroyed) this._cdr.markForCheck();
+    }
   }
 
   /**
@@ -244,7 +268,7 @@ export class MapLeafletPage implements OnInit, OnDestroy {
     this._auroraService
       .getGeocoding$(lat, long)
       .pipe(
-        takeUntil(this._destroy$),
+        takeUntilDestroyed(this._destroyRef),
         map((res: Geocoding[]) => res[0]),
         tap({
           next: (res: Geocoding) => {
@@ -252,19 +276,22 @@ export class MapLeafletPage implements OnInit, OnDestroy {
             if (res?.name && res?.country) {
               infoWindow = `${res?.name} - ${countryNameFromCode(res.country, this._locale)}`;
             } else {
-              infoWindow = this._translate.instant('global.unknown');
-              res?.country ? (infoWindow = countryNameFromCode(res.country, this._locale)) : (infoWindow = this._translate.instant('global.unknown'));
+              infoWindow = res?.country ? countryNameFromCode(res.country, this._locale) : this._translate.instant('global.unknown');
             }
             this._prepareTooltip(infoWindow, lat, long);
           },
           error: error => {
             console.error('_reverseGeocode() problem, message : ', error);
             const infoWindow = this._translate.instant('global.unknown');
-            this._prepareTooltip(infoWindow);
+            this._prepareTooltip(infoWindow, lat, long);
           },
         }),
       )
-      .subscribe();
+      .subscribe({
+        error: (error: unknown) => {
+          console.error('Request failed', error);
+        },
+      });
   }
 
   /**
@@ -277,32 +304,48 @@ export class MapLeafletPage implements OnInit, OnDestroy {
     if (!this._popup) {
       this._popup = new Popup({ closeButton: true, autoClose: true });
     }
-    if (lat && lng) {
+    if (lat !== undefined && lng !== undefined) {
       this._auroraService
         .getNowcast$(lat, lng)
         .pipe(
           first(),
+          takeUntilDestroyed(this._destroyRef),
           tap(e => this._createTooltip(infoWindow, e['nowcast'], lat, lng)),
         )
-        .subscribe();
+        .subscribe({
+          error: (error: unknown) => {
+            console.error('Request failed', error);
+          },
+        });
     } else {
       // Empty tooltip because no lat & long
       this._createTooltip(infoWindow);
     }
   }
 
-  private _createTooltip(infoWindow: string, nowcast?: unknown, lat?: number, lng?: number) {
-    let message: Content | ((source: Layer) => Content);
-    if (lat && lng) {
-      message = `<b>${infoWindow}</b> <br /> Lat: ${lat} <br/> Long: ${lng} <br/> Chances: ${
-        typeof nowcast === 'number' ? nowcast + '%' : this._translate.instant('tab2.forecast.unknown')
-      }`;
+  private _createTooltip(infoWindow: string, nowcast?: number, lat?: number, lng?: number): void {
+    if (!this._map || !this._popup) return;
+    const position = lat !== undefined && lng !== undefined ? new LatLng(lat, lng) : this._marker?.getLatLng();
+    if (!position) return;
+    const message = this._document.createElement('div');
+    const title = this._document.createElement('b');
+    title.textContent = infoWindow;
+    message.append(title, this._document.createElement('br'));
+    if (lat !== undefined && lng !== undefined) {
+      const probability = typeof nowcast === 'number' ? `${nowcast}%` : this._translate.instant('tab2.forecast.unknown');
+      message.append(
+        `Lat: ${lat}`,
+        this._document.createElement('br'),
+        `Long: ${lng}`,
+        this._document.createElement('br'),
+        `Chances: ${probability}`,
+      );
     } else {
-      message = `<b>${infoWindow}</b><br /> ${this._translate.instant('tab2.forecast.another')} `;
+      message.append(this._translate.instant('tab2.forecast.another') as string);
     }
-    this._popup.setLatLng({ lat, lng }).setContent(message).addTo(this._map).openOn(this._map);
-    void this._storageService.setData('nowcastAurora', nowcast);
-    document.querySelector('.leaflet-popup-close-button').removeAttribute('href'); // href on marker tooltip reload page if not this line...
+    this._popup.setLatLng(position).setContent(message).openOn(this._map);
+    if (nowcast !== undefined) void this._storageService.setData('nowcastAurora', nowcast);
+    this._popup.getElement()?.querySelector('.leaflet-popup-close-button')?.removeAttribute('href');
     this.loadingNewLocation = false;
     this._cdr.markForCheck();
   }
@@ -311,7 +354,7 @@ export class MapLeafletPage implements OnInit, OnDestroy {
 }
 
 function mapColor(index: number): string {
-  let color: string;
+  let color = FORECAST_COLOR_GRAY;
   if (index <= 8) {
     color = FORECAST_COLOR_GRAY;
   } else if (index > 8 && index < 20) {
@@ -326,13 +369,13 @@ function mapColor(index: number): string {
   return color;
 }
 
-function style(feature: { properties: { color: number } }): PathOptions {
+function style(feature?: Feature<Geometry, { color: number }>): PathOptions {
   return {
     fill: true,
     stroke: false,
-    fillColor: mapColor(feature.properties.color),
+    fillColor: mapColor(feature?.properties.color ?? 0),
     opacity: 1,
-    color: mapColor(feature.properties.color),
+    color: mapColor(feature?.properties.color ?? 0),
     fillOpacity: 0.6,
   };
 }

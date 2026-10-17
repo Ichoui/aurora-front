@@ -1,8 +1,1 @@
-<ion-toast
-  [isOpen]="isToastOpen"
-  [message]="toastError?.status + toastError?.message"
-  [duration]="5000"
-  (didDismiss)="setOpen(false)"
-  [buttons]="toastButtons"
-  icon="telescope"
-></ion-toast>
+<ion-toast [isOpen]="isToastOpen()" [message]="message()" [duration]="5000" (didDismiss)="setOpen(false)" [buttons]="toastButtons" icon="telescope" />

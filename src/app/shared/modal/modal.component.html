@@ -6,21 +6,21 @@
       </ion-button>
     </ion-buttons>
     <ion-title>
-      @if (cgu) {
+      @if (cgu()) {
         <span>{{ 'cgu.title' | translate }}</span>
       }
-      @if (ovation) {
+      @if (ovation()) {
         <span>{{ 'tab2.forecast.poles' | translate }}</span>
       }
     </ion-title>
   </ion-toolbar>
 
-  @if (ovation && loader && tabNorth.length > 0) {
+  @if (ovation() && loader && tabNorth.length > 0) {
     <div class="container-map">
       <div class="subtitle explanations">
         <span>
-          <ion-icon id="ovations" name="information-circle" class="icon"></ion-icon>
-          <ion-popover trigger="ovations" triggerAction="click" alignment="center" [isOpen]="">
+          <ion-icon id="ovations" name="information-circle" class="icon" />
+          <ion-popover trigger="ovations" triggerAction="click" alignment="center">
             <ng-template>
               <div [innerHTML]="'tab2.forecast.poles.explanations.info' | translate"></div>
             </ng-template>
@@ -29,45 +29,33 @@
         </span>
       </div>
       <div class="subtitle">{{ 'tab2.forecast.pole.north' | translate }}</div>
-      <ion-img [src]="tabNorth[indexNorth]?.url"></ion-img>
+      <img [src]="tabNorth[indexNorth]?.url" loading="lazy" [alt]="'tab2.forecast.pole.north' | translate" />
       <div class="datetime">
-        <span>{{ tabNorth[indexNorth]?.time_tag | momentDate: this.locale }}</span>
-        {{ tabNorth[indexNorth]?.time_tag | momentHour: tabNorth[indexNorth]?.speed : measureUnit : hourClock }}
+        <span>{{ tabNorth[indexNorth]?.time_tag | momentDate: locale() }}</span>
+        {{ tabNorth[indexNorth]?.time_tag | momentHour: tabNorth[indexNorth]?.speed : measureUnit() : hourClock() }}
       </div>
-      <ion-range
-        color="primary"
-        aria-label="North Hour"
-        [min]="0"
-        [max]="tabNorth.length - 1"
-        (ionChange)="valuePolesChange($event, pole.NORTH)"
-      ></ion-range>
+      <ion-range color="primary" aria-label="North Hour" [min]="0" [max]="tabNorth.length - 1" (ionChange)="valuePolesChange($event, pole.NORTH)" />
     </div>
   }
-  @if (ovation && loader && tabSouth.length > 0) {
+  @if (ovation() && loader && tabSouth.length > 0) {
     <div class="container-map">
       <div class="subtitle">{{ 'tab2.forecast.pole.south' | translate }}</div>
-      <ion-img [src]="tabSouth[indexSouth]?.url"></ion-img>
+      <img [src]="tabSouth[indexSouth]?.url" loading="lazy" [alt]="'tab2.forecast.pole.south' | translate" />
       <div class="datetime">
-        <span>{{ tabSouth[indexSouth]?.time_tag | momentDate: this.locale }}</span>
-        {{ tabSouth[indexSouth]?.time_tag | momentHour: tabSouth[indexSouth]?.speed : measureUnit : hourClock }}
+        <span>{{ tabSouth[indexSouth]?.time_tag | momentDate: locale() }}</span>
+        {{ tabSouth[indexSouth]?.time_tag | momentHour: tabSouth[indexSouth]?.speed : measureUnit() : hourClock() }}
       </div>
-      <ion-range
-        color="primary"
-        aria-label="South Hour"
-        [min]="0"
-        [max]="tabSouth.length - 1"
-        (ionChange)="valuePolesChange($event, pole.SOUTH)"
-      ></ion-range>
+      <ion-range color="primary" aria-label="South Hour" [min]="0" [max]="tabSouth.length - 1" (ionChange)="valuePolesChange($event, pole.SOUTH)" />
     </div>
   }
 
-  @if (ovation && !loader) {
+  @if (ovation() && !loader) {
     <div class="content-spinner">
       <div class="whirly-loader"></div>
     </div>
   }
 
-  @if (cgu) {
+  @if (cgu()) {
     <div id="cgu">
       <div class="cgu-block">
         <div [innerHTML]="'cgu.art1.title' | translate" class="art-title"></div>

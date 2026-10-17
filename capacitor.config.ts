@@ -1,8 +1,8 @@
-import { CapacitorConfig } from '@capacitor/cli';
+import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.aurora.start', // override by trapeze-config.yaml, needed for creating folder android
-  appName: 'Aurorapp', // Official application name on smartphone ; override by trapeze-config.yaml, needed for creating folder android
+  appId: 'io.aurora.start',
+  appName: 'Aurorapp',
   webDir: 'www',
   plugins: {
     SplashScreen: {

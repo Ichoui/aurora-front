@@ -1,4 +1,4 @@
-@import 'shared';
+@use 'shared' as *;
 
 * {
   font-family: var(--ion-font-regular);

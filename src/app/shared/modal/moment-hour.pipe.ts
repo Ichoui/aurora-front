@@ -1,14 +1,15 @@
-import { Pipe, PipeTransform } from '@angular/core';
-import { HourClock, MeasureUnits } from '../../models/weather';
-import { ForecastLeadTimePipe } from '../../tab2/instant-auroral-activity/forecast-lead-time.pipe';
+import type { PipeTransform } from '@angular/core';
+import { Pipe, inject } from '@angular/core';
 import moment from 'moment';
+import type { MeasureUnits } from '../../models/weather';
+import { HourClock } from '../../models/weather';
+import { ForecastLeadTimePipe } from '../../tab2/instant-auroral-activity/forecast-lead-time.pipe';
 
 @Pipe({
   name: 'momentHour',
-  standalone: true,
 })
 export class MomentHourPipe implements PipeTransform {
-  constructor(private _forecastLeadTimePipe: ForecastLeadTimePipe) {}
+  private readonly _forecastLeadTimePipe = inject(ForecastLeadTimePipe);
 
   /**
    * Le pipe transforme une date au format UTC, et lui rajoute le temps que mettra le vent solaire à toucher la Terre depuis la zone Lagrange 1
@@ -21,7 +22,7 @@ export class MomentHourPipe implements PipeTransform {
    * @const forecastLeadTime {number} Temps de propagation du vent solaire vers la terre, valeur en haut à droite de l'image
    * @return valeur qui doit être proche de en haut à gauche de l'image "For"...
   * */
-  transform(hour: string, speed: number, measureUnit: MeasureUnits, hourClock: HourClock): unknown {
+  transform(hour: string | null | undefined, speed: number | undefined, measureUnit: MeasureUnits, hourClock: HourClock): string {
     if (!hour) {
       return '';
     }
@@ -29,7 +30,7 @@ export class MomentHourPipe implements PipeTransform {
     return moment
       .utc(hour)
       .local()
-      .add(forecastLeadTime, 'minutes')
+      .add(forecastLeadTime ?? 0, 'minutes')
       .format(hourClock === HourClock.TWENTYFOUR ? 'HH[h]mm' : 'hh:mm A');
   }
 }

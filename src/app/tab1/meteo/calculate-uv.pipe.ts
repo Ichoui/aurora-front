@@ -1,11 +1,13 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import type { PipeTransform } from '@angular/core';
+import { Pipe } from '@angular/core';
 import { ELocales } from '../../models/locales';
 
 @Pipe({
   name: 'calculateUv',
 })
 export class CalculateUvPipe implements PipeTransform {
-  transform(indexUv: number, locale: ELocales): unknown {
+  transform(indexUv: number | null | undefined, locale: ELocales): string {
+    if (indexUv == null) return '';
     if (indexUv >= 0 && indexUv < 3) {
       return locale === ELocales.FR ? 'Faible' : 'Low';
     } else if (indexUv >= 3 && indexUv < 6) {
@@ -17,5 +19,6 @@ export class CalculateUvPipe implements PipeTransform {
     } else if (indexUv >= 11) {
       return locale === ELocales.FR ? 'Extrême' : 'Extreme';
     }
+    return '';
   }
 }

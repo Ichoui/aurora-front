@@ -1,5 +1,5 @@
-import { Moment } from 'moment';
-import { SelectContents } from './locales';
+import type { Moment } from 'moment';
+import type { SelectContents } from './locales';
 
 // https://openweathermap.org/api/one-call-api
 
@@ -101,8 +101,8 @@ export interface DailyFeelsLike {
 
 // Ennuagement
 export interface Cloudy {
-  percent?: number;
-  time?: string | Moment;
+  percent: number;
+  time: string;
 }
 
 export enum IconsOWM {

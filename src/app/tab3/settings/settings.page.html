@@ -1,4 +1,4 @@
-<app-header titre="{{ 'tab3.more.title' | translate }}"></app-header>
+<app-header titre="{{ 'tab3.more.title' | translate }}" />
 
 <ion-content>
   <div class="card-container">
@@ -23,7 +23,7 @@
       <p>{{ 'tab3.more.languages' | translate }}</p>
       <ion-item>
         <ion-select
-          [value]="locale"
+          [value]="locale()"
           aria-label="locale choice"
           interface="action-sheet"
           (ionChange)="setLocale($event)"
@@ -40,7 +40,7 @@
       <p>{{ 'tab3.more.measure' | translate }}</p>
       <ion-item>
         <ion-select
-          [value]="measureUnits"
+          [value]="measureUnits()"
           aria-label="unit of measure choice"
           interface="action-sheet"
           (ionChange)="setMeasureUnit($event)"
@@ -58,7 +58,7 @@
       <p>{{ 'tab3.more.temperature' | translate }}</p>
       <ion-item>
         <ion-select
-          [value]="temperatureUnits"
+          [value]="temperatureUnits()"
           interface="action-sheet"
           aria-label="temperature unit choice"
           (ionChange)="setTemperatureUnit($event)"
@@ -76,7 +76,7 @@
       <p>{{ 'tab3.more.hour-clock-system' | translate }}</p>
       <ion-item>
         <ion-select
-          [value]="hourClock"
+          [value]="hourClock()"
           interface="action-sheet"
           aria-label="hour clock system"
           (ionChange)="setHourClockSystem($event)"
@@ -106,22 +106,22 @@
     <div class="button-wrapper">
       <ion-button class="legal" color="primary" size="small" (click)="CGU()">{{ 'tab3.more.cgu' | translate }}</ion-button>
     </div>
-    @if (versionApp) {
-    <span class="version">{{ 'tab3.more.about.version' | translate: { versionApp } }}</span>
+    @if (versionApp()) {
+    <span class="version">{{ 'tab3.more.about.version' | translate: { versionApp: versionApp() } }}</span>
     }
   </div>
 </ion-content>
 
 <ion-fab vertical="bottom" horizontal="end" slot="fixed">
   <ion-fab-button color="primary">
-    <ion-icon name="arrow-up" color="dark"></ion-icon>
+    <ion-icon name="arrow-up" color="dark" />
   </ion-fab-button>
   <ion-fab-list side="top">
     <ion-fab-button color="secondary" (click)="openUrl('https://github.com/Ichoui')">
-      <ion-icon name="logo-github" color="dark"></ion-icon>
+      <ion-icon name="logo-github" color="dark" />
     </ion-fab-button>
     <ion-fab-button color="secondary" href="mailto:aurorapp.lights@gmail.com">
-      <ion-icon name="at" color="dark"></ion-icon>
+      <ion-icon name="at" color="dark" />
     </ion-fab-button>
     <ion-fab-button color="secondary" (click)="openUrl('https://www.paypal.me/ichoui/1')">
       <span class="icon icon-caf"></span>

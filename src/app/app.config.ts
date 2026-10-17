@@ -1,43 +1,42 @@
-import { ApplicationConfig, importProvidersFrom } from '@angular/core';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import type { ApplicationConfig } from '@angular/core';
+import { importProvidersFrom } from '@angular/core';
 import { PreloadAllModules, provideRouter, RouteReuseStrategy, withPreloading } from '@angular/router';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
-import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-import { IonicStorageModule } from '@ionic/storage-angular';
+import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular';
 import { Drivers } from '@ionic/storage';
+import { IonicStorageModule } from '@ionic/storage-angular';
 import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
 
 import { provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 
-import { HttpsInterceptorService } from './https-interceptor.service';
-import { register } from 'swiper/element/bundle';
+import { addIcons } from 'ionicons';
+import { arrowUp, at, caretDownOutline, caretForwardOutline, informationCircle, locationOutline, logoGithub, pin, telescope } from 'ionicons/icons';
 import { provideLottieOptions } from 'ngx-lottie';
-import { routes } from './tabs/tabs.router.module';
+import { register } from 'swiper/element/bundle';
+import { httpsInterceptor } from './https-interceptor.service';
+import { routes } from './tabs/tabs.routes';
 
 register();
+addIcons({ arrowUp, at, caretDownOutline, caretForwardOutline, informationCircle, locationOutline, logoGithub, pin, telescope });
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideIonicAngular({ useSetInputAPI: true }),
     provideRouter(routes, withPreloading(PreloadAllModules)),
-    provideHttpClient(withInterceptorsFromDi()),
-    provideTranslateService(),
-    ...provideTranslateHttpLoader({
-      prefix: '/assets/i18n/',
-      suffix: '.json',
+    provideHttpClient(withInterceptors([httpsInterceptor])),
+    provideTranslateService({
+      loader: provideTranslateHttpLoader({
+        prefix: '/assets/i18n/',
+        suffix: '.json',
+      }),
     }),
-    Geolocation,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: HttpsInterceptorService,
-      multi: true,
-    },
     provideLottieOptions({
       player: () => import('lottie-web'),
     }),
     importProvidersFrom(
-      IonicModule.forRoot(),
       IonicStorageModule.forRoot({
         name: '__dbAurora',
         driverOrder: [Drivers.IndexedDB, Drivers.LocalStorage, CordovaSQLiteDriver._driver],

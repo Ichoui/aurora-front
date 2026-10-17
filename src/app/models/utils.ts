@@ -1,21 +1,21 @@
 import { HttpParams } from '@angular/common/http';
-import { MeasureUnits, TemperatureUnits } from './weather';
-import { FORECAST_COLOR_GREEN, FORECAST_COLOR_ORANGE, FORECAST_COLOR_RED, FORECAST_COLOR_YELLOW } from './colors';
+import type { Chart, ChartArea, ChartType, ScriptableContext } from 'chart.js';
+import moment from 'moment';
 import { AuroraEnumColours, SolarWindTypes } from './aurorav3';
-import * as moment from 'moment/moment';
-import { ELocales } from './locales';
-import { Chart, ChartType } from 'chart.js';
+import { FORECAST_COLOR_GREEN, FORECAST_COLOR_ORANGE, FORECAST_COLOR_RED, FORECAST_COLOR_YELLOW } from './colors';
 import { EN_COUNTRY_CODE, FR_COUNTRY_CODE } from './iso2-country-code';
+import { ELocales } from './locales';
+import { MeasureUnits, TemperatureUnits } from './weather';
 
 /**
  * @param source objet typé qui doit être converti en HttpParams pour une requete API
  * Permet de convertir
  * */
 export class UtilsService {
-  static buildQueryParams(source: Object): HttpParams {
+  static buildQueryParams(source: Record<string, string | number | boolean | Date | null | undefined>): HttpParams {
     let target: HttpParams = new HttpParams();
     Object.keys(source).forEach((key: string) => {
-      const value: string | number | boolean | Date = source[key];
+      const value = source[key];
       if (typeof value !== 'undefined' && value !== null) {
         target = target.append(key, value.toString());
       }
@@ -28,7 +28,8 @@ export class UtilsService {
  * Country code iso2 factory
  * */
 export function countryNameFromCode(code: string, locale: ELocales): string {
-  return locale === ELocales.FR ? FR_COUNTRY_CODE[code] : EN_COUNTRY_CODE[code];
+  const countries: Record<string, string> = locale === ELocales.FR ? FR_COUNTRY_CODE : EN_COUNTRY_CODE;
+  return countries[code] ?? code;
 }
 
 export function convertUnitMeasure(nb: number, unit: MeasureUnits): number {
@@ -61,43 +62,43 @@ export function convertUnitTemperature(nb: number, unit: TemperatureUnits): numb
  * @param timezoneUnix {number} : Timezone format unix, par exemple -18000 pour le QC
  * @param nowDate {boolean} : Quand on commence avec une date non générée par un serveur et qui se met auto en UTC
  * */
-export function manageDates(
-  date: number | string,
-  format: string,
-  locale?: ELocales,
-  timezoneUnix?: number,
-  nowDate: boolean = false,
-): string | moment.Moment {
+export function manageDates(date: number | string, format: string, locale?: ELocales, timezoneUnix?: number, nowDate = false): string {
   let d: moment.Moment;
   if (nowDate) {
     d = moment
-      .unix((date as number) + timezoneUnix)
-      .locale(locale)
+      .unix((date as number) + (timezoneUnix ?? 0))
+      .locale(locale ?? moment.locale())
       .utc();
   } else {
-    d = timezoneUnix ? moment.unix((date as number) + timezoneUnix).locale(locale) : moment.utc(date).local();
+    d = timezoneUnix ? moment.unix((date as number) + timezoneUnix).locale(locale ?? moment.locale()) : moment.utc(date).local();
   }
   return d.format(format);
 }
 
 // Arrondir à 2 chiffres
-export function roundTwoNumbers(nb: number): number {
-  return Math.round(nb * 100) / 100;
+export function roundTwoNumbers(nb: number | null | undefined): number {
+  return Math.round(Number(nb) * 100) / 100;
 }
 
 /**
  * Time betweeen ACE & DSCOVR satelites and earth, depending on solar wind speed and distance of satelite from earth
  * */
-export function forecastLeadTime(speed: number, measure: MeasureUnits): number {
+export function forecastLeadTime(speed: number, measure: MeasureUnits): number | undefined {
   if (measure === MeasureUnits.METRIC) {
     return 1500000 / (60 * speed);
   }
   if (measure === MeasureUnits.IMPERIAL) {
     return 1000000 / (60 * speed);
   }
+  return undefined;
 }
 
-export function updateGradientBackgroundChart(context, type: SolarWindTypes, data: number[], measure?: MeasureUnits) {
+export function updateGradientBackgroundChart(
+  context: ScriptableContext<'line'>,
+  type: SolarWindTypes,
+  data: number[],
+  measure?: MeasureUnits,
+): CanvasGradient | undefined {
   const chart = context.chart;
   const { ctx, chartArea } = chart;
   if (!chartArea) {
@@ -105,8 +106,10 @@ export function updateGradientBackgroundChart(context, type: SolarWindTypes, dat
     return;
   }
 
-  let gradient, width, height;
-  function getGradient(ctx, chartArea) {
+  let gradient: CanvasGradient | undefined;
+  let width: number | undefined;
+  let height: number | undefined;
+  function getGradient(ctx: CanvasRenderingContext2D, chartArea: ChartArea): CanvasGradient {
     const chartWidth = chartArea.right - chartArea.left;
     const chartHeight = chartArea.bottom - chartArea.top;
     if (!gradient || width !== chartWidth || height !== chartHeight) {
@@ -124,7 +127,13 @@ export function updateGradientBackgroundChart(context, type: SolarWindTypes, dat
 }
 
 // https://www.chartjs.org/docs/latest/developers/updates.html
-export function updateDataChart(chart: Chart<ChartType, string[]>, label: string[], data: any, colors?: any, test = 0) {
+export function updateDataChart(
+  chart: Chart<ChartType, number[], string> | undefined,
+  label: string[],
+  data: number[][],
+  colors?: (string | undefined)[],
+): void {
+  if (!chart) return;
   chart.data.labels = label;
   chart.data.datasets.forEach((dataset, index) => {
     dataset.data = data[index];
@@ -134,9 +143,9 @@ export function updateDataChart(chart: Chart<ChartType, string[]>, label: string
   chart.update();
 }
 
-export function determineLineChartGradient(gradient: any, type: SolarWindTypes, data: number[], measure?: MeasureUnits): any {
-  let max = Math.max(...data);
-  let min = Math.min(...data);
+export function determineLineChartGradient(gradient: CanvasGradient, type: SolarWindTypes, data: number[], measure?: MeasureUnits): CanvasGradient {
+  const max = Math.max(...data);
+  const min = Math.min(...data);
 
   if (type === SolarWindTypes.SPEED) {
     if (measure === MeasureUnits.METRIC) {
@@ -281,8 +290,10 @@ export function determineLineChartGradient(gradient: any, type: SolarWindTypes, 
 }
 
 // Replace a string color with the correct Application color
-export function colorSwitcher(c: AuroraEnumColours): string {
-  let color;
+export function colorSwitcher(c: AuroraEnumColours): string;
+export function colorSwitcher(c: AuroraEnumColours | undefined): string | undefined;
+export function colorSwitcher(c: AuroraEnumColours | undefined): string | undefined {
+  let color: string | undefined;
   switch (c) {
     case 'green':
       color = FORECAST_COLOR_GREEN;
@@ -301,7 +312,7 @@ export function colorSwitcher(c: AuroraEnumColours): string {
 }
 
 // http://auroraslive.io/#/api/v1/introduction
-export function determineColorsOfValue(type: SolarWindTypes | 'kp', value: number, unit?: MeasureUnits): AuroraEnumColours {
+export function determineColorsOfValue(type: SolarWindTypes | 'kp', value: number, unit?: MeasureUnits): AuroraEnumColours | undefined {
   switch (type) {
     case SolarWindTypes.SPEED:
       if (unit === MeasureUnits.METRIC) {
@@ -373,16 +384,12 @@ export function determineColorsOfValue(type: SolarWindTypes | 'kp', value: numbe
       }
       break;
   }
+  return undefined;
 }
 
 /**
  * return a shallow copy of an object without any falsy values (null, undefined, '', 0, false, NaN)
  */
-export function deleteFalsy(obj: any): any {
-  if (!obj) {
-    return null;
-  }
-  return Object.keys(obj)
-    .filter(key => obj[key])
-    .reduce((keptFields, key) => ({ ...keptFields, [key]: obj[key] }), {});
+export function deleteFalsy<T extends Record<string, string | number | boolean | null | undefined>>(obj: T): Partial<T> {
+  return Object.fromEntries(Object.entries(obj).filter(([, value]) => value)) as Partial<T>;
 }

@@ -1,24 +1,28 @@
-import { Component, Input } from '@angular/core';
-import { IonCard, IonCardContent, IonCardHeader, IonIcon } from '@ionic/angular/standalone';
-import { TranslateModule } from '@ngx-translate/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { IonCard, IonCardContent, IonCardHeader, IonIcon } from '@ionic/angular';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
-  styleUrls: ['../informations.page.scss'],
-  standalone: true,
-  imports: [IonCardHeader, IonCard, IonIcon, TranslateModule, IonCardContent],
+  styleUrl: '../informations.page.scss',
+
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [IonCardHeader, IonCard, IonIcon, TranslatePipe, IonCardContent],
 })
 export class CardComponent {
-  @Input() visibility: { index: number; tabOpen: number[] };
-  @Input() block: string;
-  @Input() value: string;
-  @Input() classList?: string;
-  @Input() list?: string[];
-  @Input() annecdotes?: string[];
-  @Input() extra?: string;
+  readonly visibility = input.required<{
+    index: number;
+    tabOpen: number[];
+  }>();
+  readonly block = input.required<string>();
+  readonly value = input.required<string>();
+  readonly classList = input<string>();
+  readonly list = input<string[]>();
+  readonly annecdotes = input<string[]>();
+  readonly extra = input<string>();
 
   isOpen(): boolean {
-    return this.visibility.tabOpen.includes(this.visibility.index);
+    return this.visibility().tabOpen.includes(this.visibility().index);
   }
 }

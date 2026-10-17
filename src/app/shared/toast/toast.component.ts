@@ -1,22 +1,26 @@
-import { CommonModule } from '@angular/common';
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+import type { OnChanges, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
+import { IonToast } from '@ionic/angular';
 
 export interface ToastError {
   message: string;
-  status: number;
+  status: number | string;
 }
 
 @Component({
   selector: 'app-toast',
-  standalone: true,
-  imports: [CommonModule, IonicModule],
+  imports: [IonToast],
   templateUrl: './toast.component.html',
-  styleUrls: ['./toast.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './toast.component.scss',
 })
 export class ToastComponent implements OnChanges {
-  @Input() toastError: ToastError;
-  isToastOpen = false;
+  readonly toastError = input<ToastError | null>(null);
+  readonly isToastOpen = signal(false);
+  readonly message = computed(() => {
+    const error = this.toastError();
+    return error ? `${error.status}${error.message}` : '';
+  });
 
   toastButtons = [
     {
@@ -26,12 +30,12 @@ export class ToastComponent implements OnChanges {
   ];
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes?.toastError.currentValue) {
+    if (changes['toastError']?.currentValue) {
       this.setOpen(true);
     }
   }
 
-  setOpen(isOpen: boolean) {
-    this.isToastOpen = isOpen;
+  setOpen(isOpen: boolean): void {
+    this.isToastOpen.set(isOpen);
   }
 }

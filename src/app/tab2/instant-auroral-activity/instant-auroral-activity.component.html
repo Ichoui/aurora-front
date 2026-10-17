@@ -1,3 +1,4 @@
+@let kp = currentKp();
 <!-- Thanks to https://codepen.io/jh3y/pen/JKddVx -->
 <ng-container>
   <div class="live ace-data">
@@ -22,20 +23,18 @@
       @for (i of [1, 2, 3, 4]; track i) {
         <span
           [ngClass]="{
-            green: kpCurrent?.color === AuroraEnumColours.green,
-            yellow: kpCurrent?.color === AuroraEnumColours.yellow,
-            orange: kpCurrent?.color === AuroraEnumColours.orange,
-            red: kpCurrent?.color === AuroraEnumColours.red
+            green: kp?.color === AuroraEnumColours.green,
+            yellow: kp?.color === AuroraEnumColours.yellow,
+            orange: kp?.color === AuroraEnumColours.orange,
+            red: kp?.color === AuroraEnumColours.red,
           }"
         ></span>
       }
     </div>
-    @if (kpCurrent?.kpIndex || kpCurrent?.kpIndex === 0) {
-      <div class="value">{{ kpCurrent.kpIndex }}</div>
+    @if (kp?.kpIndex || kp?.kpIndex === 0) {
+      <div class="value">{{ kp?.kpIndex }}</div>
     }
-    <ng-container
-      *ngTemplateOutlet="!kpCurrent?.kpIndex && kpCurrent?.kpIndex !== 0 ? isLoadingAceData : null; context: { index: 2.4 }"
-    ></ng-container>
+    <ng-container *ngTemplateOutlet="!kp?.kpIndex && kp?.kpIndex !== 0 ? isLoadingAceData : null; context: { index: 2.4 }" />
     <div class="label">{{ 'tab2.instant.kpindex' | translate }}</div>
   </div>
 
@@ -47,7 +46,7 @@
             green: speed?.color === AuroraEnumColours.green,
             yellow: speed?.color === AuroraEnumColours.yellow,
             orange: speed?.color === AuroraEnumColours.orange,
-            red: speed?.color === AuroraEnumColours.red
+            red: speed?.color === AuroraEnumColours.red,
           }"
         ></span>
       }
@@ -55,7 +54,7 @@
     @if (speed?.value) {
       <div class="value">{{ speed.value }}</div>
     }
-    <ng-container *ngTemplateOutlet="!speed?.value ? isLoadingAceData : null; context: { index: 2.5 }"></ng-container>
+    <ng-container *ngTemplateOutlet="!speed?.value ? isLoadingAceData : null; context: { index: 2.5 }" />
     <div class="label">
       {{ 'tab2.instant.speed' | translate }}
       <div class="unit">{{ speed?.unit === 'imperial' ? '(mps)' : '(km/s)' }}</div>
@@ -70,7 +69,7 @@
             green: density?.color === AuroraEnumColours.green,
             yellow: density?.color === AuroraEnumColours.yellow,
             orange: density?.color === AuroraEnumColours.orange,
-            red: density?.color === AuroraEnumColours.red
+            red: density?.color === AuroraEnumColours.red,
           }"
         ></span>
       }
@@ -78,7 +77,7 @@
     @if (density?.value) {
       <div class="value">{{ density.value }}</div>
     }
-    <ng-container *ngTemplateOutlet="!density?.value ? isLoadingAceData : null; context: { index: 2.6 }"></ng-container>
+    <ng-container *ngTemplateOutlet="!density?.value ? isLoadingAceData : null; context: { index: 2.6 }" />
     <div class="label">
       {{ 'tab2.instant.density' | translate }}
       <div class="unit">{{ 'tab2.instant.density.unit' | translate }}</div>
@@ -93,7 +92,7 @@
             green: bz?.color === AuroraEnumColours.green,
             yellow: bz?.color === AuroraEnumColours.yellow,
             orange: bz?.color === AuroraEnumColours.orange,
-            red: bz?.color === AuroraEnumColours.red
+            red: bz?.color === AuroraEnumColours.red,
           }"
         ></span>
       }
@@ -101,10 +100,10 @@
     @if (bz?.value) {
       <div class="value">{{ bz.value }}</div>
     }
-    <ng-container *ngTemplateOutlet="!bz?.value ? isLoadingAceData : null; context: { index: 2.7 }"></ng-container>
+    <ng-container *ngTemplateOutlet="!bz?.value ? isLoadingAceData : null; context: { index: 2.7 }" />
     <div class="label">
       {{ 'tab2.instant.bz' | translate }}
-      <div class="unit">{{ bz?.value > 0 ? ('tab2.instant.bz.north' | translate) : ('tab2.instant.bz.south' | translate) }}</div>
+      <div class="unit">{{ (bz?.value ?? 0) > 0 ? ('tab2.instant.bz.north' | translate) : ('tab2.instant.bz.south' | translate) }}</div>
     </div>
   </div>
 
@@ -116,7 +115,7 @@
             green: bt?.color === AuroraEnumColours.green,
             yellow: bt?.color === AuroraEnumColours.yellow,
             orange: bt?.color === AuroraEnumColours.orange,
-            red: bt?.color === AuroraEnumColours.red
+            red: bt?.color === AuroraEnumColours.red,
           }"
         ></span>
       }
@@ -124,35 +123,35 @@
     @if (bt?.value) {
       <div class="value">{{ bt.value }}</div>
     }
-    <ng-container *ngTemplateOutlet="!bt?.value ? isLoadingAceData : null; context: { index: 2.8 }"></ng-container>
+    <ng-container *ngTemplateOutlet="!bt?.value ? isLoadingAceData : null; context: { index: 2.8 }" />
     <div class="label">{{ 'tab2.instant.bt' | translate }}</div>
   </div>
 
   <div class="infos nowcast ace-data">
-    @if (nowcastAurora >= 0) {
-      <div>{{ nowcastAurora }}%</div>
+    @if ((nowcastAurora() ?? -1) >= 0) {
+      <div>{{ nowcastAurora() }}%</div>
     } @else {
-      <ng-container *ngTemplateOutlet="isLoadingNumber"></ng-container>
+      <ng-container *ngTemplateOutlet="isLoadingNumber" />
     }
     <p [innerHTML]="'tab2.instant.probability' | translate"></p>
   </div>
 
   <div class="infos forecastLeadTime ace-data">
     @if (speed?.value) {
-      <div>{{ speed.value | forecastLeadTime: measureUnit }}mn</div>
+      <div>{{ speed.value | forecastLeadTime: measureUnit() }}mn</div>
     } @else {
-      <ng-container *ngTemplateOutlet="isLoadingNumber"></ng-container>
+      <ng-container *ngTemplateOutlet="isLoadingNumber" />
     }
     <p [innerHTML]="'tab2.instant.forecastLeadTime' | translate"></p>
   </div>
 
   <ng-template #isLoadingAceData let-index="index">
     <div class="value no-data">
-      <app-placeholder-data [placeholderAce]="true" [index]="index"></app-placeholder-data>
+      <app-placeholder-data [placeholderAce]="true" [index]="index" />
     </div>
   </ng-template>
   <ng-template #isLoadingNumber>
-    <app-placeholder-data [placeholderNumber]="true" [index]="2.5"></app-placeholder-data>
+    <app-placeholder-data [placeholderNumber]="true" [index]="2.5" />
   </ng-template>
 </ng-container>
 

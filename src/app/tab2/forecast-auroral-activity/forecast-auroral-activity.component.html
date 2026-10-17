@@ -10,7 +10,7 @@
       <span>
         {{ 'tab2.forecast.aurora-map' | translate }}
       </span>
-      <ion-icon id="aurora-map" name="information-circle"></ion-icon>
+      <ion-icon id="aurora-map" name="information-circle" />
       <ion-popover trigger="aurora-map" triggerAction="click" alignment="center">
         <ng-template>
           <div [innerHTML]="'tab2.forecast.tooltip.map' | translate"></div>
@@ -27,22 +27,22 @@
       <span>
         {{ 'tab2.forecast.nexthours.title' | translate }}
       </span>
-      <ion-icon id="kp-next-hours" name="information-circle"></ion-icon>
+      <ion-icon id="kp-next-hours" name="information-circle" />
       <ion-popover trigger="kp-next-hours" triggerAction="click" alignment="center">
         <ng-template>
           <div [innerHTML]="'tab2.forecast.tooltip.kp-next-hours' | translate"></div>
-          <ng-container *ngTemplateOutlet="documentation; context: { cardId: 11, path: 'infos' }"></ng-container>
+          <ng-container *ngTemplateOutlet="documentation; context: { cardId: 11, path: 'infos' }" />
         </ng-template>
       </ion-popover>
     </div>
     <div class="sub">{{ 'tab2.forecast.nexthours.sub' | translate }}</div>
     <canvas id="kpnexthours" #canvNextHour></canvas>
-    @if (kpForecast.length === 0) {
+    @if (kpForecast().length === 0) {
       <div class="data-not-displayed" [routerLink]="['..', 'tab3', 'helpcenter']">
         {{ 'tab2.forecast.no-data' | translate }}
       </div>
     }
-    <ng-container *ngTemplateOutlet="loading ? isLoading : null; context: { canvHeight: canvNextHour?.style.height }"></ng-container>
+    <ng-container *ngTemplateOutlet="loading() ? isLoading : null; context: { canvHeight: canvNextHour?.style.height }" />
   </div>
 
   <!--    KP 27 DAYS-->
@@ -51,22 +51,22 @@
       <span>
         {{ 'tab2.forecast.longterm.title' | translate }}
       </span>
-      <ion-icon id="kp-next-days" name="information-circle"></ion-icon>
+      <ion-icon id="kp-next-days" name="information-circle" />
       <ion-popover trigger="kp-next-days" triggerAction="click" alignment="center">
         <ng-template>
           <div [innerHTML]="'tab2.forecast.tooltip.kp-next-days' | translate"></div>
-          <ng-container *ngTemplateOutlet="documentation; context: { cardId: 11, path: 'infos' }"></ng-container>
+          <ng-container *ngTemplateOutlet="documentation; context: { cardId: 11, path: 'infos' }" />
         </ng-template>
       </ion-popover>
     </div>
     <div class="sub">{{ 'tab2.forecast.longterm.sub' | translate }}</div>
     <canvas id="kpforecast" #canvKpForecast></canvas>
-    @if (kpForecast27.length === 0) {
+    @if (kpForecast27().length === 0) {
       <div class="data-not-displayed" [routerLink]="['..', 'tab3', 'helpcenter']">
         {{ 'tab2.forecast.no-data' | translate }}
       </div>
     }
-    <ng-container *ngTemplateOutlet="loading ? isLoading : null; context: { canvHeight: canvKpForecast?.style.height }"></ng-container>
+    <ng-container *ngTemplateOutlet="loading() ? isLoading : null; context: { canvHeight: canvKpForecast?.style.height }" />
   </div>
 
   <!--    SPEED SOLAR WIND-->
@@ -75,22 +75,22 @@
       <span>
         {{ 'tab2.forecast.speed.title' | translate }}
       </span>
-      <ion-icon id="wind-speed" name="information-circle"></ion-icon>
+      <ion-icon id="wind-speed" name="information-circle" />
       <ion-popover trigger="wind-speed" triggerAction="click" alignment="center">
         <ng-template>
-          <div [innerHTML]="'tab2.forecast.tooltip.wind-speed' | translate: { unit: measure === 'metric' ? '500km/s' : '350mps' }"></div>
-          <ng-container *ngTemplateOutlet="documentation; context: { cardId: 12, path: 'infos' }"></ng-container>
+          <div [innerHTML]="'tab2.forecast.tooltip.wind-speed' | translate: { unit: measure() === 'metric' ? '500km/s' : '350mps' }"></div>
+          <ng-container *ngTemplateOutlet="documentation; context: { cardId: 12, path: 'infos' }" />
         </ng-template>
       </ion-popover>
     </div>
-    <div class="sub">{{ 'tab2.forecast.speed.sub' | translate: { unit: measure === 'metric' ? 'km/s' : 'mps' } }}</div>
+    <div class="sub">{{ 'tab2.forecast.speed.sub' | translate: { unit: measure() === 'metric' ? 'km/s' : 'mps' } }}</div>
     <canvas id="speed" #canvSpeed></canvas>
-    @if (solarWind.length === 0) {
+    @if (solarWind().length === 0) {
       <div class="data-not-displayed" [routerLink]="['..', 'tab3', 'helpcenter']">
         {{ 'tab2.forecast.no-data' | translate }}
       </div>
     }
-    <ng-container *ngTemplateOutlet="loading ? isLoading : null; context: { canvHeight: canvSpeed?.style.height }"></ng-container>
+    <ng-container *ngTemplateOutlet="loading() ? isLoading : null; context: { canvHeight: canvSpeed?.style.height }" />
   </div>
 
   <!--    DENSITY SOLAR WIND -->
@@ -99,22 +99,22 @@
       <span>
         {{ 'tab2.forecast.density.title' | translate }}
       </span>
-      <ion-icon id="wind-density" name="information-circle"></ion-icon>
+      <ion-icon id="wind-density" name="information-circle" />
       <ion-popover trigger="wind-density" triggerAction="click" alignment="center">
         <ng-template>
           <div [innerHTML]="'tab2.forecast.tooltip.wind-density' | translate"></div>
-          <ng-container *ngTemplateOutlet="documentation; context: { cardId: 12, path: 'infos' }"></ng-container>
+          <ng-container *ngTemplateOutlet="documentation; context: { cardId: 12, path: 'infos' }" />
         </ng-template>
       </ion-popover>
     </div>
     <div class="sub">{{ 'tab2.forecast.density.sub' | translate }}</div>
     <canvas id="density" #canvDensity></canvas>
-    @if (solarWind.length === 0) {
+    @if (solarWind().length === 0) {
       <div class="data-not-displayed" [routerLink]="['..', 'tab3', 'helpcenter']">
         {{ 'tab2.forecast.no-data' | translate }}
       </div>
     }
-    <ng-container *ngTemplateOutlet="loading ? isLoading : null; context: { canvHeight: canvDensity?.style.height }"></ng-container>
+    <ng-container *ngTemplateOutlet="loading() ? isLoading : null; context: { canvHeight: canvDensity?.style.height }" />
   </div>
 
   <!--    BZ SOLAR WIND -->
@@ -123,22 +123,22 @@
       <span>
         {{ 'tab2.forecast.bz.title' | translate }}
       </span>
-      <ion-icon id="wind-bz" name="information-circle"></ion-icon>
+      <ion-icon id="wind-bz" name="information-circle" />
       <ion-popover trigger="wind-bz" triggerAction="click" alignment="center">
         <ng-template>
           <div [innerHTML]="'tab2.forecast.tooltip.wind-bz' | translate"></div>
-          <ng-container *ngTemplateOutlet="documentation; context: { cardId: 13, path: 'infos' }"></ng-container>
+          <ng-container *ngTemplateOutlet="documentation; context: { cardId: 13, path: 'infos' }" />
         </ng-template>
       </ion-popover>
     </div>
     <div class="sub">{{ 'tab2.forecast.bz.sub' | translate }}</div>
     <canvas id="bz" #canvBz></canvas>
-    @if (solarWind.length === 0) {
+    @if (solarWind().length === 0) {
       <div class="data-not-displayed" [routerLink]="['..', 'tab3', 'helpcenter']">
         {{ 'tab2.forecast.no-data' | translate }}
       </div>
     }
-    <ng-container *ngTemplateOutlet="loading ? isLoading : null; context: { canvHeight: canvBz?.style.height }"></ng-container>
+    <ng-container *ngTemplateOutlet="loading() ? isLoading : null; context: { canvHeight: canvBz?.style.height }" />
   </div>
 
   <!--    BT SOLAR WIND -->
@@ -147,22 +147,22 @@
       <span>
         {{ 'tab2.forecast.bt.title' | translate }}
       </span>
-      <ion-icon id="wind-bt" name="information-circle"></ion-icon>
+      <ion-icon id="wind-bt" name="information-circle" />
       <ion-popover trigger="wind-bt" triggerAction="click" alignment="center">
         <ng-template>
           <div [innerHTML]="'tab2.forecast.tooltip.wind-bt' | translate"></div>
-          <ng-container *ngTemplateOutlet="documentation; context: { cardId: 13, path: 'infos' }"></ng-container>
+          <ng-container *ngTemplateOutlet="documentation; context: { cardId: 13, path: 'infos' }" />
         </ng-template>
       </ion-popover>
     </div>
     <div class="sub">{{ 'tab2.forecast.bt.sub' | translate }}</div>
     <canvas id="bt" #canvBt></canvas>
-    @if (solarWind.length === 0) {
+    @if (solarWind().length === 0) {
       <div class="data-not-displayed" [routerLink]="['..', 'tab3', 'helpcenter']">
         {{ 'tab2.forecast.no-data' | translate }}
       </div>
     }
-    <ng-container *ngTemplateOutlet="loading ? isLoading : null; context: { canvHeight: canvBt?.style.height }"></ng-container>
+    <ng-container *ngTemplateOutlet="loading() ? isLoading : null; context: { canvHeight: canvBt?.style.height }" />
   </div>
 
   <!--    SOLAR CYCLE -->
@@ -171,22 +171,22 @@
       <span>
         {{ 'tab2.forecast.cycle.title' | translate }}
       </span>
-      <ion-icon id="solar-cycle" name="information-circle"></ion-icon>
+      <ion-icon id="solar-cycle" name="information-circle" />
       <ion-popover trigger="solar-cycle" triggerAction="click" alignment="center">
         <ng-template>
           <div [innerHTML]="'tab2.forecast.tooltip.solar-cycle' | translate"></div>
-          <ng-container *ngTemplateOutlet="documentation; context: { cardId: 14, path: 'infos' }"></ng-container>
+          <ng-container *ngTemplateOutlet="documentation; context: { cardId: 14, path: 'infos' }" />
         </ng-template>
       </ion-popover>
     </div>
     <div class="sub">{{ 'tab2.forecast.cycle.sub' | translate }}</div>
     <canvas id="cycle" #canvCycle></canvas>
-    @if (solarCycle.length === 0) {
+    @if (solarCycle().length === 0) {
       <div class="data-not-displayed" [routerLink]="['..', 'tab3', 'helpcenter']">
         {{ 'tab2.forecast.no-data' | translate }}
       </div>
     }
-    <ng-container *ngTemplateOutlet="loading ? isLoading : null; context: { canvHeight: canvCycle?.style.height }"></ng-container>
+    <ng-container *ngTemplateOutlet="loading() ? isLoading : null; context: { canvHeight: canvCycle?.style.height }" />
   </div>
 
   <!--    POLES NORTH / SOUTH -->
@@ -195,7 +195,7 @@
       <span>
         {{ 'tab2.forecast.poles' | translate }}
       </span>
-      <ion-icon id="poles" name="information-circle"></ion-icon>
+      <ion-icon id="poles" name="information-circle" />
       <ion-popover trigger="poles" triggerAction="click" alignment="center">
         <ng-template>
           <div [innerHTML]="'tab2.forecast.tooltip.poles' | translate"></div>
@@ -209,7 +209,7 @@
   </div>
 
   <ng-template #isLoading let-canvHeight="canvHeight">
-    <app-placeholder-charts [canvHeight]="canvHeight"></app-placeholder-charts>
+    <app-placeholder-charts [canvHeight]="canvHeight" />
   </ng-template>
 
   <ng-template #documentation let-cardId="cardId" let-path="path">

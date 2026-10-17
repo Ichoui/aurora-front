@@ -1,51 +1,35 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import * as moment from 'moment';
-import {
-  Cloudy,
-  Currently,
-  Daily,
-  DailyTemp,
-  HourClock,
-  Hourly,
-  IconsOWM,
-  LottiesValues,
-  MeasureUnits,
-  TemperatureUnits,
-} from '../../models/weather';
+import type { OnChanges, SimpleChanges } from '@angular/core';
+import { afterNextRender, ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, inject, Injector, input, signal } from '@angular/core';
+import type { ChartType } from 'chart.js';
 import { Chart, registerables } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import moment from 'moment';
+import type { Cloudy, Currently, Daily, DailyTemp, Hourly } from '../../models/weather';
+import { HourClock, IconsOWM, LottiesValues, MeasureUnits, TemperatureUnits } from '../../models/weather';
 
-// Minimal local type (keeps the code compiling without ngx-lottie)
-export type AnimationOptions = {
-  path?: string;
-  autoplay?: boolean;
-  loop?: boolean;
-};
-
-import { ELocales } from '../../models/locales';
-import { MAIN_TEXT_COLOR, WEATHER_NEXT_HOUR_CHART_COLOR } from '../../models/colors';
-import { convertUnitTemperature, manageDates } from '../../models/utils';
-import { CityCoords } from '../../models/cities';
 import { DecimalPipe, NgOptimizedImage, NgTemplateOutlet, PercentPipe } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
-import { CalculateWindDegPipe } from './calculate-wind-deg.pipe';
-import { PlaceholderDataComponent } from '../../shared/placeholders/placeholder-data/placeholder-data.component';
-import { PlaceholderChartsComponent } from '../../shared/placeholders/placeholder-charts/placeholder-charts.component';
-import { CalculateUvPipe } from './calculate-uv.pipe';
+import { TranslatePipe } from '@ngx-translate/core';
 import { LottieComponent } from 'ngx-lottie';
+import type { CityCoords } from '../../models/cities';
+import { MAIN_TEXT_COLOR, WEATHER_NEXT_HOUR_CHART_COLOR } from '../../models/colors';
+import { ELocales } from '../../models/locales';
+import { convertUnitTemperature, manageDates } from '../../models/utils';
+import { PlaceholderChartsComponent } from '../../shared/placeholders/placeholder-charts/placeholder-charts.component';
+import { PlaceholderDataComponent } from '../../shared/placeholders/placeholder-data/placeholder-data.component';
+import { CalculateUvPipe } from './calculate-uv.pipe';
+import { CalculateWindDegPipe } from './calculate-wind-deg.pipe';
 
 Chart.register(...registerables);
 
 @Component({
   selector: 'app-meteo',
-  standalone: true,
   templateUrl: './meteo.component.html',
-  styleUrls: ['./meteo.component.scss'],
+  styleUrl: './meteo.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgTemplateOutlet,
     DecimalPipe,
-    TranslateModule,
+    TranslatePipe,
     CalculateWindDegPipe,
     PlaceholderDataComponent,
     PlaceholderChartsComponent,
@@ -56,31 +40,36 @@ Chart.register(...registerables);
   ],
 })
 export class MeteoComponent implements OnChanges {
-  @Input() coords: CityCoords;
-  @Input() currentWeather: Currently;
-  @Input() hourlyWeather: Hourly[];
-  @Input() sevenDayWeather: Daily[];
+  private readonly _cdr = inject(ChangeDetectorRef);
+  private readonly _injector = inject(Injector);
+  private readonly _destroyRef = inject(DestroyRef);
 
-  @Input() locale: ELocales;
-  @Input() measure: MeasureUnits;
-  @Input() temperature: TemperatureUnits;
+  readonly coords = input<CityCoords | null>(null);
+  readonly currentWeather = input<Currently | null>(null);
+  readonly displayWeather = signal<Currently | null>(null);
+  readonly hourlyWeather = input<Hourly[]>([]);
+  readonly sevenDayWeather = input<Daily[]>([]);
 
-  @Input() tzOffset: number;
-  @Input() hourClock: HourClock;
+  readonly locale = input(ELocales.EN);
+  readonly measure = input(MeasureUnits.METRIC);
+  readonly temperature = input(TemperatureUnits.CELSIUS);
 
-  @Input() loading = false;
+  readonly tzOffset = input(0);
+  readonly hourClock = input(HourClock.TWENTYFOUR);
 
-  sunset: string | moment.Moment;
-  sunrise: string | moment.Moment;
-  currentDatetime: string | moment.Moment;
+  readonly loading = input(false);
+
+  sunset = '';
+  sunrise = '';
+  currentDatetime = '';
   measureUnits = MeasureUnits;
   temperatureUnits = TemperatureUnits;
-  private _nextHoursChart: Chart;
+  private _nextHoursChart?: Chart<ChartType, number[], string>;
 
   cloudy: Cloudy[] = [];
   days: Daily[] = [];
 
-  todayTemp: DailyTemp;
+  todayTemp: DailyTemp | null = null;
   lottieConfig = {
     path: `assets/lotties/lottie-clear-day.json`,
     autoplay: true,
@@ -90,31 +79,32 @@ export class MeteoComponent implements OnChanges {
   readonly heightCurrent = 110;
   readonly dataNumbersInChart = 8;
 
-  constructor(private _cdr: ChangeDetectorRef) {}
+  constructor() {
+    this._destroyRef.onDestroy(() => this._nextHoursChart?.destroy());
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this._nextHoursChart?.destroy();
-    if (
-      changes?.currentWeather?.currentValue !== changes?.currentWeather?.previousValue ||
-      changes?.coords?.currentValue !== changes?.coords?.previousValue
-    ) {
-      this._todayForecast(changes.currentWeather.currentValue);
-    }
-    if (changes?.hourlyWeather?.currentValue !== changes?.hourlyWeather?.previousValue) {
-      this._nextHoursForecast(changes.hourlyWeather.currentValue);
-    }
-    if (changes?.sevenDayWeather?.currentValue !== changes?.sevenDayWeather?.previousValue) {
-      this._sevenDayForecast(changes.sevenDayWeather.currentValue);
-    }
-    this._cdr.markForCheck();
+    afterNextRender(
+      () => {
+        const weather = this.currentWeather();
+        if (weather && ['currentWeather', 'coords', 'temperature', 'locale', 'hourClock', 'tzOffset'].some(key => changes[key]))
+          this._todayForecast(weather);
+        if (this.hourlyWeather().length && ['hourlyWeather', 'temperature', 'locale', 'hourClock', 'tzOffset'].some(key => changes[key]))
+          this._nextHoursForecast(this.hourlyWeather());
+        if (this.sevenDayWeather().length && ['sevenDayWeather', 'temperature', 'locale', 'hourClock', 'tzOffset'].some(key => changes[key]))
+          this._sevenDayForecast(this.sevenDayWeather());
+        this._cdr.markForCheck();
+      },
+      { injector: this._injector },
+    );
   }
 
   private _todayForecast(currentWeather: Currently): void {
-    this.currentWeather = {
+    this.displayWeather.set({
       ...currentWeather,
-      temp: convertUnitTemperature(currentWeather.temp, this.temperature),
-      feels_like: convertUnitTemperature(currentWeather.feels_like, this.temperature),
-    };
+      temp: convertUnitTemperature(currentWeather.temp, this.temperature()),
+      feels_like: convertUnitTemperature(currentWeather.feels_like, this.temperature()),
+    });
 
     if (currentWeather.sunset === currentWeather.sunrise) {
       const polar = this._nearestSolstice();
@@ -123,21 +113,27 @@ export class MeteoComponent implements OnChanges {
     } else {
       this.sunrise = manageDates(
         currentWeather.sunrise,
-        this.hourClock === HourClock.TWELVE ? 'hh:mm A' : 'HH[h]mm',
-        this.locale,
-        this.tzOffset,
+        this.hourClock() === HourClock.TWELVE ? 'hh:mm A' : 'HH[h]mm',
+        this.locale(),
+        this.tzOffset(),
         true,
       );
-      this.sunset = manageDates(currentWeather.sunset, this.hourClock === HourClock.TWELVE ? 'hh:mm A' : 'HH[h]mm', this.locale, this.tzOffset, true);
+      this.sunset = manageDates(
+        currentWeather.sunset,
+        this.hourClock() === HourClock.TWELVE ? 'hh:mm A' : 'HH[h]mm',
+        this.locale(),
+        this.tzOffset(),
+        true,
+      );
     }
 
     this._lotties(this._calculateWeaterIcons(currentWeather));
 
     this.currentDatetime = manageDates(
       moment().unix(),
-      this.hourClock === HourClock.TWELVE ? 'dddd Do of MMMM, hh:mm A' : 'dddd DD MMMM, HH[h]mm',
-      this.locale,
-      this.tzOffset,
+      this.hourClock() === HourClock.TWELVE ? 'dddd Do of MMMM, hh:mm A' : 'dddd DD MMMM, HH[h]mm',
+      this.locale(),
+      this.tzOffset(),
       true,
     );
     this._cdr.markForCheck();
@@ -169,25 +165,29 @@ export class MeteoComponent implements OnChanges {
     }
   }
 
-  private _nextHoursForecast(hourly: Hourly[]) {
+  private _nextHoursForecast(hourly: Hourly[]): void {
+    this._nextHoursChart?.destroy();
     this.cloudy = [];
-    let temperaturesArr = [];
-    let nextHoursArr = [];
+    const temperaturesArr = [];
+    const nextHoursArr = [];
     for (const [i, hours] of hourly.entries()) {
+      const hourClock = this.hourClock();
+      const locale = this.locale();
+      const tzOffset = this.tzOffset();
       if (temperaturesArr.length < this.dataNumbersInChart && i % 2 === 0) {
-        const temp = convertUnitTemperature(Math.round(hours.temp), this.temperature);
+        const temp = convertUnitTemperature(Math.round(hours.temp), this.temperature());
         temperaturesArr.push(temp);
-        nextHoursArr.push(manageDates(hours.dt, this.hourClock === HourClock.TWELVE ? 'hh A' : 'HH[h]', this.locale, this.tzOffset));
+        nextHoursArr.push(manageDates(hours.dt, hourClock === HourClock.TWELVE ? 'hh A' : 'HH[h]', locale, tzOffset));
       }
       const cloudy: Cloudy = {
         percent: hours.clouds,
-        time: manageDates(hours.dt, this.hourClock === HourClock.TWELVE ? 'hh A' : 'HH[h]', this.locale, this.tzOffset),
+        time: manageDates(hours.dt, hourClock === HourClock.TWELVE ? 'hh A' : 'HH[h]', locale, tzOffset),
       };
       if (this.cloudy.length < this.dataNumbersInChart) {
         this.cloudy.push(cloudy);
       }
     }
-    this._nextHoursChart = new Chart('next-hours', {
+    this._nextHoursChart = new Chart<ChartType, number[], string>('next-hours', {
       type: 'line',
       plugins: [ChartDataLabels],
       data: {
@@ -263,23 +263,23 @@ export class MeteoComponent implements OnChanges {
     });
   }
 
-  private _sevenDayForecast(sevenDayWeather: Daily[]) {
+  private _sevenDayForecast(sevenDayWeather: Daily[]): void {
     this.days = [];
     sevenDayWeather.forEach((day: Daily, index) => {
       if (index === 0) {
         this.todayTemp = {
           ...day.temp,
-          max: convertUnitTemperature(day.temp.max, this.temperature),
-          min: convertUnitTemperature(day.temp.min, this.temperature),
+          max: convertUnitTemperature(day.temp.max, this.temperature()),
+          min: convertUnitTemperature(day.temp.min, this.temperature()),
         };
       } else {
         this.days.push({
           ...day,
-          date: manageDates(day.dt, 'ddd DD', this.locale, this.tzOffset),
+          date: manageDates(day.dt, 'ddd DD', this.locale(), this.tzOffset()),
           temp: {
             ...day.temp,
-            max: convertUnitTemperature(day.temp.max, this.temperature),
-            min: convertUnitTemperature(day.temp.min, this.temperature),
+            max: convertUnitTemperature(day.temp.max, this.temperature()),
+            min: convertUnitTemperature(day.temp.min, this.temperature()),
           },
         });
       }
@@ -361,6 +361,7 @@ export class MeteoComponent implements OnChanges {
           return LottiesValues.CLEAR_NIGHT;
         }
     }
+    return LottiesValues.CLEAR_DAY;
   }
 
   private _lotties(icon: LottiesValues): void {
@@ -378,7 +379,7 @@ export class MeteoComponent implements OnChanges {
     };
   }
 
-  splitDate(date: string | moment.Moment): string {
+  splitDate(date: string | moment.Moment | null | undefined): string {
     let splittedDate: string[];
     // On rentre 100% du temps dans cette condition
     if (typeof date === 'string') {
@@ -387,5 +388,6 @@ export class MeteoComponent implements OnChanges {
       const dayDate = splittedDate[1];
       return weekDay + '<br>' + dayDate;
     }
+    return '';
   }
 }

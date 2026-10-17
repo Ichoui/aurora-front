@@ -1,4 +1,5 @@
-const fs = require('fs');
+const { copyFile } = require('node:fs/promises');
+const path = require('node:path');
 
 const SOURCE_ANDROID_ICON = 'resources/android/icon/';
 const SOURCE_ANDROID_SPLASH = 'resources/android/splash/';
@@ -38,16 +39,21 @@ const ANDROID_SPLASHES = [
   { source: 'drawable-port-xxxhdpi-screen.png', target: 'drawable-port-xxxhdpi/splash.png' },
 ];
 
-function copyImages(sourcePath, targetPath, images) {
-  for (const icon of images) {
-    let source = sourcePath + icon.source;
-    let target = targetPath + icon.target;
-    fs.copyFile(source, target, err => {
-      if (err) throw err;
+async function copyImages(sourcePath, targetPath, images) {
+  await Promise.all(
+    images.map(async icon => {
+      const source = path.join(sourcePath, icon.source);
+      const target = path.join(targetPath, icon.target);
+      await copyFile(source, target);
       console.warn(`${source} >> ${target}`);
-    });
-  }
+    }),
+  );
 }
 
-copyImages(SOURCE_ANDROID_ICON, TARGET_ANDROID_ICON, ANDROID_ICONS);
-copyImages(SOURCE_ANDROID_SPLASH, TARGET_ANDROID_SPLASH, ANDROID_SPLASHES);
+Promise.all([
+  copyImages(SOURCE_ANDROID_ICON, TARGET_ANDROID_ICON, ANDROID_ICONS),
+  copyImages(SOURCE_ANDROID_SPLASH, TARGET_ANDROID_SPLASH, ANDROID_SPLASHES),
+]).catch(error => {
+  console.error('Android asset copy failed', error);
+  process.exitCode = 1;
+});

@@ -1,27 +1,23 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-
-import { IonicModule, Platform } from '@ionic/angular';
+import { Capacitor, SystemBars, SystemBarsStyle } from '@capacitor/core';
+import { Geolocation } from '@capacitor/geolocation';
+import { IonApp, IonRouterOutlet, Platform } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
-import { StatusBar } from '@capacitor/status-bar';
-import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 
-import { StorageService } from './storage.service';
-import { HourClock, MeasureUnits, TemperatureUnits } from './models/weather';
 import { ELocales } from './models/locales';
-import { STATUS_BAR_COLOR } from './models/colors';
-import { ToastError } from './shared/toast/toast.component';
-import { CityCoords } from './models/cities';
+import { HourClock, MeasureUnits, TemperatureUnits } from './models/weather';
+import type { ToastError } from './shared/toast/toast.component';
+import { StorageService } from './storage.service';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [CommonModule, IonicModule],
-  providers: [Geolocation],
+  imports: [IonApp, IonRouterOutlet],
+  // Ionic's cached router views need an eager application shell.
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <ion-app class="md">
-      @if (!loadApp) {
+      @if (!loadApp()) {
         <div class="content-spinner">
           <div class="whirly-loader"></div>
         </div>
@@ -32,156 +28,79 @@ import { CityCoords } from './models/cities';
   `,
 })
 export class AppComponent {
-  dataToast: ToastError;
-  loadApp: boolean = false;
+  private readonly _platform = inject(Platform);
+  private readonly _router = inject(Router);
+  private readonly _translateService = inject(TranslateService);
+  private readonly _storageService = inject(StorageService);
 
-  constructor(
-    private _platform: Platform,
-    private _router: Router,
-    private _translateService: TranslateService,
-    private _storageService: StorageService,
-    private _translate: TranslateService,
-    private _cdr: ChangeDetectorRef,
-    private _geoloc: Geolocation,
-  ) {
-    this._initializeApp();
+  dataToast: ToastError | null = null;
+  readonly loadApp = signal(false);
+
+  constructor() {
+    void this._initializeApp().catch((error: unknown) => console.error('Application initialization failed', error));
   }
 
-  private _initializeApp(): void {
-    if (this._platform.is('hybrid')) {
-      void StatusBar.setBackgroundColor({ color: STATUS_BAR_COLOR });
+  private async _initializeApp(): Promise<void> {
+    await this._platform.ready();
+    if (Capacitor.isNativePlatform()) {
+      await SystemBars.setStyle({ style: SystemBarsStyle.Dark });
     }
-    this._translateService.addLangs(['fr', 'en']);
-
-    // INITIAL ROUTE
-    this._router.navigate(['/tabs/tab2']);
-
-    this._platform.ready().then(async () => {
-      this._storageService
-        .init()
-        .then(() => {
-          // Vérifier si une location a déjà été set par le passé sur l'appli, sinon on fait les demandes de géoloc car probable première visite
-          this._storageService.getData('location').then((coords: CityCoords) => {
-            if (!coords) {
-              this._getPosition();
-            } else {
-              this.loadApp = true;
-              this._cdr.markForCheck();
-            }
-          });
-        })
-        .then(() => {
-          this._getLocale();
-          this._getMeasureUnit();
-          this._getTempUnit();
-          this._getHourClockSystem();
-        });
-    });
+    this._translateService.addLangs([ELocales.FR, ELocales.EN]);
+    await this._storageService.init();
+    await Promise.all([this._getLocale(), this._getMeasureUnit(), this._getTempUnit(), this._getHourClockSystem()]);
+    const coords = await this._storageService.getData('location');
+    if (!coords) {
+      await this._getPosition();
+    } else {
+      this.loadApp.set(true);
+    }
+    await this._router.navigate(['/tabs/tab2']);
   }
 
-  /**
-   * Détermine la localisation de l'utilisateur
-   * Par défaut : Tromso
-   */
+  /** Détermine la localisation de l'utilisateur ; Tromsø reste le choix de repli. */
   private async _getPosition(): Promise<void> {
-    this._geoloc
-      .getCurrentPosition()
-      .then(resp => this._setStorageLocation(resp.coords.latitude, resp.coords.longitude))
-      .catch(error => {
-        console.warn('getPosition() : Geolocation error, message :', error.message);
-        this._setStorageLocation(69.650288, 18.955098); // par défaut, on met tromso
-        this.dataToast = {
-          message: this._translate.instant('global.error.geoloc'),
-          status: error.status,
-        };
-      });
+    try {
+      const { coords } = await Geolocation.getCurrentPosition();
+      await this._setStorageLocation(coords.latitude, coords.longitude);
+    } catch (error: unknown) {
+      console.warn('getPosition(): Geolocation error', error);
+      await this._setStorageLocation(69.650288, 18.955098);
+      this.dataToast = {
+        message: this._translateService.instant('global.error.geoloc') as string,
+        status: error instanceof Error ? error.name : '',
+      };
+    }
   }
 
-  private _setStorageLocation(lat: number, long: number): void {
-    this._storageService.setData('location', {
-      lat,
-      long,
-    });
-    this.loadApp = true;
-    this._cdr.markForCheck();
+  private async _setStorageLocation(lat: number, long: number): Promise<void> {
+    await this._storageService.setData('location', { lat, long });
+    this.loadApp.set(true);
   }
 
-  private _getLocale(): void {
-    this._storageService.getData('locale').then(
-      (locale: ELocales) => {
-        if (locale) {
-          this._translateService.setDefaultLang(locale);
-          void this._storageService.setData('locale', locale);
-        } else {
-          if (this._translateService.getBrowserLang() === ELocales.FR) {
-            this._translateService.setDefaultLang(ELocales.FR);
-            void this._storageService.setData('locale', ELocales.FR);
-          } else {
-            this._translateService.setDefaultLang(ELocales.EN);
-            void this._storageService.setData('locale', ELocales.EN);
-          }
-        }
-      },
-      noValue => {
-        void this._storageService.setData('locale', ELocales.EN);
-        console.warn('_getLocale() : problem with locale : ', noValue);
-      },
-    );
+  private async _getLocale(): Promise<void> {
+    const locale =
+      (await this._storageService.getData('locale')) ?? (this._translateService.getBrowserLang() === ELocales.FR ? ELocales.FR : ELocales.EN);
+    this._translateService.setFallbackLang(locale);
+    this._translateService.use(locale);
+    await this._storageService.setData('locale', locale);
   }
 
-  private _getMeasureUnit(): void {
-    this._storageService.getData('measure').then(
-      (measure: MeasureUnits) => {
-        if (measure) {
-          void this._storageService.setData('measure', measure);
-        } else {
-          if (this._translateService.getBrowserLang() === ELocales.FR) {
-            void this._storageService.setData('measure', 'metric');
-          } else {
-            void this._storageService.setData('measure', 'imperial');
-          }
-        }
-      },
-      noValue => {
-        void this._storageService.setData('measure', 'metric');
-        console.warn('_getMeasureUnit() : problem with measure unit : ', noValue);
-      },
-    );
+  private async _getMeasureUnit(): Promise<void> {
+    const measure =
+      (await this._storageService.getData('measure')) ??
+      (this._translateService.getBrowserLang() === ELocales.FR ? MeasureUnits.METRIC : MeasureUnits.IMPERIAL);
+    await this._storageService.setData('measure', measure);
   }
 
-  private _getTempUnit(): void {
-    this._storageService.getData('temperature').then(
-      (measure: TemperatureUnits) => {
-        if (measure) {
-          void this._storageService.setData('temperature', measure);
-        } else {
-          if (this._translateService.getBrowserLang() === ELocales.FR) {
-            void this._storageService.setData('temperature', 'celsius');
-          } else {
-            void this._storageService.setData('temperature', 'fahrenheit');
-          }
-        }
-      },
-      noValue => {
-        void this._storageService.setData('temperature', 'celsius');
-        console.warn('_getTempUnit() : problem with temperature : ', noValue);
-      },
-    );
+  private async _getTempUnit(): Promise<void> {
+    const temperature =
+      (await this._storageService.getData('temperature')) ??
+      (this._translateService.getBrowserLang() === ELocales.FR ? TemperatureUnits.CELSIUS : TemperatureUnits.FAHRENHEIT);
+    await this._storageService.setData('temperature', temperature);
   }
 
-  private _getHourClockSystem(): void {
-    this._storageService.getData('clock').then(
-      (format: HourClock) => {
-        if (format) {
-          void this._storageService.setData('clock', format);
-        } else {
-          void this._storageService.setData('clock', 'twentyfour');
-        }
-      },
-      noValue => {
-        void this._storageService.setData('clock', 'twentyfour');
-        console.warn('_getHourClockSystem() : problem with hour clock system : ', noValue);
-      },
-    );
+  private async _getHourClockSystem(): Promise<void> {
+    const clock = (await this._storageService.getData('clock')) ?? HourClock.TWENTYFOUR;
+    await this._storageService.setData('clock', clock);
   }
 }

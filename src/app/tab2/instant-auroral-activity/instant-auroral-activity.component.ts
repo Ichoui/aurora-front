@@ -1,76 +1,68 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  CUSTOM_ELEMENTS_SCHEMA,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
+import type { OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { afterNextRender, ChangeDetectionStrategy, ChangeDetectorRef, Component, computed, ElementRef, inject, Injector, input } from '@angular/core';
+import { Router } from '@angular/router';
+import { IonPopover, PopoverController } from '@ionic/angular';
+import { TranslatePipe } from '@ngx-translate/core';
+import type { Bt, Bz, Density, KpCurrent, SolarWind, Speed } from '../../models/aurorav3';
+import { AuroraEnumColours, SolarWindTypes } from '../../models/aurorav3';
 import { convertUnitMeasure, determineColorsOfValue, roundTwoNumbers } from '../../models/utils';
 import { MeasureUnits } from '../../models/weather';
-import { AuroraEnumColours, Bt, Bz, Density, KpCurrent, SolarWind, SolarWindTypes, Speed } from '../../models/aurorav3';
-import { Router } from '@angular/router';
-import { PopoverController } from '@ionic/angular';
-import { TranslateModule } from '@ngx-translate/core';
-import { IonPopover } from '@ionic/angular/standalone';
-import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { PlaceholderDataComponent } from '../../shared/placeholders/placeholder-data/placeholder-data.component';
 import { ForecastLeadTimePipe } from './forecast-lead-time.pipe';
 
 @Component({
   selector: 'app-instant-auroral-activity',
-  standalone: true,
   templateUrl: './instant-auroral-activity.component.html',
-  styleUrls: ['./instant-auroral-activity.component.scss'],
+  styleUrl: './instant-auroral-activity.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TranslateModule, IonPopover, NgTemplateOutlet, NgClass, PlaceholderDataComponent, ForecastLeadTimePipe],
+  imports: [TranslatePipe, IonPopover, NgTemplateOutlet, NgClass, PlaceholderDataComponent, ForecastLeadTimePipe],
 })
 export class InstantAuroralActivityComponent implements OnInit, OnChanges {
-  density: Density;
-  speed: Speed;
-  bz: Bz;
-  bt: Bt;
+  private readonly _cdr = inject(ChangeDetectorRef);
+  private readonly _injector = inject(Injector);
+  private readonly _element = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly _router = inject(Router);
+  private readonly _popover = inject(PopoverController);
+
+  density: Density | null = null;
+  speed: Speed | null = null;
+  bz: Bz | null = null;
+  bt: Bt | null = null;
   AuroraEnumColours = AuroraEnumColours;
 
-  @Input() measureUnit: MeasureUnits;
-  @Input() solarWind: SolarWind;
-  @Input() nowcastAurora: number;
-  @Input() kpCurrent: KpCurrent;
-  @Input() loading = false;
-
-  constructor(
-    private _cdr: ChangeDetectorRef,
-    private _router: Router,
-    private _popover: PopoverController,
-  ) {}
+  readonly measureUnit = input(MeasureUnits.METRIC);
+  readonly solarWind = input<SolarWind | null>(null);
+  readonly nowcastAurora = input<number | null>(null);
+  readonly kpCurrent = input<KpCurrent | null>(null);
+  readonly currentKp = computed(() => {
+    const kp = this.kpCurrent();
+    if (!kp) return null;
+    const value = kp.k_index ?? kp.kpIndex;
+    return {
+      kpIndex: value != null && Number.isFinite(value) ? roundTwoNumbers(value) : null,
+      timeTag: kp.time_tag ?? kp.timeTag,
+      color: determineColorsOfValue('kp', roundTwoNumbers(value)),
+    };
+  });
+  readonly loading = input(false);
 
   ngOnInit(): void {
     this._auroraBackground();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (!changes?.measureUnit?.firstChange && changes?.measureUnit?.currentValue !== changes?.measureUnit?.previousValue) {
+    if (this.speed && !changes['measureUnit']?.firstChange && changes['measureUnit']?.currentValue !== changes['measureUnit']?.previousValue) {
       this.speed = {
         ...this.speed,
-        value: convertUnitMeasure(this.speed?.value, this.measureUnit),
-        color: determineColorsOfValue(SolarWindTypes.SPEED, convertUnitMeasure(this.speed?.value, this.measureUnit), this.measureUnit),
-        unit: this.measureUnit,
+        value: convertUnitMeasure(this.speed?.value, this.measureUnit()),
+        color: determineColorsOfValue(SolarWindTypes.SPEED, convertUnitMeasure(this.speed?.value, this.measureUnit()), this.measureUnit()),
+        unit: this.measureUnit(),
       };
     }
 
-    if (changes?.kpCurrent?.currentValue) {
-      const kpCurrent = changes.kpCurrent.currentValue;
-      this.kpCurrent = {
-        kpIndex: !isNaN(kpCurrent.k_index) ? roundTwoNumbers(kpCurrent.k_index) : null,
-        timeTag: kpCurrent.time_tag,
-        color: determineColorsOfValue('kp', roundTwoNumbers(kpCurrent.k_index)),
-      };
-    }
-
-    if (changes?.solarWind?.currentValue) {
-      const solarWind: SolarWind = changes.solarWind.currentValue;
+    const solarWind = this.solarWind();
+    if (solarWind && changes['solarWind']) {
       this.density = {
         value: solarWind.density,
         date: new Date(solarWind.time_tag),
@@ -90,11 +82,11 @@ export class InstantAuroralActivityComponent implements OnInit, OnChanges {
         color: determineColorsOfValue(SolarWindTypes.BT, solarWind.bt),
       };
       this.speed = {
-        value: convertUnitMeasure(solarWind.speed, this.measureUnit),
+        value: convertUnitMeasure(solarWind.speed, this.measureUnit()),
         date: new Date(solarWind.time_tag),
         time_tag: new Date(solarWind.time_tag),
-        color: determineColorsOfValue(SolarWindTypes.SPEED, convertUnitMeasure(solarWind.speed, this.measureUnit), this.measureUnit),
-        unit: this.measureUnit,
+        color: determineColorsOfValue(SolarWindTypes.SPEED, convertUnitMeasure(solarWind.speed, this.measureUnit()), this.measureUnit()),
+        unit: this.measureUnit(),
       };
     }
     this._cdr.markForCheck();
@@ -110,15 +102,12 @@ export class InstantAuroralActivityComponent implements OnInit, OnChanges {
    * Fait scintiller les étoiles en background
    * */
   private _auroraBackground(): void {
-    const reset = e => {
-      e.target.className = 'star';
-      setTimeout(() => {
-        e.target.className = 'star star--animated';
-      }, 0);
-    };
-    const stars = document.querySelectorAll('.star');
-    for (let i = 0; i < stars.length; i++) {
-      stars[i].addEventListener('animationend', reset);
-    }
+    afterNextRender(
+      () => {
+        const stars = this._element.nativeElement.querySelectorAll<HTMLElement>('.star');
+        for (const star of stars) star.style.animationIterationCount = 'infinite';
+      },
+      { injector: this._injector },
+    );
   }
 }

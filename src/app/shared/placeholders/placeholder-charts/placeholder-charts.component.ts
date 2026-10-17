@@ -1,15 +1,14 @@
-import { CommonModule } from '@angular/common';
-import { Component, HostBinding, Input } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-placeholder-charts',
-  standalone: true,
-  imports: [CommonModule, IonicModule],
+  imports: [],
   templateUrl: './placeholder-charts.component.html',
-  styleUrls: ['./placeholder-charts.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { '[style.height]': 'canvHeight()', '[class.no-canvas]': 'height()' },
+  styleUrl: './placeholder-charts.component.scss',
 })
 export class PlaceholderChartsComponent {
-  @HostBinding('style.height') @Input() canvHeight?: number | null;
-  @HostBinding('class.no-canvas') @Input() height?: boolean;
+  readonly canvHeight = input<string | null | undefined>(null);
+  readonly height = input(false);
 }

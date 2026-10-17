@@ -1,19 +1,30 @@
+import { NgOptimizedImage, NgTemplateOutlet } from '@angular/common';
+import type { ElementRef, OnChanges, SimpleChanges } from '@angular/core';
 import {
+  afterNextRender,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  CUSTOM_ELEMENTS_SCHEMA,
-  ElementRef,
-  Input,
-  OnChanges,
-  SimpleChanges,
-  ViewChild,
+  DestroyRef,
+  inject,
+  Injector,
+  input,
+  viewChild,
 } from '@angular/core';
-import { ModalController, PopoverController } from '@ionic/angular';
-import { ModalComponent } from '../../shared/modal/modal.component';
-import { Chart, ChartType, registerables } from 'chart.js';
+import { Router, RouterLink } from '@angular/router';
+import { IonIcon, IonPopover, ModalController, PopoverController } from '@ionic/angular';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import type { ChartType, ScriptableContext } from 'chart.js';
+import { Chart, registerables } from 'chart.js';
+import annotationPlugin from 'chartjs-plugin-annotation';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import * as moment from 'moment';
+import type { Marker, ZoomPanOptions } from 'leaflet';
+import { icon, LatLng, Map, marker, tileLayer } from 'leaflet';
+import moment from 'moment';
+import type { Kp27day, KpForecast, SolarCycle, SolarWind } from '../../models/aurorav3';
+import { AuroraEnumColours, SolarWindTypes } from '../../models/aurorav3';
+import { MAIN_TEXT_COLOR, SOLARWIND_NOWTIME_BGC_CHART_COLOR, SOLARWIND_NOWTIME_CHART_COLOR } from '../../models/colors';
+import { ELocales } from '../../models/locales';
 import {
   colorSwitcher,
   convertUnitMeasure,
@@ -22,87 +33,81 @@ import {
   updateDataChart,
   updateGradientBackgroundChart,
 } from '../../models/utils';
-import { MAIN_TEXT_COLOR, SOLARWIND_NOWTIME_BGC_CHART_COLOR, SOLARWIND_NOWTIME_CHART_COLOR } from '../../models/colors';
-import { StorageService } from '../../storage.service';
-import { icon, LatLng, Map, Marker, marker, tileLayer, ZoomPanOptions } from 'leaflet';
-import { AuroraEnumColours, Kp27day, KpForecast, SolarCycle, SolarWind, SolarWindTypes } from '../../models/aurorav3';
-import { ELocales } from '../../models/locales';
 import { HourClock, MeasureUnits } from '../../models/weather';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import annotationPlugin from 'chartjs-plugin-annotation';
-import { Router, RouterLink } from '@angular/router';
-import { CityCoords } from '../../models/cities';
-import { IonIcon, IonPopover } from '@ionic/angular/standalone';
+import { ModalComponent } from '../../shared/modal/modal.component';
 import { PlaceholderChartsComponent } from '../../shared/placeholders/placeholder-charts/placeholder-charts.component';
-import { NgOptimizedImage, NgTemplateOutlet } from '@angular/common';
+import { StorageService } from '../../storage.service';
 
-const numberMax27Forecast = 14;
 const numberMaxNextHours = 12;
 Chart.register(...registerables, annotationPlugin);
 
 @Component({
   selector: 'app-forecast-auroral-activity',
-  standalone: true,
   templateUrl: './forecast-auroral-activity.component.html',
-  styleUrls: ['./forecast-auroral-activity.component.scss'],
+  styleUrl: './forecast-auroral-activity.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [IonIcon, TranslateModule, RouterLink, IonPopover, PlaceholderChartsComponent, NgTemplateOutlet, NgOptimizedImage],
+  imports: [IonIcon, TranslatePipe, RouterLink, IonPopover, PlaceholderChartsComponent, NgTemplateOutlet, NgOptimizedImage],
 })
 export class ForecastAuroralActivityComponent implements OnChanges {
-  @Input() kpForecast: KpForecast[];
-  @Input() kpForecast27: Kp27day[];
-  @Input() solarWind: SolarWind[];
-  @Input() solarCycle: SolarCycle[];
-  @Input() measure: MeasureUnits;
-  @Input() locale: ELocales;
-  @Input() hourClock: HourClock;
-  @Input() loading = false;
+  private readonly _modalController = inject(ModalController);
+  private readonly _storageService = inject(StorageService);
+  private readonly _translateService = inject(TranslateService);
+  private readonly _cdr = inject(ChangeDetectorRef);
+  private readonly _injector = inject(Injector);
+  private readonly _destroyRef = inject(DestroyRef);
+  private readonly _router = inject(Router);
+  private readonly _popover = inject(PopoverController);
 
-  private _chartKpForecast: Chart<ChartType, string[]>;
-  private _chartKpForecast27: Chart<ChartType, string[]>;
-  private _chartKpDensity: Chart<ChartType, string[]>;
-  private _chartKpSpeed: Chart<ChartType, string[]>;
-  private _chartKpBz: Chart<ChartType, string[]>;
-  private _chartKpBt: Chart<ChartType, string[]>;
-  private _chartCycle: Chart<ChartType, string[]>;
+  readonly kpForecast = input<KpForecast[]>([]);
+  readonly kpForecast27 = input<Kp27day[]>([]);
+  readonly solarWind = input<SolarWind[]>([]);
+  readonly solarCycle = input<SolarCycle[]>([]);
+  readonly measure = input(MeasureUnits.METRIC);
+  readonly locale = input(ELocales.EN);
+  readonly hourClock = input(HourClock.TWENTYFOUR);
+  readonly loading = input(false);
 
-  private _marker: Marker;
-  private _map: Map;
-  private _formattedAnnotationDate: string | moment.Moment;
-  @ViewChild('map_canvas', { static: false }) mapElement: ElementRef;
+  private _chartKpForecast?: Chart<ChartType, number[], string>;
+  private _chartKpForecast27?: Chart<ChartType, number[], string>;
+  private _chartKpDensity?: Chart<ChartType, number[], string>;
+  private _chartKpSpeed?: Chart<ChartType, number[], string>;
+  private _chartKpBz?: Chart<ChartType, number[], string>;
+  private _chartKpBt?: Chart<ChartType, number[], string>;
+  private _chartCycle?: Chart<ChartType, number[], string>;
 
-  constructor(
-    private _modalController: ModalController,
-    private _storageService: StorageService,
-    private _translateService: TranslateService,
-    private _cdr: ChangeDetectorRef,
-    private _router: Router,
-    private _popover: PopoverController,
-  ) {}
+  private _marker?: Marker;
+  private _map?: Map;
+  private _formattedAnnotationDate = '';
+  readonly mapElement = viewChild<ElementRef<HTMLDivElement>>('map_canvas');
+
+  constructor() {
+    this._destroyRef.onDestroy(() => {
+      [
+        this._chartKpForecast,
+        this._chartKpForecast27,
+        this._chartKpDensity,
+        this._chartKpSpeed,
+        this._chartKpBz,
+        this._chartKpBt,
+        this._chartCycle,
+      ].forEach(chart => chart?.destroy());
+      this._map?.remove();
+    });
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.minimapLocation(); // Here to reload map at each change of location
-    this._formattedAnnotationDate = manageDates(+moment(), this.hourClock === HourClock.TWENTYFOUR ? 'HH[h]mm' : 'hh:mm A');
-
-    if (changes?.kpForecast?.currentValue !== changes?.kpForecast?.previousValue) {
-      const firstChange = changes?.kpForecast?.firstChange;
-      this._chartNextHoursForecast(changes.kpForecast.currentValue, firstChange);
-    }
-
-    if (changes?.kpForecast27?.currentValue !== changes?.kpForecast27?.previousValue) {
-      const firstChange = changes?.kpForecast?.firstChange;
-      this._chartForecast27day(changes.kpForecast27.currentValue, firstChange);
-    }
-
-    if (changes?.solarWind?.currentValue !== changes?.solarWind?.previousValue) {
-      this._calculateDataForChartSolarWind(changes.solarWind.currentValue);
-    }
-
-    if (changes?.solarCycle?.currentValue !== changes?.solarCycle?.previousValue) {
-      this._calculateDataForChartSolarCycle(changes.solarCycle.currentValue);
-    }
-
-    this._cdr.markForCheck();
+    afterNextRender(
+      () => {
+        this.minimapLocation();
+        this._formattedAnnotationDate = manageDates(+moment(), this.hourClock() === HourClock.TWENTYFOUR ? 'HH[h]mm' : 'hh:mm A');
+        if (changes['kpForecast']) this._chartNextHoursForecast(this.kpForecast(), changes['kpForecast'].firstChange);
+        if (changes['kpForecast27']) this._chartForecast27day(this.kpForecast27(), changes['kpForecast27'].firstChange);
+        if (['solarWind', 'measure', 'hourClock'].some(key => changes[key])) this._calculateDataForChartSolarWind(this.solarWind());
+        if (changes['solarCycle'] || changes['locale']) this._calculateDataForChartSolarCycle(this.solarCycle());
+        this._cdr.markForCheck();
+      },
+      { injector: this._injector },
+    );
   }
 
   /**
@@ -110,8 +115,8 @@ export class ForecastAuroralActivityComponent implements OnChanges {
    * Charge également la map avec les lat/long envoyée depuis la page popup (Marker et Ville Préselectionnées)
    * */
   minimapLocation(): void {
-    this._storageService.getData('location').then((coords: CityCoords) => {
-      if (coords) {
+    this._storageService.getData('location').then(coords => {
+      if (coords && !this._destroyRef.destroyed) {
         this._mapInit(coords.lat, coords.long);
       }
     });
@@ -122,9 +127,12 @@ export class ForecastAuroralActivityComponent implements OnChanges {
    * @param long
    * Création de la map
    * */
-  private _mapInit(lat: any, long: any): void {
+  private _mapInit(lat: number, long: number): void {
     if (!this._map) {
-      this._map = new Map('map_canvas');
+      const canvas = this.mapElement()?.nativeElement;
+      if (!canvas) return;
+      this._map = new Map(canvas);
+      tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { className: 'map-filter' }).addTo(this._map);
     }
     const mapOpt: ZoomPanOptions = {
       animate: true,
@@ -138,10 +146,6 @@ export class ForecastAuroralActivityComponent implements OnChanges {
     this._map.doubleClickZoom.disable();
     this._map.scrollWheelZoom.disable();
     this._map.attributionControl.remove();
-
-    tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      className: 'map-filter',
-    }).addTo(this._map);
   }
 
   /**
@@ -149,7 +153,8 @@ export class ForecastAuroralActivityComponent implements OnChanges {
    * @param long
    * Création d'un marker sur la map
    * */
-  private _addMarker(lat: any, long: any): void {
+  private _addMarker(lat: number, long: number): void {
+    if (!this._map) return;
     if (!this._marker) {
       this._marker = marker([lat, long], {
         icon: icon({
@@ -167,9 +172,9 @@ export class ForecastAuroralActivityComponent implements OnChanges {
       component: ModalComponent,
       componentProps: {
         ovation: true,
-        locale: this.locale,
-        hourClock: this.hourClock,
-        measureUnit: this.measure,
+        locale: this.locale(),
+        hourClock: this.hourClock(),
+        measureUnit: this.measure(),
       },
     });
     return await modal.present();
@@ -188,13 +193,11 @@ export class ForecastAuroralActivityComponent implements OnChanges {
       if (nextHoursForecast.length < numberMaxNextHours) {
         nextHoursDate.push(moment.utc(unit.timeTag).add(utcOffsetInMinutes, 'minutes').local().format('HH') + 'h');
         nextHoursForecast.push(unit.kpIndex);
-        if (unit.kpIndex >= 6) {
-          unit.color = AuroraEnumColours.red;
-        }
-        nextHoursColors.push(colorSwitcher(unit.color));
+        const color = unit.kpIndex >= 6 ? AuroraEnumColours.red : (unit.color ?? determineColorsOfValue('kp', unit.kpIndex));
+        nextHoursColors.push(colorSwitcher(color));
       }
     }
-    if (firstChange) {
+    if (firstChange || !this._chartKpForecast) {
       // 14 values
       this._chartKpForecast = ForecastAuroralActivityComponent._chartKp('kpnexthours', nextHoursDate, nextHoursForecast, nextHoursColors);
     } else {
@@ -207,16 +210,12 @@ export class ForecastAuroralActivityComponent implements OnChanges {
     const forecastDate = [];
     const forecastColors = [];
     for (const unit of forecast) {
-      // if (forecastValue.length < numberMax27Forecast && i % 2 === 0) {
       forecastDate.push(unit.timeTag);
       forecastValue.push(unit.kpIndex);
-      if (unit.kpIndex >= 6) {
-        unit.color = AuroraEnumColours.red;
-      }
-      forecastColors.push(colorSwitcher(unit.color));
-      // }
+      const color = unit.kpIndex >= 6 ? AuroraEnumColours.red : unit.color;
+      forecastColors.push(colorSwitcher(color));
     }
-    if (firstChange) {
+    if (firstChange || !this._chartKpForecast27) {
       // 14 values
       this._chartKpForecast27 = ForecastAuroralActivityComponent._chartKp('kpforecast', forecastDate, forecastValue, forecastColors);
     } else {
@@ -224,8 +223,13 @@ export class ForecastAuroralActivityComponent implements OnChanges {
     }
   }
 
-  private static _chartKp(type: 'kpforecast' | 'kpnexthours', labels: string[], data: string[], colors: string[]): Chart<ChartType, string[]> {
-    return new Chart(type, {
+  private static _chartKp(
+    type: 'kpforecast' | 'kpnexthours',
+    labels: string[],
+    data: number[],
+    colors: (string | undefined)[],
+  ): Chart<ChartType, number[], string> {
+    return new Chart<ChartType, number[], string>(type, {
       type: 'bar',
       plugins: [ChartDataLabels],
       data: {
@@ -282,7 +286,7 @@ export class ForecastAuroralActivityComponent implements OnChanges {
   /* les heures contenues dans solarWind ne sont pas toujours correctes, parfois on a 13h17 13h18 13h20 avec des sauts.
     Ce qui implique qu'on ne peut pas afficher l'heure actuelle sur les graphiques de vent solaire. On arrondie alors avec le temps le plus proche grâce à cette fonction
   **/
-  private _nearestHourFn(formattedAnnotationDate: string | moment.Moment, labels: string[]): string {
+  private _nearestHourFn(formattedAnnotationDate: string, labels: string[]): string | undefined {
     if (labels.length === 0) {
       return;
     }
@@ -302,11 +306,11 @@ export class ForecastAuroralActivityComponent implements OnChanges {
       solarWindDate = [];
 
     for (const unit of forecast) {
-      solarWindDate.push(manageDates(unit.propagated_time_tag, this.hourClock === HourClock.TWENTYFOUR ? 'HH[h]mm' : 'hh:mm A'));
+      solarWindDate.push(manageDates(unit.propagated_time_tag, this.hourClock() === HourClock.TWENTYFOUR ? 'HH[h]mm' : 'hh:mm A'));
       densityForecast.push(unit.density);
       bzForecast.push(unit.bz);
       btForecast.push(unit.bt);
-      speedForecast.push(convertUnitMeasure(unit.speed, this.measure));
+      speedForecast.push(convertUnitMeasure(unit.speed, this.measure()));
     }
     const hour = { nearest: this._nearestHourFn(this._formattedAnnotationDate, solarWindDate), real: this._formattedAnnotationDate };
     this._chartKpDensity?.destroy();
@@ -314,7 +318,7 @@ export class ForecastAuroralActivityComponent implements OnChanges {
     this._chartKpBz?.destroy();
     this._chartKpBt?.destroy();
     this._chartKpDensity = ForecastAuroralActivityComponent._chartSolarWind(SolarWindTypes.DENSITY, solarWindDate, densityForecast, hour);
-    this._chartKpSpeed = ForecastAuroralActivityComponent._chartSolarWind(SolarWindTypes.SPEED, solarWindDate, speedForecast, hour, this.measure);
+    this._chartKpSpeed = ForecastAuroralActivityComponent._chartSolarWind(SolarWindTypes.SPEED, solarWindDate, speedForecast, hour, this.measure());
     this._chartKpBz = ForecastAuroralActivityComponent._chartSolarWind(SolarWindTypes.BZ, solarWindDate, bzForecast, hour);
     this._chartKpBt = ForecastAuroralActivityComponent._chartSolarWind(SolarWindTypes.BT, solarWindDate, btForecast, hour);
   }
@@ -340,21 +344,21 @@ export class ForecastAuroralActivityComponent implements OnChanges {
     type: SolarWindTypes,
     labels: string[],
     data: number[],
-    formattedHour: { real: string | moment.Moment; nearest: string },
+    formattedHour: { real: string; nearest: string | undefined },
     measure?: MeasureUnits,
-  ): Chart<ChartType, string[]> {
+  ): Chart<ChartType, number[], string> | undefined {
     if (data.length === 0) {
-      return null;
+      return undefined;
     }
-    return new Chart(type, {
+    return new Chart<ChartType, number[], string>(type, {
       type: 'line',
       data: {
         labels: labels,
         datasets: [
           {
-            data: data as any[],
-            backgroundColor: context => updateGradientBackgroundChart(context, type, data, measure),
-            pointBackgroundColor: context => determineColorsOfValue(type, data[context.dataIndex], measure),
+            data,
+            backgroundColor: (context: ScriptableContext<'line'>) => updateGradientBackgroundChart(context, type, data, measure),
+            pointBackgroundColor: (context: ScriptableContext<'line'>) => determineColorsOfValue(type, data[context.dataIndex], measure),
             borderColor: colorSwitcher(determineColorsOfValue(type, type !== SolarWindTypes.BZ ? Math.max(...data) : Math.min(...data), measure)),
             borderWidth: 1,
             pointRadius: 1.5,
@@ -366,7 +370,6 @@ export class ForecastAuroralActivityComponent implements OnChanges {
       options: {
         responsive: true,
         plugins: {
-          // @ts-ignore
           annotation: {
             annotations: {
               line1: {
@@ -422,8 +425,14 @@ export class ForecastAuroralActivityComponent implements OnChanges {
     });
   }
 
-  private _chartSolarCycle(labels: string[], dataSsn: string[], dataF10: string[], colorsSsn: string, colorsF10: string): Chart<ChartType, string[]> {
-    return new Chart('cycle', {
+  private _chartSolarCycle(
+    labels: string[],
+    dataSsn: number[],
+    dataF10: number[],
+    colorsSsn: string,
+    colorsF10: string,
+  ): Chart<ChartType, number[], string> {
+    return new Chart<ChartType, number[], string>('cycle', {
       type: 'line',
       data: {
         labels: labels,

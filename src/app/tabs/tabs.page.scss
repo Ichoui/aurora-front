@@ -2,6 +2,10 @@ ion-tab-bar {
   contain: none;
 }
 
+ion-tab-button.aurora-logo::part(native) {
+  overflow: visible;
+}
+
 .icon {
   font-family: 'aurora-icons', serif !important;
 }

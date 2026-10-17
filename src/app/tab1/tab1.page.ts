@@ -1,66 +1,67 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
-import { AuroraService } from '../aurora.service';
-import { Currently, Daily, HourClock, Hourly, MeasureUnits, TemperatureUnits, Weather } from '../models/weather';
-import { HttpErrorResponse } from '@angular/common/http';
-import { StorageService } from '../storage.service';
-import { map, takeUntil, tap } from 'rxjs/operators';
-import { Geocoding } from '../models/geocoding';
-import { countryNameFromCode, roundTwoNumbers } from '../models/utils';
-import { combineLatest, from, Subject } from 'rxjs';
-import { OnViewWillEnter } from '../models/ionic';
-import { ELocales } from '../models/locales';
+import type { HttpErrorResponse } from '@angular/common/http';
+import type { OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import type { RefresherCustomEvent, ViewWillEnter } from '@ionic/angular';
+import { IonContent, IonIcon, IonRefresher, IonRefresherContent } from '@ionic/angular';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import moment from 'moment';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { ToastComponent, ToastError } from '../shared/toast/toast.component';
-import { CityCoords } from '../models/cities';
-import { IonContent, IonIcon, IonRefresher, IonRefresherContent, ViewWillEnter } from '@ionic/angular/standalone';
+import { combineLatest, from, map, tap } from 'rxjs';
+import { AuroraService } from '../aurora.service';
+import type { CityCoords } from '../models/cities';
+import type { Geocoding } from '../models/geocoding';
+import { ELocales } from '../models/locales';
+import type { CachedWeather } from '../models/storage';
+import { countryNameFromCode, roundTwoNumbers } from '../models/utils';
+import type { Currently, Daily, Hourly, Weather } from '../models/weather';
+import { HourClock, MeasureUnits, TemperatureUnits } from '../models/weather';
 import { HeaderComponent } from '../shared/header/header.component';
+import type { ToastError } from '../shared/toast/toast.component';
+import { ToastComponent } from '../shared/toast/toast.component';
+import { StorageService } from '../storage.service';
 import { MeteoComponent } from './meteo/meteo.component';
 
 @Component({
   selector: 'app-tab1',
-  standalone: true,
   templateUrl: 'tab1.page.html',
-  styleUrls: ['tab1.page.scss'],
+  styleUrl: 'tab1.page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [IonIcon, IonRefresherContent, IonRefresher, IonContent, HeaderComponent, TranslateModule, MeteoComponent, ToastComponent],
+  imports: [IonIcon, IonRefresherContent, IonRefresher, IonContent, HeaderComponent, TranslatePipe, MeteoComponent, ToastComponent],
 })
 export class Tab1Page implements ViewWillEnter, OnDestroy {
+  private readonly _storageService = inject(StorageService);
+  private readonly _auroraService = inject(AuroraService);
+  private readonly _translate = inject(TranslateService);
+  private readonly _cdr = inject(ChangeDetectorRef);
+
   loading: boolean = true;
 
-  coords: CityCoords;
-  city: string;
-  country: string;
-  tzOffset: number;
+  coords: CityCoords | null = null;
+  city = '';
+  country = '';
+  tzOffset = 0;
 
-  private readonly _destroy$ = new Subject<void>();
-  private _eventRefresh: any;
+  private readonly _destroyRef = inject(DestroyRef);
+  private _eventRefresh?: RefresherCustomEvent;
 
   // Data inputs
-  dataCurrentWeather: Currently;
-  dataHourly: Hourly[];
-  dataSevenDay: Daily[];
+  dataCurrentWeather: Currently | null = null;
+  dataHourly: Hourly[] = [];
+  dataSevenDay: Daily[] = [];
 
-  measureUnits: MeasureUnits;
-  temperatureUnits: TemperatureUnits;
-  locale: ELocales;
-  hourClock: HourClock;
-  dataToast: ToastError;
-
-  constructor(
-    private _storageService: StorageService,
-    private _auroraService: AuroraService,
-    private _translate: TranslateService,
-    private _cdr: ChangeDetectorRef,
-  ) {}
+  measureUnits = MeasureUnits.METRIC;
+  temperatureUnits = TemperatureUnits.CELSIUS;
+  locale = ELocales.EN;
+  hourClock = HourClock.TWENTYFOUR;
+  dataToast: ToastError | null = null;
 
   ngOnDestroy(): void {
-    this._destroy$.next();
-    this._destroy$.complete();
+    void this._eventRefresh?.target.complete();
   }
 
   ionViewWillEnter(): void {
     this.loading = true; // buffer constant
+    this._cdr.markForCheck();
     // Cheminement en fonction si la localisation est pré-set ou si géoloc
     combineLatest([
       from(this._storageService.getData('location')),
@@ -72,24 +73,17 @@ export class Tab1Page implements ViewWillEnter, OnDestroy {
       from(this._storageService.getData('clock')),
     ])
       .pipe(
-        takeUntil(this._destroy$),
+        takeUntilDestroyed(this._destroyRef),
         tap({
-          next: ([coords, previousLocation, measure, temperature, weather, locale, clock]: [
-            CityCoords,
-            { lat: number; long: number },
-            MeasureUnits,
-            TemperatureUnits,
-            any,
-            ELocales,
-            HourClock,
-          ]) => {
-            this.temperatureUnits = temperature;
-            this.measureUnits = measure;
-            this.locale = locale;
-            this.hourClock = clock;
+          next: ([coords, previousLocation, measure, temperature, weather, locale, clock]) => {
+            if (!coords) return;
+            this.temperatureUnits = temperature ?? TemperatureUnits.CELSIUS;
+            this.measureUnits = measure ?? MeasureUnits.METRIC;
+            this.locale = locale ?? ELocales.EN;
+            this.hourClock = clock ?? HourClock.TWENTYFOUR;
 
             // Ceci pour éviter de call l'API trop souvent
-            if (this._shouldRecallWeatherAPI(weather, coords, previousLocation)) {
+            if (!weather || this._shouldRecallWeatherAPI(weather, coords, previousLocation)) {
               this._reverseGeoloc(coords.lat, coords.long);
             } else {
               this.dataCurrentWeather = weather.dataCurrentWeather;
@@ -112,10 +106,16 @@ export class Tab1Page implements ViewWillEnter, OnDestroy {
               message: this._translate.instant('global.error.storage'),
               status: error.status,
             };
+
+            this._cdr.markForCheck();
           },
         }),
       )
-      .subscribe();
+      .subscribe({
+        error: (error: unknown) => {
+          console.error('Request failed', error);
+        },
+      });
   }
 
   /**
@@ -124,7 +124,7 @@ export class Tab1Page implements ViewWillEnter, OnDestroy {
    * No weather in store
    * Date stored is passed from more than 5mn
    * */
-  private _shouldRecallWeatherAPI(weather: Weather, location: CityCoords, previousLocation: { lat: number; long: number }): boolean {
+  private _shouldRecallWeatherAPI(weather: CachedWeather | null, location: CityCoords, previousLocation: CityCoords | null): boolean {
     const weatherDateDifference = weather?.date ? moment(new Date()).diff(moment(weather['date']), 'minutes') : null;
     let bool = false;
 
@@ -132,7 +132,7 @@ export class Tab1Page implements ViewWillEnter, OnDestroy {
       roundTwoNumbers(location?.lat) !== roundTwoNumbers(previousLocation?.lat) ||
       roundTwoNumbers(location?.long) !== roundTwoNumbers(previousLocation?.long) ||
       !weather ||
-      weatherDateDifference > 10
+      (weatherDateDifference ?? Infinity) > 10
     ) {
       bool = true;
     }
@@ -153,13 +153,12 @@ export class Tab1Page implements ViewWillEnter, OnDestroy {
     this._auroraService
       .getGeocoding$(lat, long)
       .pipe(
-        takeUntil(this._destroy$),
+        takeUntilDestroyed(this._destroyRef),
         map((res: Geocoding[]) => res[0]),
         tap({
           next: (res: Geocoding) => {
-            console.log('ccc');
-            this.city = res ? `${res.name} -` : null;
-            this.country = res ? countryNameFromCode(res.country, this.locale) : null;
+            this.city = res ? `${res.name} -` : '';
+            this.country = res ? countryNameFromCode(res.country, this.locale) : '';
             this._getForecast(this.city, this.country);
           },
           error: (error: HttpErrorResponse) => {
@@ -169,20 +168,27 @@ export class Tab1Page implements ViewWillEnter, OnDestroy {
               message: this._translate.instant('global.error.reversegeo'),
               status: error.status,
             };
+
+            this._cdr.markForCheck();
           },
         }),
       )
-      .subscribe();
+      .subscribe({
+        error: (error: unknown) => {
+          console.error('Request failed', error);
+        },
+      });
   }
 
   /**
    * API OpenWeatherMap
    */
   private _getForecast(city: string, country: string): void {
+    if (!this.coords) return;
     this._auroraService
       .openWeatherMapForecast$(this.coords.lat, this.coords.long, this.locale)
       .pipe(
-        takeUntil(this._destroy$),
+        takeUntilDestroyed(this._destroyRef),
         tap({
           next: (res: Weather) => {
             this.dataCurrentWeather = res.current;
@@ -198,13 +204,10 @@ export class Tab1Page implements ViewWillEnter, OnDestroy {
               timezoneOffset: res.timezone_offset,
             });
             this.tzOffset = res.timezone_offset;
-            void this._storageService.setData('previousLocation', {
-              lat: this.coords.lat,
-              long: this.coords.long,
-            });
-            console.log(res);
+            if (this.coords) void this._storageService.setData('previousLocation', this.coords);
+
             // End loading
-            this._eventRefresh ? this._eventRefresh.target.complete() : '';
+            void this._eventRefresh?.target.complete();
             this.loading = false;
             this._cdr.markForCheck();
           },
@@ -215,20 +218,24 @@ export class Tab1Page implements ViewWillEnter, OnDestroy {
               message: this._translate.instant('global.error.weatherForecast'),
               status: error.status,
             };
+
+            this._cdr.markForCheck();
           },
         }),
       )
-      .subscribe();
+      .subscribe({
+        error: (error: unknown) => {
+          console.error('Request failed', error);
+        },
+      });
   }
 
   /**
    @event {event} renvoyé par le rafraichissement
    * Attends les retours des résultats d'API pour retirer l'animation visuelle
    */
-  doRefresh(event: any): void {
+  doRefresh(event: RefresherCustomEvent): void {
     this._eventRefresh = event;
     this._getForecast(this.city, this.country);
   }
-
-  protected readonly close = close;
 }

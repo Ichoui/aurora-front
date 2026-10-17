@@ -11,32 +11,25 @@
       "schematics": {},
       "targets": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular/build:application",
           "options": {
-            "outputPath": "www",
+            "outputPath": { "base": "www", "browser": "" },
             "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
+            "browser": "src/main.ts",
+            "polyfills": [],
             "tsConfig": "tsconfig.app.json",
             "assets": [
               {
                 "glob": "**/*",
                 "input": "src/assets",
                 "output": "assets"
-              },
-              {
-                "glob": "**/*.svg",
-                "input": "node_modules/ionicons/dist/ionicons/svg",
-                "output": "./svg"
               }
             ],
             "styles": ["src/global.scss"],
-            "allowedCommonJsDependencies": ["leaflet", "moment", "lottie-web", "localforage-cordovasqlitedriver"],
+            "allowedCommonJsDependencies": ["leaflet", "moment", "lottie-web", "localforage", "localforage-cordovasqlitedriver"],
             "scripts": [],
-            "aot": false,
-            "vendorChunk": true,
+            "aot": true,
             "extractLicenses": false,
-            "buildOptimizer": false,
             "sourceMap": true,
             "optimization": false,
             "namedChunks": true
@@ -55,8 +48,6 @@
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
               "budgets": [
                 {
                   "type": "initial",
@@ -71,7 +62,7 @@
           }
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular/build:dev-server",
           "options": {
             "buildTarget": "app:build"
           },
@@ -85,13 +76,13 @@
           }
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "builder": "@angular/build:extract-i18n",
           "options": {}
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
+            "lintFilePatterns": ["src/**/*.ts", "src/app/**/*.html", "src/script/**/*.js"]
           }
         }
       }

@@ -1,88 +1,74 @@
-import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA, OnDestroy } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
+import type { OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA, inject } from '@angular/core';
+import { IonContent, IonRefresher, IonRefresherContent } from '@ionic/angular';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+
+import type { HttpErrorResponse } from '@angular/common/http';
+import type { RefresherCustomEvent, ViewWillEnter } from '@ionic/angular';
+import moment from 'moment';
+import { combineLatest, from, map, switchMap, tap } from 'rxjs';
 import { AuroraService } from '../aurora.service';
-import { StorageService } from '../storage.service';
-import { map, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { combineLatest, from, Subject } from 'rxjs';
-import { HourClock, MeasureUnits } from '../models/weather';
-import { Kp27day, KpCurrent, KpForecast, SolarCycle, SolarWind, SwpcData } from '../models/aurorav3';
-import { determineColorsOfValue } from '../models/utils';
-import { OnViewWillEnter } from '../models/ionic';
-import { HttpErrorResponse } from '@angular/common/http';
+import type { Kp27day, KpCurrent, KpForecast, SolarCycle, SolarWind, SwpcData } from '../models/aurorav3';
+import type { CityCoords } from '../models/cities';
 import { ELocales } from '../models/locales';
-import type { SwiperOptions } from 'swiper/types';
-import moment from 'moment/moment';
-import { ToastComponent, ToastError } from '../shared/toast/toast.component';
-import { CityCoords } from '../models/cities';
+import { determineColorsOfValue } from '../models/utils';
+import { HourClock, MeasureUnits } from '../models/weather';
 import { HeaderComponent } from '../shared/header/header.component';
-import { InstantAuroralActivityComponent } from './instant-auroral-activity/instant-auroral-activity.component';
+import type { ToastError } from '../shared/toast/toast.component';
+import { ToastComponent } from '../shared/toast/toast.component';
+import { StorageService } from '../storage.service';
 import { ForecastAuroralActivityComponent } from './forecast-auroral-activity/forecast-auroral-activity.component';
+import { InstantAuroralActivityComponent } from './instant-auroral-activity/instant-auroral-activity.component';
 
 @Component({
   selector: 'app-tab2',
-  standalone: true,
   imports: [
-    CommonModule,
-    IonicModule,
-    TranslateModule,
+    IonContent,
+    IonRefresher,
+    IonRefresherContent,
+    TranslatePipe,
     HeaderComponent,
     ToastComponent,
     InstantAuroralActivityComponent,
     ForecastAuroralActivityComponent,
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA], // ??? pas sûr
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: 'tab2.page.html',
-  styleUrls: ['tab2.page.scss'],
+  styleUrl: 'tab2.page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Tab2Page implements OnViewWillEnter, OnDestroy {
+export class Tab2Page implements ViewWillEnter, OnDestroy {
+  private readonly _storageService = inject(StorageService);
+  private readonly _auroraService = inject(AuroraService);
+  private readonly _translate = inject(TranslateService);
+  private readonly _cdr = inject(ChangeDetectorRef);
+
   loading = true;
   loadSwiper = false;
 
-  coords: CityCoords;
-  city: string;
-  country: string;
+  coords: CityCoords | null = null;
   // Data inputs
   kpForecast: KpForecast[] = [];
   kpForecast27days: Kp27day[] = [];
-  measure: MeasureUnits;
-  locale: ELocales;
-  hourClock: HourClock;
-  solarWindInstant: SolarWind;
+  measure = MeasureUnits.METRIC;
+  locale = ELocales.EN;
+  hourClock = HourClock.TWENTYFOUR;
+  solarWindInstant: SolarWind | null = null;
   solarWind: SolarWind[] = [];
   solarCycle: SolarCycle[] = [];
-  kpCurrent: KpCurrent;
-  nowcastAurora: number;
+  kpCurrent: KpCurrent | null = null;
+  nowcastAurora: number | null = null;
 
-  dataToast: ToastError;
-  configSwiper: SwiperOptions = {
-    pagination: {
-      enabled: true,
-      clickable: true,
-      type: 'bullets',
-      bulletClass: `swiper-pagination-bullet`,
-    },
-    scrollbar: false,
-    slidesPerView: 1,
-    autoHeight: true,
-  };
+  dataToast: ToastError | null = null;
 
-  private readonly _destroy$ = new Subject<void>();
-  private _eventRefresh: any;
-
-  constructor(
-    private _storageService: StorageService,
-    private _auroraService: AuroraService,
-    private _translate: TranslateService,
-    private _cdr: ChangeDetectorRef,
-  ) {}
+  private readonly _destroyRef = inject(DestroyRef);
+  private _eventRefresh?: RefresherCustomEvent;
 
   ngOnDestroy(): void {
-    this._destroy$.next();
-    this._destroy$.complete();
+    void this._eventRefresh?.target.complete();
   }
 
   ionViewWillEnter(): void {
@@ -95,15 +81,15 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
       from(this._storageService.getData('clock')),
     ])
       .pipe(
-        takeUntil(this._destroy$),
-        tap(([measure, locale, clock]: [MeasureUnits, ELocales, HourClock]) => {
-          this.measure = measure;
-          this.locale = locale;
-          this.hourClock = clock;
+        tap(([measure, locale, clock]) => {
+          this.measure = measure ?? MeasureUnits.METRIC;
+          this.locale = locale ?? ELocales.EN;
+          this.hourClock = clock ?? HourClock.TWENTYFOUR;
         }),
         switchMap(() => combineLatest([from(this._storageService.getData('ACEdate')), from(this._storageService.getData('location'))])),
-        map(([ACEdate, location]: [number, CityCoords]) => [ACEdate ? moment(new Date()).diff(moment(ACEdate), 'minutes') > 10 : true, location]),
-        tap(([moreThanFiveMinutes, coords]: [boolean, CityCoords]) => {
+        map(([ACEdate, location]) => [ACEdate ? moment().diff(moment(ACEdate), 'minutes') > 10 : true, location] as const),
+        tap(([moreThanFiveMinutes, coords]) => {
+          if (!coords) return;
           if (moreThanFiveMinutes) {
             // Avoid to load the page every time the user access to tab2, waiting 5 mins
             this._getExistingLocalisation(coords.lat, coords.long);
@@ -111,8 +97,13 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
             this._getACEDataFromStorage();
           }
         }),
+        takeUntilDestroyed(this._destroyRef),
       )
-      .subscribe();
+      .subscribe({
+        error: (error: unknown) => {
+          console.error('Request failed', error);
+        },
+      });
   }
 
   private _getACEDataFromStorage(): void {
@@ -127,27 +118,18 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
       from(this._storageService.getData('clock')),
     ])
       .pipe(
-        takeUntil(this._destroy$),
+        takeUntilDestroyed(this._destroyRef),
         tap({
-          next: ([coords, solarCycle, solarWind, kpForecast, kp27day, nowcastAurora, kpCurrent, clock]: [
-            CityCoords,
-            SolarCycle[],
-            SolarWind[],
-            KpForecast[],
-            string, // kp27day[] in .txt
-            number,
-            KpCurrent,
-            HourClock,
-          ]) => {
+          next: ([coords, solarCycle, solarWind, kpForecast, kp27day, nowcastAurora, kpCurrent, clock]) => {
             this.coords = coords;
-            this.solarCycle = solarCycle;
-            this.solarWindInstant = this._getSolarWind(solarWind, true) as SolarWind;
-            this.solarWind = this._getSolarWind(solarWind) as SolarWind[];
-            this.kpForecast = this._getKpForecast(kpForecast);
-            this.kpForecast27days = this._getKpForecast27day(kp27day);
+            this.solarCycle = solarCycle ?? [];
+            this.solarWindInstant = this._getSolarWind(solarWind ?? [], true);
+            this.solarWind = this._getSolarWind(solarWind ?? []);
+            this.kpForecast = this._getKpForecast(kpForecast ?? []);
+            this.kpForecast27days = this._getKpForecast27day(kp27day ?? '');
             this.nowcastAurora = nowcastAurora;
             this.kpCurrent = kpCurrent;
-            this.hourClock = clock;
+            this.hourClock = clock ?? HourClock.TWENTYFOUR;
 
             this.loading = false;
             this._cdr.markForCheck();
@@ -158,10 +140,16 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
               message: this._translate.instant('global.error.storage'),
               status: error.status,
             };
+
+            this._cdr.markForCheck();
           },
         }),
       )
-      .subscribe();
+      .subscribe({
+        error: (error: unknown) => {
+          console.error('Request failed', error);
+        },
+      });
   }
 
   /**
@@ -169,7 +157,7 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
    * @param long {number}
    * Set les coords avec celles existante en localStorage (déjà eu accès tab3 et marker placé ou géolocalisé)
    * */
-  private _getExistingLocalisation(lat: number, long: number) {
+  private _getExistingLocalisation(lat: number, long: number): void {
     this.coords = {
       lat,
       long,
@@ -181,6 +169,7 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
    * Récupère les données ACE de vent solaire, nowcast et kp
    * */
   private _getDataACE(): void {
+    if (!this.coords) return;
     this._auroraService
       .getAllSwpcDatas$(this.coords.lat, this.coords.long)
       .pipe(
@@ -189,8 +178,8 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
             this.kpCurrent = value.instantKp;
             void this._storageService.setData('kpCurrent', value.instantKp);
             this.solarCycle = value.forecastSolarCycle;
-            this.solarWindInstant = this._getSolarWind(value.forecastSolarWind, true) as SolarWind;
-            this.solarWind = this._getSolarWind(value.forecastSolarWind) as SolarWind[];
+            this.solarWindInstant = this._getSolarWind(value.forecastSolarWind, true);
+            this.solarWind = this._getSolarWind(value.forecastSolarWind);
             this.kpForecast = this._getKpForecast(value.forecastKp);
             this.kpForecast27days = this._getKpForecast27day(value.forecastTwentySevenDays);
             // End loading
@@ -214,8 +203,14 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
             };
           },
         }),
+
+        takeUntilDestroyed(this._destroyRef),
       )
-      .subscribe();
+      .subscribe({
+        error: (error: unknown) => {
+          console.error('Request failed', error);
+        },
+      });
 
     this._auroraService
       .getAuroraMapData$(this.coords.lat, this.coords.long)
@@ -236,13 +231,21 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
             };
           },
         }),
+
+        takeUntilDestroyed(this._destroyRef),
       )
-      .subscribe();
+      .subscribe({
+        error: (error: unknown) => {
+          console.error('Request failed', error);
+        },
+      });
   }
 
-  private _getSolarWind(dataSolarWind: SolarWind[], instant = false): SolarWind[] | SolarWind {
+  private _getSolarWind(dataSolarWind: SolarWind[], instant: true): SolarWind | null;
+  private _getSolarWind(dataSolarWind: SolarWind[], instant?: false): SolarWind[];
+  private _getSolarWind(dataSolarWind: SolarWind[], instant = false): SolarWind[] | SolarWind | null {
     if (dataSolarWind.length === 0) {
-      return [];
+      return instant ? null : [];
     }
     if (instant) {
       return dataSolarWind.reduce((a, b) => {
@@ -262,7 +265,7 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
   }
 
   private _getKpForecast27day(file: string): Kp27day[] {
-    let lineObject: Kp27day[] = [];
+    const lineObject: Kp27day[] = [];
     for (const [index, line] of file.split(/[\r\n]+/).entries()) {
       const hashRegex = /#(\w*)/; // Ligne ne commençant pas par un commentaire #
       if (index >= 11 && !hashRegex.exec(line)) {
@@ -285,7 +288,7 @@ export class Tab2Page implements OnViewWillEnter, OnDestroy {
    @param event {event} renvoyé par le rafraichissement
    * Attends les retours des résultats d'API pour retirer l'animation visuelle
    * */
-  doRefresh(event: any): void {
+  doRefresh(event: RefresherCustomEvent): void {
     this._eventRefresh = event;
     this._getDataACE();
   }

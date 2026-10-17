@@ -1,28 +1,29 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
-import { BehaviorSubject } from 'rxjs';
+import type { StorageSchema } from './models/storage';
 
 @Injectable({
   providedIn: 'root',
 })
-// https://www.youtube.com/watch?v=vCfAe2esboU tuto storage
 export class StorageService {
-  private _storageReady = new BehaviorSubject(false);
+  private readonly _storage = inject(Storage);
 
-  constructor(private _storage: Storage) {}
+  private _initialization?: Promise<void>;
 
   async init(): Promise<void> {
-    await this._storage.defineDriver(CordovaSQLiteDriver);
-    await this._storage.create();
-    this._storageReady.next(true);
+    this._initialization ??= (async () => {
+      await this._storage.defineDriver(CordovaSQLiteDriver);
+      await this._storage.create();
+    })();
+    return this._initialization;
   }
 
-  setData(storageKey: string, key: unknown): Promise<unknown> {
+  setData<K extends keyof StorageSchema>(storageKey: K, key: StorageSchema[K]): Promise<StorageSchema[K]> {
     return this._storage.set(storageKey, key);
   }
 
-  getData(storageKey: string): Promise<unknown> {
+  getData<K extends keyof StorageSchema>(storageKey: K): Promise<StorageSchema[K] | null> {
     return this._storage.get(storageKey);
   }
 }

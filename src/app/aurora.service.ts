@@ -1,20 +1,21 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Injectable, inject } from '@angular/core';
+import type { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
-import { ExcludeType, MeasureUnits, Weather } from './models/weather';
-import { Pole } from './shared/modal/modal.component';
-import { Geocoding } from './models/geocoding';
-import { SolarWind, SwpcData } from './models/aurorav3';
-import { ELocales } from './models/locales';
+import type { AuroraMapCoordinate, PoleSnapshot, SolarWindSpeed, SwpcData } from './models/aurorav3';
+import { Pole } from './models/aurorav3';
+import type { City } from './models/cities';
+import type { Geocoding } from './models/geocoding';
+import type { ELocales } from './models/locales';
 import { deleteFalsy } from './models/utils';
-import { City } from './models/cities';
+import type { ExcludeType, Weather } from './models/weather';
+import { MeasureUnits } from './models/weather';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuroraService {
-  constructor(private _http: HttpClient) {}
+  private readonly _http = inject(HttpClient);
 
   /**
    * Choix tranché : on envoie le système français (métrique et langues), de sorte à ne récupérer que des valeurs en km/h et des celsius.
@@ -30,7 +31,7 @@ export class AuroraService {
       lon: lon.toString(),
       lang,
       units: MeasureUnits.METRIC,
-      exclude,
+      ...(exclude ? { exclude } : {}),
     };
     return this._http.get<Weather>(`${environment.host}${environment.openweatherapi.weather}`, { params });
   }
@@ -59,22 +60,24 @@ export class AuroraService {
    * Images des poles nord/sud sur les dernières 24h et entre 30 et 90mn de prévisions
    * Donnée : https://www.swpc.noaa.gov/products/aurora-30-minute-forecast
    */
-  getPoles$(pole: Pole): Observable<unknown> {
-    return this._http.get(`${environment.host}${pole === Pole.NORTH ? environment.swpc.poleNorth : environment.swpc.poleSouth}`);
+  getPoles$(pole: Pole): Observable<PoleSnapshot[]> {
+    return this._http.get<PoleSnapshot[]>(`${environment.host}${pole === Pole.NORTH ? environment.swpc.poleNorth : environment.swpc.poleSouth}`);
   }
 
-  getAuroraMapData$(lat?: number, long?: number): Observable<any | number> {
+  getAuroraMapData$(): Observable<AuroraMapCoordinate[]>;
+  getAuroraMapData$(lat: number, long: number): Observable<number>;
+  getAuroraMapData$(lat?: number, long?: number): Observable<AuroraMapCoordinate[] | number> {
     const params = deleteFalsy({ lat, long });
-    return this._http.get(`${environment.host}${environment.swpc.ovationMap}`, { params });
+    return this._http.get<AuroraMapCoordinate[] | number>(`${environment.host}${environment.swpc.ovationMap}`, { params });
   }
 
   getNowcast$(lat: number, lng: number): Observable<{ nowcast: number }> {
     return this._http.post<{ nowcast: number }>(`${environment.host}${environment.swpc.nowcast}`, { lat, lng });
   }
 
-  getForecastSolarwind7d$(firstDate: string): Observable<SolarWind[]> {
+  getForecastSolarwind7d$(firstDate: string): Observable<SolarWindSpeed[]> {
     const params = deleteFalsy({ firstDate });
-    return this._http.get<SolarWind[]>(`${environment.host}${environment.swpc.solarWind7d}`, { params });
+    return this._http.get<SolarWindSpeed[]>(`${environment.host}${environment.swpc.solarWind7d}`, { params });
   }
 
   getCorrespondingCities$(search: string): Observable<City[]> {

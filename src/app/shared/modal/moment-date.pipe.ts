@@ -1,13 +1,13 @@
-import { Pipe, PipeTransform } from '@angular/core';
-import moment from 'moment/moment';
-import { ELocales } from '../../models/locales';
+import type { PipeTransform } from '@angular/core';
+import { Pipe } from '@angular/core';
+import moment from 'moment';
+import type { ELocales } from '../../models/locales';
 
 @Pipe({
   name: 'momentDate',
-  standalone: true,
 })
 export class MomentDatePipe implements PipeTransform {
-  transform(date: string, locale: ELocales): unknown {
+  transform(date: string | null | undefined, locale: ELocales): string {
     if (!date) {
       return '';
     }

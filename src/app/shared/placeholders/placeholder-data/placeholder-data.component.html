@@ -1,11 +1,11 @@
-@if (placeholderNumber) {
+@if (placeholderNumber()) {
   <div class="placeholder-number">
-    <div class="animated-background animated-number" [style.animation-duration]="index + 's'"></div>
+    <div class="animated-background animated-number" [style.animation-duration]="index() + 's'"></div>
   </div>
 }
 
-@if (placeholderAce) {
+@if (placeholderAce()) {
   <div class="placeholder-ace-data">
-    <div class="animated-background animated-ace-data" [style.animation-duration]="index + 's'"></div>
+    <div class="animated-background animated-ace-data" [style.animation-duration]="index() + 's'"></div>
   </div>
 }

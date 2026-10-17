@@ -1,16 +1,14 @@
-import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-placeholder-data',
-  standalone: true,
-  imports: [CommonModule, IonicModule],
+  imports: [],
   templateUrl: './placeholder-data.component.html',
-  styleUrls: ['./placeholder-data.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './placeholder-data.component.scss',
 })
 export class PlaceholderDataComponent {
-  @Input() placeholderNumber: boolean;
-  @Input() placeholderAce: boolean;
-  @Input() index: number;
+  readonly placeholderNumber = input(false);
+  readonly placeholderAce = input(false);
+  readonly index = input(2.5);
 }

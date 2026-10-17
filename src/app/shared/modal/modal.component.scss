@@ -46,7 +46,10 @@ ion-toolbar {
     color: var(--ion-color-primary);
   }
 
-  ion-img {
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
     border: 1px solid var(--ion-color-primary);
   }
 
