@@ -5,7 +5,9 @@
   "author": "Morgan N aka Ichoui",
   "description": "Aurorapp Northern Lights, available on the Play Store only, for Northern Lights Chasers",
   "scripts": {
-    "start:front": "ng serve",
+    "dev:front": "ng serve",
+    "dev:back:watch": "cd ../aurora-back && npm run dev:watch",
+    "dev:back": "cd ../aurora-back && npm run dev:emulator",
     "build": "ng build",
     "lint": "ng lint",
     "typecheck": "tsc --noEmit -p tsconfig.app.json",

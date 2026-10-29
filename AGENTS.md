@@ -1,5 +1,13 @@
 # Consignes du dépôt
 
+## Projet associé
+
+Ce dépôt est le client Ionic/Angular de l'API NestJS/Firebase située dans `../aurora-back` (chemin local habituel : `/Users/ichoui/Dev/aurora-back`). Le client cible actuellement Android ; une version Apple est prévue. Les deux plateformes doivent pouvoir utiliser le même contrat HTTP.
+
+Codex peut lire les deux dépôts pour comprendre un flux complet, retrouver la définition d'une route ou d'un champ et mesurer l'impact d'un changement. Pour les appels réseau, consulter `src/app/aurora.service.ts`, les modèles et `src/environments/` ici, puis `../aurora-back/docs/api-contract.md`, `../aurora-back/docs/openapi.json` et les contrôleurs du backend. Ne modifier le dépôt voisin que si la demande porte aussi sur ce dépôt ou si la modification est nécessaire à la tâche demandée ; expliquer alors le changement.
+
+En cas d'écart entre le contrat documenté et le client, examiner les deux implémentations avant de décider laquelle adapter. Préserver les comportements utilisés par l'application et ne pas lier le contrat partagé à Android.
+
 # Custom Instructions
 
 Tu es un assistant de programmation expert.
