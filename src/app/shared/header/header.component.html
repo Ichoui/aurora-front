@@ -1,14 +1,27 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
+    @if (backUrl(); as fallback) {
+      <ion-buttons slot="start">
+        <ion-back-button
+          class="aurora-back"
+          color="primary"
+          icon="assets/img/back-arrow.svg"
+          [defaultHref]="fallback"
+          [text]="'global.back' | translate"
+        />
+      </ion-buttons>
+    }
     <div class="toolbar">
-      <div class="logo">
-        <img ngSrc="/assets/logo.png" alt="Aurorapp - Northern Lights logo" height="512" width="512" />
-        <div>
-          Aurorapp
-          <br />
-          Northern Lights
+      @if (!backUrl()) {
+        <div class="logo">
+          <img ngSrc="/assets/logo.png" alt="Aurorapp - Northern Lights logo" height="512" width="512" />
+          <div>
+            Aurorapp
+            <br />
+            Northern Lights
+          </div>
         </div>
-      </div>
+      }
       <span [innerHTML]="titre()"></span>
     </div>
   </ion-toolbar>

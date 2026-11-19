@@ -1,8 +1,7 @@
-import { DOCUMENT } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, ElementRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import type { Data } from '@angular/router';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import type { ViewWillEnter, ViewWillLeave } from '@ionic/angular';
 import { IonCard, IonCardContent, IonCardHeader, IonContent } from '@ionic/angular';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -23,7 +22,7 @@ interface InfoBlocks {
   selector: 'app-informations',
   templateUrl: './informations.page.html',
   styleUrl: './informations.page.scss',
-  imports: [TranslatePipe, HeaderComponent, IonContent, RouterLink, IonCard, IonCardHeader, IonCardContent, CardComponent],
+  imports: [TranslatePipe, HeaderComponent, IonContent, IonCard, IonCardHeader, IonCardContent, CardComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { id: 'informations' },
 })
@@ -31,11 +30,12 @@ export class InformationsPage implements ViewWillEnter, ViewWillLeave {
   private readonly _route = inject(ActivatedRoute);
   private readonly _cdr = inject(ChangeDetectorRef);
 
-  private readonly _document = inject(DOCUMENT);
+  private readonly _element = inject<ElementRef<HTMLElement>>(ElementRef);
   private _scrollTimer?: ReturnType<typeof setTimeout>;
 
   tabOpen: number[] = [0];
   routeData: Data = {};
+  backUrl = '/tabs/tab3/settings';
 
   cardId = '';
   private readonly _destroyRef = inject(DestroyRef);
@@ -76,6 +76,7 @@ export class InformationsPage implements ViewWillEnter, ViewWillLeave {
   constructor() {
     this._route.data.pipe(takeUntilDestroyed(this._destroyRef)).subscribe((v: Data) => {
       this.routeData = v;
+      this.backUrl = typeof v['backUrl'] === 'string' ? v['backUrl'] : '/tabs/tab3/settings';
       this._cdr.markForCheck();
     });
     this._destroyRef.onDestroy(() => {
@@ -88,7 +89,7 @@ export class InformationsPage implements ViewWillEnter, ViewWillLeave {
    * */
   ionViewWillEnter(): void {
     const cardId = this._route.snapshot.queryParamMap.get('cardId');
-    if (cardId) {
+    if (cardId && /^\d+$/.test(cardId)) {
       this.tabOpen = [];
       this.cardId = cardId;
       this.scroll();
@@ -104,10 +105,11 @@ export class InformationsPage implements ViewWillEnter, ViewWillLeave {
   }
 
   scroll(): void {
-    this.visibility(Number(this.cardId));
+    const cardId = Number(this.cardId);
+    this.visibility(cardId);
     if (this._scrollTimer) clearTimeout(this._scrollTimer);
     this._scrollTimer = setTimeout(() => {
-      const elmnt = this._document.getElementById(this.cardId);
+      const elmnt = this._element.nativeElement.querySelector(`[id="${cardId}"]`);
       elmnt?.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
       // Workaround; viewportScroll not working properly atm...
       this._cdr.markForCheck();

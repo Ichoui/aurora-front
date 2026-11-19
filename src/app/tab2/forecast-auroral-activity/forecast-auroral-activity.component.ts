@@ -18,11 +18,12 @@ import type { ChartType, ScriptableContext } from 'chart.js';
 import { Chart, registerables } from 'chart.js';
 import annotationPlugin from 'chartjs-plugin-annotation';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import type { Marker, ZoomPanOptions } from 'leaflet';
-import { icon, LatLng, Map, marker, tileLayer } from 'leaflet';
+import type { LatLngTuple, Marker } from 'leaflet';
+import { icon, Map, marker, tileLayer } from 'leaflet';
 import moment from 'moment';
 import type { Kp27day, KpForecast, SolarCycle, SolarWind } from '../../models/aurorav3';
 import { AuroraEnumColours, SolarWindTypes } from '../../models/aurorav3';
+import type { CityCoords } from '../../models/cities';
 import { MAIN_TEXT_COLOR, SOLARWIND_NOWTIME_BGC_CHART_COLOR, SOLARWIND_NOWTIME_CHART_COLOR } from '../../models/colors';
 import { ELocales } from '../../models/locales';
 import {
@@ -36,7 +37,6 @@ import {
 import { HourClock, MeasureUnits } from '../../models/weather';
 import { ModalComponent } from '../../shared/modal/modal.component';
 import { PlaceholderChartsComponent } from '../../shared/placeholders/placeholder-charts/placeholder-charts.component';
-import { StorageService } from '../../storage.service';
 
 const numberMaxNextHours = 12;
 Chart.register(...registerables, annotationPlugin);
@@ -50,7 +50,6 @@ Chart.register(...registerables, annotationPlugin);
 })
 export class ForecastAuroralActivityComponent implements OnChanges {
   private readonly _modalController = inject(ModalController);
-  private readonly _storageService = inject(StorageService);
   private readonly _translateService = inject(TranslateService);
   private readonly _cdr = inject(ChangeDetectorRef);
   private readonly _injector = inject(Injector);
@@ -66,6 +65,7 @@ export class ForecastAuroralActivityComponent implements OnChanges {
   readonly locale = input(ELocales.EN);
   readonly hourClock = input(HourClock.TWENTYFOUR);
   readonly loading = input(false);
+  readonly mapLocation = input<CityCoords>();
 
   private _chartKpForecast?: Chart<ChartType, number[], string>;
   private _chartKpForecast27?: Chart<ChartType, number[], string>;
@@ -77,10 +77,19 @@ export class ForecastAuroralActivityComponent implements OnChanges {
 
   private _marker?: Marker;
   private _map?: Map;
+  private _mapObserver?: IntersectionObserver;
+  private _mapVisible = false;
   private _formattedAnnotationDate = '';
-  readonly mapElement = viewChild<ElementRef<HTMLDivElement>>('map_canvas');
+  private readonly _mapElement = viewChild.required<ElementRef<HTMLDivElement>>('mapCanvas');
 
   constructor() {
+    afterNextRender(() => {
+      this._mapObserver = new IntersectionObserver(([entry]) => {
+        this._mapVisible = entry.isIntersecting;
+        if (this._mapVisible) this._updateMinimap();
+      });
+      this._mapObserver.observe(this._mapElement().nativeElement);
+    });
     this._destroyRef.onDestroy(() => {
       [
         this._chartKpForecast,
@@ -91,6 +100,7 @@ export class ForecastAuroralActivityComponent implements OnChanges {
         this._chartKpBt,
         this._chartCycle,
       ].forEach(chart => chart?.destroy());
+      this._mapObserver?.disconnect();
       this._map?.remove();
     });
   }
@@ -98,7 +108,7 @@ export class ForecastAuroralActivityComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     afterNextRender(
       () => {
-        this.minimapLocation();
+        if (changes['mapLocation']) this._updateMinimap();
         this._formattedAnnotationDate = manageDates(+moment(), this.hourClock() === HourClock.TWENTYFOUR ? 'HH[h]mm' : 'hh:mm A');
         if (changes['kpForecast']) this._chartNextHoursForecast(this.kpForecast(), changes['kpForecast'].firstChange);
         if (changes['kpForecast27']) this._chartForecast27day(this.kpForecast27(), changes['kpForecast27'].firstChange);
@@ -110,61 +120,41 @@ export class ForecastAuroralActivityComponent implements OnChanges {
     );
   }
 
-  /**
-   *  On récupère la localisation pour initialiser la map.
-   * Charge également la map avec les lat/long envoyée depuis la page popup (Marker et Ville Préselectionnées)
-   * */
-  minimapLocation(): void {
-    this._storageService.getData('location').then(coords => {
-      if (coords && !this._destroyRef.destroyed) {
-        this._mapInit(coords.lat, coords.long);
-      }
-    });
-  }
+  private _updateMinimap(): void {
+    const location = this.mapLocation();
+    if (!location || !this._mapVisible || this._destroyRef.destroyed) return;
 
-  /**
-   * @param lat
-   * @param long
-   * Création de la map
-   * */
-  private _mapInit(lat: number, long: number): void {
-    if (!this._map) {
-      const canvas = this.mapElement()?.nativeElement;
-      if (!canvas) return;
-      this._map = new Map(canvas);
-      tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { className: 'map-filter' }).addTo(this._map);
+    const center: LatLngTuple = [location.lat, location.long];
+    if (this._map) {
+      this._map.invalidateSize().setView(center, 3, { animate: false });
+      this._marker?.setLatLng(center);
+      return;
     }
-    const mapOpt: ZoomPanOptions = {
-      animate: true,
-    };
 
-    this._map.setView([lat, long], 3, mapOpt);
-    this._addMarker(lat, long);
-
-    this._map.dragging.disable();
-    this._map.zoomControl.remove();
-    this._map.doubleClickZoom.disable();
-    this._map.scrollWheelZoom.disable();
-    this._map.attributionControl.remove();
-  }
-
-  /**
-   * @param lat
-   * @param long
-   * Création d'un marker sur la map
-   * */
-  private _addMarker(lat: number, long: number): void {
-    if (!this._map) return;
-    if (!this._marker) {
-      this._marker = marker([lat, long], {
-        icon: icon({
-          iconSize: [25, 25],
-          iconUrl: 'assets/img/marker-icon.png',
-        }),
-      }).addTo(this._map);
-    } else {
-      this._marker.setLatLng(new LatLng(lat, long));
-    }
+    this._map = new Map(this._mapElement().nativeElement, {
+      zoomControl: false,
+      dragging: false,
+      touchZoom: false,
+      scrollWheelZoom: false,
+      doubleClickZoom: false,
+      boxZoom: false,
+      keyboard: false,
+      tapHold: false,
+    }).setView(center, 3);
+    tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      className: 'map-filter',
+    }).addTo(this._map);
+    this._marker = marker(center, {
+      interactive: false,
+      keyboard: false,
+      alt: '',
+      icon: icon({
+        iconSize: [25, 25],
+        iconAnchor: [12, 25],
+        iconUrl: 'assets/img/marker-icon.png',
+      }),
+    }).addTo(this._map);
   }
 
   async showPoles(): Promise<void> {
@@ -181,7 +171,7 @@ export class ForecastAuroralActivityComponent implements OnChanges {
   }
 
   navigateToDoc(cardId: number, path: string): void {
-    this._popover.dismiss().then(() => this._router.navigate(['tabs', 'tab3', path], { queryParams: { cardId } }));
+    this._popover.dismiss().then(() => this._router.navigate(['tabs', 'tab2', path], { queryParams: { cardId } }));
   }
 
   private _chartNextHoursForecast(forecast: KpForecast[], firstChange = false): void {

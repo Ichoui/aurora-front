@@ -16,6 +16,7 @@
   "tab1": {
     "title": "Weather",
     "weather": {
+      "stale": "Stale weather data",
       "next.hours": "Hourly forecast",
       "seven.days": "7-day forecast",
       "cover.clouds": "Cloud cover",
@@ -35,6 +36,34 @@
   },
   "tab2": {
     "title": "Auroras",
+    "home": {
+      "zenith": "Probability overhead",
+      "updated": "Updated at {{time}}",
+      "stale": "Stale data · {{time}}",
+      "openMap": "Open map",
+      "forecast": "View forecasts",
+      "instant": "View live data"
+    },
+    "map": {
+      "gps": "My location",
+      "default": "Default location",
+      "changeLocation": "Change location ({{location}})",
+      "legend": "OVATION probability",
+      "loadingData": "Loading estimate…",
+      "zenith": "{{probability}}% overhead",
+      "unavailable": "Estimate unavailable",
+      "retryTiles": "Reload map tiles",
+      "retryOval": "Reload OVATION",
+      "retryLocation": "Reload location data",
+      "confirm": "Use this location",
+      "gpsError": "Location unavailable. Choose a city or tap the map.",
+      "storageError": "The location could not be saved or loaded.",
+      "search": {
+        "pending": "Searching…",
+        "empty": "No cities found",
+        "error": "Search unavailable. Please try again."
+      }
+    },
     "instant": {
       "kpindex": "Kp index",
       "density": "Particle density",
@@ -75,15 +104,15 @@
       "cycle.sub": "Average duration: 11 years",
       "cycle.ssn": "Sunspots",
       "cycle.sfu": "Solar flux",
-      "aurora-map": "World map",
-      "sub-aurora-map": "Tap to view the location and the auroral oval",
-      "title": "World map",
+      "aurora-map": "Location",
+      "sub-aurora-map": "Choose a location and see the auroral oval",
+      "title": "Location",
       "select": "Choose a location",
       "another": "Try another location",
       "unknown": "Unknown",
       "no-data": "Data no longer showing? Tap here",
       "tooltip": {
-        "map": "Tap to pick a custom location anywhere in the world. You can also choose a preset city.<br>You can also view the auroral oval in near real time (give or take about an hour).",
+        "map": "Tap the map or search for a city to preview a location. Select “Use this location” to confirm.<br>The OVATION layer shows the probability of an aurora overhead.",
         "kp-next-hours": "Maximum Kp index per 3-hour window.<br>The higher the index, the better the geomagnetic conditions for observing the Northern Lights.<br>Geomagnetic storms start at Kp 5.",
         "kp-next-days": "Maximum Kp index for the next 27 days.<br>The higher the index, the better the geomagnetic conditions for observing the Northern Lights.<br>Geomagnetic storms start at Kp 5.",
         "wind-speed": "Solar wind speed toward Earth.<br>The faster the wind, the more the auroras tend to “dance”.<br>The wind is considered fast above {{unit}}.",
@@ -97,7 +126,7 @@
   },
   "tab3": {
     "more": {
-      "title": "More",
+      "title": "Settings",
       "notifications": "Notifications",
       "kp": "Kp index",
       "current.position": "Current location",

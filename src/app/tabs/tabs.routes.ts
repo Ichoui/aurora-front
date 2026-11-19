@@ -1,6 +1,8 @@
 import type { Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
 
+const loadInformation = () => import('../tab3/informations/informations.page').then(m => m.InformationsPage);
+
 export const routes: Routes = [
   {
     path: 'tabs',
@@ -26,6 +28,8 @@ export const routes: Routes = [
             path: 'map',
             loadComponent: () => import('../tab2/map-leaflet/map-leaflet.page').then(m => m.MapLeafletPage),
           },
+          { path: 'infos', loadComponent: loadInformation, data: { infos: true, backUrl: '/tabs/tab2' } },
+          { path: 'helpcenter', loadComponent: loadInformation, data: { helpcenter: true, backUrl: '/tabs/tab2' } },
         ],
       },
       {
@@ -42,14 +46,14 @@ export const routes: Routes = [
           },
           {
             path: 'infos',
-            loadComponent: () => import('../tab3/informations/informations.page').then(m => m.InformationsPage),
+            loadComponent: loadInformation,
             data: {
               infos: true,
             },
           },
           {
             path: 'helpcenter',
-            loadComponent: () => import('../tab3/informations/informations.page').then(m => m.InformationsPage),
+            loadComponent: loadInformation,
             data: {
               helpcenter: true,
             },
@@ -58,14 +62,14 @@ export const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: '/tabs/tab1',
+        redirectTo: '/tabs/tab2',
         pathMatch: 'full',
       },
     ],
   },
   {
     path: '',
-    redirectTo: '/tabs/tab1',
+    redirectTo: '/tabs/tab2',
     pathMatch: 'full',
   },
 ];

@@ -23,6 +23,7 @@ ion-header {
     }
 
     span {
+      margin-inline-start: auto;
       align-self: flex-end;
       text-align: right;
       font-family: var(--ion-font-bold);

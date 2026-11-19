@@ -1,99 +1,31 @@
-# ANDROID
+# Release Android d’Aurorapp
 
-Prérequis : `nvm use`, dépendances installées avec `npm install`, JDK 21 et SDK Android 36. Voir [README_DEPENDENCIES.md](README_DEPENDENCIES.md) pour les versions et vérifications de mise à niveau.
+## Prérequis locaux
 
-# Shell Order
+- Node.js de `.nvmrc`, `npm ci`, JDK 21 dans `JAVA_HOME`, SDK Android 36 et dépendances Gradle accessibles. Le projet Capacitor existant utilise `io.aurora.start`. [Dépendances du projet](README_DEPENDENCIES.md) · [Détails de signature Android](https://developer.android.com/studio/publish/app-signing) · [Niveau d’API Play](https://developer.android.com/google/play/requirements/target-sdk)
+- Copier `src/environments/keep.example.ts` vers `src/environments/keep.ts` si ce fichier local manque. Charger l’export `OPENWHEATHER_API_KEY` depuis le stockage de secrets habituel. Le build embarque cette clé météo dans les fichiers web, même si Git ignore `keep.ts`. Utiliser la clé de production prévue pour ce build et restreindre ses usages chez le fournisseur dans la mesure permise par le contrat. [Migration de la clé côté Firebase](ia/back/01-firebase-et-contrat.md)
+- Identifier dans Play Console le plus grand `versionCode` déjà utilisé sur les pistes du produit, le `versionName` souhaité et le certificat SHA-256 **d’envoi**. Le `versionCode` doit être supérieur. Reprendre le keystore et l’alias d’envoi existants depuis le coffre local. Le fichier présent à la racine n’a pas été identifié comme le bon certificat. Documenter son origine avec le propriétaire avant tout déplacement ou remplacement.
+- Fournir au processus `AURORA_ANDROID_KEYSTORE_PATH`, `AURORA_ANDROID_KEY_ALIAS`, `AURORA_ANDROID_STORE_PASSWORD` et `AURORA_ANDROID_UPLOAD_SHA256`. Fournir `AURORA_ANDROID_KEY_PASSWORD` si la clé requiert un mot de passe distinct. Utiliser l’environnement local ou le gestionnaire de secrets pour charger les mots de passe. Le script les transmet à `keytool` et `jarsigner` par référence à l’environnement et les retire de l’environnement du build.
+- `android/app/google-services.json` active conditionnellement le plugin Google Services. Si le projet Play utilise la fonctionnalité associée, reprendre le fichier de la configuration Android de production et vérifier qu’il correspond au package et au projet attendus. La clé privée de compte de service Firebase reste côté serveur.
 
-### FIRST TIME
+## Générer le bundle signé
 
-`npm run android:build:prod` : Build in prod mode<br>
-`npm run android:create` : create android folder<br>
-`npm run android:generate-logos-assets` : generate logo and splashcreens for PlayStore and app (launch "à la mano"... sometimes bugged)<br>
-`npm run android:sync-styles` : copy [styles.xml](src/styles.xml) to `android/app/src/main/res/values/styles.xml`<br>
-`npm run android:update-files` : Update native dependecies, Install capacitor and/or cordova plugins<br>
-`npm run android:copy-files` : Copy web assets <br>
-Note : les permissions manifest et les versions (versionCode/versionName) sont gérées directement dans le projet Android.<br>
-Backup des customisations natives : voir [README_ANDROID_CUSTOMIZATIONS.md](README_ANDROID_CUSTOMIZATIONS.md).<br>
+À partir de la racine, renseigner les versions choisies en premier argument puis en second argument.
 
----
+```sh
+npm run android:bundle -- VERSION_NAME VERSION_CODE
+```
 
-### IF ANDROID FOLDER EXISTS
+Le script compare le certificat du keystore à l’empreinte Play, exécute le pipeline `npm run deploy` existant puis Gradle `:app:bundleRelease`. Les paramètres Gradle s’appliquent à ce build et les valeurs par défaut restent dans le fichier de projet. Le `.aab` signé et vérifié se trouve sous `android/app/build/outputs/bundle/release/aurorapp-VERSION_CODE-VERSION_NAME.aab`. Le script imprime son SHA-256. Archiver l’artefact, son empreinte, les deux numéros de version et la référence source de la release.
 
-`npm run deploy` prépare le projet existant (build web, assets, styles et synchronisation Capacitor), sans recréer le dossier Android. Ne lancer `android:create` qu’à la création initiale du projet natif.
+`npm run deploy` seul compile le web, génère l’icône et le splash, recopie les styles natifs et synchronise Capacitor. `android:create` est réservé à la création initiale. Voir les [customisations natives](README_ANDROID_CUSTOMIZATIONS.md).
 
-`npm run android:build:prod` : Build in prod mode<br>
-`npm run android:sync-styles` : copy [styles.xml](src/styles.xml) to `android/app/src/main/res/values/styles.xml`<br>
-`npm run android:update-files` : Update native dependecies, Install capacitor and/or cordova plugins<br>
-`npm run android:copy-files` : Copy web assets <br>
-Note : les permissions manifest et les versions (versionCode/versionName) sont gérées directement dans le projet Android.<br>
-Backup des customisations natives : voir [README_ANDROID_CUSTOMIZATIONS.md](README_ANDROID_CUSTOMIZATIONS.md).<br>
+Android Studio permet aussi la génération via **Build → Generate Signed Bundle / APK → Android App Bundle → release**. Pour cette voie, reporter les deux versions dans la configuration utilisée par l’IDE avant le build, utiliser la même clé d’envoi et contrôler l’empreinte. Le chemin dépend de la destination choisie dans l’IDE.
 
-# Build Splashscreen et Logos
+## Vérifier et diffuser
 
-Official tool for building splashscreens and Playstore Logo
-https://www.npmjs.com/package/@capacitor/assets
+1. Contrôler le package, `versionCode`, `versionName` et la signature avec `bundletool` et le certificat Play. Si des bibliothèques natives sont présentes, vérifier la compatibilité des pages de 16 Kio et les symboles de cette version dans Play Console. [bundletool](https://developer.android.com/studio/command-line/bundletool) · [Pages 16 Kio](https://developer.android.com/guide/practices/page-sizes)
+2. Déposer le `.aab` sur la piste interne après autorisation de publication. Installer la version Play antérieure sur un appareil témoin, choisir une ville et des réglages, puis appliquer la mise à jour interne. Jouer la [recette Android](ia/front/02-recette.md).
+3. Passer à une diffusion progressive après la recette et surveiller erreurs, démarrages et API dans Play Console et Firebase. En cas de régression, arrêter la progression. Préparer un correctif avec `versionCode` supérieur pour les appareils déjà mis à jour.
 
-An Android folder should exists
-
-# Symbole de débogage
-
-Il est indiqué dans la doc de Google, qu'on doit importer les symboles de débogages pour chaque release, pour mieux debuger une application.
-
-Il faut rajouter dans le fichier `build.gradle` le chemin suivant :
-
-> android.defaultConfig.ndk.debugSymbolLevel = 'FULL | SYMBOL_TABLE'
-
-_Full -> application inférieure à 300Mo, autrement mettre Symbol_table_
-
-Après build de l'application native, il faut importer ces symboles dans la Console Google.
-
-> Aller à `[YOUR_PROJECT]\app\build\intermediates\merged_native_libs\release\out\lib`<br>
-> Créer "Symbol File.zip" avec les 3 fichiers suivants :
->
-> - arm64-v8a
-> - armeabi-v7a
-> - x86_64
-
-Depuis l'interface du PlayStore :
-
-- Explorateur d'app bundle
-- Choisir la version souhaitée
-- Onglet téléchargements
-- Uploader le zip dans "Symboles de débogages natifs"
-
-Remarque : il existe manifestement une erreur du côté du PlayStore, la doc Google indique clairement que seule les appli .apk doivent importer leurs symbole. Les .aab devraient être importé automatiquement par Google au moment de l'upload sur le PlayStore.
-
-# Deployment on Play Store
-
-Il est demandé par Google lors de l'upload de l'APK pour déploiement d'utiliser leur système [Android App Bundler](https://developer.android.com/platform/technology/app-bundle), qui vise à réduire la taille de l'application pour l'utilisateur. Extension **.aab**
-
-Depuis Android Studio, on génère l'application au format .aab :
-
-> Build > Generate Signed Bundle / Apk
-
-- Android App Bundle
-- Key store path : Sélectionner le keystore du projet (./keystore)
-- Key store password : 6 chiffres bien connus 😬
-- Key alias : alias_aurora (existe déjà, lié au .keystore)
-- Key password : 6 chiffres bien connus 😬
-- Décocher "Export encrypted key..."
-- Sélectionner "release"
-- Le fichier se réceptionne sur le path suivant `android\app\release\app-release.aab`
-
-**Pour déploiement en prod**
-
-_Publication gérée_ : Il faut l'activer pour avoir le contrôle de ce qu'on déploie (modifications store ou application)
-
-_Publier _ : C'est dans ce pannel qu'on gère les différentes versions, allant de la version de test fermée interne à la production.
-Pour créer une nouvelle version :
-
-1.  Choisir la Version souhaitée (interne alpha bêta...)
-2.  Créer une release
-3.  Ajouter l'artefact .aab précédemment généré (si la version a déjà été upload précédemment, il est possible de la retrouver dans la bibliothèque d'artefacts)
-4.  Gérer les [symboles de debogage]
-5.  Faire correspondre le _Nom de la release_ avec la version souhaitée
-6.  Lancer le déploiement en version [de votre choix]
-
-Informatif : Une adresse email présente dans une liste de diffusion, par exemple, en version de tests internes, ne peut être utilisée dans une autre version de test. Elle doit être unique. Il faut alors désinscrire l'adresse mail de la liste de diffusion, la publiée et la ré-inscrire.
-
-L'application va maintenant être vérifiée par Google. Vous pouvez retrouver en haut votre demande dans _Affichage le journal des modifications_. Lorsque l'application sera acceptée par Google, il vous suffira d'appuyer sur le bouton [Mettre en Ligne]
+La procédure Firebase est dans le [guide backend](../aurora-back/docs/deployment.md). Le [skill `aurora-release`](.agents/skills/aurora-release/SKILL.md) traite le bundle Android et demande séparément si le backend doit être déployé.

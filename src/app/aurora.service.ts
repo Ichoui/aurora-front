@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import type { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
 import type { AuroraMapCoordinate, PoleSnapshot, SolarWindSpeed, SwpcData } from './models/aurorav3';
@@ -65,14 +65,14 @@ export class AuroraService {
   }
 
   getAuroraMapData$(): Observable<AuroraMapCoordinate[]>;
-  getAuroraMapData$(lat: number, long: number): Observable<number>;
-  getAuroraMapData$(lat?: number, long?: number): Observable<AuroraMapCoordinate[] | number> {
-    const params = deleteFalsy({ lat, long });
-    return this._http.get<AuroraMapCoordinate[] | number>(`${environment.host}${environment.swpc.ovationMap}`, { params });
+  getAuroraMapData$(lat: number, long: number): Observable<number | null>;
+  getAuroraMapData$(lat?: number, long?: number): Observable<AuroraMapCoordinate[] | number | null> {
+    const params = lat !== undefined && long !== undefined ? { lat, long } : undefined;
+    return this._http.get<AuroraMapCoordinate[] | number | null>(`${environment.host}${environment.swpc.ovationMap}`, { params });
   }
 
-  getNowcast$(lat: number, lng: number): Observable<{ nowcast: number }> {
-    return this._http.post<{ nowcast: number }>(`${environment.host}${environment.swpc.nowcast}`, { lat, lng });
+  getNowcast$(lat: number, lng: number): Observable<{ nowcast: number | null }> {
+    return this._http.post<{ nowcast: number | null }>(`${environment.host}${environment.swpc.nowcast}`, { lat, lng });
   }
 
   getForecastSolarwind7d$(firstDate: string): Observable<SolarWindSpeed[]> {

@@ -4,7 +4,6 @@
     <div class="aurora-element blob-2"></div>
     <div class="aurora-element blob-3"></div>
   </div>
-  <!--    World Map -->
   <div class="card-container">
     <div class="header">
       <span>
@@ -18,7 +17,10 @@
       </ion-popover>
     </div>
     <div class="sub">{{ 'tab2.forecast.sub-aurora-map' | translate }}</div>
-    <div id="map_canvas" class="data-not-displayed" [routerLink]="['..', 'tab2', 'map']"></div>
+    <div class="map-preview">
+      <div #mapCanvas class="map-preview-canvas"></div>
+      <a class="map-preview-link" [routerLink]="['/tabs', 'tab2', 'map']" [attr.aria-label]="'tab2.home.openMap' | translate"></a>
+    </div>
   </div>
 
   <!--    KP NEXT HOURS -->
@@ -38,7 +40,7 @@
     <div class="sub">{{ 'tab2.forecast.nexthours.sub' | translate }}</div>
     <canvas id="kpnexthours" #canvNextHour></canvas>
     @if (kpForecast().length === 0) {
-      <div class="data-not-displayed" [routerLink]="['..', 'tab3', 'helpcenter']">
+      <div class="data-not-displayed" [routerLink]="['/tabs', 'tab2', 'helpcenter']">
         {{ 'tab2.forecast.no-data' | translate }}
       </div>
     }
@@ -62,7 +64,7 @@
     <div class="sub">{{ 'tab2.forecast.longterm.sub' | translate }}</div>
     <canvas id="kpforecast" #canvKpForecast></canvas>
     @if (kpForecast27().length === 0) {
-      <div class="data-not-displayed" [routerLink]="['..', 'tab3', 'helpcenter']">
+      <div class="data-not-displayed" [routerLink]="['/tabs', 'tab2', 'helpcenter']">
         {{ 'tab2.forecast.no-data' | translate }}
       </div>
     }
@@ -86,7 +88,7 @@
     <div class="sub">{{ 'tab2.forecast.speed.sub' | translate: { unit: measure() === 'metric' ? 'km/s' : 'mps' } }}</div>
     <canvas id="speed" #canvSpeed></canvas>
     @if (solarWind().length === 0) {
-      <div class="data-not-displayed" [routerLink]="['..', 'tab3', 'helpcenter']">
+      <div class="data-not-displayed" [routerLink]="['/tabs', 'tab2', 'helpcenter']">
         {{ 'tab2.forecast.no-data' | translate }}
       </div>
     }
@@ -110,7 +112,7 @@
     <div class="sub">{{ 'tab2.forecast.density.sub' | translate }}</div>
     <canvas id="density" #canvDensity></canvas>
     @if (solarWind().length === 0) {
-      <div class="data-not-displayed" [routerLink]="['..', 'tab3', 'helpcenter']">
+      <div class="data-not-displayed" [routerLink]="['/tabs', 'tab2', 'helpcenter']">
         {{ 'tab2.forecast.no-data' | translate }}
       </div>
     }
@@ -134,7 +136,7 @@
     <div class="sub">{{ 'tab2.forecast.bz.sub' | translate }}</div>
     <canvas id="bz" #canvBz></canvas>
     @if (solarWind().length === 0) {
-      <div class="data-not-displayed" [routerLink]="['..', 'tab3', 'helpcenter']">
+      <div class="data-not-displayed" [routerLink]="['/tabs', 'tab2', 'helpcenter']">
         {{ 'tab2.forecast.no-data' | translate }}
       </div>
     }
@@ -158,7 +160,7 @@
     <div class="sub">{{ 'tab2.forecast.bt.sub' | translate }}</div>
     <canvas id="bt" #canvBt></canvas>
     @if (solarWind().length === 0) {
-      <div class="data-not-displayed" [routerLink]="['..', 'tab3', 'helpcenter']">
+      <div class="data-not-displayed" [routerLink]="['/tabs', 'tab2', 'helpcenter']">
         {{ 'tab2.forecast.no-data' | translate }}
       </div>
     }
@@ -182,7 +184,7 @@
     <div class="sub">{{ 'tab2.forecast.cycle.sub' | translate }}</div>
     <canvas id="cycle" #canvCycle></canvas>
     @if (solarCycle().length === 0) {
-      <div class="data-not-displayed" [routerLink]="['..', 'tab3', 'helpcenter']">
+      <div class="data-not-displayed" [routerLink]="['/tabs', 'tab2', 'helpcenter']">
         {{ 'tab2.forecast.no-data' | translate }}
       </div>
     }

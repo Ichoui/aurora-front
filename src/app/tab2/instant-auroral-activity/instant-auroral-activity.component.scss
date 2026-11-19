@@ -1,15 +1,58 @@
 @use 'sass:color';
 
+:host {
+  display: block;
+  position: relative;
+  height: 100%;
+  isolation: isolate;
+  overflow: hidden;
+  container-type: size;
+}
+
+.live-metrics {
+  padding-top: 8px;
+}
+
+.live-location {
+  position: relative;
+  z-index: 88;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: fit-content;
+  max-width: calc(100% - 24px);
+  min-height: clamp(32px, 6cqh, 44px);
+  margin-inline: auto;
+  padding-inline: 10px;
+  color: var(--ion-color-light);
+  font-size: clamp(12px, 2.4cqh, 14px);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+
+  ion-icon {
+    flex: none;
+    color: var(--ion-color-primary);
+  }
+
+  span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--ion-color-primary);
+    outline-offset: -2px;
+    border-radius: 4px;
+  }
+}
+
 .ace-data {
   position: relative;
   display: flex;
   justify-content: center;
   z-index: 88;
-  min-height: 50px;
-
-  &:first-child {
-    //margin-top: 5vh;
-  }
+  min-height: clamp(23px, 8.5cqh, 60px);
 
   p {
     padding: 0 12px;
@@ -90,21 +133,22 @@
     padding-right: 15px;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 14px;
+    font-size: clamp(10px, 2.4cqh, 14px);
     width: 25%;
     text-align: left;
     font-family: var(--ion-font-semibold);
     .unit {
       display: block;
-      font-size: 10px;
+      font-size: clamp(8px, 1.8cqh, 10px);
     }
   }
 
   .value {
     width: 50%;
-    font-size: 45px;
+    font-size: clamp(18px, 7cqh, 45px);
     font-family: var(--ion-font-semibold);
-    min-height: 60px;
+    line-height: 1.23;
+    align-self: center;
     text-align: center;
     &.no-data {
       font-size: 20px;
@@ -116,21 +160,22 @@
   &.infos {
     display: flex;
     align-items: center;
-    font-size: 13px;
+    font-size: clamp(10px, 2.3cqh, 13px);
 
     div:first-child {
-      font-size: 25px;
+      font-size: clamp(16px, 4.5cqh, 25px);
       font-weight: bold;
     }
     p {
       width: 50%;
+      margin-block: 2px;
     }
   }
 
   &.live {
     display: flex;
     align-items: center;
-    min-height: 30px;
+    min-height: clamp(20px, 5cqh, 30px);
     background: color.adjust(#001e49, $lightness: 7%);
     width: 60px;
     margin: 4px auto 0;
@@ -164,14 +209,17 @@
       }
     }
   }
+}
 
-  &.kp {
+@container (max-height: 300px) and (min-width: 450px) {
+  .live-metrics {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  &.density {
-  }
-
-  &.speed {
+  .ace-data.live,
+  .live-location {
+    grid-column: 1 / -1;
   }
 }
 

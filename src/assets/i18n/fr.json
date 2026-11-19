@@ -17,6 +17,7 @@
   "tab1": {
     "title": "Météo",
     "weather": {
+      "stale": "Anciennes données météo",
       "next.hours": "Prévisions heures",
       "seven.days": "Prévisions 7 jours",
       "cover.clouds": "Couverture nuageuse",
@@ -36,6 +37,34 @@
   },
   "tab2": {
     "title": "Aurores",
+    "home": {
+      "zenith": "Probabilité au zénith",
+      "updated": "Actualisé à {{time}}",
+      "stale": "Données anciennes · {{time}}",
+      "openMap": "Ouvrir la carte",
+      "forecast": "Voir les prévisions",
+      "instant": "Voir le direct"
+    },
+    "map": {
+      "gps": "Ma position",
+      "default": "Lieu par défaut",
+      "changeLocation": "Changer de lieu ({{location}})",
+      "legend": "Probabilité OVATION",
+      "loadingData": "Estimation en cours…",
+      "zenith": "{{probability}} % au zénith",
+      "unavailable": "Estimation indisponible",
+      "retryTiles": "Recharger le fond de carte",
+      "retryOval": "Recharger OVATION",
+      "retryLocation": "Recharger les données du lieu",
+      "confirm": "Utiliser ce lieu",
+      "gpsError": "Position indisponible. Choisis une ville ou un point sur la carte.",
+      "storageError": "Le lieu n’a pas pu être enregistré ou chargé.",
+      "search": {
+        "pending": "Recherche…",
+        "empty": "Aucune ville trouvée",
+        "error": "Recherche indisponible. Réessaie."
+      }
+    },
     "instant": {
       "kpindex": "Kp Index",
       "density": " Densité des particules",
@@ -76,15 +105,15 @@
       "cycle.sub": "Période moy. de 11 ans",
       "cycle.ssn": "Nb. tâches solaires",
       "cycle.sfu": "Flux solaire",
-      "aurora-map": "Carte du monde",
-      "sub-aurora-map": "Localisation et Ovale Auroral en touchant",
-      "title": "Carte<br>du monde",
+      "aurora-map": "Localisation",
+      "sub-aurora-map": "Choisir un lieu et voir l’ovale auroral",
+      "title": "Localisation",
       "select": "Choisir une localisation",
       "another": "Essaye un autre endroit",
       "unknown": "Inconnue",
       "no-data": "La donnée ne s'affiche plus ? Touche ici",
       "tooltip": {
-        "map": "Touche pour choisir une localisation personnalisée dans le monde entier. Tu peux également choisir une ville prédéfinie.<br>De plus, tu peux ici visualiser l'Ovale Auroral en temps réel (à 1 heure près).",
+        "map": "Touche la carte ou recherche une ville pour prévisualiser un lieu. « Utiliser ce lieu » confirme ton choix.<br>La couche OVATION indique la probabilité d’observation au zénith.",
         "kp-next-hours": "Kp Index maximum par tranches de 3 heures.<br> Plus l'indice est haut, et meilleures sont les conditions géomagnétique pour observer une Aurore Boréale.<br>Tempête géomagnétique à partir de Kp5.",
         "kp-next-days": "Kp Index maximum sur les 27 prochains jours.<br> Plus l'indice est haut, meilleures seront les conditions géomagnétique  pour observer une Aurore Boréale.<br>Tempête géomagnétique à partir de Kp5.",
         "wind-speed": "Vitesse à laquelle le vent solaire se dirige vers la Terre. <br>Plus la vitesse du vent est élevée, et plus les Aurores Boréales vont danser dans le ciel.<br>Le vent est rapide au-delà de {{unit}}",
@@ -98,7 +127,7 @@
   },
   "tab3": {
     "more": {
-      "title": "Plus",
+      "title": "Réglages",
       "notifications": "Notifications",
       "kp": "KP Index",
       "current.position": "Position actuelle",

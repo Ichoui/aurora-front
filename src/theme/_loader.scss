@@ -565,19 +565,6 @@
     transform: rotate(360deg);
   }
 }
-// Bouton retour
-.back {
-  margin: 10px;
-
-  span {
-    color: var(--ion-color-primary);
-    font-size: 1.8em;
-  }
-
-  &:focus {
-    outline: none !important;
-  }
-}
 .refresh.whirly-loader {
   display: flex !important;
   margin: 100px auto auto;

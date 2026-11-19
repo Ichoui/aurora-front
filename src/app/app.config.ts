@@ -19,7 +19,17 @@ import { httpsInterceptor } from './https-interceptor.service';
 import { routes } from './tabs/tabs.routes';
 
 register();
-addIcons({ arrowUp, at, caretDownOutline, caretForwardOutline, informationCircle, locationOutline, logoGithub, pin, telescope });
+addIcons({
+  arrowUp,
+  at,
+  caretDownOutline,
+  caretForwardOutline,
+  informationCircle,
+  locationOutline,
+  logoGithub,
+  pin,
+  telescope,
+});
 
 export const appConfig: ApplicationConfig = {
   providers: [

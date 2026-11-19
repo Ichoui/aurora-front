@@ -3,19 +3,6 @@
 <ion-content>
   <div class="card-container">
     <div class="header">
-      <span>{{ 'tab3.more.infos' | translate }}</span>
-    </div>
-    <div class="sub">{{ 'tab3.more.subinfos' | translate }}</div>
-    <ion-item [routerLink]="['..', 'infos']">
-      <span>{{ 'tab3.more.infos.text' | translate }}</span>
-    </ion-item>
-    <ion-item [routerLink]="['..', 'helpcenter']">
-      <span>{{ 'tab3.more.infos.helpcenter' | translate }}</span>
-    </ion-item>
-  </div>
-
-  <div class="card-container">
-    <div class="header">
       <span>{{ 'tab3.more.settings' | translate }}</span>
     </div>
     <div class="sub">{{ 'tab3.more.subsettings' | translate }}</div>
@@ -24,7 +11,7 @@
       <ion-item>
         <ion-select
           [value]="locale()"
-          aria-label="locale choice"
+          [attr.aria-label]="'tab3.more.languages' | translate"
           interface="action-sheet"
           (ionChange)="setLocale($event)"
           [cancelText]="'global.cancel' | translate"
@@ -41,7 +28,7 @@
       <ion-item>
         <ion-select
           [value]="measureUnits()"
-          aria-label="unit of measure choice"
+          [attr.aria-label]="'tab3.more.measure' | translate"
           interface="action-sheet"
           (ionChange)="setMeasureUnit($event)"
           [cancelText]="'global.cancel' | translate"
@@ -60,7 +47,7 @@
         <ion-select
           [value]="temperatureUnits()"
           interface="action-sheet"
-          aria-label="temperature unit choice"
+          [attr.aria-label]="'tab3.more.temperature' | translate"
           (ionChange)="setTemperatureUnit($event)"
           [cancelText]="'global.cancel' | translate"
         >
@@ -78,7 +65,7 @@
         <ion-select
           [value]="hourClock()"
           interface="action-sheet"
-          aria-label="hour clock system"
+          [attr.aria-label]="'tab3.more.hour-clock-system' | translate"
           (ionChange)="setHourClockSystem($event)"
           [cancelText]="'global.cancel' | translate"
         >
@@ -90,6 +77,19 @@
         </ion-select>
       </ion-item>
     </div>
+  </div>
+
+  <div class="card-container">
+    <div class="header">
+      <span>{{ 'tab3.more.infos' | translate }}</span>
+    </div>
+    <div class="sub">{{ 'tab3.more.subinfos' | translate }}</div>
+    <ion-item [routerLink]="['..', 'infos']">
+      <span>{{ 'tab3.more.infos.text' | translate }}</span>
+    </ion-item>
+    <ion-item [routerLink]="['..', 'helpcenter']">
+      <span>{{ 'tab3.more.infos.helpcenter' | translate }}</span>
+    </ion-item>
   </div>
 
   <div class="card-container about">

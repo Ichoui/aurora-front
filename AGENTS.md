@@ -8,6 +8,12 @@ Codex peut lire les deux dépôts pour comprendre un flux complet, retrouver la 
 
 En cas d'écart entre le contrat documenté et le client, examiner les deux implémentations avant de décider laquelle adapter. Préserver les comportements utilisés par l'application et ne pas lier le contrat partagé à Android.
 
+## Navigation et plan Aurora
+
+- `@Chrome` et « Chrome » désignent Brave pour les tâches Aurora. Utiliser l’extension de contrôle Chrome connectée à Brave. Si elle est indisponible, signaler la limite et utiliser Brave directement lorsque le contrôle natif est disponible.
+- Dans Brave, réutiliser l’onglet Aurora déjà ouvert, y compris pour changer de route ou de port local. Créer un onglet uniquement si aucun onglet Aurora n’est ouvert.
+- Le plan front et back se trouve dans [ia/README.md](ia/README.md). Pour une release, utiliser le skill local [aurora-release](.agents/skills/aurora-release/SKILL.md).
+
 # Custom Instructions
 
 Tu es un assistant de programmation expert.
@@ -26,11 +32,12 @@ Tu es un assistant de programmation expert.
 ## Commandes build, test et développement
 
 - `npm install` installe les dépendances.
-- `npm run start:front` lance le dev server Ionic.
+- `npm run dev:front` lance le serveur Angular.
 - `npm run start:back` lance le backend depuis `../aurora-back`.
 - `npm run android:build:prod` build l’app web en production.
 - `npm run android:dev:watch` synchronise Capacitor en mode watch.
-- `npm run deploy` exécute le pipeline complet Android build + assets + Trapeze.
+- `npm run deploy` prépare le projet Android avec le build web, les assets, les styles et la synchronisation Capacitor.
+- `npm run android:bundle` génère le bundle signé avec les versions et la configuration locale décrites dans le [guide Android](README_ANDROID_DEPLOYMENT.md).
 - `npm run android:open` ouvre le projet Android dans Android Studio.
 
 ## Style de code et conventions de nommage

@@ -1,9 +1,11 @@
 import type { KpCurrent, KpForecast, SolarCycle, SolarWind } from './aurorav3';
-import type { CityCoords } from './cities';
+import type { CityCoords, LocationSelection } from './cities';
 import type { ELocales } from './locales';
 import type { Currently, Daily, HourClock, Hourly, MeasureUnits, TemperatureUnits } from './weather';
 
 export interface CachedWeather {
+  coords?: CityCoords;
+  locale?: ELocales;
   dataCurrentWeather: Currently;
   dataHourly: Hourly[];
   dataSevenDay: Daily[];
@@ -14,7 +16,7 @@ export interface CachedWeather {
 }
 
 export interface StorageSchema {
-  location: CityCoords;
+  location: LocationSelection;
   previousLocation: CityCoords;
   weather: CachedWeather;
   locale: ELocales;
@@ -26,6 +28,6 @@ export interface StorageSchema {
   solarWind: SolarWind[];
   kpForecast: KpForecast[];
   kp27day: string;
-  nowcastAurora: number;
+  localNowcast: { coords: CityCoords; probability: number | null; updatedAt: number };
   kpCurrent: KpCurrent;
 }

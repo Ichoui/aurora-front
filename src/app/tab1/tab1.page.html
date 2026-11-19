@@ -18,6 +18,10 @@
     }
   </h2>
 
+  @if (staleWeather) {
+    <p class="ion-text-center">{{ 'tab1.weather.stale' | translate }}</p>
+  }
+
   <app-meteo
     [loading]="loading"
     [coords]="coords"

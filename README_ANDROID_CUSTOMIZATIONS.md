@@ -27,9 +27,11 @@ Ajouter sous `<!-- Permissions -->` :
 Fichier : `android/app/build.gradle` → `defaultConfig`
 
 ```gradle
-versionCode 2019
-versionName "1.3.1"
+versionCode = providers.gradleProperty('auroraVersionCode').map { it.toInteger() }.getOrElse(2019)
+versionName = providers.gradleProperty('auroraVersionName').getOrElse('1.3.1')
 ```
+
+Les valeurs propres à la release sont passées lors de la [génération du bundle](README_ANDROID_DEPLOYMENT.md).
 
 ## SDK levels
 

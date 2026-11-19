@@ -33,3 +33,6 @@ npm-debug.log*
 src/environments/keep.ts
 src/environments/google-services.dev.json
 src/environments/google-services.prod.json
+/android/app/google-services.json
+*.keystore
+*.jks

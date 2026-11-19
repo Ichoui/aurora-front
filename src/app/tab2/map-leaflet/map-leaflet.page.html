@@ -1,55 +1,89 @@
-<app-header [titre]="'tab2.forecast.title' | translate" />
-<div class="header-bar">
-  <div [routerLink]="['','tabs','tab2']" class="back">
-    <span class="icon icon-back1"></span>
-  </div>
-  <div class="info">
-    <ion-icon id="info-map" name="information-circle" />
-    <ion-popover trigger="info-map" triggerAction="click" alignment="center">
-      <ng-template>
-        <div [innerHTML]="'tab2.forecast.tooltip.map' | translate"></div>
-      </ng-template>
-    </ion-popover>
-  </div>
-</div>
+<app-header [titre]="'tab2.forecast.title' | translate" backUrl="/tabs/tab2" />
 
 <div class="map-container">
-  @if(loadingNewLocation) {
-  <div class="content-spinner">
-    <div class="whirly-loader"></div>
+  <div #mapElement class="map-canvas"></div>
+  <div class="map-actions">
+    <ion-button size="small" id="info-map" [attr.aria-label]="'global.info' | translate">
+      <ion-icon slot="icon-only" name="information-circle" aria-hidden="true" />
+    </ion-button>
+    <ion-button size="small" (click)="useGps()" [disabled]="locating || saving" [attr.aria-label]="'tab2.map.gps' | translate">
+      <ion-icon slot="icon-only" name="location-outline" aria-hidden="true" />
+    </ion-button>
+  </div>
+  <ion-popover trigger="info-map">
+    <ng-template>
+      <div [innerHTML]="'tab2.forecast.tooltip.map' | translate"></div>
+    </ng-template>
+  </ion-popover>
+  @if (tilesFailed || ovalState === 'error') {
+  <div class="map-errors" aria-live="polite">
+    @if (tilesFailed) {
+    <ion-button size="small" (click)="retryTiles()">{{ 'tab2.map.retryTiles' | translate }}</ion-button>
+    } @if (ovalState === 'error') {
+    <ion-button size="small" (click)="loadOval()">{{ 'tab2.map.retryOval' | translate }}</ion-button>
+    }
+  </div>
+  } @if (ovalState === 'ready') {
+  <div class="map-legend" [attr.aria-label]="'tab2.map.legend' | translate">
+    @for (level of levels; track level.label) {
+    <span>
+      <i [style.background]="level.color"></i>
+      {{ level.label }}
+    </span>
+    }
   </div>
   }
-  <button type="button" class="my-position" (click)="buttonMyPosition()" [disabled]="loadingNewLocation">
-    <span class="icon icon-map-target"></span>
-  </button>
-  <div id="map_canvas_select"></div>
-  <div class="legende">
-    <span>25%</span>
-    <span>50%</span>
-    <span>75%</span>
-  </div>
 </div>
 
-<div class="searchbar">
-  <ion-searchbar
-    id="searchbar"
-    searchIcon="location-outline"
-    [debounce]="400"
-    [placeholder]="'tab2.forecast.select' | translate "
-    (ionInput)="handleInput($event)"
-    (ionClear)="closeSearchbar()"
-  />
-
-  @if (citiesMatched) {
-  <ion-list class="searchbar-list" [style.width]="searchbarWidth">
-    @for (result of citiesList; track $index) {
-    <ion-item button (click)="selectNewLocation(convertCoords(result))">
-      <ion-label class="name">
-        <span>{{ result.name }} - {{result.countryCode }}</span>
-        <span>{{ result.lat }}, {{ result.long }}</span>
-      </ion-label>
-    </ion-item>
+<div class="map-details">
+  @if (selected; as place) {
+  <div class="place" aria-live="polite">
+    <strong>{{ place.label || (place.lat.toFixed(2) + '°, ' + place.long.toFixed(2) + '°') }}</strong>
+    @if (place.source === 'default') {
+    <small>{{ 'tab2.map.default' | translate }}</small>
+    } @if (locating) {
+    <small>{{ 'global.loading' | translate }}</small>
+    } @else if (nowcastState === 'pending') {
+    <small>{{ 'tab2.map.loadingData' | translate }}</small>
+    } @else if (nowcastState === 'ready' && probability !== null) {
+    <small>{{ 'tab2.map.zenith' | translate: { probability: probability } }}</small>
+    } @else {
+    <small>{{ 'tab2.map.unavailable' | translate }}</small>
     }
-  </ion-list>
+  </div>
+  @if (nowcastState === 'error' || geocodeFailed) {
+  <ion-button fill="clear" size="small" (click)="retryLocationData()">{{ 'tab2.map.retryLocation' | translate }}</ion-button>
+  } @if (editing) {
+  <div class="confirm-actions">
+    <ion-button fill="clear" size="small" (click)="cancelPreview()" [disabled]="saving">{{ 'global.cancel' | translate }}</ion-button>
+    <ion-button size="small" (click)="confirmLocation()" [disabled]="saving || locating">{{ 'tab2.map.confirm' | translate }}</ion-button>
+  </div>
+  } } @if (actionError) {
+  <p class="status" role="alert">{{ 'tab2.map.' + actionError + 'Error' | translate }}</p>
   }
+  <div class="searchbar">
+    <ion-searchbar
+      searchIcon="location-outline"
+      [debounce]="400"
+      [disabled]="saving"
+      [placeholder]="'tab2.forecast.select' | translate"
+      [attr.aria-label]="'tab2.forecast.select' | translate"
+      (ionInput)="handleInput($event)"
+      (ionClear)="closeSearch()"
+    />
+    @if (searchState !== 'idle') {
+    <p class="status" role="status">{{ 'tab2.map.search.' + searchState | translate }}</p>
+    } @if (cities.length) {
+    <ion-list class="search-results">
+      @for (city of cities; track $index) {
+      <ion-item button (click)="selectCity(city)">
+        <ion-label>
+          {{ city.name }} · {{ city.countryCode }}
+          <small>{{ city.lat }}, {{ city.long }}</small>
+        </ion-label>
+      </ion-item>
+      }
+    </ion-list>
+    }
+  </div>
 </div>

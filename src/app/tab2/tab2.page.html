@@ -1,23 +1,26 @@
-<app-header [titre]=" 'tab2.title' | translate" />
-<ion-content [fullscreen]="true">
+<app-header [titre]="'tab2.title' | translate" />
+<ion-content [scrollY]="false">
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" [pullMin]="140">
     <ion-refresher-content refreshingSpinner="bubbles" />
   </ion-refresher>
 
   @if (loadSwiper) {
-  <ng-container>
-    <!-- progressbar ou loop ! idk -->
-    <swiper-container slides-per-view="1" auto-height="true" pagination="true" pagination-clickable="true" pagination-type="bullets">
-      <swiper-slide>
-        <app-instant-auroral-activity
-          [loading]="loading"
-          [solarWind]="solarWindInstant"
-          [measureUnit]="measure"
-          [nowcastAurora]="nowcastAurora"
-          [kpCurrent]="kpCurrent"
-        />
-      </swiper-slide>
-      <swiper-slide>
+  <swiper-container #activitySwiper slides-per-view="1" pagination="true" pagination-clickable="true">
+    <swiper-slide>
+      <app-instant-auroral-activity
+        [loading]="loading"
+        [solarWind]="solarWindInstant"
+        [measureUnit]="measure"
+        [kpCurrent]="kpCurrent"
+        [nowcastAurora]="nowcastAurora"
+        [nowcastLoading]="nowcastLoading"
+        [location]="location"
+        [updateTime]="updateTime"
+        [nowcastStale]="nowcastStale"
+      />
+    </swiper-slide>
+    <swiper-slide>
+      <div class="forecast-scroll">
         <app-forecast-auroral-activity
           [loading]="loading"
           [kpForecast27]="kpForecast27days"
@@ -27,10 +30,11 @@
           [measure]="measure"
           [locale]="locale"
           [hourClock]="hourClock"
+          [mapLocation]="location"
         />
-      </swiper-slide>
-    </swiper-container>
-  </ng-container>
+      </div>
+    </swiper-slide>
+  </swiper-container>
   }
 
   <app-toast [toastError]="dataToast" />

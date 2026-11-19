@@ -26,7 +26,13 @@ npm run dev:front        # Terminal 3 : application Angular
 
 Attendez la première compilation du terminal 1 avant de lancer le terminal 2. Ouvrez ensuite l'adresse locale affichée par Angular, généralement `http://localhost:4200`. Le client de développement appelle déjà l'émulateur Firebase sur `127.0.0.1:5001` ; les changements du backend sont recompilés et rechargés automatiquement. `Ctrl+C` arrête chaque processus.
 
-`start:front` reste disponible pour lancer uniquement Angular. `start:back` conserve son démarrage ponctuel du backend avec compilation. La version Android native se lance séparément depuis Android Studio après synchronisation Capacitor ; ce workflow sert au développement web local.
+`dev:front` lance uniquement Angular. `start:back` démarre ponctuellement le backend avec compilation. La version Android native se lance depuis Android Studio après synchronisation Capacitor.
+
+## Plan et déploiement
+
+- [Plan de travail Aurora](ia/README.md)
+- [Release Android et configuration locale](README_ANDROID_DEPLOYMENT.md)
+- [Release Firebase](../aurora-back/docs/deployment.md)
 
 ## Sources des données
 

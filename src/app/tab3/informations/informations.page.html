@@ -1,13 +1,10 @@
 @if (routeData.infos) {
-<app-header titre="{{ 'tab3.infos.title.about' | translate }}" />
+<app-header [titre]="'tab3.infos.title.about' | translate" [backUrl]="backUrl" />
 } @if (routeData.helpcenter) {
-<app-header titre="{{ 'tab3.infos.title.help' | translate }}" />
+<app-header [titre]="'tab3.infos.title.help' | translate" [backUrl]="backUrl" />
 }
 
 <ion-content>
-  <div [routerLink]="['','tabs','tab3']" class="back">
-    <span class="icon icon-back1"></span>
-  </div>
   @if (routeData.infos) {
   <ion-card class="welcome-card" (click)="visibility(0)">
     <ion-card-header>{{'tab3.infos.welcome.title' | translate }}</ion-card-header>

@@ -78,6 +78,21 @@ app-tab2 ion-content::part(background) {
   }
 }
 
+.ion-page-hidden :is(.night-sky__aurora, .star, .aurora-element, .pulse)::before,
+.ion-page-hidden :is(.night-sky__aurora, .star, .aurora-element, .pulse)::after,
+.ion-page-hidden :is(.night-sky__aurora, .star, .aurora-element, .pulse) {
+  animation-play-state: paused !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ion-content::part(background),
+  :is(.night-sky__aurora, .star, .aurora-element, .pulse)::before,
+  :is(.night-sky__aurora, .star, .aurora-element, .pulse)::after,
+  :is(.night-sky__aurora, .star, .aurora-element, .pulse) {
+    animation: none !important;
+  }
+}
+
 /* ======================== */
 /* Glass Effect             */
 /* ======================== */

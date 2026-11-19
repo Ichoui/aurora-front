@@ -1,8 +1,9 @@
 <ion-content>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button (click)="close()" class="back close">
-        <span class="icon icon-back1"></span>
+      <ion-button class="aurora-back" color="primary" fill="clear" (click)="close()">
+        <ion-icon slot="start" src="assets/img/back-arrow.svg" aria-hidden="true" />
+        {{ 'global.back' | translate }}
       </ion-button>
     </ion-buttons>
     <ion-title>

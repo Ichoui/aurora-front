@@ -1,3 +1,7 @@
+# Notes de développement Capacitor
+
+Pour une release sur le projet Android existant, suivre le [guide de déploiement Android](README_ANDROID_DEPLOYMENT.md). Il indique les commandes actuelles du dépôt, les versions et la signature du bundle.
+
 ### ionic build (--prod)
 
 > Build code to webDir ./www

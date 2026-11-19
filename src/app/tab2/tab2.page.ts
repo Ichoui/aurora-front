@@ -1,18 +1,15 @@
-import { DestroyRef } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-
-import type { OnDestroy } from '@angular/core';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA, inject } from '@angular/core';
+import type { HttpErrorResponse } from '@angular/common/http';
+import type { ElementRef, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA, inject, viewChild } from '@angular/core';
+import type { RefresherCustomEvent, ViewWillEnter } from '@ionic/angular';
 import { IonContent, IonRefresher, IonRefresherContent } from '@ionic/angular';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-
-import type { HttpErrorResponse } from '@angular/common/http';
-import type { RefresherCustomEvent, ViewWillEnter } from '@ionic/angular';
 import moment from 'moment';
-import { combineLatest, from, map, switchMap, tap } from 'rxjs';
+import { Subscription } from 'rxjs';
+import type { SwiperContainer } from 'swiper/element';
 import { AuroraService } from '../aurora.service';
 import type { Kp27day, KpCurrent, KpForecast, SolarCycle, SolarWind, SwpcData } from '../models/aurorav3';
-import type { CityCoords } from '../models/cities';
+import type { LocationSelection } from '../models/cities';
 import { ELocales } from '../models/locales';
 import { determineColorsOfValue } from '../models/utils';
 import { HourClock, MeasureUnits } from '../models/weather';
@@ -46,11 +43,14 @@ export class Tab2Page implements ViewWillEnter, OnDestroy {
   private readonly _translate = inject(TranslateService);
   private readonly _cdr = inject(ChangeDetectorRef);
 
+  private readonly _swiper = viewChild<ElementRef<SwiperContainer>>('activitySwiper');
+  private _requests = new Subscription();
+  private _requestVersion = 0;
+  private _eventRefresh?: RefresherCustomEvent;
+
   loading = true;
   loadSwiper = false;
-
-  coords: CityCoords | null = null;
-  // Data inputs
+  location?: LocationSelection;
   kpForecast: KpForecast[] = [];
   kpForecast27days: Kp27day[] = [];
   measure = MeasureUnits.METRIC;
@@ -61,184 +61,154 @@ export class Tab2Page implements ViewWillEnter, OnDestroy {
   solarCycle: SolarCycle[] = [];
   kpCurrent: KpCurrent | null = null;
   nowcastAurora: number | null = null;
-
+  nowcastUpdatedAt?: number;
+  nowcastLoading = true;
   dataToast: ToastError | null = null;
 
-  private readonly _destroyRef = inject(DestroyRef);
-  private _eventRefresh?: RefresherCustomEvent;
-
   ngOnDestroy(): void {
-    void this._eventRefresh?.target.complete();
+    this._requestVersion++;
+    this._requests.unsubscribe();
+    this._completeRefresh();
   }
 
   ionViewWillEnter(): void {
     this.loadSwiper = true;
+    this._swiper()?.nativeElement.swiper?.slideTo(0, 0);
     this._cdr.markForCheck();
-
-    combineLatest([
-      from(this._storageService.getData('measure')),
-      from(this._storageService.getData('locale')),
-      from(this._storageService.getData('clock')),
-    ])
-      .pipe(
-        tap(([measure, locale, clock]) => {
-          this.measure = measure ?? MeasureUnits.METRIC;
-          this.locale = locale ?? ELocales.EN;
-          this.hourClock = clock ?? HourClock.TWENTYFOUR;
-        }),
-        switchMap(() => combineLatest([from(this._storageService.getData('ACEdate')), from(this._storageService.getData('location'))])),
-        map(([ACEdate, location]) => [ACEdate ? moment().diff(moment(ACEdate), 'minutes') > 10 : true, location] as const),
-        tap(([moreThanFiveMinutes, coords]) => {
-          if (!coords) return;
-          if (moreThanFiveMinutes) {
-            // Avoid to load the page every time the user access to tab2, waiting 5 mins
-            this._getExistingLocalisation(coords.lat, coords.long);
-          } else {
-            this._getACEDataFromStorage();
-          }
-        }),
-        takeUntilDestroyed(this._destroyRef),
-      )
-      .subscribe({
-        error: (error: unknown) => {
-          console.error('Request failed', error);
-        },
-      });
+    void this._loadActivity();
   }
 
-  private _getACEDataFromStorage(): void {
-    combineLatest([
-      from(this._storageService.getData('location')),
-      from(this._storageService.getData('solarCycle')),
-      from(this._storageService.getData('solarWind')),
-      from(this._storageService.getData('kpForecast')),
-      from(this._storageService.getData('kp27day')),
-      from(this._storageService.getData('nowcastAurora')),
-      from(this._storageService.getData('kpCurrent')),
-      from(this._storageService.getData('clock')),
-    ])
-      .pipe(
-        takeUntilDestroyed(this._destroyRef),
-        tap({
-          next: ([coords, solarCycle, solarWind, kpForecast, kp27day, nowcastAurora, kpCurrent, clock]) => {
-            this.coords = coords;
-            this.solarCycle = solarCycle ?? [];
-            this.solarWindInstant = this._getSolarWind(solarWind ?? [], true);
-            this.solarWind = this._getSolarWind(solarWind ?? []);
-            this.kpForecast = this._getKpForecast(kpForecast ?? []);
-            this.kpForecast27days = this._getKpForecast27day(kp27day ?? '');
-            this.nowcastAurora = nowcastAurora;
-            this.kpCurrent = kpCurrent;
-            this.hourClock = clock ?? HourClock.TWENTYFOUR;
-
-            this.loading = false;
-            this._cdr.markForCheck();
-          },
-          error: error => {
-            console.error('_getACEDataFromStorage() error, message : ', error.error);
-            this.dataToast = {
-              message: this._translate.instant('global.error.storage'),
-              status: error.status,
-            };
-
-            this._cdr.markForCheck();
-          },
-        }),
-      )
-      .subscribe({
-        error: (error: unknown) => {
-          console.error('Request failed', error);
-        },
-      });
+  get updateTime(): string {
+    return this.nowcastUpdatedAt
+      ? new Intl.DateTimeFormat(this.locale, { hour: 'numeric', minute: '2-digit', hour12: this.hourClock === HourClock.TWELVE }).format(
+          this.nowcastUpdatedAt,
+        )
+      : '';
   }
 
-  /**
-   * @param lat {number}
-   * @param long {number}
-   * Set les coords avec celles existante en localStorage (déjà eu accès tab3 et marker placé ou géolocalisé)
-   * */
-  private _getExistingLocalisation(lat: number, long: number): void {
-    this.coords = {
-      lat,
-      long,
-    };
-    this._getDataACE();
+  get nowcastStale(): boolean {
+    return this.nowcastUpdatedAt !== undefined && Date.now() - this.nowcastUpdatedAt > 10 * 60_000;
   }
 
-  /**
-   * Récupère les données ACE de vent solaire, nowcast et kp
-   * */
-  private _getDataACE(): void {
-    if (!this.coords) return;
-    this._auroraService
-      .getAllSwpcDatas$(this.coords.lat, this.coords.long)
-      .pipe(
-        tap({
-          next: (value: SwpcData) => {
-            this.kpCurrent = value.instantKp;
-            void this._storageService.setData('kpCurrent', value.instantKp);
-            this.solarCycle = value.forecastSolarCycle;
-            this.solarWindInstant = this._getSolarWind(value.forecastSolarWind, true);
-            this.solarWind = this._getSolarWind(value.forecastSolarWind);
-            this.kpForecast = this._getKpForecast(value.forecastKp);
-            this.kpForecast27days = this._getKpForecast27day(value.forecastTwentySevenDays);
-            // End loading
-            this.loading = false;
-            this._eventRefresh?.target?.complete();
-            this._cdr.markForCheck();
+  private async _loadActivity(force = false): Promise<void> {
+    const version = ++this._requestVersion;
+    this._requests.unsubscribe();
+    this._requests = new Subscription();
+    this.dataToast = null;
 
-            void this._storageService.setData('solarCycle', value.forecastSolarCycle);
-            void this._storageService.setData('solarWind', value.forecastSolarWind);
-            void this._storageService.setData('kpForecast', value.forecastKp);
-            void this._storageService.setData('kp27day', value.forecastTwentySevenDays);
-            void this._storageService.setData('ACEdate', new Date());
-          },
-          error: (error: HttpErrorResponse) => {
-            console.error('_getDataACE() error with getAllSwpcData$, message : ', error.message);
-            this._cdr.markForCheck();
-            this._eventRefresh?.target?.complete();
-            this.dataToast = {
-              message: this._translate.instant('global.error.solarwind'),
-              status: error.status,
-            };
-          },
-        }),
+    try {
+      const [location, measure, locale, clock, activityDate, solarCycle, solarWind, kpForecast, outlook, kpCurrent, localNowcast] = await Promise.all(
+        [
+          this._storageService.getLocation(),
+          this._storageService.getData('measure'),
+          this._storageService.getData('locale'),
+          this._storageService.getData('clock'),
+          this._storageService.getData('ACEdate'),
+          this._storageService.getData('solarCycle'),
+          this._storageService.getData('solarWind'),
+          this._storageService.getData('kpForecast'),
+          this._storageService.getData('kp27day'),
+          this._storageService.getData('kpCurrent'),
+          this._storageService.getData('localNowcast'),
+        ],
+      );
+      if (version !== this._requestVersion) return;
 
-        takeUntilDestroyed(this._destroyRef),
-      )
-      .subscribe({
-        error: (error: unknown) => {
-          console.error('Request failed', error);
+      this.location = location;
+      this.measure = measure ?? MeasureUnits.METRIC;
+      this.locale = locale ?? ELocales.EN;
+      this.hourClock = clock ?? HourClock.TWENTYFOUR;
+      this._showActivity(solarCycle ?? [], solarWind ?? [], kpForecast ?? [], outlook ?? '', kpCurrent);
+      this.loading = !activityDate;
+
+      const cached = localNowcast?.coords.lat === location.lat && localNowcast.coords.long === location.long ? localNowcast : null;
+      this.nowcastAurora = cached?.probability ?? null;
+      this.nowcastUpdatedAt = cached?.updatedAt;
+      this.nowcastLoading = !cached;
+      if (force || !cached || this.nowcastStale) this._fetchNowcast(location);
+
+      if (force || !activityDate || moment().diff(moment(activityDate), 'minutes') >= 10) {
+        this._fetchActivity(location);
+      } else {
+        this._completeRefresh();
+      }
+    } catch (error) {
+      if (version !== this._requestVersion) return;
+      this.loading = false;
+      this.nowcastLoading = false;
+      this._completeRefresh();
+      this.dataToast = { message: this._translate.instant('global.error.storage'), status: error instanceof Error ? error.name : '' };
+    }
+    this._cdr.markForCheck();
+  }
+
+  private _showActivity(
+    solarCycle: SolarCycle[],
+    solarWind: SolarWind[],
+    kpForecast: KpForecast[],
+    outlook: string,
+    kpCurrent: KpCurrent | null,
+  ): void {
+    this.solarCycle = solarCycle;
+    this.solarWindInstant = this._getSolarWind(solarWind, true);
+    this.solarWind = this._getSolarWind(solarWind);
+    this.kpForecast = this._getKpForecast(kpForecast);
+    this.kpForecast27days = this._getKpForecast27day(outlook);
+    this.kpCurrent = kpCurrent;
+  }
+
+  private _fetchActivity(location: LocationSelection): void {
+    this._requests.add(
+      this._auroraService.getAllSwpcDatas$(location.lat, location.long).subscribe({
+        next: (data: SwpcData) => {
+          this._showActivity(data.forecastSolarCycle, data.forecastSolarWind, data.forecastKp, data.forecastTwentySevenDays, data.instantKp);
+          this.loading = false;
+          this._completeRefresh();
+          this._cdr.markForCheck();
+          void Promise.all([
+            this._storageService.setData('kpCurrent', data.instantKp),
+            this._storageService.setData('solarCycle', data.forecastSolarCycle),
+            this._storageService.setData('solarWind', data.forecastSolarWind),
+            this._storageService.setData('kpForecast', data.forecastKp),
+            this._storageService.setData('kp27day', data.forecastTwentySevenDays),
+          ])
+            .then(() => this._storageService.setData('ACEdate', new Date()))
+            .catch((error: unknown) => console.warn('Activity cache unavailable', error));
         },
-      });
-
-    this._auroraService
-      .getAuroraMapData$(this.coords.lat, this.coords.long)
-      .pipe(
-        tap({
-          next: (nowcast: number) => {
-            this.nowcastAurora = nowcast;
-            this._cdr.markForCheck();
-            void this._storageService.setData('nowcastAurora', nowcast);
-          },
-          error: (error: HttpErrorResponse) => {
-            console.error('_getDataACE() error with getAuroraMapData$, message : ', error.message);
-            this._cdr.markForCheck();
-            this._eventRefresh?.target?.complete();
-            this.dataToast = {
-              message: this._translate.instant('global.error.solarwind'),
-              status: error.status,
-            };
-          },
-        }),
-
-        takeUntilDestroyed(this._destroyRef),
-      )
-      .subscribe({
-        error: (error: unknown) => {
-          console.error('Request failed', error);
+        error: (error: HttpErrorResponse) => {
+          this.loading = false;
+          this._completeRefresh();
+          this.dataToast = { message: this._translate.instant('global.error.solarwind'), status: error.status };
+          this._cdr.markForCheck();
         },
-      });
+      }),
+    );
+  }
+
+  private _fetchNowcast({ lat, long }: LocationSelection): void {
+    this._requests.add(
+      this._auroraService.getNowcast$(lat, long).subscribe({
+        next: ({ nowcast }) => {
+          const updatedAt = Date.now();
+          this.nowcastAurora = nowcast;
+          this.nowcastUpdatedAt = updatedAt;
+          this.nowcastLoading = false;
+          this._cdr.markForCheck();
+          void this._storageService
+            .setData('localNowcast', { coords: { lat, long }, probability: nowcast, updatedAt })
+            .catch((error: unknown) => console.warn('Nowcast cache unavailable', error));
+        },
+        error: () => {
+          this.nowcastLoading = false;
+          this._cdr.markForCheck();
+        },
+      }),
+    );
+  }
+
+  private _completeRefresh(): void {
+    void this._eventRefresh?.target.complete();
+    this._eventRefresh = undefined;
   }
 
   private _getSolarWind(dataSolarWind: SolarWind[], instant: true): SolarWind | null;
@@ -290,6 +260,6 @@ export class Tab2Page implements ViewWillEnter, OnDestroy {
    * */
   doRefresh(event: RefresherCustomEvent): void {
     this._eventRefresh = event;
-    this._getDataACE();
+    void this._loadActivity(true);
   }
 }

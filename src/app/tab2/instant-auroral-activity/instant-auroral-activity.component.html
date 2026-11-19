@@ -1,6 +1,6 @@
 @let kp = currentKp();
 <!-- Thanks to https://codepen.io/jh3y/pen/JKddVx -->
-<ng-container>
+<div class="live-metrics">
   <div class="live ace-data">
     <!--    https://opensea.io/collection/armins-all-access  here is pulsing live-->
     <div class="pulse"></div>
@@ -8,6 +8,17 @@
     <ion-popover trigger="live" triggerAction="click" alignment="center">
       <ng-template>
         <div [innerHTML]="'tab2.instant.live.tooltip' | translate"></div>
+        @if (location(); as place) {
+          <div>
+            {{ locationName() }}
+            @if (place.source === 'default') {
+              · {{ 'tab2.map.default' | translate }}
+            }
+          </div>
+        }
+        @if (updateTime()) {
+          <div>{{ (nowcastStale() ? 'tab2.home.stale' : 'tab2.home.updated') | translate: { time: updateTime() } }}</div>
+        }
         <div class="documentation-link">
           <span (click)="documentation(15, 'helpcenter')">{{ 'tab2.instant.live.tooltip.tuto' | translate }}</span>
         </div>
@@ -17,6 +28,20 @@
       </ng-template>
     </ion-popover>
   </div>
+
+  <a
+    class="live-location"
+    [routerLink]="['/tabs', 'tab2', 'map']"
+    [attr.aria-label]="locationName() ? ('tab2.map.changeLocation' | translate: { location: locationName() }) : ('tab2.forecast.select' | translate)"
+  >
+    <ion-icon name="location-outline" aria-hidden="true" />
+    <span>
+      {{ locationName() || ('tab2.forecast.select' | translate) }}
+      @if (location()?.source === 'default') {
+        · {{ 'tab2.map.default' | translate }}
+      }
+    </span>
+  </a>
 
   <div class="kp ace-data">
     <div class="colored">
@@ -127,13 +152,15 @@
     <div class="label">{{ 'tab2.instant.bt' | translate }}</div>
   </div>
 
-  <div class="infos nowcast ace-data">
-    @if ((nowcastAurora() ?? -1) >= 0) {
+  <div class="infos ace-data">
+    @if (nowcastAurora() !== null) {
       <div>{{ nowcastAurora() }}%</div>
-    } @else {
+    } @else if (nowcastLoading()) {
       <ng-container *ngTemplateOutlet="isLoadingNumber" />
+    } @else {
+      <div [attr.aria-label]="'tab2.map.unavailable' | translate">—</div>
     }
-    <p [innerHTML]="'tab2.instant.probability' | translate"></p>
+    <p>{{ 'tab2.instant.probability' | translate }}</p>
   </div>
 
   <div class="infos forecastLeadTime ace-data">
@@ -153,7 +180,7 @@
   <ng-template #isLoadingNumber>
     <app-placeholder-data [placeholderNumber]="true" [index]="2.5" />
   </ng-template>
-</ng-container>
+</div>
 
 <div class="night-sky">
   <div class="star star--animated"></div>

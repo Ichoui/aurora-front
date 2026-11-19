@@ -1,47 +1,37 @@
-h2 {
-  margin: 10px auto 5px;
-
-  .city {
-    position: relative;
-    display: block;
-    span {
-      position: relative;
-      ion-icon {
-        font-size: 0.8em;
-      }
-    }
-  }
-
-  .country {
-    display: block;
-    font-size: 0.55em;
-    text-transform: uppercase;
-    font-family: var(--ion-font-semibold);
-  }
+:host {
+  padding-bottom: 0;
 }
+
+swiper-container,
+swiper-slide,
+.forecast-scroll {
+  height: 100%;
+}
+
+swiper-container::part(container) {
+  height: 100%;
+}
+
 swiper-container::part(pagination) {
   display: flex;
-  position: fixed;
-  top: 68px;
-  bottom: inherit !important;
-  z-index: 2;
-  width: 100%;
+  top: 0;
+  bottom: auto;
+}
 
-  .swiper-pagination-progressbar-fill {
-    background-color: var(--ion-color-primary);
-  }
-}
-swiper-container::part(bullet) {
-  display: block;
-  border-radius: inherit;
-  background-color: var(--ion-color-tertiary);
-  height: 3px;
-  width: 50%;
-}
+swiper-container::part(bullet),
 swiper-container::part(bullet-active) {
-  background-color: var(--ion-color-primary);
-  border-radius: inherit;
-  display: block;
-  height: 3px;
-  width: 50%;
+  flex: 1;
+  height: 8px;
+  margin: 0;
+  border-radius: 0;
+  background: linear-gradient(var(--ion-color-tertiary) 3px, transparent 3px);
+}
+
+swiper-container::part(bullet-active) {
+  background: linear-gradient(var(--ion-color-primary) 3px, transparent 3px);
+}
+
+.forecast-scroll {
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
 }

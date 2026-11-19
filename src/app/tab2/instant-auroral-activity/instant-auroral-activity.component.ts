@@ -1,11 +1,12 @@
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import type { OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { afterNextRender, ChangeDetectionStrategy, ChangeDetectorRef, Component, computed, ElementRef, inject, Injector, input } from '@angular/core';
-import { Router } from '@angular/router';
-import { IonPopover, PopoverController } from '@ionic/angular';
+import { Router, RouterLink } from '@angular/router';
+import { IonIcon, IonPopover, PopoverController } from '@ionic/angular';
 import { TranslatePipe } from '@ngx-translate/core';
 import type { Bt, Bz, Density, KpCurrent, SolarWind, Speed } from '../../models/aurorav3';
 import { AuroraEnumColours, SolarWindTypes } from '../../models/aurorav3';
+import type { LocationSelection } from '../../models/cities';
 import { convertUnitMeasure, determineColorsOfValue, roundTwoNumbers } from '../../models/utils';
 import { MeasureUnits } from '../../models/weather';
 import { PlaceholderDataComponent } from '../../shared/placeholders/placeholder-data/placeholder-data.component';
@@ -16,7 +17,7 @@ import { ForecastLeadTimePipe } from './forecast-lead-time.pipe';
   templateUrl: './instant-auroral-activity.component.html',
   styleUrl: './instant-auroral-activity.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TranslatePipe, IonPopover, NgTemplateOutlet, NgClass, PlaceholderDataComponent, ForecastLeadTimePipe],
+  imports: [TranslatePipe, IonIcon, IonPopover, RouterLink, NgTemplateOutlet, NgClass, PlaceholderDataComponent, ForecastLeadTimePipe],
 })
 export class InstantAuroralActivityComponent implements OnInit, OnChanges {
   private readonly _cdr = inject(ChangeDetectorRef);
@@ -34,6 +35,14 @@ export class InstantAuroralActivityComponent implements OnInit, OnChanges {
   readonly measureUnit = input(MeasureUnits.METRIC);
   readonly solarWind = input<SolarWind | null>(null);
   readonly nowcastAurora = input<number | null>(null);
+  readonly nowcastLoading = input(false);
+  readonly location = input<LocationSelection>();
+  readonly locationName = computed(() => {
+    const place = this.location();
+    return place ? place.label || `${place.lat.toFixed(2)}°, ${place.long.toFixed(2)}°` : '';
+  });
+  readonly updateTime = input('');
+  readonly nowcastStale = input(false);
   readonly kpCurrent = input<KpCurrent | null>(null);
   readonly currentKp = computed(() => {
     const kp = this.kpCurrent();
@@ -94,7 +103,7 @@ export class InstantAuroralActivityComponent implements OnInit, OnChanges {
 
   documentation(cardId: number, path: string): void {
     this._popover.dismiss().then(() => {
-      return this._router.navigate(['tabs', 'tab3', path], { queryParams: { cardId } });
+      return this._router.navigate(['tabs', 'tab2', path], { queryParams: { cardId } });
     });
   }
 

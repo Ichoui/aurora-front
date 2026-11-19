@@ -1,13 +1,10 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { Router } from '@angular/router';
 import { Capacitor, SystemBars, SystemBarsStyle } from '@capacitor/core';
-import { Geolocation } from '@capacitor/geolocation';
 import { IonApp, IonRouterOutlet, Platform } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 
 import { ELocales } from './models/locales';
 import { HourClock, MeasureUnits, TemperatureUnits } from './models/weather';
-import type { ToastError } from './shared/toast/toast.component';
 import { StorageService } from './storage.service';
 
 @Component({
@@ -29,11 +26,9 @@ import { StorageService } from './storage.service';
 })
 export class AppComponent {
   private readonly _platform = inject(Platform);
-  private readonly _router = inject(Router);
   private readonly _translateService = inject(TranslateService);
   private readonly _storageService = inject(StorageService);
 
-  dataToast: ToastError | null = null;
   readonly loadApp = signal(false);
 
   constructor() {
@@ -43,37 +38,11 @@ export class AppComponent {
   private async _initializeApp(): Promise<void> {
     await this._platform.ready();
     if (Capacitor.isNativePlatform()) {
-      await SystemBars.setStyle({ style: SystemBarsStyle.Dark });
+      void SystemBars.setStyle({ style: SystemBarsStyle.Dark }).catch((error: unknown) => console.warn('System bars unavailable', error));
     }
     this._translateService.addLangs([ELocales.FR, ELocales.EN]);
     await this._storageService.init();
     await Promise.all([this._getLocale(), this._getMeasureUnit(), this._getTempUnit(), this._getHourClockSystem()]);
-    const coords = await this._storageService.getData('location');
-    if (!coords) {
-      await this._getPosition();
-    } else {
-      this.loadApp.set(true);
-    }
-    await this._router.navigate(['/tabs/tab2']);
-  }
-
-  /** Détermine la localisation de l'utilisateur ; Tromsø reste le choix de repli. */
-  private async _getPosition(): Promise<void> {
-    try {
-      const { coords } = await Geolocation.getCurrentPosition();
-      await this._setStorageLocation(coords.latitude, coords.longitude);
-    } catch (error: unknown) {
-      console.warn('getPosition(): Geolocation error', error);
-      await this._setStorageLocation(69.650288, 18.955098);
-      this.dataToast = {
-        message: this._translateService.instant('global.error.geoloc') as string,
-        status: error instanceof Error ? error.name : '',
-      };
-    }
-  }
-
-  private async _setStorageLocation(lat: number, long: number): Promise<void> {
-    await this._storageService.setData('location', { lat, long });
     this.loadApp.set(true);
   }
 

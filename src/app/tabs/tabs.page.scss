@@ -1,17 +1,45 @@
 ion-tab-bar {
   contain: none;
-}
-
-ion-tab-button.aurora-logo::part(native) {
   overflow: visible;
+  --background: rgba(4, 18, 45, 0.91);
+  --color: var(--ion-color-light);
+  --color-selected: var(--ion-color-primary);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
 }
 
-.icon {
-  font-family: 'aurora-icons', serif !important;
+ion-tab-button {
+  min-height: 55px;
+  --padding-top: 4px;
+  --padding-bottom: 6px;
+
+  ion-label {
+    font-size: 0.875rem;
+    line-height: 1.15;
+  }
+
+  &.tab-selected ion-label {
+    font-family: var(--ion-font-semibold);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
 }
 
-ion-tab-button.tab-selected ion-label {
-  color: var(--ion-color-primary) !important;
+.tab-animation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  pointer-events: none;
+}
+
+ion-tab-button.main-btn {
+  overflow: visible;
+  z-index: 1;
+}
+
+ion-tab-button.main-btn::part(native) {
+  overflow: visible;
 }
 
 .main-btn {
@@ -19,68 +47,14 @@ ion-tab-button.tab-selected ion-label {
     content: url('/assets/img/aurora-custom.svg');
     width: 4rem;
     height: 4rem;
-
-    font-size: 5em;
-    letter-spacing: 0;
     position: absolute;
-    transform: translate(-50%, -50%);
     left: 50%;
+    transform: translate(-50%, -50%);
   }
 
   ion-label {
     padding-top: 25px;
     font-family: var(--ion-font-semibold);
     text-transform: uppercase;
-    font-size: 1.3em;
-    color: var(--ion-text-color);
-  }
-}
-
-.icon-infos,
-.icon-settings {
-  font-size: 2.7em;
-}
-
-.tabs {
-  position: absolute;
-  z-index: 500;
-  width: 124px;
-  ng-lottie {
-    > div {
-      width: 100%;
-    }
-
-    &:hover,
-    &:focus {
-      outline: none;
-    }
-  }
-  .currentview {
-    position: absolute;
-    width: 50px;
-    bottom: 0;
-    /* height: 0; */
-    right: 0;
-    border: 2px solid var(--ion-color-primary);
-  }
-  &.tab1 {
-    //left: 43px;
-    bottom: -11px; // seul sans label
-    left: 0;
-
-    .currentview {
-      bottom: 11px;
-      left: 36px;
-    }
-  }
-  &.tab3 {
-    //right: 50px;
-    bottom: 0; // seul sans label
-    right: 0;
-
-    .currentview {
-      bottom: 0;
-      left: 36px;
-    }
   }
 }
